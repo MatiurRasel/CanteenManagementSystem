@@ -1,0 +1,112 @@
+﻿@model IEnumerable<CanteenManagementSystem.Models.DailyMenu>
+
+@{
+    ViewData["Title"] = "হোম পেজ";
+}
+
+<div class="min-h-screen">
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold mb-4">স্বাগতম ক্যান্টিন ম্যানেজমেন্ট সিস্টেমে</h1>
+            <p class="text-xl text-purple-200 mb-8">দ্রুত, সহজ এবং নিরাপদ খাবার অর্ডার করুন</p>
+            <a asp-controller="Home" asp-action="SelectUserType"
+               class="inline-block bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-purple-100 transition transform hover:scale-105 shadow-lg">
+                <i class="fas fa-shopping-cart mr-2"></i>এখনই অর্ডার করুন
+            </a>
+        </div>
+    </div>
+
+    <!-- Today's Special Menu -->
+    <div class="container mx-auto px-4 -mt-10">
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-star text-yellow-500 mr-3"></i>আজকের বিশেষ মেনু
+                </h2>
+                <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full font-semibold">
+                    @DateTime.Today.ToString("dd MMMM yyyy")
+                </span>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card-hover bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                    @item.MealType
+                                </span>
+                                <span class="text-2xl">🍽️</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">@item.FoodItem.ItemName</h3>
+                            <p class="text-gray-600 mb-4">@item.FoodItem.Description</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-purple-600">৳@item.FoodItem.Price</span>
+                                @if (item.IsAvailable)
+                                {
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                        <i class="fas fa-check-circle mr-1"></i>আছে
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                        <i class="fas fa-times-circle mr-1"></i>শেষ
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-12">
+                    <i class="fas fa-utensils text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-xl text-gray-500">আজকের জন্য কোনো মেনু আপডেট করা হয়নি</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">আমাদের বৈশিষ্ট্য</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="text-center card-hover bg-white p-6 rounded-xl shadow-lg">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-id-card text-3xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">ID কার্ড যাচাই</h3>
+                <p class="text-gray-600">নিরাপদ এবং দ্রুত অর্ডার প্রক্রিয়া</p>
+            </div>
+
+            <div class="text-center card-hover bg-white p-6 rounded-xl shadow-lg">
+                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-wallet text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">মাসিক লিমিট</h3>
+                <p class="text-gray-600">৳১৮০০ - ৳২০০০ খরচ নিয়ন্ত্রণ</p>
+            </div>
+
+            <div class="text-center card-hover bg-white p-6 rounded-xl shadow-lg">
+                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clock text-3xl text-purple-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">দ্রুত সেবা</h3>
+                <p class="text-gray-600">রিয়েল-টাইম অর্ডার ট্র্যাকিং</p>
+            </div>
+
+            <div class="text-center card-hover bg-white p-6 rounded-xl shadow-lg">
+                <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-list text-3xl text-yellow-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">দৈনিক মেনু</h3>
+                <p class="text-gray-600">প্রতিদিন নতুন এবং তাজা খাবার</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,763 @@
+﻿@model CanteenManagementSystem.Models.ViewModels.MenuManagementViewModel
+@{
+    ViewData["Title"] = "মেনু ম্যানেজমেন্ট";
+}
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
+
+        * {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item-card {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+
+            .menu-item-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+                border-color: #667eea;
+            }
+
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+            .tab-button.active {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+            .btn-primary:hover {
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="card p-8 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                            <i class="fas fa-list-alt text-purple-600 mr-3"></i>মেনু ম্যানেজমেন্ট
+                        </h1>
+                        <p class="text-gray-600">দৈনিক মেনু এবং সাপ্তাহিক টেমপ্লেট পরিচালনা করুন</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <input type="date"
+                               id="menuDate"
+                               value="@Model.TargetDate.ToString("yyyy-MM-dd")"
+                               class="px-6 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:outline-none text-lg">
+                        <button onclick="loadMenu()"
+                                class="bg-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-purple-700 transition">
+                            <i class="fas fa-calendar-day mr-2"></i>লোড করুন
+                        </button>
+                        <a asp-controller="Operator" asp-action="Dashboard"
+                           class="bg-green-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+                            <i class="fas fa-tachometer-alt mr-2"></i>ড্যাশবোর্ড
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="card p-6 mb-6">
+                <div class="flex gap-4">
+                    <button onclick="showTab('daily')"
+                            id="tabDaily"
+                            class="tab-button active flex-1 px-8 py-4 rounded-xl font-semibold text-lg transition">
+                        <i class="fas fa-calendar-day mr-2"></i>দৈনিক মেনু
+                    </button>
+                    <button onclick="showTab('weekly')"
+                            id="tabWeekly"
+                            class="tab-button flex-1 px-8 py-4 rounded-xl font-semibold text-lg bg-gray-100 text-gray-700 transition">
+                        <i class="fas fa-calendar-week mr-2"></i>সাপ্তাহিক টেমপ্লেট
+                    </button>
+                </div>
+            </div>
+
+            <!-- Daily Menu Tab -->
+            <div id="dailyMenuTab" class="tab-content">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Current Menu -->
+                    <div class="col-span-2">
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">
+                                    আজকের মেনু - @Model.TargetDate.ToString("dd MMMM yyyy")
+                                </h2>
+                                <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full font-semibold">
+                                    @Model.MenuItems.Count টি আইটেম
+                                </span>
+                            </div>
+
+                            <div id="currentMenu" class="grid grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-4">
+                                @if (Model.MenuItems.Any())
+                                {
+                                    @foreach (var item in Model.MenuItems)
+                                    {
+                                        <div class="menu-item-card bg-white rounded-xl p-6" id="menu-@item.DailyMenuID">
+                                            <div class="flex items-start justify-between mb-4">
+                                                <div class="flex-1">
+                                                    <h3 class="text-xl font-bold text-gray-800 mb-2">@item.ItemName</h3>
+                                                    <p class="text-sm text-gray-600 mb-2">@item.Category</p>
+                                                    <p class="text-2xl font-bold text-purple-600 mb-3">৳@item.Price</p>
+                                                </div>
+                                                <span class="text-4xl">🍽️</span>
+                                            </div>
+
+                                            <div class="bg-gray-50 rounded-lg p-3 mb-4">
+                                                <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                                                    <div>
+                                                        <p class="text-gray-600">মোট</p>
+                                                        <p class="font-bold text-gray-800">@item.InitialQuantity</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-600">বিক্রি</p>
+                                                        <p class="font-bold text-orange-600">@item.OrderedQuantity</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-600">বাকি</p>
+                                                        <p class="font-bold text-green-600">@item.AvailableQuantity</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex gap-2 mb-3">
+                                                <input type="number"
+                                                       id="qty-@item.DailyMenuID"
+                                                       value="@item.InitialQuantity"
+                                                       min="@item.OrderedQuantity"
+                                                       class="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none" />
+                                                <button onclick="updateQuantity(@item.DailyMenuID)"
+                                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="flex gap-2">
+                                                <button onclick="toggleAvailability(@item.DailyMenuID)"
+                                                        id="avail-btn-@item.DailyMenuID"
+                                                        class="flex-1 @(item.IsAvailable ? "bg-green-600" : "bg-gray-400") text-white px-4 py-2 rounded-lg font-semibold hover:opacity-80 transition">
+                                                    @(item.IsAvailable ? "উপলব্ধ" : "অনুপলব্ধ")
+                                                </button>
+                                                <button onclick="removeMenuItem(@item.DailyMenuID)"
+                                                        class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="col-span-2 text-center py-12 text-gray-400">
+                                        <i class="fas fa-utensils text-6xl mb-4"></i>
+                                        <p class="text-xl">এই তারিখের জন্য কোনো মেনু নেই</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Item Panel -->
+                    <div class="col-span-1">
+                        <div class="card p-6 sticky top-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-6">মেনুতে যোগ করুন</h2>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-2">খাবার নির্বাচন</label>
+                                    <select id="foodItemSelect"
+                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                                        <option value="">-- নির্বাচন করুন --</option>
+                                        @foreach (var item in Model.AllFoodItems)
+                                        {
+                                            <option value="@item.FoodItemID" data-price="@item.Price">
+                                                @item.ItemName (৳@item.Price)
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-2">খাবারের ধরন</label>
+                                    <select id="mealTypeSelect"
+                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="Drinks">Drinks</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-2">পরিমাণ</label>
+                                    <input type="number"
+                                           id="quantityInput"
+                                           value="50"
+                                           min="1"
+                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-semibold mb-2">প্রদর্শন অর্ডার</label>
+                                    <input type="number"
+                                           id="displayOrderInput"
+                                           value="0"
+                                           min="0"
+                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                                </div>
+
+                                <button onclick="addMenuItem()"
+                                        class="w-full btn-primary text-white px-6 py-4 rounded-xl font-bold text-lg hover:shadow-lg transition">
+                                    <i class="fas fa-plus-circle mr-2"></i>মেনুতে যোগ করুন
+                                </button>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="mt-6 pt-6 border-t-2 border-gray-200">
+                                <h3 class="font-bold text-gray-800 mb-4">দ্রুত কাজ</h3>
+                                <div class="space-y-3">
+                                    <button onclick="showApplyTemplateModal()"
+                                            class="w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+                                        <i class="fas fa-calendar-week mr-2"></i>টেমপ্লেট প্রয়োগ করুন
+                                    </button>
+                                    <button onclick="showCopyMenuModal()"
+                                            class="w-full bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+                                        <i class="fas fa-copy mr-2"></i>মেনু কপি করুন
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Template Tab -->
+            <div id="weeklyTemplateTab" class="tab-content hidden">
+                <div class="card p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">সাপ্তাহিক মেনু টেমপ্লেট</h2>
+                        <button onclick="showCreateTemplateModal()"
+                                class="btn-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                            <i class="fas fa-plus mr-2"></i>নতুন টেমপ্লেট তৈরি করুন
+                        </button>
+                    </div>
+
+                    <div class="space-y-6">
+                        @for (int day = 0; day <= 6; day++)
+                        {
+                            var dayName = new[] { "শনিবার", "রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার" }[day];
+                            var dayTemplates = Model.WeeklyTemplates.Where(t => t.DayOfWeek == day).ToList();
+
+                            <div class="border-2 border-gray-200 rounded-xl p-6">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">@dayName</h3>
+
+                                @if (dayTemplates.Any())
+                                {
+                                    <div class="grid grid-cols-4 gap-4">
+                                        @foreach (var template in dayTemplates)
+                                        {
+                                            <div class="bg-purple-50 rounded-lg p-4">
+                                                <p class="font-semibold text-gray-800 mb-2">@template.FoodItem.ItemName</p>
+                                                <p class="text-sm text-gray-600 mb-1">পরিমাণ: @template.DefaultQuantity</p>
+                                                <p class="text-sm text-gray-600 mb-3">@template.MealType</p>
+                                                <button onclick="deleteTemplate(@template.TemplateID)"
+                                                        class="w-full bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                                                    <i class="fas fa-trash-alt mr-1"></i>মুছুন
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p class="text-gray-400 text-center py-6">কোনো টেমপ্লেট নেই</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Template Modal -->
+    <div id="applyTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">সাপ্তাহিক টেমপ্লেট প্রয়োগ করুন</h3>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">শুরুর তারিখ</label>
+                    <input type="date" id="templateStartDate"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">সময়কাল (দিন)</label>
+                    <select id="templateDuration"
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                        <option value="7">১ সপ্তাহ</option>
+                        <option value="14">২ সপ্তাহ</option>
+                        <option value="30">১ মাস</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeApplyTemplateModal()"
+                        class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    বাতিল
+                </button>
+                <button onclick="applyTemplate()"
+                        class="flex-1 btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition">
+                    প্রয়োগ করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy Menu Modal -->
+    <div id="copyMenuModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">মেনু কপি করুন</h3>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">কোন তারিখ থেকে</label>
+                    <input type="date" id="copySourceDate"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">কোন তারিখে</label>
+                    <input type="date" id="copyTargetDate"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="overwriteExisting" class="w-5 h-5 mr-3">
+                    <label for="overwriteExisting" class="text-gray-700">বিদ্যমান মেনু প্রতিস্থাপন করুন</label>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeCopyMenuModal()"
+                        class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    বাতিল
+                </button>
+                <button onclick="copyMenu()"
+                        class="flex-1 btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition">
+                    কপি করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Template Modal -->
+    <div id="createTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">নতুন টেমপ্লেট তৈরি করুন</h3>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">টেমপ্লেট নাম</label>
+                    <input type="text" id="templateName"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">বার</label>
+                    <select id="templateDayOfWeek"
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                        <option value="0">শনিবার</option>
+                        <option value="1">রবিবার</option>
+                        <option value="2">সোমবার</option>
+                        <option value="3">মঙ্গলবার</option>
+                        <option value="4">বুধবার</option>
+                        <option value="5">বৃহস্পতিবার</option>
+                        <option value="6">শুক্রবার</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">খাবার নির্বাচন</label>
+                    <select id="templateFoodItemId"
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                        <option value="">-- নির্বাচন করুন --</option>
+                        @foreach (var item in Model.AllFoodItems)
+                        {
+                            <option value="@item.FoodItemID">@item.ItemName</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">খাবারের ধরন</label>
+                    <select id="templateMealType"
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                        
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">ডিফল্ট পরিমাণ</label>
+                    <input type="number" id="templateDefaultQuantity"
+                           value="50"
+                           min="1"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">প্রদর্শন অর্ডার</label>
+                    <input type="number" id="templateDisplayOrder"
+                           value="0"
+                           min="0"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeCreateTemplateModal()"
+                        class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    বাতিল
+                </button>
+                <button onclick="createWeeklyTemplate()"
+                        class="flex-1 btn-primary text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition">
+                    তৈরি করুন
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function showTab(tab) {
+            // Hide all tabs
+            $('.tab-content').addClass('hidden');
+            $('.tab-button').removeClass('active').addClass('bg-gray-100 text-gray-700');
+
+            // Show selected tab
+            if (tab === 'daily') {
+                $('#dailyMenuTab').removeClass('hidden');
+                $('#tabDaily').addClass('active').removeClass('bg-gray-100 text-gray-700');
+            } else if (tab === 'weekly') {
+                $('#weeklyTemplateTab').removeClass('hidden');
+                $('#tabWeekly').addClass('active').removeClass('bg-gray-100 text-gray-700');
+            }
+        }
+
+        function loadMenu() {
+            const date = $('#menuDate').val();
+            window.location.href = `/Menu/Manage?date=${date}`;
+        }
+
+        async function addMenuItem() {
+            const foodItemId = $('#foodItemSelect').val();
+            const mealType = $('#mealTypeSelect').val();
+            const quantity = $('#quantityInput').val();
+            const displayOrder = $('#displayOrderInput').val();
+            const menuDate = $('#menuDate').val();
+
+            if (!foodItemId) {
+                alert('অনুগ্রহ করে একটি খাবার নির্বাচন করুন');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Menu/AddMenuItem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        foodItemId: parseInt(foodItemId),
+                        menuDate: menuDate,
+                        mealType: mealType,
+                        quantity: parseInt(quantity),
+                        displayOrder: parseInt(displayOrder)
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    loadMenu();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function removeMenuItem(menuId) {
+            if (!confirm('আপনি কি নিশ্চিত যে এই আইটেমটি মুছে ফেলতে চান?')) return;
+
+            try {
+                const response = await fetch('/Menu/RemoveMenuItem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `menuId=${menuId}`
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    $(`#menu-${menuId}`).fadeOut(300, function() {
+                        $(this).remove();
+                        updateItemCount();
+                    });
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function updateQuantity(menuId) {
+            const newQuantity = $(`#qty-${menuId}`).val();
+
+            try {
+                const response = await fetch('/Menu/UpdateQuantity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        menuId: menuId,
+                        newQuantity: parseInt(newQuantity)
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    loadMenu();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function toggleAvailability(menuId) {
+            try {
+                const response = await fetch('/Menu/ToggleAvailability', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `menuId=${menuId}`
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    const btn = $(`#avail-btn-${menuId}`);
+                    if (data.isAvailable) {
+                        btn.removeClass('bg-gray-400').addClass('bg-green-600').text('উপলব্ধ');
+                    } else {
+                        btn.removeClass('bg-green-600').addClass('bg-gray-400').text('অনুপলব্ধ');
+                    }
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        function showApplyTemplateModal() {
+            const today = new Date().toISOString().split('T')[0];
+            $('#templateStartDate').val(today);
+            $('#applyTemplateModal').removeClass('hidden');
+        }
+
+        function closeApplyTemplateModal() {
+            $('#applyTemplateModal').addClass('hidden');
+        }
+
+        function showCopyMenuModal() {
+            const today = new Date().toISOString().split('T')[0];
+            $('#copySourceDate').val(today);
+            $('#copyTargetDate').val(today);
+            $('#copyMenuModal').removeClass('hidden');
+        }
+
+        function closeCopyMenuModal() {
+            $('#copyMenuModal').addClass('hidden');
+        }
+
+        function showCreateTemplateModal() {
+            $('#createTemplateModal').removeClass('hidden');
+        }
+
+        function closeCreateTemplateModal() {
+            $('#createTemplateModal').addClass('hidden');
+        }
+
+        async function applyTemplate() {
+            const startDate = $('#templateStartDate').val();
+            const duration = parseInt($('#templateDuration').val());
+
+            if (!startDate) {
+                alert('অনুগ্রহ করে শুরুর তারিখ নির্বাচন করুন');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Menu/ApplyWeeklyTemplate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        startDate: startDate,
+                        durationDays: duration
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    closeApplyTemplateModal();
+                    loadMenu();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function copyMenu() {
+            const sourceDate = $('#copySourceDate').val();
+            const targetDate = $('#copyTargetDate').val();
+            const overwriteExisting = $('#overwriteExisting').is(':checked');
+
+            if (!sourceDate || !targetDate) {
+                alert('অনুগ্রহ করে উভয় তারিখ নির্বাচন করুন');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Menu/CopyMenu', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sourceDate: sourceDate,
+                        targetDate: targetDate,
+                        overwriteExisting: overwriteExisting
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    closeCopyMenuModal();
+                    loadMenu();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function createWeeklyTemplate() {
+            const templateName = $('#templateName').val();
+            const dayOfWeek = $('#templateDayOfWeek').val();
+            const foodItemId = $('#templateFoodItemId').val();
+            const mealType = $('#templateMealType').val();
+            const defaultQuantity = $('#templateDefaultQuantity').val();
+            const displayOrder = $('#templateDisplayOrder').val();
+
+            if (!templateName || !foodItemId) {
+                alert('অনুগ্রহ করে সকল প্রয়োজনীয় তথ্য পূরণ করুন');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Menu/CreateWeeklyTemplate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        templateName: templateName,
+                        dayOfWeek: parseInt(dayOfWeek),
+                        foodItemId: parseInt(foodItemId),
+                        mealType: mealType,
+                        defaultQuantity: parseInt(defaultQuantity),
+                        displayOrder: parseInt(displayOrder)
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    closeCreateTemplateModal();
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        async function deleteTemplate(templateId) {
+            if (!confirm('আপনি কি এই টেমপ্লেটটি মুছে ফেলতে চান?')) return;
+
+            try {
+                const response = await fetch('/Menu/DeleteWeeklyTemplate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `templateId=${templateId}`
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('একটি ত্রুটি ঘটেছে: ' + error.message);
+            }
+        }
+
+        function updateItemCount() {
+            const totalItems = $('[id^="menu-"]').length;
+            $('.item-count').text(totalItems + ' টি আইটেম');
+        }
+
+        // Initialize date inputs
+        $(document).ready(function() {
+            updateItemCount();
+
+            // Set default dates for modals
+            const today = new Date().toISOString().split('T')[0];
+            $('#templateStartDate').val(today);
+            $('#copySourceDate').val(today);
+            $('#copyTargetDate').val(today);
+        });
+    </script>
+}

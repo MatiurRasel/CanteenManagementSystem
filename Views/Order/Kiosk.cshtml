@@ -1,0 +1,343 @@
+﻿@model IEnumerable<CanteenManagementSystem.Models.DailyMenu>
+
+@{
+    ViewData["Title"] = "খাবার অর্ডার করুন";
+    var userType = ViewBag.UserType;
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        <i class="fas fa-shopping-cart text-purple-600 mr-3"></i>খাবার অর্ডার করুন
+                    </h1>
+                    <p class="text-gray-600 mt-2">আপনার পছন্দের খাবার নির্বাচন করুন</p>
+                </div>
+                <div class="text-right">
+                    <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full font-semibold">
+                        @userType
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authentication Modal -->
+        <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+                <div class="text-center mb-6">
+                    <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-id-card text-4xl text-purple-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">ID কার্ড স্ক্যান করুন</h2>
+                    <p class="text-gray-600">আপনার ID নম্বর লিখুন বা কার্ড স্ক্যান করুন</p>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">ID নম্বর</label>
+                    <input type="text" id="userIdInput"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-lg"
+                           placeholder="আপনার ID লিখুন" autofocus />
+                </div>
+
+                <div id="authError" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <p class="text-red-700 font-semibold"></p>
+                </div>
+
+                <div id="userInfo" class="hidden mb-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                    <p class="text-green-700 font-semibold mb-2">
+                        <i class="fas fa-user mr-2"></i><span id="userName"></span>
+                    </p>
+                    <p class="text-green-600">
+                        <i class="fas fa-wallet mr-2"></i>অবশিষ্ট লিমিট: ৳<span id="remainingLimit"></span>
+                    </p>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="closeAuthModal()"
+                            class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        বাতিল
+                    </button>
+                    <button onclick="authenticateUser()"
+                            class="flex-1 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                        যাচাই করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Menu Items -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">আজকের মেনু</h2>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach (var item in Model)
+                            {
+                                <div class="border-2 border-gray-200 rounded-xl p-4 hover:border-purple-400 transition @(item.IsAvailable ? "" : "opacity-50")">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-800">@item.FoodItem.ItemName</h3>
+                                            <p class="text-sm text-gray-600">@item.FoodItem.Description</p>
+                                        </div>
+                                        <span class="text-3xl">🍽️</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-purple-600">৳@item.FoodItem.Price</span>
+
+                                        @if (item.IsAvailable)
+                                        {
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="changeQuantity(@item.FoodItemID, -1)"
+                                                        class="bg-gray-200 w-8 h-8 rounded-full hover:bg-gray-300 transition">
+                                                    <i class="fas fa-minus text-sm"></i>
+                                                </button>
+                                                <span id="qty-@item.FoodItemID" class="w-8 text-center font-bold">0</span>
+                                                <button onclick="changeQuantity(@item.FoodItemID, 1)"
+                                                        class="bg-purple-600 text-white w-8 h-8 rounded-full hover:bg-purple-700 transition">
+                                                    <i class="fas fa-plus text-sm"></i>
+                                                </button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                                শেষ
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-12">
+                            <i class="fas fa-utensils text-6xl text-gray-300 mb-4"></i>
+                            <p class="text-xl text-gray-500">কোনো মেনু পাওয়া যায়নি</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">অর্ডার সারাংশ</h2>
+
+                    <div id="orderItems" class="space-y-3 mb-6 min-h-[200px]">
+                        <div class="text-center text-gray-400 py-8">
+                            <i class="fas fa-shopping-basket text-4xl mb-2"></i>
+                            <p>কোনো আইটেম নির্বাচিত নয়</p>
+                        </div>
+                    </div>
+
+                    <div class="border-t-2 border-gray-200 pt-4 mb-6">
+                        <div class="flex justify-between items-center text-xl font-bold">
+                            <span>মোট:</span>
+                            <span class="text-purple-600">৳<span id="totalAmount">0</span></span>
+                        </div>
+                    </div>
+
+                    <button onclick="showAuthModal()" id="placeOrderBtn" disabled
+                            class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                        <i class="fas fa-check-circle mr-2"></i>অর্ডার নিশ্চিত করুন
+                    </button>
+
+                    <button onclick="clearOrder()"
+                            class="w-full mt-3 bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                        <i class="fas fa-trash-alt mr-2"></i>সব মুছে ফেলুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let cart = {};
+        let menuItems = @Html.Raw(Json.Serialize(Model.Select(m => new
+            {
+                id = m.FoodItemID,
+                name = m.FoodItem.ItemName,
+                price = m.FoodItem.Price
+            })));
+        let userType = '@userType';
+        let authenticatedUser = null;
+
+        function changeQuantity(itemId, change) {
+            if (!cart[itemId]) {
+                cart[itemId] = 0;
+            }
+
+            cart[itemId] += change;
+
+            if (cart[itemId] < 0) cart[itemId] = 0;
+            if (cart[itemId] > 10) cart[itemId] = 10;
+
+            if (cart[itemId] === 0) {
+                delete cart[itemId];
+            }
+
+            document.getElementById('qty-' + itemId).textContent = cart[itemId] || 0;
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderItemsDiv = document.getElementById('orderItems');
+            const totalAmountSpan = document.getElementById('totalAmount');
+            const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+            let html = '';
+            let total = 0;
+
+            for (let itemId in cart) {
+                const item = menuItems.find(m => m.id == itemId);
+                if (item && cart[itemId] > 0) {
+                    const itemTotal = item.price * cart[itemId];
+                    total += itemTotal;
+
+                    html += `
+                        <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-800">${item.name}</p>
+                                <p class="text-sm text-gray-600">${cart[itemId]} × ৳${item.price}</p>
+                            </div>
+                            <span class="font-bold text-purple-600">৳${itemTotal}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            if (html === '') {
+                html = `
+                    <div class="text-center text-gray-400 py-8">
+                        <i class="fas fa-shopping-basket text-4xl mb-2"></i>
+                        <p>কোনো আইটেম নির্বাচিত নয়</p>
+                    </div>
+                `;
+                placeOrderBtn.disabled = true;
+            } else {
+                placeOrderBtn.disabled = false;
+            }
+
+            orderItemsDiv.innerHTML = html;
+            totalAmountSpan.textContent = total.toFixed(2);
+        }
+
+        function showAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('authModal').classList.add('flex');
+            document.getElementById('userIdInput').focus();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authModal').classList.remove('flex');
+            document.getElementById('authError').classList.add('hidden');
+            document.getElementById('userInfo').classList.add('hidden');
+            document.getElementById('userIdInput').value = '';
+        }
+
+        async function authenticateUser() {
+            const userId = document.getElementById('userIdInput').value.trim();
+
+            if (!userId) {
+                showError('অনুগ্রহ করে আপনার ID লিখুন');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Order/AuthenticateUser', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `userId=${userId}&userType=${userType}`
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    authenticatedUser = data;
+                    document.getElementById('userName').textContent = data.userName;
+                    document.getElementById('remainingLimit').textContent = data.remainingLimit.toFixed(2);
+                    document.getElementById('userInfo').classList.remove('hidden');
+                    document.getElementById('authError').classList.add('hidden');
+
+                    setTimeout(() => {
+                        placeOrder();
+                    }, 1500);
+                } else {
+                    showError(data.message);
+                }
+            } catch (error) {
+                showError('একটি ত্রুটি ঘটেছে। আবার চেষ্টা করুন।');
+            }
+        }
+
+        async function placeOrder() {
+            if (!authenticatedUser) return;
+
+            const items = [];
+            for (let itemId in cart) {
+                if (cart[itemId] > 0) {
+                    items.push({
+                        foodItemId: parseInt(itemId),
+                        quantity: cart[itemId]
+                    });
+                }
+            }
+
+            try {
+                const response = await fetch('/Order/PlaceOrder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: authenticatedUser.userId,
+                        userType: userType,
+                        items: items
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = `/Order/Success/${data.orderId}`;
+                } else {
+                    showError(data.message);
+                }
+            } catch (error) {
+                showError('অর্ডার প্রক্রিয়াকরণে সমস্যা হয়েছে।');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('authError');
+            errorDiv.querySelector('p').textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function clearOrder() {
+            if (confirm('আপনি কি নিশ্চিত যে সব আইটেম মুছে ফেলতে চান?')) {
+                cart = {};
+                document.querySelectorAll('[id^="qty-"]').forEach(el => {
+                    el.textContent = '0';
+                });
+                updateOrderSummary();
+            }
+        }
+
+        // Enter key support
+        document.getElementById('userIdInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                authenticateUser();
+            }
+        });
+    </script>
+}

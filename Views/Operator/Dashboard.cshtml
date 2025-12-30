@@ -1,0 +1,1554 @@
+﻿@{
+    ViewData["Title"] = "অপারেটর ড্যাশবোর্ড";
+    var stats = ViewBag.Stats;
+    var selectedDate = ViewBag.SelectedDate ?? DateTime.Today;
+}
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Modern Glass Effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .modern-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+
+        /* Fixed Avatar Container - Best Practice */
+        .avatar-container {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .avatar-container-lg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .avatar-fallback {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar-student {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+
+        .avatar-employee {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .user-type-badge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .user-type-badge-lg {
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            bottom: -6px;
+            right: -6px;
+        }
+
+        .user-type-badge.student {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+        }
+
+        .user-type-badge.employee {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+
+        /* Statistics Cards - Different Gradient Colors */
+        .stat-card-total {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+
+        .stat-card-pending {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+
+        .stat-card-delivered {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .stat-card-revenue {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+
+        .stat-card {
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+                pointer-events: none;
+            }
+
+        /* Date Picker - Fixed */
+        .date-picker-wrapper {
+            position: relative;
+            width: 160px;
+        }
+
+            .date-picker-wrapper .flatpickr-input {
+                padding-right: 40px !important;
+                width: 100% !important;
+                height: 48px !important;
+                padding: 12px 40px 12px 12px !important;
+                border-radius: 12px !important;
+            }
+
+            .date-picker-wrapper .date-info-badge {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            .date-picker-wrapper.today-selected .flatpickr-input {
+                border-color: #10B981 !important;
+                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            }
+
+            .date-picker-wrapper.past-selected .flatpickr-input {
+                border-color: #F59E0B !important;
+                background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+            }
+
+        /* Buttons - Fixed */
+        .btn-primary {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+            color: white !important;
+            border: none !important;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%) !important;
+                transform: translateY(-1px) !important;
+                box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3) !important;
+            }
+
+        .btn-secondary {
+            background: white;
+            color: #475569 !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+
+            .btn-secondary:hover {
+                background: #f8fafc;
+                transform: translateY(-1px);
+            }
+
+        /* Compact Order Card - Optimized for Mobile */
+        .order-card-compact {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-left: 4px solid #4F46E5;
+            border-radius: 16px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 240px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .order-card-compact.today-order {
+                border-left-color: #10B981;
+            }
+
+            .order-card-compact.past-order {
+                border-left-color: #F59E0B;
+            }
+
+            .order-card-compact:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+            }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-badge-pending {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            color: #92400E;
+        }
+
+        .status-badge-delivered {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            color: #065F46;
+        }
+
+        .status-badge-cancelled {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            color: #7F1D1D;
+        }
+
+        /* Order Date Badge - Now beside status */
+        .order-date-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.08);
+            color: #64748B;
+            gap: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+            .order-date-badge.today {
+                background: rgba(16, 185, 129, 0.15);
+                color: #065F46;
+                border-color: rgba(16, 185, 129, 0.3);
+            }
+
+            .order-date-badge.past {
+                background: rgba(245, 158, 11, 0.15);
+                color: #92400E;
+                border-color: rgba(245, 158, 11, 0.3);
+            }
+
+        /* Grid Layout - Responsive */
+        .orders-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        /* Loading Animation */
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+            .loading-dots span {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #4F46E5;
+                animation: pulse 1.4s infinite ease-in-out both;
+            }
+
+                .loading-dots span:nth-child(1) {
+                    animation-delay: -0.32s;
+                }
+
+                .loading-dots span:nth-child(2) {
+                    animation-delay: -0.16s;
+                }
+
+        @@keyframes pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Live Indicator */
+        .live-indicator {
+            position: relative;
+            padding-right: 20px;
+        }
+
+            .live-indicator::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #10B981;
+                animation: pulse-glow 2s infinite;
+            }
+
+        @@keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Search Type Indicator */
+        .search-type-indicator {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(79, 70, 229, 0.1);
+            color: #4F46E5;
+            font-weight: 600;
+            display: none;
+        }
+
+            .search-type-indicator.active {
+                display: block;
+            }
+
+        /* View Mode Toggle */
+        .view-mode-toggle {
+            display: flex;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .view-mode-btn {
+            padding: 10px 20px;
+            background: white;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+            .view-mode-btn:hover {
+                background: #f8fafc;
+            }
+
+            .view-mode-btn.active {
+                background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+                color: white;
+            }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 2rem;
+        }
+
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 2px solid #E2E8F0;
+            background: white;
+            color: #64748B;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .pagination-btn:hover:not(:disabled) {
+                border-color: #4F46E5;
+                color: #4F46E5;
+                transform: translateY(-1px);
+            }
+
+            .pagination-btn.active {
+                background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+                color: white;
+                border-color: transparent;
+            }
+
+            .pagination-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .orders-grid-compact {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .date-picker-wrapper {
+                width: 140px;
+            }
+
+            .order-card-compact {
+                min-height: 220px;
+            }
+
+            .avatar-container {
+                width: 44px;
+                height: 44px;
+            }
+
+            .avatar-container-lg {
+                width: 52px;
+                height: 52px;
+            }
+
+            .avatar-img,
+            .avatar-fallback {
+                border-radius: 10px;
+                border-width: 2px;
+            }
+
+            .view-mode-toggle {
+                width: 100%;
+            }
+
+            .view-mode-btn {
+                flex: 1;
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .orders-grid-compact {
+                gap: 10px;
+            }
+
+            .avatar-container {
+                width: 40px;
+                height: 40px;
+            }
+
+            .avatar-container-lg {
+                width: 48px;
+                height: 48px;
+            }
+
+            .user-type-badge {
+                width: 18px;
+                height: 18px;
+                font-size: 9px;
+                bottom: -3px;
+                right: -3px;
+            }
+
+            .user-type-badge-lg {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+
+            .order-date-badge {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        .compact-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .compact-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .compact-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+            .compact-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #a1a1a1;
+            }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        @@keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Modal Styles */
+        .modal-avatar-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+        }
+
+        .modal-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 3px solid white;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen p-4 md:p-6 lg:p-8">
+        <div class="max-w-full mx-auto space-y-6">
+            <!-- Header -->
+            <div class="glass-effect rounded-3xl p-6 md:p-8 modern-card">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white">
+                                <i class="fas fa-chalkboard-teacher text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">অপারেটর ড্যাশবোর্ড</h1>
+                                <p class="text-base text-gray-600 mt-1">সম্পূর্ণ তারিখ ও সার্চ ভিত্তিক অর্ডার ম্যানেজমেন্ট</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <div class="text-right">
+                            <p class="text-sm text-gray-600 mb-1 flex items-center justify-end gap-2">
+                                <i class="fas fa-clock text-indigo-500"></i>
+                                শেষ আপডেট
+                            </p>
+                            <p class="text-lg font-bold text-gray-900" id="lastUpdate">---</p>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <!-- Date Picker -->
+                            <div id="datePickerWrapper" class="date-picker-wrapper today-selected">
+                                <input type="text"
+                                       id="datePicker"
+                                       class="bg-white border-2 border-indigo-500 rounded-xl px-4 py-3 focus:border-indigo-600 focus:outline-none w-full cursor-pointer"
+                                       placeholder="তারিখ নির্বাচন"
+                                       value="@selectedDate.ToString("yyyy-MM-dd")">
+                                <div class="date-info-badge">
+                                    <i class="fas fa-calendar-alt text-gray-500"></i>
+                                </div>
+                            </div>
+
+                            <button onclick="manualRefresh()"
+                                    class="btn-primary px-4 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-200">
+                                <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                                <span class="hidden sm:inline">রিফ্রেশ</span>
+                            </button>
+
+                            <a href="/Menu/Manage"
+                               class="btn-secondary px-4 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-200">
+                                <i class="fas fa-list text-indigo-500"></i>
+                                <span class="hidden sm:inline">মেনু</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards - Updated with Different Colors -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="stat-card stat-card-total">
+                    <div class="flex items-center justify-between">
+                        <div class="bg-white/20 p-3 rounded-xl">
+                            <i class="fas fa-shopping-cart text-xl text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-90 mb-1" id="statDateLabel">আজকের অর্ডার</p>
+                            <p class="text-2xl md:text-3xl font-bold" id="statTodayOrders">@stats.TodayOrders</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm opacity-90 mt-4">
+                        <i class="fas fa-filter mr-2"></i>
+                        <span id="statDateDetail">@selectedDate.ToString("dd MMM yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-pending">
+                    <div class="flex items-center justify-between">
+                        <div class="bg-white/20 p-3 rounded-xl">
+                            <i class="fas fa-clock text-xl text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-90 mb-1">পেন্ডিং অর্ডার</p>
+                            <p class="text-2xl md:text-3xl font-bold" id="statPendingOrders">@stats.PendingOrders</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm opacity-90 mt-4">
+                        <i class="fas fa-hourglass-half mr-2"></i>
+                        <span>প্রক্রিয়াধীন</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-delivered">
+                    <div class="flex items-center justify-between">
+                        <div class="bg-white/20 p-3 rounded-xl">
+                            <i class="fas fa-check-circle text-xl text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-90 mb-1">ডেলিভার্ড অর্ডার</p>
+                            <p class="text-2xl md:text-3xl font-bold" id="statDeliveredOrders">@stats.DeliveredOrders</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm opacity-90 mt-4">
+                        <i class="fas fa-truck mr-2"></i>
+                        <span>সফলভাবে ডেলিভার্ড</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-revenue">
+                    <div class="flex items-center justify-between">
+                        <div class="bg-white/20 p-3 rounded-xl">
+                            <i class="fas fa-money-bill-wave text-xl text-white"></i>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-90 mb-1" id="revenueDateLabel">আয়ের তথ্য</p>
+                            <p class="text-2xl md:text-3xl font-bold">৳<span id="statTodayRevenue">@stats.TodayRevenue</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm opacity-90 mt-4">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        <span>গড়: ৳<span id="avgOrderValue">0</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Controls -->
+            <div class="glass-effect rounded-3xl p-4 md:p-6 modern-card">
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <div class="flex-1 w-full">
+                        <div class="relative">
+                            <input type="text"
+                                   id="searchInput"
+                                   placeholder="অর্ডার নম্বর, নাম, আইডি, বা মোবাইল নম্বর দিয়ে সার্চ করুন..."
+                                   class="w-full px-6 py-3 pl-14 text-base border-2 border-gray-300 rounded-2xl focus:border-indigo-500 focus:outline-none focus:ring-3 focus:ring-indigo-200 transition-all pr-32"
+                                   autocomplete="off"
+                                   aria-label="অর্ডার খুঁজুন" />
+                            <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+                            <div id="searchTypeIndicator" class="search-type-indicator">
+                                তারিখ ভিত্তিক
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 ml-2">
+                            <i class="fas fa-info-circle text-indigo-500 mr-2"></i>
+                            <span id="searchHelpText">বাছাইকৃত তারিখের অর্ডারগুলো সার্চ হবে</span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <div class="view-mode-toggle flex-1 md:flex-none">
+                            <button id="viewPendingBtn" class="view-mode-btn active" onclick="setViewMode('pending')">
+                                পেন্ডিং
+                            </button>
+                            <button id="viewAllBtn" class="view-mode-btn" onclick="setViewMode('all')">
+                                সব
+                            </button>
+                        </div>
+                        <button onclick="clearSearch()"
+                                class="btn-secondary px-4 py-3 rounded-xl font-semibold flex items-center gap-2 whitespace-nowrap flex-shrink-0">
+                            <i class="fas fa-times"></i>
+                            <span class="hidden sm:inline">পরিষ্কার</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Grid -->
+            <div class="glass-effect rounded-3xl p-4 md:p-6 modern-card">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center flex-wrap gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white">
+                                <i class="fas fa-list text-sm"></i>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-900" id="ordersTitle">পেন্ডিং অর্ডার</h2>
+                            <span id="ordersCountBadge" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-bold">
+                                <span id="totalOrdersCount">0</span> টি
+                            </span>
+                            <span id="ordersDateBadge" class="status-badge bg-green-100 text-green-800">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span id="ordersDateText">আজ</span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700" id="ordersSubtitle">
+                            <span id="viewModeText">বাছাইকৃত তারিখের পেন্ডিং অর্ডার</span>
+                            <span id="liveIndicator" class="live-indicator ml-3 text-green-600 font-medium">
+                                লাইভ আপডেট
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600 whitespace-nowrap">পৃষ্ঠা:</span>
+                            <select id="pageSizeSelect" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 bg-white">
+                                <option value="24">24</option>
+                                <option value="48">48</option>
+                                <option value="96">96</option>
+                                <option value="192">192</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Grid Container -->
+                <div id="ordersGrid" class="orders-grid-compact">
+                    <div class="col-span-full text-center py-12">
+                        <div class="loading-dots justify-center mb-4">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p class="text-lg text-gray-600">অর্ডার লোড হচ্ছে...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div id="paginationContainer" class="hidden mt-8">
+                    <div class="pagination-container">
+                        <button id="firstPageBtn" class="pagination-btn" onclick="goToPage(1)" disabled>
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button id="prevPageBtn" class="pagination-btn" onclick="goToPreviousPage()" disabled>
+                            <i class="fas fa-angle-left"></i>
+                        </button>
+
+                        <div id="pageNumbers" class="flex items-center gap-1">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+
+                        <button id="nextPageBtn" class="pagination-btn" onclick="goToNextPage()" disabled>
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                        <button id="lastPageBtn" class="pagination-btn" onclick="goToLastPage()" disabled>
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                    </div>
+                    <p class="text-center text-sm text-gray-600 mt-4">
+                        মোট <span id="totalOrdersCountPagination" class="font-bold">0</span>টি অর্ডার,
+                        পৃষ্ঠা <span id="currentPageDisplay" class="font-bold">1</span> এর
+                        <span id="totalPagesDisplay" class="font-bold">1</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">অর্ডার বিস্তারিত</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl transition-transform hover:scale-110">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modalContent">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/bn.js"></script>
+
+    <script>
+        // Global variables
+        let previousOrderIds = new Set();
+        let searchTimeout = null;
+        let currentSearchTerm = '';
+        let refreshInterval;
+        let currentOrders = [];
+        let currentDate = new Date('@selectedDate.ToString("yyyy-MM-dd")');
+        let isToday = currentDate.toDateString() === new Date().toDateString();
+        let currentPage = 1;
+        let pageSize = 24;
+        let totalPages = 1;
+        let totalOrders = 0;
+        let isSearching = false;
+        let viewMode = 'pending';
+
+        // Initialize on document ready
+        $(document).ready(function() {
+            initializeDatePicker();
+            initializeEventListeners();
+            loadOrders();
+            updateStatistics();
+            setupAutoRefresh();
+        });
+
+        function initializeDatePicker() {
+            flatpickr("#datePicker", {
+                locale: "bn",
+                dateFormat: "Y-m-d",
+                defaultDate: currentDate,
+                maxDate: "today",
+                onChange: function(selectedDates) {
+                    if (selectedDates.length > 0) {
+                        currentDate = selectedDates[0];
+                        isToday = currentDate.toDateString() === new Date().toDateString();
+                        currentPage = 1;
+                        updateDateInfo();
+                        loadOrders();
+                        updateStatistics();
+                        updateDatePickerStyle();
+                    }
+                }
+            });
+            updateDatePickerStyle();
+        }
+
+        function initializeEventListeners() {
+            // Page size change
+            $('#pageSizeSelect').on('change', function() {
+                pageSize = parseInt($(this).val());
+                currentPage = 1;
+                loadOrders();
+            });
+
+            // Search with debounce
+            $('#searchInput').on('input', function() {
+                clearTimeout(searchTimeout);
+                currentSearchTerm = $(this).val().trim();
+                isSearching = currentSearchTerm !== '';
+
+                if (isSearching) {
+                    $('#searchTypeIndicator').addClass('active');
+                } else {
+                    $('#searchTypeIndicator').removeClass('active');
+                }
+
+                searchTimeout = setTimeout(() => {
+                    currentPage = 1;
+                    loadOrders();
+                }, 800);
+            });
+
+            // Enter key to search
+            $('#searchInput').on('keypress', function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    currentPage = 1;
+                    loadOrders();
+                }
+            });
+        }
+
+        function updateDatePickerStyle() {
+            const wrapper = $('#datePickerWrapper');
+            wrapper.removeClass('today-selected past-selected');
+
+            if (isToday) {
+                wrapper.addClass('today-selected');
+            } else {
+                wrapper.addClass('past-selected');
+            }
+        }
+
+        function updateDateInfo() {
+            const dateLabel = currentDate.toLocaleDateString('bn-BD', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+
+            if (isToday) {
+                $('#statDateLabel').html('আজকের অর্ডার');
+                $('#ordersDateBadge').removeClass('bg-yellow-100 text-yellow-800').addClass('bg-green-100 text-green-800');
+                $('#ordersDateText').text('আজ');
+                $('#liveIndicator').removeClass('hidden');
+            } else {
+                const dayDiff = Math.floor((new Date() - currentDate) / (1000 * 60 * 60 * 24));
+                let dayText = '';
+                if (dayDiff === 1) dayText = 'গতকাল';
+                else if (dayDiff === 2) dayText = 'পরশু';
+                else dayText = `${dayDiff} দিন আগে`;
+
+                $('#statDateLabel').html('তারিখভিত্তিক অর্ডার');
+                $('#ordersDateBadge').removeClass('bg-green-100 text-green-800').addClass('bg-yellow-100 text-yellow-800');
+                $('#ordersDateText').text(dayText);
+                $('#liveIndicator').addClass('hidden');
+            }
+
+            $('#statDateDetail').text(dateLabel);
+            updateViewModeText();
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            currentPage = 1;
+            currentSearchTerm = '';
+            $('#searchInput').val('');
+            isSearching = false;
+            $('#searchTypeIndicator').removeClass('active');
+
+            $('#viewPendingBtn, #viewAllBtn').removeClass('active');
+            $(`#view${mode.charAt(0).toUpperCase() + mode.slice(1)}Btn`).addClass('active');
+
+            loadOrders();
+            updateViewModeText();
+        }
+
+        function updateViewModeText() {
+            const dateLabel = currentDate.toLocaleDateString('bn-BD', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            if (viewMode === 'pending') {
+                $('#ordersTitle').text('পেন্ডিং অর্ডার');
+                if (isToday) {
+                    $('#ordersSubtitle').html('<span>আজকের পেন্ডিং অর্ডার</span>');
+                } else {
+                    $('#ordersSubtitle').html(`<span>${dateLabel} তারিখের পেন্ডিং অর্ডার</span>`);
+                }
+                $('#searchHelpText').text(isToday ?
+                    'আজকের অর্ডারগুলো সার্চ হবে' :
+                    'বাছাইকৃত তারিখের অর্ডারগুলো সার্চ হবে');
+                $('#searchTypeIndicator').text('তারিখ ভিত্তিক');
+            } else {
+                $('#ordersTitle').text('সমস্ত অর্ডার');
+                if (currentSearchTerm) {
+                    $('#ordersSubtitle').html(`<span>"${currentSearchTerm}" এর সার্চ ফলাফল</span>`);
+                } else {
+                    $('#ordersSubtitle').html(`<span>সব তারিখের সমস্ত অর্ডার</span>`);
+                }
+                $('#searchHelpText').text('সব তারিখের সমস্ত অর্ডার সার্চ হবে');
+                $('#searchTypeIndicator').text('সমস্ত অর্ডার');
+            }
+        }
+
+        function setupAutoRefresh() {
+            clearInterval(refreshInterval);
+
+            if (isToday && viewMode === 'pending' && !isSearching && currentSearchTerm === '') {
+                refreshInterval = setInterval(() => {
+                    loadOrders();
+                    updateStatistics();
+                }, 5000);
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                showLoading(true);
+                const dateParam = currentDate.toISOString().split('T')[0];
+                let url = '';
+
+                if (viewMode === 'pending') {
+                    url = `/Operator/GetPendingOrders?selectedDate=${dateParam}&search=${encodeURIComponent(currentSearchTerm)}&page=${currentPage}&pageSize=${pageSize}`;
+                } else {
+                    url = `/Operator/SearchAllOrders?search=${encodeURIComponent(currentSearchTerm)}&page=${currentPage}&pageSize=${pageSize}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.success) {
+                    currentOrders = data.orders || [];
+                    totalOrders = data.totalOrders || 0;
+                    totalPages = data.totalPages || 1;
+
+                    displayOrders(currentOrders);
+                    updatePagination();
+                    updateLastUpdateTime();
+
+                    $('#totalOrdersCount').text(totalOrders);
+                    $('#totalOrdersCountPagination').text(totalOrders);
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                showToast('অর্ডার লোড করতে সমস্যা হয়েছে', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayOrders(orders) {
+            const container = $('#ordersGrid');
+
+            if (orders.length === 0) {
+                let message = '';
+                if (viewMode === 'pending') {
+                    message = isToday ?
+                        'আজকের কোনো পেন্ডিং অর্ডার নেই' :
+                        'বাছাইকৃত তারিখে কোনো পেন্ডিং অর্ডার নেই';
+                } else {
+                    message = currentSearchTerm ?
+                        'সার্চের সাথে মিলে এমন কোনো অর্ডার নেই' :
+                        'কোনো অর্ডার নেই';
+                }
+
+                container.html(`
+                    <div class="col-span-full text-center py-16">
+                        <div class="inline-block p-6 bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl mb-4">
+                            <i class="fas fa-inbox text-5xl text-gray-300"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-500 mb-3">${message}</h3>
+                        <p class="text-gray-400">অন্যান্য অপশন চেষ্টা করুন</p>
+                    </div>
+                `);
+                $('#paginationContainer').addClass('hidden');
+                return;
+            }
+
+            let html = '';
+            orders.forEach(order => {
+                const orderDate = new Date(order.orderDateTime);
+                const isOrderToday = orderDate.toDateString() === new Date().toDateString();
+                const orderTime = orderDate.toLocaleTimeString('bn-BD', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                const orderDateFormatted = orderDate.toLocaleDateString('bn-BD', {
+                    day: 'numeric',
+                    month: 'short'
+                });
+
+                // User type info
+                const userTypeClass = order.userType === 1 ? 'student' : 'employee';
+                const userTypeText = order.userType === 1 ? 'শিক্ষার্থী' :
+                                    (order.employeeTypeName ? order.employeeTypeName.toUpperCase() : 'কর্মচারী');
+                const userTypeIcon = order.userType === 1 ? 'fas fa-user-graduate' : 'fas fa-user-tie';
+
+                // Status info
+                let statusClass = 'status-badge-pending';
+                let statusText = 'পেন্ডিং';
+                if (order.status === 1) {
+                    statusClass = 'status-badge-delivered';
+                    statusText = 'ডেলিভার্ড';
+                } else if (order.status === 2) {
+                    statusClass = 'status-badge-cancelled';
+                    statusText = 'বাতিল';
+                }
+
+                // Avatar generation
+                const avatarContent = generateAvatar(order.userName, order.userType, order.userPhotoUrl);
+
+                html += `
+                    <div class="order-card-compact ${isOrderToday ? 'today-order' : 'past-order'} p-4">
+                        <div class="flex items-start gap-3 mb-3">
+                            <div class="avatar-container">
+                                ${avatarContent}
+                                <div class="user-type-badge ${userTypeClass}">
+                                    <i class="${userTypeIcon}"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-2">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-bold text-gray-900 truncate mb-1">${order.userName}</p>
+                                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                                            <span class="text-xs text-gray-600 font-medium bg-gray-100 px-2 py-1 rounded">#${order.orderNumber}</span>
+                                            <span class="text-xs px-2 py-1 rounded-full ${order.userType === 1 ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'}">
+                                                ${userTypeText}
+                                            </span>
+                                        </div>
+                                        <!-- Date moved here beside status -->
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <span class="status-badge ${statusClass} text-xs">
+                                                ${statusText}
+                                            </span>
+                                            <span class="order-date-badge ${isOrderToday ? 'today' : 'past'} text-xs">
+                                                <i class="fas fa-clock text-xs"></i>
+                                                ${orderDateFormatted} ${orderTime}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div>
+                                <div class="text-xs text-gray-500 mb-1">আইডি</div>
+                                <div class="text-sm font-medium text-gray-900">${order.userIdentifier || '-'}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 mb-1">মোবাইল</div>
+                                <div class="text-sm font-medium text-gray-900">${order.userMobileNo || '-'}</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="text-xs text-gray-500 mb-2">অর্ডার আইটেম</div>
+                            <div class="space-y-1 max-h-20 overflow-y-auto compact-scrollbar">
+                                ${order.items.slice(0, 3).map(item => `
+                                    <div class="flex justify-between items-center text-xs">
+                                        <span class="text-gray-700 truncate">${item.itemName} × ${item.quantity}</span>
+                                        <span class="font-semibold text-indigo-600 whitespace-nowrap">৳${item.price.toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                                ${order.items.length > 3 ? `
+                                    <div class="text-xs text-gray-500 text-center pt-1">
+                                        + আরও ${order.items.length - 3} টি আইটেম
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-3 border-t border-gray-200">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-sm text-gray-600 font-medium">মোট:</span>
+                                <span class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                                    ৳${order.totalAmount.toFixed(2)}
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="showOrderDetails(${order.orderID})"
+                                        class="btn-secondary py-2 rounded-lg font-medium flex items-center justify-center gap-2">
+                                    <i class="fas fa-eye"></i>
+                                    বিস্তারিত
+                                </button>
+                                ${order.status === 0 && isOrderToday ? `
+                                    <button onclick="deliverOrder(${order.orderID})"
+                                            class="btn-primary py-2 rounded-lg font-medium flex items-center justify-center gap-2">
+                                        <i class="fas fa-check-circle"></i>
+                                        ডেলিভার
+                                    </button>
+                                ` : `
+                                    <button class="btn-primary py-2 rounded-lg font-medium flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                                        <i class="fas ${order.status === 1 ? 'fa-check' : 'fa-times'}"></i>
+                                        ${order.status === 1 ? 'ডেলিভার্ড' : 'বাতিল'}
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.html(html);
+            $('#paginationContainer').removeClass('hidden');
+        }
+
+        function generateAvatar(name, userType, photoUrl) {
+            const nameParts = (name || 'User').split(' ');
+            const initials = nameParts.map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2);
+            const avatarClass = userType === 1 ? 'avatar-student' : 'avatar-employee';
+
+            if (photoUrl) {
+                return `<img src="${photoUrl}" alt="${name}" class="avatar-img" onerror="this.src='#'; this.outerHTML='<div class=\\'avatar-fallback ${avatarClass}\\'>${initials}</div>'">`;
+            } else {
+                return `<div class="avatar-fallback ${avatarClass}">${initials}</div>`;
+            }
+        }
+
+        function generateModalAvatar(name, userType, photoUrl) {
+            const nameParts = (name || 'User').split(' ');
+            const initials = nameParts.map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2);
+            const avatarClass = userType === 1 ? 'avatar-student' : 'avatar-employee';
+
+            if (photoUrl) {
+                return `
+                    <div class="modal-avatar-container">
+                        <img src="${photoUrl}" alt="${name}" class="modal-avatar-img"
+                             onerror="this.src='#'; this.outerHTML='<div class=\\'avatar-fallback ${avatarClass}\\' style=\\'width:100%;height:100%\\'>${initials}</div>'">
+                        <div class="user-type-badge user-type-badge-lg ${userType === 1 ? 'student' : 'employee'}">
+                            <i class="${userType === 1 ? 'fas fa-user-graduate' : 'fas fa-user-tie'}"></i>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="modal-avatar-container">
+                        <div class="avatar-fallback ${avatarClass}" style="width:100%;height:100%">
+                            ${initials}
+                        </div>
+                        <div class="user-type-badge user-type-badge-lg ${userType === 1 ? 'student' : 'employee'}">
+                            <i class="${userType === 1 ? 'fas fa-user-graduate' : 'fas fa-user-tie'}"></i>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function updatePagination() {
+            const pageNumbers = $('#pageNumbers');
+            pageNumbers.empty();
+
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = $(`
+                    <button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                        ${i}
+                    </button>
+                `);
+                pageNumbers.append(btn);
+            }
+
+            $('#firstPageBtn, #prevPageBtn').prop('disabled', currentPage === 1);
+            $('#nextPageBtn, #lastPageBtn').prop('disabled', currentPage === totalPages);
+
+            $('#currentPageDisplay').text(currentPage);
+            $('#totalPagesDisplay').text(totalPages);
+        }
+
+        function goToPage(page) {
+            if (page < 1 || page > totalPages || page === currentPage) return;
+
+            currentPage = page;
+            loadOrders();
+            $('#ordersGrid').scrollTop(0);
+        }
+
+        function goToPreviousPage() { goToPage(currentPage - 1); }
+        function goToNextPage() { goToPage(currentPage + 1); }
+        function goToFirstPage() { goToPage(1); }
+        function goToLastPage() { goToPage(totalPages); }
+
+        async function showOrderDetails(orderId) {
+            try {
+                const order = currentOrders.find(o => o.orderID === orderId);
+                if (!order) return;
+
+                const modalContent = $('#modalContent');
+                const orderDate = new Date(order.orderDateTime);
+
+                modalContent.html(`
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            ${generateModalAvatar(order.userName, order.userType, order.userPhotoUrl)}
+                            <div class="flex-1">
+                                <h4 class="text-xl font-bold text-gray-900">${order.userName}</h4>
+                                <p class="text-gray-600 mt-1">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    ${orderDate.toLocaleDateString('bn-BD')}
+                                    <i class="fas fa-clock ml-4 mr-2"></i>
+                                    ${orderDate.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">অর্ডার নম্বর</p>
+                                <p class="font-bold">#${order.orderNumber}</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">মোবাইল</p>
+                                <p class="font-bold">${order.userMobileNo || 'N/A'}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="text-lg font-bold text-gray-900 mb-3">অর্ডার আইটেম</h5>
+                            <div class="space-y-3">
+                                ${order.items.map(item => `
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                                        <div>
+                                            <p class="font-medium">${item.itemName}</p>
+                                            <p class="text-sm text-gray-500">মূল্য: ৳${item.foodItemPrice.toFixed(2)}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-bold">${item.quantity} ×</p>
+                                            <p class="text-lg font-bold text-indigo-600">৳${item.price.toFixed(2)}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-gray-900">মোট পরিমাণ:</span>
+                                <span class="text-2xl font-bold text-indigo-600">৳${order.totalAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button onclick="deliverOrder(${order.orderID}); closeModal();"
+                                    class="btn-primary flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                                <i class="fas fa-check-circle"></i>
+                                ডেলিভার করুন
+                            </button>
+                            <button onclick="closeModal()"
+                                    class="btn-secondary flex-1 py-3 rounded-xl font-bold">
+                                বন্ধ করুন
+                            </button>
+                        </div>
+                    </div>
+                `);
+
+                $('#orderModal').removeClass('hidden');
+            } catch (error) {
+                console.error('Error showing order details:', error);
+                showToast('বিস্তারিত দেখাতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        function closeModal() {
+            $('#orderModal').addClass('hidden');
+        }
+
+        async function deliverOrder(orderId) {
+            if (!confirm('আপনি কি নিশ্চিত যে এই অর্ডারটি ডেলিভার হয়েছে?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/Operator/MarkAsDelivered', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('অর্ডার সফলভাবে ডেলিভার করা হয়েছে', 'success');
+                    loadOrders();
+                    updateStatistics();
+                } else {
+                    showToast(data.message || 'ডেলিভার করতে সমস্যা হয়েছে', 'error');
+                }
+            } catch (error) {
+                console.error('Error delivering order:', error);
+                showToast('ডেলিভার করতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        function clearSearch() {
+            $('#searchInput').val('');
+            currentSearchTerm = '';
+            isSearching = false;
+            $('#searchTypeIndicator').removeClass('active');
+            currentPage = 1;
+            loadOrders();
+        }
+
+        function manualRefresh() {
+            const icon = $('#refreshIcon');
+            icon.addClass('animate-spin');
+
+            loadOrders();
+            updateStatistics();
+
+            setTimeout(() => {
+                icon.removeClass('animate-spin');
+                showToast('সব তথ্য আপডেট করা হয়েছে', 'success');
+            }, 1000);
+        }
+
+        async function updateStatistics() {
+            try {
+                const dateParam = currentDate.toISOString().split('T')[0];
+                const response = await fetch(`/Operator/GetStatistics?selectedDate=${dateParam}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    $('#statTodayOrders').text(data.stats.todayOrders);
+                    $('#statPendingOrders').text(data.stats.pendingOrders);
+                    $('#statDeliveredOrders').text(data.stats.deliveredOrders);
+                    $('#statTodayRevenue').text(data.stats.todayRevenue.toFixed(2));
+
+                    const avgValue = data.stats.todayOrders > 0 ?
+                        (data.stats.todayRevenue / data.stats.todayOrders).toFixed(2) : '0.00';
+                    $('#avgOrderValue').text(avgValue);
+                }
+            } catch (error) {
+                console.error('Error updating statistics:', error);
+            }
+        }
+
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('bn-BD', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            $('#lastUpdate').text(timeStr);
+        }
+
+        function showLoading(show) {
+            if (show) {
+                $('#ordersGrid').addClass('opacity-50');
+            } else {
+                $('#ordersGrid').removeClass('opacity-50');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const colors = {
+                success: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                error: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+                warning: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                info: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)'
+            };
+
+            const icon = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
+            const toast = $(`
+                <div class="toast-notification" style="background: ${colors[type]}">
+                    <div class="flex items-center gap-3">
+                        <i class="fas ${icon[type]} text-lg"></i>
+                        <span>${message}</span>
+                    </div>
+                </div>
+            `);
+
+            $('.toast-notification').remove();
+            $('body').append(toast);
+        }
+
+        // Keyboard shortcuts
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            } else if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                $('#searchInput').focus();
+            } else if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                manualRefresh();
+            }
+        });
+    </script>
+</body>
+</html>

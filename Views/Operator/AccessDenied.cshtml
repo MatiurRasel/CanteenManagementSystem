@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "অ্যাক্সেস ডিনাইড";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .access-denied-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .icon-container {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+        }
+
+            .icon-container i {
+                font-size: 48px;
+                color: #DC2626;
+            }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #6B7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+            .btn-back:hover {
+                background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+            }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            color: #DC2626;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+            .btn-logout:hover {
+                background: linear-gradient(135deg, #FECACA 0%, #FCA5A5 100%);
+                transform: translateY(-2px);
+            }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="access-denied-container">
+        <div class="icon-container">
+            <i class="fas fa-ban"></i>
+        </div>
+
+        <h1>অ্যাক্সেস ডিনাইড</h1>
+
+        <p>
+            দুঃখিত, আপনি এই পৃষ্ঠাটি দেখার অনুমতি পাননি।
+            আপনার কাছে প্রয়োজনীয় অনুমতি নেই অথবা আপনার সেশন মেয়াদ শেষ হয়ে গেছে।
+        </p>
+
+        <div class="button-group">
+            <a href="@Url.Action("Dashboard", "Operator")" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                ড্যাশবোর্ডে ফিরে যান
+            </a>
+
+            <a href="@Url.Action("Logout", "Operator")" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                লগআউট করুন
+            </a>
+        </div>
+    </div>
+</body>
+</html>
