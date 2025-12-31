@@ -163,38 +163,6 @@ namespace CanteenManagementSystem.Controllers
         {
             return $"ORD-{DateTime.Now:yyMMdd}-{requestUserId}-{new Random().Next(100, 999)}";
         }
-        // Get order success details
-        public async Task<IActionResult> Success(int orderId)
-        {
-            var order = await _context.Orders
-                //.Include(o => o.Student)
-                //.Include(o => o.Employee)
-                .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.FoodItem)
-                .FirstOrDefaultAsync(o => o.OrderID == orderId);
-
-            if (order == null)
-                return NotFound();
-
-            return View(order);
-        }
-        // Kiosk screen for ordering
-        public async Task<IActionResult> Kiosk(string userType)
-        {
-            if (string.IsNullOrEmpty(userType))
-                return RedirectToAction("SelectUserType", "Home");
-
-            HttpContext.Session.SetString("UserType", userType);
-
-            var todayMenu = await _context.DailyMenus
-                .Include(dm => dm.FoodItem)
-                .Where(dm => dm.MenuDate.Date == DateTime.Today && dm.IsAvailable)
-                .OrderBy(dm => dm.DisplayOrder)
-                .ToListAsync();
-
-            ViewBag.UserType = userType;
-            return View(todayMenu);
-        }
     }
 
     // Request models

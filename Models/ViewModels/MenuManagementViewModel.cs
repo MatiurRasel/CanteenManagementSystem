@@ -8,13 +8,14 @@
         public List<WeeklyMenuTemplate> WeeklyTemplates { get; set; } = new();
     }
 
+    // In DailyMenuItemViewModel
     public class DailyMenuItemViewModel
     {
         public int DailyMenuID { get; set; }
         public int FoodItemID { get; set; }
         public string ItemName { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public CanteenMealType? Category { get; set; }
+        public string Category { get; set; } = string.Empty; // Keep as string for display
         public int AvailableQuantity { get; set; }
         public int InitialQuantity { get; set; }
         public int OrderedQuantity { get; set; }

@@ -1,9 +1,11 @@
 ﻿using CanteenManagementSystem.Data;
 using CanteenManagementSystem.Models;
 using CanteenManagementSystem.Models.ViewModels;
+using CanteenManagementSystem.Helpers; // Add this
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Text;
 
 namespace CanteenManagementSystem.Controllers
 {
@@ -14,6 +16,26 @@ namespace CanteenManagementSystem.Controllers
         public MenuController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        // Helper method to parse meal type
+        private CanteenMealType ParseMealType(string mealType)
+        {
+            if (Enum.TryParse<CanteenMealType>(mealType, true, out var result))
+            {
+                return result;
+            }
+
+            // Handle Bengali text
+            return mealType switch
+            {
+                "সকালের নাস্তা" or "breakfast" or "Breakfast" => CanteenMealType.Breakfast,
+                "লাঞ্চ" or "lunch" or "Lunch" => CanteenMealType.Lunch,
+                "স্ন্যাক্স" or "snacks" or "Snacks" => CanteenMealType.Snacks,
+                "ড্রিংকস" or "drinks" or "Drinks" => CanteenMealType.Drinks,
+                "ডিনার" or "dinner" or "Dinner" => CanteenMealType.Dinner,
+                _ => CanteenMealType.Lunch // Default
+            };
         }
 
         // Main menu management page
@@ -49,7 +71,7 @@ namespace CanteenManagementSystem.Controllers
                     FoodItemID = dm.FoodItemID,
                     ItemName = dm.FoodItem.ItemName,
                     Price = dm.FoodItem.Price,
-                    Category = dm.FoodItem.Category,
+                    Category = MealTypeHelper.GetMealTypeName(dm.FoodItem.Category), // Use helper
                     AvailableQuantity = dm.AvailableQuantity,
                     InitialQuantity = dm.InitialQuantity,
                     OrderedQuantity = dm.InitialQuantity - dm.AvailableQuantity,
@@ -78,7 +100,7 @@ namespace CanteenManagementSystem.Controllers
                 {
                     FoodItemID = request.FoodItemId,
                     MenuDate = request.MenuDate.Date,
-                    MealType = (CanteenMealType)request.MealType,
+                    MealType = ParseMealType(request.MealType),
                     AvailableQuantity = request.Quantity,
                     InitialQuantity = request.Quantity,
                     IsAvailable = true,
@@ -217,7 +239,7 @@ namespace CanteenManagementSystem.Controllers
 
             return Json(new { success = true });
         }
-        
+
 
         // Food Items Management
         public async Task<IActionResult> ManageItems()
@@ -270,7 +292,7 @@ namespace CanteenManagementSystem.Controllers
                     TemplateName = request.TemplateName,
                     DayOfWeek = request.DayOfWeek,
                     FoodItemID = request.FoodItemId,
-                    MealType = (CanteenMealType)request.MealType,
+                    MealType = ParseMealType(request.MealType),
                     DefaultQuantity = request.DefaultQuantity,
                     DisplayOrder = request.DisplayOrder,
                     IsActive = true
@@ -358,7 +380,7 @@ namespace CanteenManagementSystem.Controllers
                         {
                             FoodItemID = template.FoodItemID,
                             MenuDate = currentDate,
-                            MealType = template.MealType,
+                            MealType = template.MealType ?? CanteenMealType.Lunch, // Handle nullable
                             AvailableQuantity = template.DefaultQuantity,
                             InitialQuantity = template.DefaultQuantity,
                             IsAvailable = true,
@@ -466,7 +488,7 @@ namespace CanteenManagementSystem.Controllers
                     t.FoodItemID,
                     itemName = t.FoodItem.ItemName,
                     price = t.FoodItem.Price,
-                    t.MealType,
+                    MealType = t.MealType.HasValue ? MealTypeHelper.GetMealTypeName(t.MealType.Value) : "অন্যান্য", // Handle nullable
                     t.DefaultQuantity,
                     t.DisplayOrder
                 })
@@ -474,6 +496,444 @@ namespace CanteenManagementSystem.Controllers
 
             return Json(new { success = true, templates });
         }
+
+        // Get food item by ID
+        [HttpGet]
+        public async Task<IActionResult> GetFoodItem(int id)
+        {
+            try
+            {
+                var foodItem = await _context.FoodItems.FindAsync(id);
+                if (foodItem == null)
+                {
+                    return Json(new { success = false, message = "খাবার আইটেম খুঁজে পাওয়া যায়নি" });
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    item = new
+                    {
+                        foodItem.FoodItemID,
+                        foodItem.ItemName,
+                        foodItem.Description,
+                        foodItem.Price,
+                        Category = foodItem.Category.ToString(), // Convert enum to string
+                        foodItem.ImageUrl,
+                        foodItem.IsAvailable
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Create food item
+        [HttpPost]
+        public async Task<IActionResult> CreateFoodItem([FromBody] CreateFoodItemRequest request)
+        {
+            try
+            {
+                var foodItem = new FoodItem
+                {
+                    ItemName = request.ItemName,
+                    Description = request.Description,
+                    Price = request.Price,
+                    Category = ParseMealType(request.Category),
+                    ImageUrl = request.ImageUrl,
+                    IsAvailable = request.IsAvailable,
+                    IsActive = true,
+                    CreatedDate = DateTime.Now
+                };
+
+                _context.FoodItems.Add(foodItem);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "খাবার আইটেম তৈরি হয়েছে", id = foodItem.FoodItemID });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Update food item
+        [HttpPost]
+        public async Task<IActionResult> UpdateFoodItem([FromBody] UpdateFoodItemRequest request)
+        {
+            try
+            {
+                var foodItem = await _context.FoodItems.FindAsync(request.FoodItemId);
+                if (foodItem == null)
+                {
+                    return Json(new { success = false, message = "খাবার আইটেম খুঁজে পাওয়া যায়নি" });
+                }
+
+                foodItem.ItemName = request.ItemName;
+                foodItem.Description = request.Description;
+                foodItem.Price = request.Price;
+                foodItem.Category = ParseMealType(request.Category);
+                foodItem.ImageUrl = request.ImageUrl;
+                foodItem.IsAvailable = request.IsAvailable;
+
+                _context.FoodItems.Update(foodItem);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "খাবার আইটেম আপডেট হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Toggle food item status
+        [HttpPost]
+        public async Task<IActionResult> ToggleFoodItemStatus(int id)
+        {
+            try
+            {
+                var foodItem = await _context.FoodItems.FindAsync(id);
+                if (foodItem == null)
+                {
+                    return Json(new { success = false, message = "খাবার আইটেম খুঁজে পাওয়া যায়নি" });
+                }
+
+                foodItem.IsAvailable = !foodItem.IsAvailable;
+                await _context.SaveChangesAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    message = foodItem.IsAvailable ? "খাবার সক্রিয় করা হয়েছে" : "খাবার নিষ্ক্রিয় করা হয়েছে",
+                    isAvailable = foodItem.IsAvailable
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Get menu preview
+        [HttpGet]
+        public async Task<IActionResult> GetMenuPreview(DateTime date)
+        {
+            try
+            {
+                var menuItems = await _context.DailyMenus
+                    .Include(dm => dm.FoodItem)
+                    .Where(dm => dm.MenuDate.Date == date.Date)
+                    .Select(dm => new
+                    {
+                        dm.DailyMenuID,
+                        itemName = dm.FoodItem.ItemName,
+                        dm.AvailableQuantity,
+                        dm.IsAvailable
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, items = menuItems });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Quick apply template
+        [HttpPost]
+        public async Task<IActionResult> QuickApplyTemplate([FromBody] QuickApplyTemplateRequest request)
+        {
+            try
+            {
+                var startDate = request.StartDate;
+                var templates = new List<WeeklyMenuTemplate>();
+
+                switch (request.TemplateType)
+                {
+                    case "week":
+                        templates = await _context.WeeklyMenuTemplates
+                            .Include(t => t.FoodItem)
+                            .Where(t => t.IsActive)
+                            .ToListAsync();
+                        break;
+                    case "weekend":
+                        templates = await _context.WeeklyMenuTemplates
+                            .Include(t => t.FoodItem)
+                            .Where(t => t.IsActive && (t.DayOfWeek == 5 || t.DayOfWeek == 6))
+                            .ToListAsync();
+                        break;
+                    case "weekdays":
+                        templates = await _context.WeeklyMenuTemplates
+                            .Include(t => t.FoodItem)
+                            .Where(t => t.IsActive && t.DayOfWeek >= 0 && t.DayOfWeek <= 4)
+                            .ToListAsync();
+                        break;
+                }
+
+                if (!templates.Any())
+                {
+                    return Json(new { success = false, message = "কোনো টেমপ্লেট পাওয়া যায়নি" });
+                }
+
+                var menuItem = new DailyMenu
+                {
+                    FoodItemID = templates.First().FoodItemID,
+                    MenuDate = startDate,
+                    MealType = templates.First().MealType ?? CanteenMealType.Lunch,
+                    AvailableQuantity = templates.First().DefaultQuantity,
+                    InitialQuantity = templates.First().DefaultQuantity,
+                    IsAvailable = true,
+                    DisplayOrder = templates.First().DisplayOrder
+                };
+
+                _context.DailyMenus.Add(menuItem);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "টেমপ্লেট প্রয়োগ করা হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Apply day template
+        [HttpPost]
+        public async Task<IActionResult> ApplyDayTemplate(int dayOfWeek)
+        {
+            try
+            {
+                var templates = await _context.WeeklyMenuTemplates
+                    .Include(t => t.FoodItem)
+                    .Where(t => t.IsActive && t.DayOfWeek == dayOfWeek)
+                    .ToListAsync();
+
+                if (!templates.Any())
+                {
+                    return Json(new { success = false, message = "এই দিনের জন্য কোনো টেমপ্লেট নেই" });
+                }
+
+                var today = DateTime.Today;
+                var menusToAdd = new List<DailyMenu>();
+
+                foreach (var template in templates)
+                {
+                    var existing = await _context.DailyMenus
+                        .AnyAsync(dm => dm.MenuDate.Date == today && dm.FoodItemID == template.FoodItemID);
+
+                    if (!existing)
+                    {
+                        menusToAdd.Add(new DailyMenu
+                        {
+                            FoodItemID = template.FoodItemID,
+                            MenuDate = today,
+                            MealType = template.MealType ?? CanteenMealType.Lunch,
+                            AvailableQuantity = template.DefaultQuantity,
+                            InitialQuantity = template.DefaultQuantity,
+                            IsAvailable = true,
+                            DisplayOrder = template.DisplayOrder
+                        });
+                    }
+                }
+
+                if (menusToAdd.Any())
+                {
+                    _context.DailyMenus.AddRange(menusToAdd);
+                    await _context.SaveChangesAsync();
+                }
+
+                return Json(new { success = true, message = $"{menusToAdd.Count} টি আইটেম যোগ করা হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Batch update quantities
+        [HttpPost]
+        public async Task<IActionResult> BatchUpdateQuantities([FromBody] BatchUpdateRequest request)
+        {
+            try
+            {
+                var menuItems = await _context.DailyMenus
+                    .Where(dm => dm.MenuDate.Date == request.MenuDate.Date)
+                    .ToListAsync();
+
+                foreach (var item in menuItems)
+                {
+                    var orderedQty = item.InitialQuantity - item.AvailableQuantity;
+                    if (request.NewQuantity >= orderedQty)
+                    {
+                        item.InitialQuantity = request.NewQuantity;
+                        item.AvailableQuantity = request.NewQuantity - orderedQty;
+                        item.IsAvailable = item.AvailableQuantity > 0;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, updated = menuItems.Count, message = "পরিমাণ আপডেট করা হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Batch toggle availability
+        [HttpPost]
+        public async Task<IActionResult> BatchToggleAvailability([FromBody] BatchToggleRequest request)
+        {
+            try
+            {
+                var menuItems = await _context.DailyMenus
+                    .Where(dm => dm.MenuDate.Date == request.MenuDate.Date)
+                    .ToListAsync();
+
+                foreach (var item in menuItems)
+                {
+                    item.IsAvailable = !item.IsAvailable;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, updated = menuItems.Count, message = "উপলব্ধতা পরিবর্তন করা হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Clear today's menu
+        [HttpPost]
+        public async Task<IActionResult> ClearTodayMenu()
+        {
+            try
+            {
+                var todayMenu = await _context.DailyMenus
+                    .Where(dm => dm.MenuDate.Date == DateTime.Today)
+                    .ToListAsync();
+
+                _context.DailyMenus.RemoveRange(todayMenu);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "আজকের মেনু পরিষ্কার করা হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Create bulk template
+        [HttpPost]
+        public async Task<IActionResult> CreateBulkTemplate([FromBody] BulkTemplateRequest request)
+        {
+            try
+            {
+                var templates = new List<WeeklyMenuTemplate>();
+
+                foreach (var day in request.Days)
+                {
+                    foreach (var foodItemId in request.FoodItemIds)
+                    {
+                        var template = new WeeklyMenuTemplate
+                        {
+                            TemplateName = $"Bulk Template - Day {day}",
+                            DayOfWeek = day,
+                            FoodItemID = foodItemId,
+                            MealType = ParseMealType(request.MealType),
+                            DefaultQuantity = request.DefaultQuantity,
+                            DisplayOrder = 0,
+                            IsActive = true,
+                            CreatedDate = DateTime.Now
+                        };
+
+                        templates.Add(template);
+                    }
+                }
+
+                _context.WeeklyMenuTemplates.AddRange(templates);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, count = templates.Count, message = "টেমপ্লেট তৈরি হয়েছে" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Export templates
+        [HttpGet]
+        public async Task<IActionResult> ExportTemplates()
+        {
+            try
+            {
+                var templates = await _context.WeeklyMenuTemplates
+                    .Include(t => t.FoodItem)
+                    .Where(t => t.IsActive)
+                    .Select(t => new
+                    {
+                        t.TemplateID,
+                        t.TemplateName,
+                        t.DayOfWeek,
+                        FoodItem = t.FoodItem.ItemName,
+                        MealType = t.MealType.HasValue ? MealTypeHelper.GetMealTypeName(t.MealType.Value) : "অন্যান্য", // Handle nullable
+                        t.DefaultQuantity,
+                        t.DisplayOrder
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, templates });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
+        // Generate weekly report
+        [HttpGet]
+        public async Task<IActionResult> GenerateWeeklyReport()
+        {
+            try
+            {
+                var startDate = DateTime.Today.AddDays(-7);
+                var endDate = DateTime.Today;
+
+                var orders = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.FoodItem)
+                    .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate)
+                    .ToListAsync();
+
+                // Generate CSV report
+                var csv = new StringBuilder();
+                csv.AppendLine("তারিখ,খাবারের নাম,পরিমাণ,মোট বিক্রি,আয়");
+
+                foreach (var order in orders)
+                {
+                    foreach (var item in order.OrderItems)
+                    {
+                        csv.AppendLine($"{order.OrderDate:yyyy-MM-dd},{item.FoodItem.ItemName},{item.Quantity},{item.TotalPrice},{item.UnitPrice}");
+                    }
+                }
+
+                return Json(new { success = true, report = csv.ToString() });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "একটি ত্রুটি ঘটেছে: " + ex.Message });
+            }
+        }
+
 
         // Get Bengali day name
         private string GetBengaliDayName(int dayOfWeek)
@@ -488,7 +948,7 @@ namespace CanteenManagementSystem.Controllers
     {
         public int FoodItemId { get; set; }
         public DateTime MenuDate { get; set; }
-        public int? MealType { get; set; }
+        public string MealType { get; set; } = string.Empty; // Change from int? to string
         public int Quantity { get; set; }
         public int DisplayOrder { get; set; }
     }
@@ -504,7 +964,7 @@ namespace CanteenManagementSystem.Controllers
         public string TemplateName { get; set; } = string.Empty;
         public int DayOfWeek { get; set; }
         public int FoodItemId { get; set; }
-        public int? MealType { get; set; } 
+        public string MealType { get; set; } = string.Empty; // Change from int? to string
         public int DefaultQuantity { get; set; }
         public int DisplayOrder { get; set; }
     }
@@ -528,5 +988,45 @@ namespace CanteenManagementSystem.Controllers
         public DateTime MenuDate { get; set; }
         public string MealType { get; set; } = string.Empty;
         public int DisplayOrder { get; set; }
+    }
+
+    public class CreateFoodItemRequest
+    {
+        public string ItemName { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public string Category { get; set; } = string.Empty; // Change from CanteenMealType to string
+        public string? ImageUrl { get; set; }
+        public bool IsAvailable { get; set; }
+    }
+
+    public class UpdateFoodItemRequest : CreateFoodItemRequest
+    {
+        public int FoodItemId { get; set; }
+    }
+
+    public class QuickApplyTemplateRequest
+    {
+        public string TemplateType { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
+    }
+
+    public class BatchUpdateRequest
+    {
+        public int NewQuantity { get; set; }
+        public DateTime MenuDate { get; set; }
+    }
+
+    public class BatchToggleRequest
+    {
+        public DateTime MenuDate { get; set; }
+    }
+
+    public class BulkTemplateRequest
+    {
+        public List<int> Days { get; set; } = new();
+        public List<int> FoodItemIds { get; set; } = new();
+        public string MealType { get; set; } = string.Empty; // Change from CanteenMealType to string
+        public int DefaultQuantity { get; set; }
     }
 }

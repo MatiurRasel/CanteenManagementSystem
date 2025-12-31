@@ -139,6 +139,22 @@
             }
         }
 
+        .scanner-active {
+            animation: scannerPulse 2s infinite;
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.3) !important;
+        }
+
+        @@keyframes scannerPulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(79, 70, 229, 0.6);
+            }
+        }
+
         input {
             color: var(--text-primary);
             background: white;
@@ -455,6 +471,166 @@
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
                 transform: translateY(-2px);
             }
+
+        /* Toast Animation */
+        @@keyframes slideInDown {
+            from {
+                transform: translate(-50%, -100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+
+        /* Always show cursor as pointer for scanner area */
+        #scannerPlaceholder {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+            #scannerPlaceholder:hover {
+                transform: scale(1.02);
+            }
+
+        /* Scanner ready indicator */
+        .scanner-ready {
+            position: relative;
+        }
+
+            .scanner-ready::after {
+                content: '';
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                width: 15px;
+                height: 15px;
+                background: #10B981;
+                border-radius: 50%;
+                animation: pulse 2s infinite;
+            }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        /* Manual input overlay */
+        #manualInputOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+        }
+
+        /* Focus indicator */
+        .focus-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid transparent;
+            border-radius: 1rem;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .focused .focus-indicator {
+            border-color: var(--primary-color);
+            animation: focusPulse 1.5s infinite;
+        }
+
+        @@keyframes focusPulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Auto-focus message */
+        .auto-focus-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @@keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+
+            20%, 80% {
+                opacity: 1;
+            }
+        }
+
+        /* Scanner sound wave */
+        .sound-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 30px;
+        }
+
+            .sound-wave span {
+                width: 4px;
+                height: 10px;
+                background: var(--primary-color);
+                border-radius: 2px;
+                animation: soundWave 1s ease infinite;
+            }
+
+                .sound-wave span:nth-child(2) {
+                    animation-delay: 0.1s;
+                }
+
+                .sound-wave span:nth-child(3) {
+                    animation-delay: 0.2s;
+                }
+
+                .sound-wave span:nth-child(4) {
+                    animation-delay: 0.3s;
+                }
+
+                .sound-wave span:nth-child(5) {
+                    animation-delay: 0.4s;
+                }
+
+        @@keyframes soundWave {
+            0%, 100% {
+                height: 10px;
+            }
+
+            50% {
+                height: 25px;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -476,10 +652,13 @@
                 <p class="text-base md:text-lg text-gray-600 mt-1 md:mt-2">স্মার্ট কার্ড স্ক্যান করে অর্ডার করুন</p>
             </div>
 
-            <!-- Scan Icon -->
+            <!-- Scan Icon with Sound Wave -->
             <div class="my-8 md:my-12 scan-animation">
                 <div class="edtech-icon inline-block p-6 rounded-2xl">
                     <i class="fas fa-id-card text-5xl md:text-6xl text-white"></i>
+                </div>
+                <div class="sound-wave mt-4">
+                    <span></span><span></span><span></span><span></span><span></span>
                 </div>
             </div>
 
@@ -488,27 +667,43 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4">আপনার আইডি কার্ড স্ক্যান করুন</h2>
                 <p class="text-base md:text-lg text-gray-700">
                     <i class="fas fa-qrcode mr-2 text-indigo-500"></i>
-                    স্ক্যানার, QR কোড, বা বারকোড ব্যবহার করুন
+                    বারকোড/QR কোড স্ক্যানার বা NFC কার্ড ব্যবহার করুন
+                </p>
+                <p class="text-sm text-gray-500 mt-2">
+                    <i class="fas fa-volume-up mr-1 text-green-500"></i>
+                    স্ক্যান সফল হলে শব্দ শুনতে পাবেন
                 </p>
             </div>
 
             <!-- Input Field -->
             <div class="mb-6 md:mb-8">
-                <div class="relative">
+                <div class="relative focused">
+                    <div class="focus-indicator"></div>
                     <input type="text"
                            id="cardInput"
-                           class="w-full px-6 py-5 md:px-8 md:py-6 text-2xl md:text-3xl text-center border-3 border-gray-300 rounded-2xl focus:border-indigo-500 transition-all duration-300 shadow-lg focus:shadow-xl bg-white"
-                           placeholder="আপনার আইডি এখানে লিখুন..."
+                           class="w-full px-6 py-5 md:px-8 md:py-6 text-2xl md:text-3xl text-center border-3 border-gray-300 rounded-2xl focus:border-indigo-500 transition-all duration-300 shadow-lg focus:shadow-xl bg-white opacity-0 absolute"
+                           placeholder=""
                            autocomplete="off"
-                           aria-label="আপনার আইডি লিখুন"
-                           readonly />
-                    <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <i class="fas fa-id-card text-2xl text-gray-400"></i>
+                           autocapitalize="off"
+                           autocorrect="off"
+                           spellcheck="false"
+                           aria-label="আপনার আইডি লিখুন" />
+                    <!-- Visible placeholder for scanner -->
+                    <div id="scannerPlaceholder"
+                         class="w-full px-6 py-5 md:px-8 md:py-6 text-2xl md:text-3xl text-center border-3 border-indigo-500 border-dashed rounded-2xl bg-indigo-50 text-indigo-700 cursor-pointer transition-all duration-300 shadow-lg scanner-active">
+                        <div class="flex items-center justify-center gap-3">
+                            <i class="fas fa-barcode text-3xl text-indigo-500"></i>
+                            <span>স্ক্যানার ব্যবহার করুন</span>
+                        </div>
+                        <div class="text-sm text-indigo-600 mt-2">
+                            <i class="fas fa-bolt mr-1"></i>
+                            স্ক্যানার প্রস্তুত
+                        </div>
                     </div>
                 </div>
                 <p class="text-sm text-gray-500 mt-2 text-center">
                     <i class="fas fa-info-circle mr-1 text-indigo-500"></i>
-                    ম্যানুয়ালি আইডি লিখতে নিচের বাটনে ক্লিক করুন
+                    স্ক্যানার সক্রিয় | ম্যানুয়ালি আইডি লিখতে নিচের বাটনে ক্লিক করুন
                 </p>
             </div>
 
@@ -540,11 +735,26 @@
                     <i class="fas fa-keyboard text-xl"></i>
                     ম্যানুয়ালি আইডি লিখুন
                 </button>
-                @* <button onclick="scanWithCamera()"
+                <button onclick="scanQRCode()"
+                        id="qrScanBtn"
                         class="edtech-gradient-secondary text-white px-8 py-4 rounded-xl font-bold text-lg md:text-xl flex-1 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transition-all">
                     <i class="fas fa-camera text-xl"></i>
-                    ক্যামেরা স্ক্যান
-                </button> *@
+                    QR কোড স্ক্যান
+                </button>
+            </div>
+
+            <!-- Quick Status -->
+            <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium text-gray-700">স্ক্যানার প্রস্তুত</span>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        <i class="far fa-clock mr-1"></i>
+                        স্বয়ংক্রিয় ফোকাস: <span id="autoFocusTimer">0</span>s
+                    </div>
+                </div>
             </div>
 
             <!-- Help Text -->
@@ -556,6 +766,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Manual Input Overlay -->
+    <div id="manualInputOverlay"></div>
 
     <!-- ORDER SCREEN (Hidden Initially) -->
     <div id="orderScreen" class="hidden min-h-screen p-4 md:p-8">
@@ -771,7 +984,7 @@
                 <div class="text-gray-600 mb-8 space-y-4">
                     <p class="text-lg bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
-                        অনুগ্রহ করে অর্ডার নম্বরটি মনে রাখুন
+                        অর্ডার নম্বরটি মনে রাখুন
                     </p>
                     <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-200">
                         <p class="font-medium">
@@ -802,6 +1015,28 @@
         </div>
     </div>
 
+    <!-- QR Code Scanner Modal -->
+    <div id="qrScannerModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">QR কোড স্ক্যান করুন</h3>
+                <button onclick="closeQRScanner()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="qr-reader" class="w-full h-64 bg-gray-100 rounded-xl mb-4"></div>
+            <div class="text-center">
+                <p class="text-gray-600 text-sm mb-4">
+                    <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                    QR কোডটি ক্যামেরার সামনে ধরুন
+                </p>
+                <button onclick="closeQRScanner()" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-xl font-bold hover:bg-gray-300">
+                    <i class="fas fa-times mr-2"></i>বাতিল করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Action Button -->
     <button id="backToTop"
             class="hidden fixed bottom-6 right-6 w-14 h-14 edtech-gradient text-white rounded-full flex items-center justify-center shadow-2xl hover:shadow-3xl transition-all z-50"
@@ -817,6 +1052,12 @@
         </div>
     </div>
 
+    <!-- Auto-focus Message -->
+    <div id="autoFocusMessage" class="auto-focus-message hidden">
+        <i class="fas fa-bolt mr-2 text-yellow-300"></i>
+        স্ক্যানার স্বয়ংক্রিয়ভাবে প্রস্তুত
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         // Global variables
@@ -827,41 +1068,95 @@
         let countdownInterval = null;
         let searchTimeout = null;
         let isManualInputEnabled = false;
+        let lastScanTime = 0;
+        let scanTimeout = null;
+        let isProcessing = false;
+        let idleTimer = null;
+        let autoFocusTimer = null;
+        let qrScanner = null;
 
         // Initialize
         $(document).ready(function() {
             initializeApp();
             setupEventListeners();
             checkConnection();
+
+            // Auto-focus on page load with delay
+            setTimeout(() => {
+                focusScanner();
+                showAutoFocusMessage();
+            }, 800);
         });
 
         function initializeApp() {
-            $('#cardInput').focus();
             displayCurrentDate();
             setupSwipeGestures();
 
-            // Set initial input state
-            $('#cardInput').prop('readonly', true);
-        }
+            // Initially focus scanner
+            focusScanner();
 
-        function setupEventListeners() {
-            // Auto-submit on Enter (only when manual input is enabled)
-            $('#cardInput').on('keypress', function(e) {
-                if (e.which === 13 && !$(this).prop('readonly')) {
-                    verifyUser();
+            // Setup scanner placeholder click
+            $('#scannerPlaceholder').on('click', function() {
+                if (!isManualInputEnabled && !isProcessing) {
+                    focusScanner();
                 }
             });
 
-            // Auto-submit for card scanners (always active)
-            $('#cardInput').on('input', function() {
-                if ($(this).prop('readonly')) return;
+            // Show/hide scanner placeholder based on input
+            $('#cardInput').on('focus', function() {
+                $('#scannerPlaceholder').addClass('border-solid bg-white border-indigo-500 scanner-active');
+            }).on('blur', function() {
+                if (!$(this).val() && !isManualInputEnabled) {
+                    $('#scannerPlaceholder').removeClass('border-solid bg-white border-indigo-500');
+                }
+            });
 
-                clearTimeout(window.cardScanTimeout);
-                window.cardScanTimeout = setTimeout(() => {
-                    if ($(this).val().length >= 3) {
+            // Auto-refocus when tab/window becomes visible
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden && !isManualInputEnabled && !isProcessing) {
+                    setTimeout(focusScanner, 100);
+                }
+            });
+
+            // Start auto-focus timer
+            startAutoFocusTimer();
+        }
+
+        function setupEventListeners() {
+            // Handle scanner input - optimized for fast scanning
+            $('#cardInput').on('input', function(e) {
+                if (isProcessing) return;
+
+                const input = $(this);
+                const value = input.val();
+
+                // Clear any existing timeout
+                clearTimeout(scanTimeout);
+
+                // If Enter key or newline is detected (scanners often send Enter)
+                if (value.includes('\n') || value.includes('\r')) {
+                    const cleanValue = value.replace(/[\n\r]/g, '').trim();
+                    input.val(cleanValue);
+                    if (cleanValue.length >= 2) {
                         verifyUser();
                     }
-                }, 500);
+                    return;
+                }
+
+                // For scanners that don't send Enter, detect based on length
+                if (value.length >= 3) {
+                    scanTimeout = setTimeout(() => {
+                        verifyUser();
+                    }, 100); // Fast timeout for scanners
+                }
+            });
+
+            // Handle Enter key specifically
+            $('#cardInput').on('keydown', function(e) {
+                if (e.key === 'Enter' && $(this).val().length >= 2) {
+                    e.preventDefault();
+                    verifyUser();
+                }
             });
 
             // Menu search with debounce
@@ -888,10 +1183,11 @@
                 }
             });
 
-            // Click outside to disable manual input
+            // Click outside to disable manual input and refocus scanner
             $(document).on('click', function(e) {
-                if (!$(e.target).closest('#cardInput, #manualInputBtn').length && isManualInputEnabled) {
+                if (!$(e.target).closest('#cardInput, #manualInputBtn, #manualInputOverlay').length && isManualInputEnabled) {
                     disableManualInput();
+                    setTimeout(focusScanner, 100);
                 }
             });
 
@@ -899,101 +1195,293 @@
             $(document).on('keydown', function(e) {
                 if (e.key === 'Escape' && isManualInputEnabled) {
                     disableManualInput();
+                    setTimeout(focusScanner, 100);
                 }
             });
+
+            // Refocus scanner after order success screen timeout
+            $(document).on('resetComplete', function() {
+                setTimeout(focusScanner, 300);
+            });
+
+            // Reset idle timer on user interaction
+            document.addEventListener('mousemove', resetIdleTimer);
+            document.addEventListener('keypress', resetIdleTimer);
+            document.addEventListener('click', resetIdleTimer);
+            document.addEventListener('touchstart', resetIdleTimer);
+            document.addEventListener('scroll', resetIdleTimer);
+
+            // Start idle timer
+            resetIdleTimer();
+
+            // Initialize NFC if available
+            initializeNFC();
         }
 
-        function setupSwipeGestures() {
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
+        // FOCUS FUNCTIONS
+        function focusScanner() {
+            if (isProcessing || isManualInputEnabled) return;
 
-            document.addEventListener('touchstart', function(event) {
-                touchStartX = event.changedTouches[0].screenX;
-                touchStartY = event.changedTouches[0].screenY;
-            }, false);
+            const input = $('#cardInput');
+            input.focus();
 
-            document.addEventListener('touchend', function(event) {
-                touchEndX = event.changedTouches[0].screenX;
-                touchEndY = event.changedTouches[0].screenY;
-                handleSwipe();
-            }, false);
+            // Create a visible indicator that scanner is ready
+            $('#scannerPlaceholder').addClass('border-solid bg-white border-indigo-500 scanner-active');
 
-            function handleSwipe() {
-                const deltaX = touchEndX - touchStartX;
-                const deltaY = touchEndY - touchStartY;
+            // Clear input for fresh scan
+            input.val('');
 
-                // Minimum swipe distance
-                if (Math.abs(deltaX) < 50 && Math.abs(deltaY) < 50) return;
-
-                // Horizontal swipe (left/right)
-                if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                    if (deltaX > 0) {
-                        // Swipe right - go back
-                        if ($('#orderScreen').is(':visible')) {
-                            cancelOrder();
-                        }
-                    }
-                }
+            // For touch devices, ensure virtual keyboard doesn't show
+            if ('ontouchstart' in window) {
+                input.attr('readonly', 'readonly');
+                setTimeout(() => {
+                    input.removeAttr('readonly');
+                }, 100);
             }
-        }
 
-        function checkConnection() {
-            const statusElement = $('#connectionStatus');
-            if (navigator.onLine) {
-                statusElement.html(`
-                    <div class="status-online flex items-center gap-2">
-                        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                        <span>অনলাইন</span>
-                    </div>
-                `);
-            } else {
-                statusElement.html(`
-                    <div class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                        <div class="w-2 h-2 bg-white rounded-full"></div>
-                        <span>অফলাইন</span>
-                    </div>
-                `);
-            }
-        }
-
-        function displayCurrentDate() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = now.toLocaleDateString('bn-BD', options);
-            $('#currentDate').text(dateString);
+            // Play soft focus sound
+            playSound('focus');
         }
 
         function enableManualInput() {
             isManualInputEnabled = true;
             const input = $('#cardInput');
-            input.prop('readonly', false);
-            input.focus().select();
-            input.addClass('manual-input-active');
+
+            // Show overlay
+            $('#manualInputOverlay').show();
+
+            // Show the actual input field
+            input.removeClass('opacity-0 absolute');
+            input.addClass('opacity-100 relative block manual-input-active');
+            input.css('background', 'white');
+            input.css('z-index', '100');
+            $('#scannerPlaceholder').hide();
+
+            // Show virtual keyboard on mobile
+            input.attr('inputmode', 'numeric');
+            input.attr('pattern', '[0-9]*');
+            input.attr('readonly', false);
+
+            // Focus and select all text
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 100);
+
             $('#manualInputBtn').addClass('bg-gradient-to-r from-green-500 to-emerald-500');
-            showToast('আইডি লিখতে প্রস্তুত', 'info');
+            showToast('আইডি লিখতে প্রস্তুত। স্ক্যানার মোডে ফিরতে ESC চাপুন।', 'info');
         }
 
         function disableManualInput() {
             isManualInputEnabled = false;
             const input = $('#cardInput');
-            input.prop('readonly', true);
-            input.removeClass('manual-input-active');
+
+            // Hide overlay
+            $('#manualInputOverlay').hide();
+
+            // Hide the input field, show scanner placeholder
+            input.addClass('opacity-0 absolute');
+            input.removeClass('opacity-100 relative block manual-input-active');
+            input.css('background', 'transparent');
+            input.css('z-index', 'auto');
+            $('#scannerPlaceholder').show();
+
+            // Remove keyboard attributes
+            input.removeAttr('inputmode');
+            input.removeAttr('pattern');
+
+            input.val('').blur();
+
             $('#manualInputBtn').removeClass('bg-gradient-to-r from-green-500 to-emerald-500');
+            showToast('স্ক্যানার মোড সক্রিয়', 'info');
         }
 
-        function scanWithCamera() {
-            showToast('ক্যামেরা স্ক্যান শীঘ্রই আসছে...', 'info');
+        function startAutoFocusTimer() {
+            let seconds = 0;
+            autoFocusTimer = setInterval(() => {
+                seconds++;
+                $('#autoFocusTimer').text(seconds);
+
+                // Auto-refocus every 30 seconds if not in manual mode
+                if (seconds % 30 === 0 && !isManualInputEnabled && !isProcessing) {
+                    if (!$('#orderScreen').is(':visible') && !$('#successScreen').is(':visible')) {
+                        focusScanner();
+                        showAutoFocusMessage();
+                    }
+                }
+            }, 1000);
+        }
+
+        function showAutoFocusMessage() {
+            const message = $('#autoFocusMessage');
+            message.removeClass('hidden');
+            setTimeout(() => {
+                message.addClass('hidden');
+            }, 3000);
+        }
+
+        function resetIdleTimer() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                if (!$('#orderScreen').is(':visible') &&
+                    !$('#successScreen').is(':visible') &&
+                    !isManualInputEnabled &&
+                    !isProcessing) {
+                    focusScanner();
+                }
+            }, 30000); // Refocus after 30 seconds of inactivity
+        }
+
+        // SOUND FUNCTIONS
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                if (type === 'scan') {
+                    // Beep sound for successful scan
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } else if (type === 'focus') {
+                    // Soft focus sound
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 400;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.05);
+                } else if (type === 'success') {
+                    // Success sound
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // NFC SUPPORT
+        function initializeNFC() {
+            if ('NDEFReader' in window) {
+                try {
+                    const ndef = new NDEFReader();
+                    ndef.scan().then(() => {
+                        console.log("NFC reader ready");
+                        ndef.onreading = (event) => {
+                            const decoder = new TextDecoder();
+                            for (const record of event.message.records) {
+                                const text = decoder.decode(record.data);
+                                $('#cardInput').val(text.trim());
+                                setTimeout(() => verifyUser(), 100);
+                            }
+                        };
+
+                        ndef.onreadingerror = () => {
+                            console.log("NFC reading error");
+                        };
+                    }).catch(error => {
+                        console.log("NFC not available:", error);
+                    });
+                } catch (error) {
+                    console.log("NFC API not supported");
+                }
+            }
+        }
+
+        // QR CODE SCANNING
+        function scanQRCode() {
+            $('#qrScannerModal').removeClass('hidden');
+
+            // Dynamically load QR scanner library
+            if (typeof Html5QrcodeScanner === 'undefined') {
+                const script = document.createElement('script');
+                script.src = "https://unpkg.com/html5-qrcode";
+                script.onload = initializeQRScanner;
+                document.head.appendChild(script);
+            } else {
+                initializeQRScanner();
+            }
+        }
+
+        function initializeQRScanner() {
+            if (!qrScanner) {
+                qrScanner = new Html5QrcodeScanner(
+                    "qr-reader",
+                    {
+                        fps: 10,
+                        qrbox: 250,
+                        showTorchButtonIfSupported: true,
+                        showZoomSliderIfSupported: true
+                    },
+                    false
+                );
+            }
+
+            qrScanner.render(
+                (decodedText) => {
+                    playSound('scan');
+                    $('#cardInput').val(decodedText.trim());
+                    closeQRScanner();
+                    setTimeout(() => verifyUser(), 300);
+                },
+                (errorMessage) => {
+                    // Optional: Handle scanning errors
+                }
+            );
+        }
+
+        function closeQRScanner() {
+            $('#qrScannerModal').addClass('hidden');
+            if (qrScanner) {
+                qrScanner.clear();
+            }
+            setTimeout(focusScanner, 100);
         }
 
         async function verifyUser() {
             const identifier = $('#cardInput').val().trim();
 
-            if (!identifier) {
-                showError('অনুগ্রহ করে আপনার কার্ড স্ক্যান করুন বা আইডি লিখুন');
+            if (!identifier || identifier.length < 2) {
+                showError('অনুগ্রহ করে একটি বৈধ আইডি স্ক্যান করুন বা লিখুন');
                 return;
             }
+
+            isProcessing = true;
+            playSound('scan');
 
             // Clear previous user data and cart
             currentUser = null;
@@ -1030,26 +1518,48 @@
                     $('#loadingSpinner').addClass('hidden');
                     $('#cardInput').prop('disabled', false);
 
+                    // Reset input field after successful scan
+                    $('#cardInput').val('');
+
+                    // Play success sound
+                    playSound('success');
+
+                    // Automatically switch back to scanner mode
+                    disableManualInput();
+
                     // Then show order screen
                     showOrderScreen();
-                    disableManualInput();
                 } else {
                     showError(data.message);
                     $('#loadingSpinner').addClass('hidden');
-                    $('#cardInput').val('').prop('disabled', false).focus();
-                    if (isManualInputEnabled) {
-                        $('#cardInput').prop('readonly', false);
-                    }
+                    $('#cardInput').prop('disabled', false);
+                    $('#cardInput').val('');
+
+                    // Refocus for next scan
+                    setTimeout(focusScanner, 500);
                 }
             } catch (error) {
                 console.error('Verification error:', error);
                 showError('সংযোগে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
                 $('#loadingSpinner').addClass('hidden');
-                $('#cardInput').prop('disabled', false).focus();
-                if (isManualInputEnabled) {
-                    $('#cardInput').prop('readonly', false);
-                }
+                $('#cardInput').prop('disabled', false);
+                $('#cardInput').val('');
+
+                setTimeout(focusScanner, 500);
+            } finally {
+                isProcessing = false;
             }
+        }
+
+        // REST OF YOUR FUNCTIONS (showOrderScreen, displayMenu, updateCart, placeOrder, etc.)
+        // Keep all your existing functions from the previous code here...
+        // I'm including just the essential ones for brevity
+
+        function displayCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('bn-BD', options);
+            $('#currentDate').text(dateString);
         }
 
         function showOrderScreen() {
@@ -1078,9 +1588,6 @@
             $('#placeOrderBtn').prop('disabled', true)
                 .html('<i class="fas fa-check-circle mr-3"></i>অর্ডার নিশ্চিত করুন');
 
-            // Reset quantity displays
-            $('.menu-item span[id^="qty-"]').text('0');
-
             // Populate user info
             $('#userName').text(currentUser.userName || 'Unnamed User');
             $('#userInfo').text(currentUser.academicInformation || 'No additional information');
@@ -1096,13 +1603,12 @@
                 userIcon = 'fas fa-user-graduate';
                 $('#userTypeIcon').removeClass().addClass(userIcon);
             } else if (userType === 2) { // Employee
-
-               const employeeTypeName = currentUser.employeeTypeName || 'টিচার/স্টাফ';
-               userTypeText = employeeTypeName.toUpperCase();
+                const employeeTypeName = currentUser.employeeTypeName || 'টিচার/স্টাফ';
+                userTypeText = employeeTypeName.toUpperCase();
                 userIcon = 'fas fa-user-tie';
                 $('#userTypeIcon').removeClass().addClass(userIcon);
             }
-            console.log(userTypeText)
+
             $('#userTypeBadge').text(userTypeText);
 
             // Set user photo with fallback
@@ -1523,11 +2029,13 @@
         function resetToVerification() {
             clearTimeout(orderTimeout);
             if (countdownInterval) clearInterval(countdownInterval);
+            if (autoFocusTimer) clearInterval(autoFocusTimer);
 
             currentUser = null;
             cart = {};
             menuData = [];
             isManualInputEnabled = false;
+            isProcessing = false;
 
             // Reset all screens
             $('#successScreen').addClass('hidden');
@@ -1536,7 +2044,7 @@
 
             // Reset input field
             const input = $('#cardInput');
-            input.val('').prop('disabled', false).prop('readonly', true);
+            input.val('').prop('disabled', false);
             input.removeClass('manual-input-active');
             $('#manualInputBtn').removeClass('bg-gradient-to-r from-green-500 to-emerald-500');
             $('#menuSearch').val('');
@@ -1544,8 +2052,17 @@
             // Hide loading spinner just in case
             $('#loadingSpinner').addClass('hidden');
 
-            // Focus on input
-            input.focus();
+            // Restore scanner placeholder
+            disableManualInput();
+
+            // Focus scanner for next scan
+            setTimeout(focusScanner, 300);
+
+            // Trigger event for other listeners
+            $(document).trigger('resetComplete');
+
+            // Restart auto-focus timer
+            startAutoFocusTimer();
 
             hideError();
         }
@@ -1553,8 +2070,13 @@
         function startSessionTimeout() {
             clearTimeout(orderTimeout);
             orderTimeout = setTimeout(() => {
-                showError('সেশন টাইমআউট (২ মিনিট)। অনুগ্রহ করে আবার শুরু করুন।');
-                setTimeout(() => resetToVerification(), 3000);
+                if ($('#orderScreen').is(':visible')) {
+                    showError('সেশন টাইমআউট (২ মিনিট)। স্বয়ংক্রিয়ভাবে রিসেট হচ্ছে...');
+                    setTimeout(() => {
+                        resetToVerification();
+                        showToast('নতুন স্ক্যানের জন্য প্রস্তুত', 'info');
+                    }, 2000);
+                }
             }, 2 * 60 * 1000); // 2 minutes
         }
 
@@ -1580,10 +2102,17 @@
                 info: 'edtech-gradient'
             };
 
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
             const toast = $(`
-                <div class="fixed top-4 left-1/2 transform -translate-x-1/2 ${colors[type]} text-white px-6 py-3 rounded-full shadow-2xl z-50 animate-slideInDown">
+                <div class="fixed top-4 left-1/2 transform -translate-x-1/2 ${colors[type]} text-white px-6 py-3 rounded-full shadow-2xl z-50" style="animation: slideInDown 0.3s ease-out">
                     <div class="flex items-center gap-3">
-                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                        <i class="fas ${icons[type]}"></i>
                         <span class="font-medium">${message}</span>
                     </div>
                 </div>
@@ -1597,15 +2126,60 @@
             }, 3000);
         }
 
-        // Add CSS for slideInDown animation
-        const style = document.createElement('style');
-        style.textContent = `
-        @@keyframes slideInDown {
-                from { transform: translate(-50%, -100px); opacity: 0; }
-                to { transform: translate(-50%, 0); opacity: 1; }
+        function setupSwipeGestures() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            document.addEventListener('touchstart', function(event) {
+                touchStartX = event.changedTouches[0].screenX;
+                touchStartY = event.changedTouches[0].screenY;
+            }, false);
+
+            document.addEventListener('touchend', function(event) {
+                touchEndX = event.changedTouches[0].screenX;
+                touchEndY = event.changedTouches[0].screenY;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = touchEndY - touchStartY;
+
+                // Minimum swipe distance
+                if (Math.abs(deltaX) < 50 && Math.abs(deltaY) < 50) return;
+
+                // Horizontal swipe (left/right)
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    if (deltaX > 0) {
+                        // Swipe right - go back
+                        if ($('#orderScreen').is(':visible')) {
+                            cancelOrder();
+                        }
+                    }
+                }
             }
-        `;
-        document.head.appendChild(style);
+        }
+
+        function checkConnection() {
+            const statusElement = $('#connectionStatus');
+            if (navigator.onLine) {
+                statusElement.html(`
+                    <div class="status-online flex items-center gap-2">
+                        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                        <span>অনলাইন</span>
+                    </div>
+                `);
+            } else {
+                statusElement.html(`
+                    <div class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                        <span>অফলাইন</span>
+                    </div>
+                `);
+            }
+        }
 
         // Handle offline/online events
         window.addEventListener('online', checkConnection);
