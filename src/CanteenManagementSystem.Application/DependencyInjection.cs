@@ -32,6 +32,23 @@ public static class DependencyInjection
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
+        // Auto-register every IRequestHandler<,> implementation in this assembly.
+        // The Dispatcher resolves handlers from DI (sp.GetRequiredService), so a
+        // command/query without a registration throws at dispatch time. Handlers
+        // are internal by design — a reflection scan keeps registration automatic.
+        foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+        {
+            if (type.IsAbstract || type.IsInterface) continue;
+            foreach (var contract in type.GetInterfaces())
+            {
+                if (contract.IsGenericType &&
+                    contract.GetGenericTypeDefinition() == typeof(IRequestHandler<,>))
+                {
+                    services.AddScoped(contract, type);
+                }
+            }
+        }
+
         // Auto-register every FluentValidation validator in this assembly.
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

@@ -146,6 +146,11 @@ internal sealed class VoidOrderCommandHandler : IRequestHandler<VoidOrderCommand
             payload: new { order.OrderNumber, order.TotalAmount, refundAmount, isPartial, reason },
             cancellationToken: cancellationToken);
 
+        // Flush wallet release/refund + restock + status flip + audit row. The
+        // TransactionBehavior commits the surrounding transaction but never
+        // calls SaveChanges — without this line the void silently evaporates.
+        await _uow.SaveChangesAsync(cancellationToken);
+
         await TrySendStatusSmsAsync(order, wasDelivered, refundAmount, isPartial, cancellationToken);
 
         return new OrderStatusUpdateResultDto

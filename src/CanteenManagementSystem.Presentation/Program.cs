@@ -213,6 +213,12 @@ try
     // ICacheService (L1+L2 via IDistributedCache) already covers cluster
     // safety for the hot domain caches — OutputCache is response-level
     // only and the loss-blast is bounded by the 10-30s TTLs below.
+    // ResponseCaching middleware services — required by the [ResponseCache
+    // (VaryByQueryKeys = ...)] attribute on PublicMenuController (GET /menu).
+    // Without UseResponseCaching the attribute throws InvalidOperationException
+    // at request time ("'VaryByQueryKeys' requires the response cache middleware").
+    builder.Services.AddResponseCaching();
+
     builder.Services.AddOutputCache(options =>
     {
         // Default policy: 10 seconds, varies by query string and culture.
@@ -274,6 +280,7 @@ try
     app.UseResponseCompression();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
+    app.UseResponseCaching();   // serves [ResponseCache(VaryByQueryKeys=...)] — see AddResponseCaching above
     app.UseOutputCache();
 
     // Per-IP rate limiter (login policy is attached to the specific actions).
@@ -339,3 +346,9 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+/// <summary>
+/// Marker partial so WebApplicationFactory&lt;Program&gt; (integration tests)
+/// can reference the implicit top-level-statement entry point class.
+/// </summary>
+public partial class Program { }

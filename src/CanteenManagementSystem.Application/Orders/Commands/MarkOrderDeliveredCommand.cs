@@ -109,6 +109,11 @@ internal sealed class MarkOrderDeliveredCommandHandler : IRequestHandler<MarkOrd
             payload: new { order.OrderNumber, order.TotalAmount },
             cancellationToken: cancellationToken);
 
+        // Flush inventory consume + wallet deduction + status flip + audit row.
+        // The TransactionBehavior commits the surrounding transaction but never
+        // calls SaveChanges — without this line the delivery silently evaporates.
+        await _uow.SaveChangesAsync(cancellationToken);
+
         // Side effect — best-effort SMS to the orderer.
         await TrySendDeliveredSmsAsync(order, cancellationToken);
 

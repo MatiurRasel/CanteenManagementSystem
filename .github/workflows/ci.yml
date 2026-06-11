@@ -26,6 +26,28 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+
+    # SQL Server service container for the integration tests
+    # (tests/CanteenManagementSystem.IntegrationTests). The suite needs REAL
+    # SQL Server — 9 entities map rowversion concurrency tokens that
+    # Sqlite/InMemory cannot emulate. CANTEEN_TEST_DB (set on the test step)
+    # points the CanteenWebApplicationFactory at this container; locally the
+    # factory falls back to (localdb)\MSSQLLocalDB.
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: "Canteen_CI_Passw0rd!"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P 'Canteen_CI_Passw0rd!' -Q 'SELECT 1' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+          --health-start-period 20s
+
     steps:
       - uses: actions/checkout@v4
 
@@ -67,6 +89,9 @@ jobs:
         run: dotnet build CanteenManagementSystem.sln --configuration Release --no-restore
 
       - name: Test (Release)
+        env:
+          # Routes the integration tests at the mssql service container above.
+          CANTEEN_TEST_DB: "Server=127.0.0.1,1433;Database=SmartCanteen_IT;User Id=sa;Password=Canteen_CI_Passw0rd!;TrustServerCertificate=True;MultipleActiveResultSets=True;Encrypt=False"
         run: |
           if find . -name "*.Tests.csproj" -print -quit | grep -q .; then
             dotnet test CanteenManagementSystem.sln --configuration Release --no-build --verbosity normal

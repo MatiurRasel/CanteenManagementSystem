@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BilingualBaseline", "tools\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResetUserPassword", "tools\ResetUserPassword\ResetUserPassword.csproj", "{DC85319C-044B-4EBB-A4AB-06DFD6D75760}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanteenManagementSystem.IntegrationTests", "tests\CanteenManagementSystem.IntegrationTests\CanteenManagementSystem.IntegrationTests.csproj", "{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,6 +191,18 @@ Global
 		{DC85319C-044B-4EBB-A4AB-06DFD6D75760}.Release|x64.Build.0 = Release|Any CPU
 		{DC85319C-044B-4EBB-A4AB-06DFD6D75760}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC85319C-044B-4EBB-A4AB-06DFD6D75760}.Release|x86.Build.0 = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|x64.Build.0 = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|x64.Build.0 = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,5 +220,6 @@ Global
 		{D22BCA3D-D163-4BDC-805B-702D6A301455} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{5FD5882A-EF7E-4D7B-96B6-649CF8DBCC1F} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 		{DC85319C-044B-4EBB-A4AB-06DFD6D75760} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
+		{EDF0EFCB-B501-4F81-A60A-B8847BD59E3D} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
