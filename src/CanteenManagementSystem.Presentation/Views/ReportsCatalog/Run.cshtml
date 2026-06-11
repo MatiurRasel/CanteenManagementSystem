@@ -1,0 +1,109 @@
+@*
+    /reports-catalog/{key} — parameter form for a single report.
+*@
+@using Platform.Application.Abstractions.Reporting
+@using CanteenManagementSystem.Presentation.Models
+@model IReport
+@{
+    ViewData["Title"] = Model.DisplayName;
+    var defaultFrom = DateTime.UtcNow.Date.AddDays(-6).ToString("yyyy-MM-dd");
+    var defaultTo   = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
+    var paramType   = Model.ParameterType;
+    var props = paramType?.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                ?? Array.Empty<System.Reflection.PropertyInfo>();
+    var header = new UiPageHeaderOptions
+    {
+        Title    = Model.DisplayName,
+        Subtitle = string.IsNullOrEmpty(Model.Description) ? Model.Group : $"{Model.Description} · {Model.Group}",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/reports-catalog'><i class='fa-solid fa-arrow-left me-1'></i> Catalog</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="get" asp-action="Download" asp-route-key="@Model.Key">
+        <div class="row g-3">
+            <div class="col-lg-7">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Parameters</div></div>
+                    <div class="ui-card-body">
+                        @if (props.Length == 0)
+                        {
+                            <p class="ui-muted small mb-0">This report takes no parameters.</p>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                @foreach (var p in props)
+                                {
+                                    var name = p.Name;
+                                    var t = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                                    <div class="col-md-6">
+                                        <label class="ui-label">@name</label>
+                                        @if (t == typeof(DateTime))
+                                        {
+                                            var def = name == "From" ? defaultFrom : (name == "To" ? defaultTo : "");
+                                            <input name="@name" type="date" value="@def" class="ui-input form-control" />
+                                        }
+                                        else if (t == typeof(int) || t == typeof(long))
+                                        {
+                                            <input name="@name" type="number" class="ui-input form-control" />
+                                        }
+                                        else if (t == typeof(bool))
+                                        {
+                                            <select name="@name" class="form-select ui-select">
+                                                <option value="false">false</option>
+                                                <option value="true">true</option>
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <input name="@name" type="text" class="ui-input form-control" />
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header"><div class="ui-card-title">Format</div></div>
+                    <div class="ui-card-body">
+                        <div class="d-flex flex-wrap gap-3">
+                            @foreach (var f in Model.SupportedFormats)
+                            {
+                                var idVal = "fmt-" + f;
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="format" id="@idVal" value="@f" @(f == Model.SupportedFormats[0] ? "checked" : "") />
+                                    <label class="form-check-label" for="@idVal">@f</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-download me-1"></i> Generate &amp; download
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="ui-card sticky-top" style="top:5rem">
+                    <div class="ui-card-header"><div class="ui-card-title">About this report</div></div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted small mb-2">Key: <code>@Model.Key</code></p>
+                        <p class="ui-muted small mb-2">Permissions: @string.Join(", ", Model.RequiredPermissions)</p>
+                        <p class="ui-muted small mb-0">
+                            Renders via the shared platform reporting framework — same definition, multi-format output.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

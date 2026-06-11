@@ -1,0 +1,46 @@
+@*
+    _LoadingOverlay.cshtml — scoped curtain that covers its host container
+    (or the viewport when Fixed=true).
+
+    USAGE — scoped to a card
+        <div class="card cl-overlay-host">
+            <partial name="_LoadingOverlay" model="@new LoadingOverlayOptions { Id = "saveOverlay", Text = "Saving…" }" />
+            …
+        </div>
+
+        <!-- JS -->
+        CanteenLoading.show('#saveOverlay');     // sets data-active="true"
+        CanteenLoading.hide('#saveOverlay');     // sets data-active="false"
+
+    USAGE — full-viewport, programmatic
+        Prefer the JS API instead — no markup needed:
+        const o = CanteenLoading.overlay({ text: 'Submitting…' });
+        // …later
+        o.hide();
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model LoadingOverlayOptions
+@{
+    var opts = Model ?? new LoadingOverlayOptions();
+    var classes = "cl-overlay" + (opts.Fixed ? " cl-overlay-fixed" : "");
+    var dataActive = opts.Active ? "true" : "false";
+}
+
+@* Razor drops attributes with null values, so id="@opts.Id" is safe whether Id is set or not. *@
+<div id="@opts.Id" class="@classes"
+     data-active="@dataActive"
+     role="status" aria-live="polite">
+    <span class="cl-spinner" aria-hidden="true"></span>
+    @if (!string.IsNullOrWhiteSpace(opts.Text))
+    {
+        <span class="cl-overlay-text">@opts.Text</span>
+    }
+</div>
+
+@*
+   The host overlay uses [data-active] not [data-loaded] so it doesn't collide
+   with the skeleton/content reveal contract. Toggle via:
+       el.setAttribute('data-active', 'true' | 'false');
+   …or via CanteenLoading.show()/hide() which alias data-loaded — for an
+   overlay specifically, use the direct attribute or wrap with an arg helper.
+*@

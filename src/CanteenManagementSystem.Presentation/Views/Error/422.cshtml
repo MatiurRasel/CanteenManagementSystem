@@ -1,0 +1,22 @@
+@{
+    ViewData["Code"]         = "422";
+    ViewData["Tone"]         = "warning";
+    ViewData["Icon"]         = "fa-circle-exclamation";
+    ViewData["Title"]        = "Couldn't process that";
+    ViewData["Description"]  = "The data you sent was understood, but something didn't pass validation. Check the fields you submitted and try again.";
+    ViewData["CtaUrl"]       = "javascript:history.back()";
+    ViewData["CtaLabel"]     = "Go back";
+    ViewData["CtaIcon"]      = "fa-arrow-left";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unprocessable · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

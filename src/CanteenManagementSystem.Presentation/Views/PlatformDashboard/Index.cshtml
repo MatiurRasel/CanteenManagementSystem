@@ -1,0 +1,200 @@
+@*
+    /sysadmin/dashboard — cross-tenant platform overview.
+*@
+@using CanteenManagementSystem.Application.Sysadmin
+@using CanteenManagementSystem.Presentation.Models
+@model PlatformDashboardSnapshot
+@{
+    ViewData["Title"] = "Platform dashboard";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Platform dashboard",
+        Subtitle = $"Cross-tenant overview · {DateTime.UtcNow:dddd, dd MMM yyyy} UTC",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/tenants'><i class='fa-solid fa-buildings me-1'></i> All tenants</a>")
+    };
+
+    var kpiTenants = new UiKpiOptions
+    {
+        Label = "Tenants",
+        Value = Model.TotalTenants.ToString("N0"),
+        Hint  = $"{Model.ActiveTenants} active · {Model.SuspendedTenants} suspended · {Model.DeletedTenants} deleted",
+        Icon  = "fa-buildings"
+    };
+    var kpiOrders = new UiKpiOptions
+    {
+        Label = "Orders today",
+        Value = Model.OrdersToday.ToString("N0"),
+        Hint  = "across every tenant",
+        Icon  = "fa-cart-shopping"
+    };
+    var kpiRevenue = new UiKpiOptions
+    {
+        Label = "Revenue today",
+        Value = "৳ " + Model.RevenueToday.ToString("N0"),
+        Hint  = "sum of delivered + pending orders",
+        Icon  = "fa-coins",
+        Trend = Model.RevenueToday > 0 ? UiKpiTrend.Up : UiKpiTrend.None
+    };
+    var kpiFailures = new UiKpiOptions
+    {
+        Label = "Sync failures (24h)",
+        Value = Model.FailedSyncsLast24h.ToString(),
+        Hint  = Model.FailedSyncsLast24h == 0 ? "all green" : "directory pull issues",
+        Icon  = "fa-triangle-exclamation",
+        Trend = Model.FailedSyncsLast24h > 0 ? UiKpiTrend.Down : UiKpiTrend.None
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiTenants"  /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOrders"   /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRevenue"  /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiFailures" /></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title">Recent tenants</div>
+                        <div class="ui-card-muted-body">Newest first · today's orders + revenue per tenant</div>
+                    </div>
+                </div>
+                <div class="ui-table-wrap">
+                    <table class="table table-hover mb-0 ui-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Tenant</th>
+                                <th>Status</th>
+                                <th class="text-end">Orders</th>
+                                <th class="text-end">Revenue</th>
+                                <th class="text-end">Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var t in Model.RecentTenants)
+                        {
+                            var b = new UiBadgeOptions
+                            {
+                                Text    = t.IsDeleted ? "Deleted" : (t.IsActive ? "Active" : "Suspended"),
+                                Variant = t.IsDeleted ? UiBadgeVariant.Secondary
+                                        : t.IsActive  ? UiBadgeVariant.Success
+                                                      : UiBadgeVariant.Warning,
+                                WithDot = true
+                            };
+                            <tr>
+                                <td><code class="small">@t.ClientCode</code></td>
+                                <td class="ui-text-strong">@t.ClientName</td>
+                                <td><partial name="_UiBadge" model="b" /></td>
+                                <td class="text-end ui-tabular">@t.OrdersToday.ToString("N0")</td>
+                                <td class="text-end ui-tabular">৳ @t.RevenueToday.ToString("N0")</td>
+                                <td class="text-end ui-muted small">@t.CreatedAtUtc.ToString("yyyy-MM-dd")</td>
+                            </tr>
+                        }
+                        @if (Model.RecentTenants.Count == 0)
+                        {
+                            <tr><td colspan="6" class="ui-muted text-center py-4">No tenants yet — onboard one at <a href="/admin/tenants/new">/admin/tenants/new</a>.</td></tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div class="ui-card-title">Top tenants this month</div>
+                    <span class="ui-badge variant-primary">@Model.TopTenantsMtd.Count</span>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var t in Model.TopTenantsMtd)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
+                            <div class="min-w-0">
+                                <div class="ui-text-strong small text-truncate">@t.ClientName</div>
+                                <div class="ui-muted small">@t.OrdersMtd order(s)</div>
+                            </div>
+                            <span class="ui-badge variant-success">৳ @t.RevenueMtd.ToString("N0")</span>
+                        </li>
+                    }
+                    @if (Model.TopTenantsMtd.Count == 0)
+                    {
+                        <li class="list-group-item ui-muted text-center" style="background:transparent">No orders this month.</li>
+                    }
+                </ul>
+            </div>
+
+            @if (Model.LowStockTenants > 0)
+            {
+                var lowAlert = new UiAlertOptions
+                {
+                    Variant = UiAlertVariant.Warning,
+                    Heading = $"{Model.LowStockTenants} tenant(s) running low on stock",
+                    Body    = "At least one item per tenant has Available ≤ 5 in today's menu. The per-tenant LowStockAlertService notifies operators automatically."
+                };
+                <div class="mt-3">
+                    <partial name="_UiAlert" model="lowAlert" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="ui-card mt-4">
+        <div class="ui-card-header">
+            <div>
+                <div class="ui-card-title">Directory sync failures · last 24h</div>
+                <div class="ui-card-muted-body">Every failed run across every tenant — click into a tenant to investigate.</div>
+            </div>
+            <span class="ui-badge @(Model.FailedSyncsLast24h == 0 ? "variant-success" : "variant-danger")">@Model.FailedSyncsLast24h</span>
+        </div>
+
+        @if (Model.SyncFailures.Count == 0)
+        {
+            var ok = new UiAlertOptions
+            {
+                Variant = UiAlertVariant.Success,
+                Body    = "Every tenant's directory sync succeeded in the last 24 hours."
+            };
+            <div class="ui-card-body">
+                <partial name="_UiAlert" model="ok" />
+            </div>
+        }
+        else
+        {
+            <div class="ui-table-wrap">
+                <table class="table mb-0 ui-table">
+                    <thead>
+                        <tr>
+                            <th>When (UTC)</th>
+                            <th>Tenant</th>
+                            <th>Source</th>
+                            <th class="text-end">Recent failures</th>
+                            <th>Error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var f in Model.SyncFailures)
+                    {
+                        <tr>
+                            <td class="ui-mono small">@f.FailedAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>
+                                <div class="ui-text-strong">@f.ClientName</div>
+                                <div class="ui-muted small"><code>@f.ClientCode</code></div>
+                            </td>
+                            <td><code class="small">@f.Source</code></td>
+                            <td class="text-end ui-tabular">@f.ConsecutiveFailures</td>
+                            <td class="text-danger small text-truncate" style="max-width:480px" title="@f.ErrorMessage">@(f.ErrorMessage ?? "—")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

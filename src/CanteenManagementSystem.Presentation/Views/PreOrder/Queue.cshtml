@@ -1,0 +1,68 @@
+@*
+    /pre-orders/queue — today's pre-orders awaiting fulfilment (operator view).
+*@
+@using CanteenManagementSystem.Domain.Enums
+@using CanteenManagementSystem.Domain.Orders
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<Order>
+@{
+    ViewData["Title"] = "Today's pre-orders";
+    UiBadgeVariant V(CanteenOrderStatus s) => s switch
+    {
+        CanteenOrderStatus.Ready     => UiBadgeVariant.Success,
+        CanteenOrderStatus.Preparing => UiBadgeVariant.Primary,
+        CanteenOrderStatus.Pending   => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Info
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Pre-orders due today",
+        Subtitle = $"{DateTime.UtcNow:dd MMM yyyy} · {Model.Count} order(s)"
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions
+        {
+            Icon        = "fa-calendar-check",
+            Title       = "No pre-orders due today",
+            Description = "When customers schedule ahead, their orders appear here at the start of the pickup day."
+        };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>User</th>
+                        <th>Items</th>
+                        <th class="text-end">Total</th>
+                        <th>Status</th>
+                        <th>Placed at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var o in Model)
+                {
+                    var b = new UiBadgeOptions { Text = o.Status.ToString(), Variant = V(o.Status), WithDot = true };
+                    <tr>
+                        <td><code class="small">@o.OrderNumber</code></td>
+                        <td><code class="small">@o.UserId</code></td>
+                        <td class="small ui-muted">@string.Join(", ", o.OrderItems.Select(i => $"{i.Quantity}× {i.FoodItem.ItemName}"))</td>
+                        <td class="text-end ui-text-strong ui-tabular">৳ @o.TotalAmount.ToString("N0")</td>
+                        <td><partial name="_UiBadge" model="b" /></td>
+                        <td class="ui-muted small">@o.OrderDate.ToString("MM-dd HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

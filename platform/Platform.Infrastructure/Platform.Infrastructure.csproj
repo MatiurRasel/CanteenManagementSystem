@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Platform.Infrastructure</RootNamespace>
+    <AssemblyName>Platform.Infrastructure</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.7" />
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.13.0-beta.1" />
+    <PackageReference Include="OpenTelemetry.Api" Version="1.15.3" />
+    <PackageReference Include="Otp.NET" Version="1.4.1" />
+    <PackageReference Include="PdfSharpCore" Version="1.3.67" />
+
+    <!--
+      Pin SixLabors.ImageSharp to 2.1.10 — the last Apache-2.0 release with
+      every CVE patched. v1.0.4 (transitive via PdfSharpCore / QRCoder) carries
+      7 advisories (GHSA-2cmq-823j-5qj8 et al). v3.x is dual-licensed and
+      requires a paid commercial licence above $1 M revenue — staying on 2.1.10
+      keeps the platform truly OSS.
+    -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.10" />
+
+    <!-- Auth / Identity packages -->
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Platform.Application\Platform.Application.csproj" />
+    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

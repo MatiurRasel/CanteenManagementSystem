@@ -1,0 +1,82 @@
+@*
+    _AuthChrome — shared <head> chrome for standalone Account/* pages
+    (Login / ForgotPassword / ResetPassword / MagicLink / AccessDenied /
+    VerifyMfa / ChangePassword). Loads shadcn.css + a centered/split shell
+    so every auth page uses the SAME tokens as the rest of the app.
+    Usage from a Layout=null page:
+        <partial name="_AuthChrome" />
+*@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+<link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+<link rel="icon" href="~/favicon.ico" />
+<style>
+    html, body { height: 100%; margin: 0; }
+    body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+    .auth-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+    .auth-card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--rad-lg);
+        box-shadow: var(--sh-2);
+        padding: 2.25rem;
+    }
+    .auth-card-wide { max-width: 460px; }
+    .auth-icon-plate {
+        width: 56px; height: 56px;
+        border-radius: var(--rad-lg);
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    .auth-title { font-weight: 700; letter-spacing: -.02em; font-size: 1.5rem; margin: 0 0 .35rem; color: var(--fg); }
+    .auth-sub   { color: var(--muted); font-size: .92rem; margin: 0 0 1.5rem; }
+    .auth-link  { color: var(--muted); text-decoration: none; font-size: .85rem; }
+    .auth-link:hover { color: var(--accent); }
+
+    /* ─── Split layout for Login ───────────────────────────────────── */
+    .auth-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+    @@media (max-width: 900px) { .auth-split { grid-template-columns: 1fr; } .auth-split-brand { display: none; } }
+    .auth-split-brand {
+        position: relative; overflow: hidden;
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        padding: 3.5rem 4rem;
+        display: flex; flex-direction: column;
+    }
+    .auth-split-brand::before, .auth-split-brand::after {
+        content: ""; position: absolute; border-radius: 50%;
+        background: rgba(255,255,255,.10); pointer-events: none;
+    }
+    .auth-split-brand::before { width: 520px; height: 520px; top: -180px; right: -180px; }
+    .auth-split-brand::after  { width: 380px; height: 380px; bottom: -160px; left: -120px; }
+    .auth-brand-logo {
+        display: inline-flex; align-items: center; gap: .75rem;
+        font-weight: 700; font-size: 1.1rem; letter-spacing: -.01em;
+    }
+    .auth-brand-logo .dot {
+        width: 36px; height: 36px; border-radius: var(--rad);
+        background: rgba(255,255,255,.18);
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    .auth-brand-tagline { margin-top: auto; position: relative; }
+    .auth-brand-tagline h1 { font-size: 2.4rem; line-height: 1.15; font-weight: 800; letter-spacing: -.025em; margin: 0 0 .75rem; }
+    .auth-brand-tagline p { color: rgba(255,255,255,.85); font-size: 1rem; margin: 0; max-width: 460px; }
+    .auth-checks { margin-top: 1.75rem; display: flex; flex-direction: column; gap: .65rem; position: relative; }
+    .auth-checks .check { display: flex; align-items: center; gap: .65rem; font-size: .92rem; color: rgba(255,255,255,.92); }
+    .auth-checks .check i { background: rgba(255,255,255,.20); width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: .7rem; }
+    .auth-split-form { padding: 3.5rem clamp(1.5rem, 6vw, 5rem); display: flex; flex-direction: column; justify-content: center; }
+    .auth-split-form .auth-card { box-shadow: none; border: 0; padding: 0; }
+</style>

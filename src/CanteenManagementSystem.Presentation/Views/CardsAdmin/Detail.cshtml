@@ -1,0 +1,164 @@
+@*
+    /admin/cards/{id} — card lifecycle + event timeline.
+*@
+@using CanteenManagementSystem.Domain.Cards
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.CardsAdminController.DetailVm
+@{
+    ViewData["Title"] = $"Card · {Model.Card.CardUid}";
+    UiBadgeVariant V(CardStatus s) => s switch
+    {
+        CardStatus.Active     => UiBadgeVariant.Success,
+        CardStatus.Issued     => UiBadgeVariant.Primary,
+        CardStatus.Blocked    => UiBadgeVariant.Danger,
+        CardStatus.Lost       => UiBadgeVariant.Warning,
+        CardStatus.Reassigned => UiBadgeVariant.Info,
+        CardStatus.Retired    => UiBadgeVariant.Secondary,
+        _ => UiBadgeVariant.Secondary
+    };
+    UiBadgeVariant EV(CardEventType t) => t switch
+    {
+        CardEventType.Issued        => UiBadgeVariant.Primary,
+        CardEventType.Activated     => UiBadgeVariant.Success,
+        CardEventType.Blocked       => UiBadgeVariant.Danger,
+        CardEventType.Unblocked     => UiBadgeVariant.Success,
+        CardEventType.Reassigned    => UiBadgeVariant.Info,
+        CardEventType.ReportedLost  => UiBadgeVariant.Warning,
+        CardEventType.Retired       => UiBadgeVariant.Secondary,
+        _ => UiBadgeVariant.Secondary
+    };
+    var c = Model.Card;
+    var statusBadge = new UiBadgeOptions { Text = c.Status.ToString(), Variant = V(c.Status), WithDot = true };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = c.CardUid,
+        Subtitle = $"{c.UserType} · {c.UserId}",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/cards'><i class='fa-solid fa-arrow-left me-1'></i> All cards</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="mb-3">
+        <partial name="_UiBadge" model="statusBadge" />
+        @if (!string.IsNullOrEmpty(c.UserId))
+        {
+            <span class="ui-muted small ms-2"><i class="fa-solid fa-user me-1"></i>@c.UserType · <code>@c.UserId</code></span>
+        }
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-5">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Lifecycle</div></div>
+                <div class="ui-card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (c.Status == CardStatus.Issued)
+                        {
+                            <form asp-action="Activate" asp-route-id="@c.CardId" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-check me-1"></i>Activate</button>
+                            </form>
+                        }
+                        @if (c.Status == CardStatus.Active)
+                        {
+                            <form asp-action="Block" asp-route-id="@c.CardId" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-warning"><i class="fa-solid fa-pause me-1"></i>Block</button>
+                            </form>
+                            <form asp-action="ReportLost" asp-route-id="@c.CardId" method="post" class="d-inline"
+                                  data-cl-confirm="Report this card as lost? It will stop scanning immediately." data-cl-confirm-variant="warning">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i>Report lost</button>
+                            </form>
+                            <form asp-action="Retire" asp-route-id="@c.CardId" method="post" class="d-inline"
+                                  data-cl-confirm="Retire this card? Action is permanent." data-cl-confirm-variant="warning">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-box-archive me-1"></i>Retire</button>
+                            </form>
+                        }
+                        @if (c.Status == CardStatus.Blocked)
+                        {
+                            <form asp-action="Unblock" asp-route-id="@c.CardId" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-play me-1"></i>Unblock</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-card mt-3">
+                <div class="ui-card-header"><div class="ui-card-title">Re-issue (replace lost card)</div></div>
+                <div class="ui-card-body">
+                    <form asp-action="Reassign" asp-route-id="@c.CardId" method="post" class="ui-stack">
+                        @Html.AntiForgeryToken()
+                        <div>
+                            <label class="ui-label">New card UID</label>
+                            <input name="NewCardUid" class="ui-input form-control" placeholder="F00DC0DE" autocomplete="off" />
+                        </div>
+                        <div>
+                            <label class="ui-label">Reason</label>
+                            <input name="Reason" class="ui-input form-control" placeholder="Replacement for lost card" />
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-rotate me-1"></i> Re-issue
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="ui-card mt-3">
+                <div class="ui-card-header"><div class="ui-card-title">Print this card</div></div>
+                <div class="ui-card-body">
+                    <p class="ui-muted small mb-3">CR80 (86 × 54 mm) print template with photo + tenant logo + accent stripe.</p>
+                    <a asp-action="Print" asp-route-id="@c.CardId" class="btn btn-outline-secondary" target="_blank">
+                        <i class="fa-solid fa-print me-1"></i> Open print preview
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Event timeline</div></div>
+                <div class="ui-table-wrap">
+                    <table class="table table-sm mb-0 ui-table">
+                        <thead>
+                            <tr>
+                                <th>When (UTC)</th>
+                                <th>Event</th>
+                                <th>UID change</th>
+                                <th>By</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var e in Model.Events)
+                        {
+                            var eb = new UiBadgeOptions { Text = e.EventType.ToString(), Variant = EV(e.EventType) };
+                            <tr>
+                                <td class="ui-mono small">@e.OccurredAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td><partial name="_UiBadge" model="eb" /></td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(e.PreviousCardUid) || !string.IsNullOrEmpty(e.NewCardUid))
+                                    {
+                                        <span class="small"><code>@(e.PreviousCardUid ?? "—")</code> → <code>@(e.NewCardUid ?? "—")</code></span>
+                                    }
+                                </td>
+                                <td class="small">@(e.PerformedBy ?? "—")</td>
+                                <td class="ui-muted small">@(e.Reason ?? "")</td>
+                            </tr>
+                        }
+                        @if (Model.Events.Count == 0)
+                        {
+                            <tr><td colspan="5" class="text-center ui-muted py-3">No events recorded.</td></tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

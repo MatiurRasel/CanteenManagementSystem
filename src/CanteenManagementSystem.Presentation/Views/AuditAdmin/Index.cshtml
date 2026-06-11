@@ -1,0 +1,116 @@
+@*
+    /admin/audit — audit log viewer.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.AuditAdminController.AuditPage
+@{
+    ViewData["Title"] = "Audit log";
+    var totalPages = Math.Max(1, (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize));
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Audit log",
+        Subtitle = "Every sensitive action — login, recharge, refund, gateway change, role change."
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="get" class="ui-card mb-4">
+        <div class="ui-card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">From</label>
+                    <input type="date" name="from" value="@Model.From.ToString("yyyy-MM-dd")" class="ui-input form-control" />
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">To</label>
+                    <input type="date" name="to" value="@Model.To.ToString("yyyy-MM-dd")" class="ui-input form-control" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="ui-label">Action</label>
+                    <select name="action" class="form-select ui-select">
+                        <option value="">Any</option>
+                        @foreach (var a in Model.KnownActions)
+                        {
+                            <option value="@a" selected="@(Model.Action == a)">@a</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">Entity type</label>
+                    <input type="text" name="entityType" value="@Model.EntityType" class="ui-input form-control" placeholder="User, Order…" />
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">Search</label>
+                    <input type="text" name="q" value="@Model.Q" class="ui-input form-control" placeholder="user / id" />
+                </div>
+                <div class="col-12 col-md-1 d-grid">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="ui-table-wrap">
+        <table class="table table-hover mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>When (UTC)</th>
+                    <th>Action</th>
+                    <th>Entity</th>
+                    <th>By</th>
+                    <th>IP</th>
+                    <th>Correlation</th>
+                    <th>Payload</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Count == 0)
+                {
+                    <tr><td colspan="7" class="text-center py-5 ui-muted">No audit entries match your filter.</td></tr>
+                }
+                @foreach (var a in Model.Items)
+                {
+                    <tr>
+                        <td class="ui-muted ui-tabular" style="font-size:12px">@a.OccurredAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td class="ui-mono" style="font-size:12px">@a.Action</td>
+                        <td>@(a.EntityType ?? "—")@(string.IsNullOrEmpty(a.EntityId) ? "" : $":{a.EntityId}")</td>
+                        <td>
+                            <div>@(a.PerformedBy ?? "—")</div>
+                            @if (!string.IsNullOrEmpty(a.PerformedByRole))
+                            {
+                                <div class="ui-muted" style="font-size:11px">@a.PerformedByRole</div>
+                            }
+                        </td>
+                        <td class="ui-muted ui-mono" style="font-size:12px">@(a.IpAddress ?? "—")</td>
+                        <td class="ui-muted ui-mono" style="font-size:12px">@(a.CorrelationId ?? "—")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(a.PayloadJson))
+                            {
+                                <span class="ui-muted ui-mono" style="font-size:11px;max-width:240px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="@a.PayloadJson">@a.PayloadJson</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (totalPages > 1)
+    {
+        <div class="ui-row-between mt-3">
+            <span class="ui-muted" style="font-size:13px">Page @Model.Page of @totalPages · @Model.TotalCount entries</span>
+            <ul class="pagination pagination-sm mb-0">
+                @if (Model.Page > 1)
+                {
+                    <li class="page-item"><a class="page-link" href="?from=@Model.From.ToString("yyyy-MM-dd")&to=@Model.To.ToString("yyyy-MM-dd")&action=@Model.Action&entityType=@Model.EntityType&q=@Model.Q&page=@(Model.Page-1)">← Prev</a></li>
+                }
+                @if (Model.Page < totalPages)
+                {
+                    <li class="page-item"><a class="page-link" href="?from=@Model.From.ToString("yyyy-MM-dd")&to=@Model.To.ToString("yyyy-MM-dd")&action=@Model.Action&entityType=@Model.EntityType&q=@Model.Q&page=@(Model.Page+1)">Next →</a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>

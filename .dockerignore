@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/*.user
+**/.vs/
+**/.idea/
+**/.vscode/
+**/node_modules/
+**/logs/
+**/*.log
+**/.git/
+**/.github/
+**/tests/
+**/*.md
+**/source-of-truth/
+**/docs/

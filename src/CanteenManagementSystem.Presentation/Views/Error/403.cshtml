@@ -1,0 +1,25 @@
+@{
+    ViewData["Code"]           = "403";
+    ViewData["Tone"]           = "danger";
+    ViewData["Icon"]           = "fa-lock";
+    ViewData["Title"]          = "Access denied";
+    ViewData["Description"]    = "Your account is signed in, but it doesn't have permission for this page. Ask a tenant admin to grant you the relevant role, or switch to an account that has access.";
+    ViewData["CtaUrl"]         = "/";
+    ViewData["CtaLabel"]       = "Back to home";
+    ViewData["CtaIcon"]        = "fa-house";
+    ViewData["SecondaryUrl"]   = "/Account/Login";
+    ViewData["SecondaryLabel"] = "Sign in as another user";
+    ViewData["SecondaryIcon"]  = "fa-right-from-bracket";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access denied · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

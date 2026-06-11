@@ -1,0 +1,46 @@
+@*
+    _UiButton — button or anchor with consistent variant + size + icon.
+
+    USAGE
+        <partial name="_UiButton" model="@new UiButtonOptions {
+            Text = "Save changes", Variant = UiButtonVariant.Primary, Icon = "fa-floppy-disk", Type = "submit"
+        }" />
+        <partial name="_UiButton" model="@new UiButtonOptions {
+            Text = "View report",  Variant = UiButtonVariant.OutlinePrimary, Href = "/admin/reports/X"
+        }" />
+*@
+@model CanteenManagementSystem.Presentation.Models.UiButtonOptions
+@{
+    var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiButtonOptions();
+    var variantClass = opts.Variant switch
+    {
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.Primary         => "btn btn-primary",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.Secondary       => "btn btn-secondary",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.OutlinePrimary  => "btn btn-outline-primary",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.OutlineSecondary=> "btn btn-outline-secondary",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.Ghost           => "btn btn-ghost",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.Danger          => "btn btn-danger",
+        CanteenManagementSystem.Presentation.Models.UiButtonVariant.Success         => "btn btn-success",
+        _ => "btn btn-secondary"
+    };
+    var sizeClass = opts.Size switch
+    {
+        CanteenManagementSystem.Presentation.Models.UiButtonSize.Small => "btn-sm",
+        CanteenManagementSystem.Presentation.Models.UiButtonSize.Large => "btn-lg",
+        _ => ""
+    };
+}
+@if (!string.IsNullOrWhiteSpace(opts.Href))
+{
+    <a href="@opts.Href" class="@variantClass @sizeClass" @(opts.Disabled ? "aria-disabled=true tabindex=-1" : "")>
+        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon me-1"></i> }
+        @opts.Text
+    </a>
+}
+else
+{
+    <button type="@opts.Type" class="@variantClass @sizeClass" @(opts.Disabled ? "disabled" : "")>
+        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon me-1"></i> }
+        @opts.Text
+    </button>
+}

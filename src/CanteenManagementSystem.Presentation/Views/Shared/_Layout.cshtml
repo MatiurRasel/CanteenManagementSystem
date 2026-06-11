@@ -1,0 +1,242 @@
+@using System.Globalization
+@using CanteenManagementSystem
+@using Platform.Application.Abstractions.Branding
+@using Platform.Application.Configuration
+@inject IStringLocalizer<SharedResource> L
+@inject IBrandingResolver BrandingResolver
+
+@functions {
+    string HexToRgb(string hex)
+    {
+        if (string.IsNullOrWhiteSpace(hex)) return "105, 108, 255";
+        hex = hex.TrimStart('#');
+        if (hex.Length != 6) return "105, 108, 255";
+        var r = Convert.ToInt32(hex.Substring(0, 2), 16);
+        var g = Convert.ToInt32(hex.Substring(2, 2), 16);
+        var b = Convert.ToInt32(hex.Substring(4, 2), 16);
+        return $"{r}, {g}, {b}";
+    }
+}
+
+@{
+    // Tenant-resolved branding (TenantSetting > appsettings > hard-coded).
+    // Customizer adds a per-user override layer on top via localStorage.
+    var branding  = await BrandingResolver.ResolveAsync();
+    var pageTitle = ViewData["Title"] as string ?? branding.AppName;
+    var accentRgb = HexToRgb(branding.AccentColor);
+    var langTag = CultureInfo.CurrentUICulture.Name; // e.g. bn-BD
+    var langShort = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+
+<!DOCTYPE html>
+<html lang="@langShort" dir="ltr" data-template="vertical-menu-template" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="@branding.AccentColor" />
+    <meta name="color-scheme" content="light dark" />
+    <title>@pageTitle · @branding.AppName</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" />
+
+    <link rel="manifest" href="~/manifest.webmanifest" />
+    <link rel="icon" href="~/favicon.ico" />
+    <link rel="apple-touch-icon" href="~/favicon.ico" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" asp-append-version="true" />
+    @* Boxicons 2.1.4 — preferred icon library going forward. Vendored locally
+       (wwwroot/lib/boxicons) so CSP can stay `default-src 'self'` and the app
+       works offline. *@
+    <link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" asp-append-version="true" />
+    @* Flatpickr 4.6.13 — date picker. Vendored locally. *@
+    <link rel="stylesheet" href="~/lib/flatpickr/flatpickr.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/app-shell.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/customizer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/canteen-loading.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/app-mobile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/kds-bump.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/kiosk-surfaces.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/badges-normalize.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/receipt-print.css" media="print" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --app-accent: @branding.AccentColor;
+            --app-accent-rgb: @accentRgb;
+            --app-sidebar-bg: @branding.SidebarColor;
+            --app-topbar-bg: @branding.TopbarColor;
+            --app-menu-active: @branding.MenuActiveColor;
+            --app-menu-text: @branding.MenuTextColor;
+            --app-success: @branding.SuccessColor;
+            --app-warning: @branding.WarningColor;
+            --app-error: @branding.ErrorColor;
+            --app-info: @branding.InfoColor;
+
+            /* Light surface defaults — Bootstrap data-bs-theme="light" picks these */
+            --app-bg: #f5f5f9;
+            --app-surface: #ffffff;
+            --app-surface-2: #f9fafb;
+            --app-border: #e5e7eb;
+            --app-text: #1f2937;
+            --app-muted: #6b7280;
+        }
+        /* Dark-mode overrides — Bootstrap data-bs-theme="dark" + our app tokens */
+        [data-bs-theme="dark"] {
+            --app-bg: #0f172a;
+            --app-surface: #1e293b;
+            --app-surface-2: #111827;
+            --app-border: #334155;
+            --app-text: #e2e8f0;
+            --app-muted: #94a3b8;
+            --app-sidebar-bg: #0b1220;
+            --app-topbar-bg: #1e293b;
+            --app-menu-text: #cbd5e1;
+        }
+        body { background: var(--app-bg); color: var(--app-text); }
+        .card, .modal-content { background: var(--app-surface); color: var(--app-text); border-color: var(--app-border); }
+        .table { color: var(--app-text); }
+        .table > :not(caption) > * > * { background-color: transparent; color: inherit; border-color: var(--app-border); }
+        [data-bs-theme="dark"] .text-muted { color: var(--app-muted) !important; }
+        [data-bs-theme="dark"] .bg-light  { background-color: var(--app-surface-2) !important; color: var(--app-text) !important; }
+        [data-bs-theme="dark"] pre, [data-bs-theme="dark"] code { background-color: var(--app-surface-2); color: var(--app-text); padding: 1px 4px; border-radius: 3px; }
+        [data-bs-theme="dark"] .form-control, [data-bs-theme="dark"] .form-select { background-color: var(--app-surface-2); color: var(--app-text); border-color: var(--app-border); }
+        [data-bs-theme="dark"] .form-control::placeholder { color: var(--app-muted); }
+        [data-bs-theme="dark"] .dropdown-menu { background-color: var(--app-surface); border-color: var(--app-border); }
+        [data-bs-theme="dark"] .dropdown-item { color: var(--app-text); }
+        [data-bs-theme="dark"] .dropdown-item:hover { background-color: var(--app-surface-2); }
+        [data-bs-theme="dark"] .table-hover > tbody > tr:hover > * { background-color: rgba(255,255,255,.04); color: inherit; }
+    </style>
+    <script>
+        // Apply persisted customizer state BEFORE first paint — no FOUC.
+        (function () {
+            try {
+                var html = document.documentElement;
+                var t = localStorage.getItem('canteen.theme') || 'system';
+                if (t === 'system') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                html.setAttribute('data-bs-theme', t);
+
+                var accent = localStorage.getItem('canteen.accent');
+                if (accent) {
+                    html.style.setProperty('--app-accent', accent);
+                    var hex = accent.replace('#', '');
+                    if (hex.length === 3) hex = hex.split('').map(function(c){return c+c;}).join('');
+                    var r = parseInt(hex.slice(0, 2), 16);
+                    var g = parseInt(hex.slice(2, 4), 16);
+                    var b = parseInt(hex.slice(4, 6), 16);
+                    html.style.setProperty('--app-accent-rgb', r + ', ' + g + ', ' + b);
+                }
+
+                var dir = localStorage.getItem('canteen.dir');
+                if (dir === 'rtl' || dir === 'ltr') html.setAttribute('dir', dir);
+
+                // Restore sidebar-collapsed state before first paint to avoid layout shift.
+                var collapsed = localStorage.getItem('cms-sidebar-collapsed');
+                if (collapsed === '1') {
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.body.classList.add('sidebar-collapsed');
+                    });
+                }
+                // Restore custom drag-resized sidebar width (200..380px) pre-paint.
+                var savedW = parseInt(localStorage.getItem('cms-sidebar-width') || '', 10);
+                if (Number.isFinite(savedW) && savedW >= 200 && savedW <= 380) {
+                    html.style.setProperty('--sidebar-w', savedW + 'px');
+                }
+                // body / class flags need DOMContentLoaded — applied in template-customizer.js
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body class="app-shell"
+      data-tenant-accent="@branding.AccentColor"
+      data-tenant-app-name="@branding.AppName">
+    @* Top-of-page progress bar — NProgress-style. Driven by /js/page-progress.js. *@
+    <div id="page-progress" class="page-progress" aria-hidden="true"><div class="page-progress-bar"></div></div>
+    <div class="layout-wrapper">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu" aria-label="@L["QuickActions"]">
+                <partial name="_SneatBrand" />
+                <div class="menu-inner-shadow"></div>
+                <partial name="_SneatSidebar" />
+                <div class="menu-footer">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-circle-dot text-success small"></i>
+                        <span>@branding.AppSubtitle</span>
+                    </div>
+                </div>
+                @* Drag-handle: click + drag horizontally to resize, dbl-click to reset *@
+                <div class="sidebar-resize-handle"
+                     role="separator"
+                     aria-orientation="vertical"
+                     aria-label="Resize sidebar — drag, or double-click to reset"
+                     tabindex="0"
+                     data-sidebar-resize>
+                    <span class="sidebar-resize-grip" aria-hidden="true"></span>
+                </div>
+            </aside>
+
+            <div class="layout-page">
+                <partial name="_SneatTopbar" />
+
+                <main class="content-wrapper">
+                    <div class="container-fluid px-3 px-md-4 px-lg-5">
+                        <div class="fade-in">
+                            @RenderBody()
+                        </div>
+                        @* Floating toasts replace the inline _FlashMessages partial — *@
+                        @* both legacy and dotted TempData keys are still honoured. *@
+                        <partial name="_Toasts" />
+                    </div>
+                </main>
+
+                <partial name="_TemplateCustomizer" />
+
+                <footer class="content-footer border-top mt-auto py-3">
+                    <div class="container-fluid px-3 px-md-4 px-lg-5 d-flex flex-column flex-md-row justify-content-between gap-2 small text-muted">
+                        <span>&copy; @DateTime.Now.Year · @branding.AppName</span>
+                        <span class="d-none d-md-inline">@branding.AppSubtitle</span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    @* Flatpickr 4.6.13 + SweetAlert2 11.12.4 — both vendored locally so CSP
+       can stay self-only. canteen-pickers.js auto-binds Flatpickr to every
+       <input type="date">; canteen-dialogs.js wires SweetAlert2 to
+       [data-cl-confirm] + window.cmsToast/cmsConfirm/cmsAlert. *@
+    <script src="~/lib/flatpickr/flatpickr.min.js" asp-append-version="true"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js" asp-append-version="true"></script>
+    <script src="~/js/canteen-pickers.js" asp-append-version="true" defer></script>
+    <script src="~/js/canteen-dialogs.js" asp-append-version="true" defer></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/app-branding.js" asp-append-version="true"></script>
+    <script src="~/js/offline-queue.js" asp-append-version="true" defer></script>
+    <script src="~/js/audio-cues.js" asp-append-version="true" defer></script>
+    <script src="~/js/tooltips.js"   asp-append-version="true" defer></script>
+    <script src="~/js/theme-toggle.js" asp-append-version="true" defer></script>
+    <script src="~/js/page-progress.js" asp-append-version="true" defer></script>
+    <script src="~/js/canteen-loading.js" asp-append-version="true" defer></script>
+    <script src="~/js/keyboard-shortcuts.js" asp-append-version="true" defer></script>
+    <script src="~/js/sidebar-mobile.js" asp-append-version="true" defer></script>
+    <script src="~/js/sidebar-collapse.js" asp-append-version="true" defer></script>
+    <script src="~/js/sidebar-resize.js" asp-append-version="true" defer></script>
+    <script src="~/js/kds-bump.js" asp-append-version="true" defer></script>
+    <script src="~/js/menu-dragreorder.js" asp-append-version="true" defer></script>
+    <script src="~/js/tour-wizard.js" asp-append-version="true" defer></script>
+    <script src="~/js/hardware-readers.js" asp-append-version="true" defer></script>
+    <script src="~/js/push-client.js" asp-append-version="true" defer></script>
+    <script src="~/js/offline-form-queue.js" asp-append-version="true" defer></script>
+    <script src="~/js/template-customizer.js" asp-append-version="true" defer></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

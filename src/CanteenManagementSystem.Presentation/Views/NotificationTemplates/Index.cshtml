@@ -1,0 +1,96 @@
+@*
+    /admin/notification-templates — per-tenant template editor.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.NotificationTemplatesController.TemplateRowVm>
+@{
+    ViewData["Title"] = "Notification templates";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Notification templates",
+        Subtitle = "SMS / Email bodies for order + wallet events. Tokens like {customer.name} render at send-time."
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var info = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Info,
+            Heading = "No templates discovered",
+            Body    = "Add constants to the Platform.NotificationTemplates class and they will appear here."
+        };
+        <partial name="_UiAlert" model="info" />
+    }
+    else
+    {
+        <div class="ui-stack">
+        @foreach (var t in Model)
+        {
+            <form method="post" asp-action="Edit" asp-route-key="@t.Key" class="ui-card" data-cl-form>
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Key" value="@t.Key" />
+
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title">@t.FriendlyName</div>
+                        <div class="ui-card-muted-body">
+                            <span class="ui-mono">@t.Key</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                    </button>
+                </div>
+                <div class="ui-card-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="ui-label">Subject (Email only)</label>
+                            <input class="ui-input form-control" name="Subject" value="@t.Subject"
+                                   placeholder="(default subject is used when empty)" />
+                        </div>
+                        <div class="col-12">
+                            <label class="ui-label">Body</label>
+                            <textarea class="ui-input form-control" name="Body" rows="3"
+                                      placeholder="Hello {customer.name} — your order {order.number} is ready.">@t.Body</textarea>
+                            <div class="ui-help-text">
+                                Tokens: <code>{customer.name}</code>, <code>{customer.phone}</code>,
+                                <code>{order.number}</code>, <code>{order.total}</code>,
+                                <code>{order.status}</code>, <code>{wallet.balance}</code>,
+                                <code>{wallet.amount}</code>, <code>{tenant.name}</code>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form method="post" asp-action="TestSend" asp-route-key="@t.Key" class="ui-card" data-cl-form>
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Key" value="@t.Key" />
+                <div class="ui-card-body">
+                    <div class="ui-row" style="gap:.5rem; align-items:flex-end; flex-wrap: wrap">
+                        <div>
+                            <label class="ui-label">Test channel</label>
+                            <select name="Channel" class="form-select ui-select" style="max-width:140px">
+                                <option value="Sms">SMS</option>
+                                <option value="Email">Email</option>
+                            </select>
+                        </div>
+                        <div class="flex-grow-1">
+                            <label class="ui-label">Recipient</label>
+                            <input type="text" name="Recipient" class="ui-input form-control"
+                                   placeholder="01700000000 (SMS) or email@domain.com" />
+                        </div>
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Send test
+                        </button>
+                    </div>
+                </div>
+            </form>
+        }
+        </div>
+    }
+</div>

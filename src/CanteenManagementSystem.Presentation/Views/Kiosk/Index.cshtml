@@ -1,0 +1,271 @@
+@*
+    /kiosk — self-service tablet flow. Standalone layout, idle-reset 30s.
+
+    State machine:
+        scan  → looking-up → result  (success)
+                            → error  (rejected / network)
+
+    Behaviour contract (preserved):
+      * POST /Verification/VerifyUser { identifier } → { success, …user… }
+      * window.canteenCues.success() / .error() (audio cue)
+      * Auto-reset after 30s idle on result screen
+*@
+@{
+    ViewData["Title"] = "Self-service kiosk";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="ks-html" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <title>Self-service kiosk · SmartCanteen</title>
+    <partial name="_KioskShell" />
+    <style>
+        body.ks-body {
+            background:
+                radial-gradient(circle at 0% 0%, var(--accent-soft) 0, transparent 35%),
+                radial-gradient(circle at 100% 100%, var(--accent-soft) 0, transparent 35%),
+                var(--ks-surface-canvas);
+        }
+        .kiosk-frame {
+            width: 100%;
+            max-width: 760px;
+            border-radius: var(--rad-xl);
+            box-shadow: var(--sh-3);
+            background: var(--ks-surface-card);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .kiosk-hero {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: var(--accent-fg);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .kiosk-hero::after {
+            content: "";
+            position: absolute; inset: auto -60px -60px auto;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,.18), transparent 70%);
+            pointer-events: none;
+        }
+        .kiosk-hero h1 {
+            font-weight: 900; margin: 0;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            letter-spacing: -.02em;
+        }
+        .kiosk-hero p { opacity: .92; margin: .5rem 0 0; font-size: 1.05rem; }
+
+        .kiosk-body {
+            padding: 2.5rem 2rem;
+            min-height: 360px;
+        }
+
+        .scan-input {
+            font-size: 2rem !important;
+            padding: 1.15rem 1.5rem !important;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .08em;
+            border-radius: var(--rad-lg) !important;
+        }
+
+        .idle-countdown {
+            position: fixed; top: 1rem; right: 1rem;
+            background: var(--ks-surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--rad-pill);
+            padding: .5rem 1rem;
+            font-variant-numeric: tabular-nums;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: .9rem;
+            opacity: 0; transition: opacity .25s;
+            z-index: 50;
+            box-shadow: var(--sh-2);
+        }
+        .idle-countdown.show { opacity: 1; }
+
+        .screen { display: none; animation: ks-fade .22s ease-out; }
+        .screen.show { display: block; }
+        @@keyframes ks-fade {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="ks-body">
+
+<div class="idle-countdown" id="idleCountdown"><i class="bx bx-time-five me-1"></i> Auto-reset in <span id="idleSeconds">30</span> s</div>
+
+<div class="ks-shell-center">
+    <div class="kiosk-frame">
+        <div class="kiosk-hero">
+            <h1><i class="bx bxs-restaurant me-2"></i> Self-service</h1>
+            <p>Scan your card or type your ID to see today's menu</p>
+        </div>
+        <div class="kiosk-body">
+
+            @* ── State: scan input ─────────────────────────────────────── *@
+            <div id="screenScan" class="screen show">
+                <div class="text-center mb-3">
+                    <span class="ks-pill is-ready"><span class="ks-dot"></span> Ready</span>
+                </div>
+                <form id="verifyForm" autocomplete="off">
+                    <label class="ui-label" for="kioskInput">ID / Card UID</label>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text"><i class="bx bx-id-card"></i></span>
+                        <input id="kioskInput" name="identifier"
+                               class="ui-input form-control scan-input"
+                               autocomplete="off" spellcheck="false" autofocus
+                               placeholder="STD-2026-001"
+                               data-cl-hid-uid required />
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary ks-bigtap-hero">
+                            <i class="bx bx-search-alt me-2"></i> Look me up
+                        </button>
+                    </div>
+                </form>
+                <div id="errorBox" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+
+            @* ── State: looking up ─────────────────────────────────────── *@
+            <div id="screenLoading" class="screen ks-state is-loading">
+                <div class="ks-state-icon"><i class="bx bx-loader-alt"></i></div>
+                <h3>Looking you up…</h3>
+                <p>One moment.</p>
+            </div>
+
+            @* ── State: result ──────────────────────────────────────────── *@
+            <div id="screenResult" class="screen text-center">
+                <img id="userPhoto" src="/images/default_logo.png" alt=""
+                     style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;border:4px solid color-mix(in srgb, var(--accent) 30%, transparent);box-shadow:var(--sh-2)" />
+                <h3 id="userName" class="ui-text-strong mb-1" style="font-size:1.5rem">—</h3>
+                <p id="userInfo" class="ui-muted mb-3">—</p>
+
+                <div class="ks-balance-card mb-3" style="text-align:left">
+                    <div>
+                        <div class="ks-balance-label">Wallet balance</div>
+                        <div class="ks-balance-value">৳ <span id="userBalance">0</span></div>
+                    </div>
+                    <div class="ks-balance-icon"><i class="bx bxs-wallet"></i></div>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+                    <button id="btnDone" class="btn btn-primary ks-bigtap-hero">
+                        <i class="bx bx-check-circle me-2"></i> Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/audio-cues.js"></script>
+<script>
+(function () {
+    'use strict';
+    var IDLE_SECONDS    = 30;
+    var COUNTDOWN_START = 10;
+    var scanScreen    = document.getElementById('screenScan');
+    var loadingScreen = document.getElementById('screenLoading');
+    var resultScreen  = document.getElementById('screenResult');
+    var idleEl        = document.getElementById('idleCountdown');
+    var idleSeconds   = document.getElementById('idleSeconds');
+    var input         = document.getElementById('kioskInput');
+    var errorBox      = document.getElementById('errorBox');
+
+    function show(which) {
+        [scanScreen, loadingScreen, resultScreen].forEach(function (el) { el.classList.remove('show'); });
+        which.classList.add('show');
+    }
+
+    var idleTimer = null;
+    var countdown = IDLE_SECONDS;
+
+    function reset () {
+        clearInterval(idleTimer); idleTimer = null;
+        countdown = IDLE_SECONDS;
+        idleEl.classList.remove('show');
+        show(scanScreen);
+        errorBox.classList.add('d-none');
+        input.value = '';
+        setTimeout(function () { input.focus(); }, 30);
+    }
+
+    function startIdleTimer () {
+        clearInterval(idleTimer);
+        countdown = IDLE_SECONDS;
+        idleTimer = setInterval(function () {
+            countdown--;
+            if (countdown <= COUNTDOWN_START) {
+                idleEl.classList.add('show');
+                idleSeconds.textContent = countdown;
+            }
+            if (countdown <= 0) reset();
+        }, 1000);
+    }
+
+    function showResult (data) {
+        document.getElementById('userPhoto').src        = data.userPhotoUrl || data.UserPhotoUrl || '/images/default_logo.png';
+        document.getElementById('userName').textContent = data.userName || data.UserName || '—';
+        document.getElementById('userInfo').textContent = data.academicInformation || data.AcademicInformation || '';
+        var bal = data.availableBalance != null ? data.availableBalance : data.AvailableBalance;
+        document.getElementById('userBalance').textContent = Number(bal || 0).toLocaleString('bn-BD');
+        show(resultScreen);
+        if (window.canteenCues && window.canteenCues.success) window.canteenCues.success();
+        startIdleTimer();
+    }
+
+    function showError (msg) {
+        errorBox.textContent = msg || 'Lookup failed. Try again.';
+        errorBox.classList.remove('d-none');
+        show(scanScreen);
+        if (window.canteenCues && window.canteenCues.error) window.canteenCues.error();
+    }
+
+    document.getElementById('verifyForm').addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        errorBox.classList.add('d-none');
+        var id = (input.value || '').trim();
+        if (!id) return;
+        show(loadingScreen);
+        try {
+            var res = await fetch('/Verification/VerifyUser', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ identifier: id })
+            });
+            var data = await res.json();
+            var ok = (data.success || data.Success);
+            if (!ok) {
+                showError(data.message || data.Message || 'Card / ID not recognised.');
+                return;
+            }
+            showResult(data);
+        } catch (e) {
+            console.error('kiosk lookup failed', e);
+            showError('Network error — try again.');
+        }
+    });
+
+    document.getElementById('btnDone').addEventListener('click', reset);
+
+    ['touchstart','click','keydown','mousemove'].forEach(function (ev) {
+        resultScreen.addEventListener(ev, function () {
+            if (resultScreen.classList.contains('show')) startIdleTimer();
+        }, { passive: true });
+    });
+
+    // Keep focus on the scan input — gloved finger taps or accidental clicks
+    // outside still bring the cursor back so the next scan just works.
+    setInterval(function () {
+        if (scanScreen.classList.contains('show') && document.activeElement !== input) input.focus();
+    }, 400);
+})();
+</script>
+</body>
+</html>

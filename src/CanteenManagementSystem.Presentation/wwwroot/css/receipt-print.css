@@ -1,0 +1,106 @@
+/* =============================================================================
+   receipt-print.css — receipt + ticket browser-print styling
+   -----------------------------------------------------------------------------
+   The PDF + ESC/POS receipts are produced server-side. This sheet handles
+   the case where an operator hits Ctrl+P on an order-detail or customer-display
+   page — the browser uses these @media print rules to render a clean, narrow,
+   thermal-printer-friendly layout.
+
+   USAGE
+     Add  `<link rel="stylesheet" href="~/css/receipt-print.css" media="print" />`
+     to any page where Ctrl+P should produce a receipt-shaped output. The
+     wrapper element gets `class="receipt-print-area"` and any non-receipt
+     chrome (sidebar / topbar / buttons) is hidden automatically.
+
+   PAPER PROFILES
+     The default styling targets 80 mm thermal rolls. Override the page width
+     by adding the class `.receipt-58mm` to the wrapper.
+============================================================================= */
+
+@media print {
+    /* Hide all the app chrome — the sidebar, topbar, alerts, footer. */
+    body > nav,
+    body > aside,
+    body > header,
+    body > footer,
+    .app-shell-sidebar,
+    .app-shell-topbar,
+    .app-shell-footer,
+    .toast-container,
+    .flash-banner,
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff !important;
+        color: #000 !important;
+        font-family: "Inter", "Helvetica", "Arial", sans-serif;
+        font-size: 10pt;
+    }
+
+    .receipt-print-area {
+        width: 80mm;
+        margin: 0 auto;
+        padding: 4mm;
+        background: #fff;
+        color: #000;
+    }
+    .receipt-print-area.receipt-58mm { width: 58mm; }
+
+    .receipt-print-area h1,
+    .receipt-print-area h2 { font-size: 12pt; margin: 0 0 1mm; }
+    .receipt-print-area h3 { font-size: 10pt; margin: 0 0 1mm; }
+
+    .receipt-print-area .receipt-header {
+        text-align: center;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 2mm;
+        margin-bottom: 2mm;
+    }
+    .receipt-print-area .receipt-footer {
+        text-align: center;
+        border-top: 1px dashed #000;
+        padding-top: 2mm;
+        margin-top: 3mm;
+        font-size: 9pt;
+    }
+
+    .receipt-print-area table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+    }
+    .receipt-print-area table th,
+    .receipt-print-area table td {
+        padding: 0.5mm 1mm;
+        border: none;
+        vertical-align: top;
+    }
+    .receipt-print-area table tr.row-total td {
+        border-top: 1px solid #000;
+        font-weight: 700;
+    }
+
+    .receipt-print-area .text-right { text-align: right; }
+    .receipt-print-area .text-center { text-align: center; }
+    .receipt-print-area .small { font-size: 8pt; }
+
+    /* No box-shadows, no background images in print. */
+    * {
+        box-shadow: none !important;
+        background-image: none !important;
+        text-shadow: none !important;
+    }
+
+    a[href]:after { content: ""; }   /* hide URL appends on links */
+    img, svg { max-width: 100%; }
+
+    /* Force page-break-inside avoid on each line item. */
+    .receipt-print-area tr,
+    .receipt-print-area .keep-together { page-break-inside: avoid; break-inside: avoid; }
+
+    @page { size: 80mm auto; margin: 4mm; }
+}

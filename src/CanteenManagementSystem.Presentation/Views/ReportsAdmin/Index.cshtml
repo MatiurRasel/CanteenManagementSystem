@@ -1,0 +1,171 @@
+@*
+    /admin/reports — analytics dashboard.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.ReportsAdminController.DashboardVm
+@{
+    ViewData["Title"] = "Reports";
+    decimal maxDailyRev = Model.Collection.Days.Count == 0 ? 1 : Model.Collection.Days.Max(d => d.Revenue);
+    if (maxDailyRev == 0) maxDailyRev = 1;
+    int maxPeak = Model.PeakToday.Count == 0 ? 1 : Model.PeakToday.Max(p => p.Orders);
+    if (maxPeak == 0) maxPeak = 1;
+
+    var filterForm = $@"
+        <form method='get' class='d-flex gap-2 align-items-end'>
+            <div><label class='ui-label mb-1'>From</label>
+                <input type='date' name='from' value='{Model.From:yyyy-MM-dd}' class='ui-input form-control form-control-sm' /></div>
+            <div><label class='ui-label mb-1'>To</label>
+                <input type='date' name='to' value='{Model.To:yyyy-MM-dd}' class='ui-input form-control form-control-sm' /></div>
+            <button type='submit' class='btn btn-primary btn-sm'>Apply</button>
+            <a class='btn btn-outline-secondary btn-sm' href='/admin/reports/export?from={Model.From:yyyy-MM-dd}&to={Model.To:yyyy-MM-dd}'>
+                <i class='fa-solid fa-file-csv me-1'></i> CSV
+            </a>
+        </form>";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Reports",
+        Subtitle = "Tenant-scoped analytics — daily revenue, peak hours, top items, department spend. Cached 60s.",
+        Actions  = Html.Raw(filterForm)
+    };
+
+    var kpiTotal = new UiKpiOptions
+    {
+        Label = "Total revenue",
+        Value = "৳ " + Model.Collection.Total.ToString("N0"),
+        Hint  = $"{Model.Collection.Days.Count} day(s)",
+        Icon  = "fa-coins"
+    };
+    var kpiOrders = new UiKpiOptions
+    {
+        Label = "Orders",
+        Value = Model.Collection.OrderCount.ToString("N0"),
+        Hint  = "avg ৳ " + (Model.Collection.OrderCount == 0 ? 0 : Model.Collection.Total / Model.Collection.OrderCount).ToString("N0") + " / order",
+        Icon  = "fa-cart-shopping"
+    };
+    var kpiRefunded = new UiKpiOptions
+    {
+        Label = "Refunded",
+        Value = "৳ " + Model.Collection.Days.Sum(d => d.Refunded).ToString("N0"),
+        Icon  = "fa-rotate-left"
+    };
+    var kpiDepts = new UiKpiOptions
+    {
+        Label = "Departments",
+        Value = Model.Departments.Count.ToString(),
+        Icon  = "fa-building"
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiTotal" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOrders" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRefunded" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiDepts" /></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Daily revenue</div></div>
+                <div class="ui-card-body">
+                    @if (Model.Collection.Days.Count == 0)
+                    {
+                        <p class="ui-muted text-center py-3">No orders in this range.</p>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-end" style="height:220px;gap:.5rem">
+                            @foreach (var d in Model.Collection.Days)
+                            {
+                                var h = (int)Math.Round((double)(d.Revenue / maxDailyRev) * 200);
+                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@d.Revenue.ToString("C0") · @d.Orders order(s)">
+                                    <div class="rounded-top w-100" style="height:@(h)px;min-height:4px;background:var(--accent)"></div>
+                                    <small class="ui-muted mt-1">@d.Date.ToString("dd MMM")</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="ui-card mt-3">
+                <div class="ui-card-header"><div class="ui-card-title">Peak hours (today)</div></div>
+                <div class="ui-card-body">
+                    @if (Model.PeakToday.Count == 0)
+                    {
+                        <p class="ui-muted text-center py-3">Nothing yet today.</p>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-end" style="height:140px;gap:2px">
+                            @for (var h = 0; h < 24; h++)
+                            {
+                                var row    = Model.PeakToday.FirstOrDefault(p => p.Hour == h);
+                                var orders = row?.Orders ?? 0;
+                                var pct    = (int)Math.Round(orders / (double)maxPeak * 120);
+                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@h:00 — @orders order(s)">
+                                    <div class="rounded-top w-100" style="height:@(Math.Max(2, pct))px;background:@(orders > 0 ? "var(--success)" : "var(--surface-2)")"></div>
+                                    <small class="ui-muted" style="font-size:.65rem">@h.ToString("00")</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Top items</div></div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var p in Model.Popular)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
+                            <div>
+                                <div class="ui-text-strong small">@p.ItemName</div>
+                                <div class="ui-muted small">@p.QuantitySold sold</div>
+                            </div>
+                            <span class="ui-badge variant-primary">৳ @p.Revenue.ToString("N0")</span>
+                        </li>
+                    }
+                    @if (Model.Popular.Count == 0)
+                    {
+                        <li class="list-group-item ui-muted text-center py-3" style="background:transparent">No data.</li>
+                    }
+                </ul>
+            </div>
+
+            <div class="ui-card mt-3">
+                <div class="ui-card-header"><div class="ui-card-title">Department spend</div></div>
+                <div class="ui-table-wrap">
+                    <table class="table table-sm mb-0 ui-table">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th class="text-end">Users</th>
+                                <th class="text-end">Spend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var d in Model.Departments)
+                        {
+                            <tr>
+                                <td class="small">@d.Department</td>
+                                <td class="text-end small ui-tabular">@d.Users</td>
+                                <td class="text-end small ui-tabular">৳ @d.Spend.ToString("N0")</td>
+                            </tr>
+                        }
+                        @if (Model.Departments.Count == 0)
+                        {
+                            <tr><td colspan="3" class="ui-muted text-center py-3">No data.</td></tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

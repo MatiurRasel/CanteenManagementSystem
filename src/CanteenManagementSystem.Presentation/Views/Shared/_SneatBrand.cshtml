@@ -1,0 +1,23 @@
+@using CanteenManagementSystem
+@using Platform.Application.Configuration
+@inject IStringLocalizer<SharedResource> L
+@inject Microsoft.Extensions.Options.IOptions<BrandingConfiguration> BrandingOptions
+
+@{ var branding = BrandingOptions.Value; }
+
+<div class="app-brand">
+    <a asp-controller="Operator" asp-action="Dashboard" class="app-brand-link" data-menu-close>
+        <span class="app-brand-logo">
+            <i class="bx bxs-restaurant"></i>
+        </span>
+        <span class="app-brand-text-block d-flex flex-column lh-sm min-w-0">
+            <span class="app-brand-text text-truncate">@branding.AppName</span>
+            <small class="text-truncate">@branding.AppSubtitle</small>
+        </span>
+    </a>
+    <button type="button" class="app-brand-collapse d-none d-lg-inline-flex"
+            data-sidebar-collapse aria-label="Pin / collapse sidebar"
+            title="Pin / collapse sidebar">
+        <i class="bx bx-radio-circle-marked"></i>
+    </button>
+</div>

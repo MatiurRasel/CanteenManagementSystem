@@ -1,0 +1,30 @@
+@*
+    Fallback exception view — invoked by Microsoft.AspNetCore.Diagnostics if
+    `UseExceptionHandler("/Home/Error")` is wired and our ErrorController didn't
+    catch it. The real per-status pages live under /Views/Error/{code}.cshtml.
+*@
+@model ErrorViewModel
+@{
+    ViewData["Code"]          = "500";
+    ViewData["Tone"]          = "danger";
+    ViewData["Icon"]          = "fa-bug";
+    ViewData["Title"]         = "Something broke on our side";
+    ViewData["Description"]   = "An unexpected error happened while we tried to serve your request. The site team has been notified — try again, or come back in a few minutes.";
+    ViewData["CtaUrl"]        = "/";
+    ViewData["CtaLabel"]      = "Back to home";
+    ViewData["CtaIcon"]       = "fa-house";
+    ViewData["TraceId"]       = Model?.RequestId;
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server error · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

@@ -1,0 +1,37 @@
+{{- if .Values.migrate.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "canteen.fullname" . }}-migrate-{{ .Release.Revision }}
+  labels:
+    {{- include "canteen.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  ttlSecondsAfterFinished: {{ .Values.migrate.ttlSecondsAfterFinished }}
+  template:
+    metadata:
+      labels:
+        {{- include "canteen.selectorLabels" . | nindent 8 }}
+        job: migrate
+    spec:
+      restartPolicy: Never
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: migrate
+          image: {{ if .Values.migrate.image.repository }}{{ .Values.migrate.image.repository }}:{{ default .Chart.AppVersion .Values.migrate.image.tag }}{{ else }}{{ include "canteen.image" . }}{{ end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef: { name: {{ include "canteen.fullname" . }}-env }
+            - secretRef:    { name: {{ include "canteen.fullname" . }}-secrets }
+          env:
+            # Migration job forces both toggles ON for this one execution.
+            - { name: Migration__ApplyOnStartup, value: "true" }
+            - { name: Seed__RunOnStartup,        value: "true" }
+            # …and forces the app to exit immediately after seed instead of serving.
+            - { name: ASPNETCORE_URLS,           value: "http://0.0.0.0:0" }
+          command: [ "dotnet", "CanteenManagementSystem.Presentation.dll", "--exit-after-seed" ]
+{{- end }}

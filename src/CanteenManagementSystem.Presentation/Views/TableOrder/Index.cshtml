@@ -1,0 +1,169 @@
+@model CanteenManagementSystem.Presentation.Controllers.TableOrderController.PageVm
+@{
+    ViewData["Title"] = $"Table {Model.TableNumber}";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>Table @Model.TableNumber — Canteen</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+    <style>
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-sans);
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 6rem;
+        }
+        .table-tag {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: var(--accent-fg);
+            padding: 1.25rem;
+            border-radius: var(--rad-lg);
+            text-align: center;
+            margin-bottom: 1rem;
+            box-shadow: var(--sh-2);
+        }
+        .menu-item {
+            padding: 0.875rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .menu-item:last-of-type { border-bottom: 0; }
+        .qty { width: 80px; }
+        .checkout-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            box-shadow: var(--sh-pop);
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <partial name="_Toasts" />
+
+    <div class="table-tag">
+        <h1 class="mb-0" style="font-size:1.5rem">
+            <i class="fa-solid fa-utensils me-2"></i>Table @Model.TableNumber
+        </h1>
+        <small style="opacity:.9">@Model.Date.ToString("dddd, dd MMM yyyy")</small>
+    </div>
+
+    @if (Model.Items.Count == 0)
+    {
+        <div class="ui-card">
+            <div class="ui-card-body text-center py-5">
+                <i class="fa-solid fa-utensils ui-muted" style="font-size:48px"></i>
+                <div class="ui-text-strong mt-3">No menu published for today yet</div>
+                <div class="ui-muted small mt-1">Check back later or order at the counter.</div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <form method="post" asp-action="Place" asp-route-tableNumber="@Model.TableNumber" id="table-order-form">
+            @Html.AntiForgeryToken()
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div class="ui-card-title">Today's menu</div>
+                </div>
+                <div class="ui-card-body">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="menu-item d-flex align-items-center justify-content-between gap-2">
+                            <div class="flex-grow-1">
+                                <input type="hidden" name="DailyMenuIds" value="@item.DailyMenuId" />
+                                <div class="ui-text-strong">@item.Name</div>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <div class="ui-muted small">@item.Description</div>
+                                }
+                                <div class="mt-2 d-flex flex-wrap gap-1">
+                                    @if (item.IsVegetarian)
+                                    {
+                                        <span class="ui-badge variant-success"><i class="fa-solid fa-leaf me-1"></i>Veg</span>
+                                    }
+                                    @if (item.IsHalal)
+                                    {
+                                        <span class="ui-badge variant-info"><i class="fa-solid fa-circle-check me-1"></i>Halal</span>
+                                    }
+                                    @if (item.KCalories.HasValue && item.KCalories > 0)
+                                    {
+                                        <span class="ui-badge variant-secondary">@item.KCalories kcal</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.Allergens))
+                                    {
+                                        foreach (var a in item.Allergens.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                                        {
+                                            <span class="ui-badge variant-warning"><i class="fa-solid fa-triangle-exclamation me-1"></i>@a</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="ui-text-strong ui-tabular">৳ @item.Price.ToString("N0")</div>
+                                <input type="number" name="Quantities"
+                                       class="ui-input form-control form-control-sm qty text-end mt-2"
+                                       min="0" max="@item.AvailableQuantity" value="0"
+                                       data-cl-price="@item.Price"
+                                       oninput="cmsUpdateTotal()" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="ui-card mt-3">
+                <div class="ui-card-body">
+                    <label class="ui-label">Your ID or card UID</label>
+                    <input name="Identifier"
+                           class="ui-input form-control form-control-lg"
+                           placeholder="STD-2026-001 or card UID"
+                           autocomplete="off" required />
+                    <div class="ui-muted small mt-1">
+                        Your wallet pays for this order. You'll get an SMS when it's ready.
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-bar">
+                <div class="d-flex align-items-center justify-content-between gap-3" style="max-width:720px;margin:0 auto">
+                    <div>
+                        <div class="ui-muted small">Total</div>
+                        <div class="ui-text-strong ui-tabular" style="font-size:1.25rem">৳ <span id="cms-total">0</span></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg flex-grow-1">
+                        <i class="fa-solid fa-paper-plane me-1"></i>Place order
+                    </button>
+                </div>
+            </div>
+        </form>
+    }
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function cmsUpdateTotal() {
+            var total = 0;
+            document.querySelectorAll('[data-cl-price]').forEach(function (el) {
+                var qty = parseInt(el.value || '0', 10);
+                var price = parseFloat(el.getAttribute('data-cl-price') || '0');
+                if (qty > 0) total += qty * price;
+            });
+            var span = document.getElementById('cms-total');
+            if (span) span.textContent = total.toLocaleString();
+        }
+    </script>
+</body>
+</html>

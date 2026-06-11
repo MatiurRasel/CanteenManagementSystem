@@ -1,0 +1,99 @@
+/* =============================================================================
+   kds-bump.css — Kitchen Display large-format / bump-bar mode
+   -----------------------------------------------------------------------------
+   Toggle by adding `data-kds-bump="true"` on the body element. JS hook
+   (/js/kds-bump.js) wires F11 + the toolbar button to flip the attribute
+   and persist it to localStorage.
+
+   Visual changes when bump-bar mode is on:
+     * Sidebar + topbar hidden (full-screen)
+     * Order tiles double font-size + chunky borders
+     * Tabular numerals on age / total
+     * High-contrast colors for kitchen distance reading
+     * Touch targets meet ≥ 60×60px (AA accessibility)
+============================================================================= */
+
+body[data-kds-bump="true"] .app-shell-sidebar,
+body[data-kds-bump="true"] .app-shell-topbar,
+body[data-kds-bump="true"] .app-shell-footer,
+body[data-kds-bump="true"] .breadcrumb {
+    display: none !important;
+}
+
+body[data-kds-bump="true"] .app-shell-main {
+    margin-left: 0 !important;
+    padding: 0.5rem !important;
+    width: 100% !important;
+    background: #0d0d0d !important;
+    color: #fff !important;
+    min-height: 100vh;
+}
+
+body[data-kds-bump="true"] .kds-board,
+body[data-kds-bump="true"] .kds-column {
+    background: #0d0d0d !important;
+    color: #fff !important;
+}
+
+body[data-kds-bump="true"] .kds-order-card {
+    font-size: 1.4rem !important;
+    line-height: 1.35 !important;
+    border-width: 3px !important;
+    border-radius: 0.5rem !important;
+    padding: 1rem 1.1rem !important;
+    margin-bottom: 0.8rem !important;
+    background: #1a1a1a !important;
+    color: #fff !important;
+}
+body[data-kds-bump="true"] .kds-order-card .order-number {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em;
+}
+body[data-kds-bump="true"] .kds-order-card .order-age {
+    font-variant-numeric: tabular-nums;
+    font-size: 1.5rem !important;
+    color: #ffd400 !important;
+}
+body[data-kds-bump="true"] .kds-order-card .order-items li {
+    font-size: 1.25rem !important;
+    line-height: 1.4;
+    padding: 0.15rem 0;
+}
+
+/* Action buttons (Mark Ready / Mark Delivered) — chunky touch targets. */
+body[data-kds-bump="true"] .kds-order-card button,
+body[data-kds-bump="true"] .kds-order-card .btn {
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 1.15rem !important;
+    padding: 0.75rem 1rem !important;
+    border-width: 2px !important;
+}
+
+/* Column headers — stand-out distance reading. */
+body[data-kds-bump="true"] .kds-column h2,
+body[data-kds-bump="true"] .kds-column h3 {
+    font-size: 2rem !important;
+    color: #ffd400 !important;
+    border-bottom: 3px solid #444;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Toggle button — visible only on KDS pages. */
+.kds-bump-toggle {
+    position: fixed; bottom: 1rem; right: 1rem;
+    z-index: 1500;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-card-bg);
+    color: var(--bs-body-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+body[data-kds-bump="true"] .kds-bump-toggle {
+    background: #1a1a1a;
+    color: #ffd400;
+    border-color: #ffd400;
+}

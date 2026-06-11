@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>263cbe98-4a4c-420c-951f-9b0f07b3b774</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="source-of-truth\themes\seant\.vscode\extensions.json" />
+    <Content Include="source-of-truth\themes\seant\.vscode\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Platform.Presentation: OpenAPI, telemetry, tag helpers, tenant middleware, design system. -->
+    <ProjectReference Include="..\..\platform\Platform.Presentation\Platform.Presentation.csproj" />
+    <ProjectReference Include="..\CanteenManagementSystem.Application\CanteenManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\CanteenManagementSystem.Infrastructure\CanteenManagementSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Web-only packages (Serilog request logging) that Platform.Presentation doesn't ship. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <!-- SignalR horizontal-scale backplane: keeps hub events consistent across replicas. -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="10.0.7" />
+  </ItemGroup>
+
+</Project>

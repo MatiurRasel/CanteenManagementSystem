@@ -1,0 +1,144 @@
+@*
+    /sysadmin/tenants — SysAdmin tenant list.
+    Reference page demonstrating the shadcn-style design system on a table-heavy admin screen.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<Platform.Domain.Tenancy.Client>
+@{
+    ViewData["Title"] = "Tenants";
+    var freshCode  = TempData["NewTenant.Code"] as string;
+    var freshLogin = TempData["NewTenant.AdminLogin"] as string;
+    var freshPwd   = TempData["NewTenant.BootstrapPassword"] as string;
+
+    var addActions = Html.Raw("<a class='btn btn-primary' href='/sysadmin/tenants/new'><i class='fa-solid fa-plus me-1'></i> Add tenant</a>");
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Tenants",
+        Subtitle = "Every institute on the SaaS — one row per Clients table entry.",
+        Actions  = addActions
+    };
+
+    var activeCount   = Model.Count(c => c.IsActive && c.DeletedAtUtc == null);
+    var deletedCount  = Model.Count(c => c.DeletedAtUtc != null);
+    var totalCount    = Model.Count;
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @* Bootstrap-admin one-time output after Add tenant. *@
+    @if (!string.IsNullOrEmpty(freshCode))
+    {
+        <div class="ui-alert variant-success ui-anim-in mb-4" role="alert">
+            <i class="fa-solid fa-circle-check"></i>
+            <div class="flex-grow-1">
+                <div class="ui-alert-heading">Tenant @freshCode created</div>
+                <div class="ui-row ui-mono" style="font-size:13px; gap:1rem">
+                    <span>login: <strong>@freshLogin</strong></span>
+                    <span>password: <strong>@freshPwd</strong></span>
+                </div>
+                <div class="ui-help-text mt-1">Share securely — admin must change on first login.</div>
+            </div>
+        </div>
+    }
+
+    @* KPI strip *@
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Total", Value = totalCount.ToString("N0"), Icon = "fa-building" })" />
+        </div>
+        <div class="col-6 col-md-3">
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Active", Value = activeCount.ToString("N0"), Icon = "fa-circle-check" })" />
+        </div>
+        <div class="col-6 col-md-3">
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Deleted (in hold)", Value = deletedCount.ToString("N0"), Icon = "fa-trash-can" })" />
+        </div>
+        <div class="col-6 col-md-3">
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "This month", Value = Model.Count(c => c.CreatedAtUtc >= DateTime.UtcNow.AddDays(-30)).ToString("N0"), Delta = "new tenants", Icon = "fa-arrow-trend-up" })" />
+        </div>
+    </div>
+
+    @* Table *@
+    <div class="ui-table-wrap">
+        <table class="table table-hover mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th class="text-end">Created</th>
+                    <th class="text-end" style="width: 1%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr><td colspan="6" class="text-center py-5 ui-muted">
+                        No tenants yet — click <strong>Add tenant</strong> above to onboard one.
+                    </td></tr>
+                }
+                @foreach (var c in Model)
+                {
+                    var variant = c.DeletedAtUtc != null ? UiBadgeVariant.Warning
+                                : c.IsActive    ? UiBadgeVariant.Success
+                                : UiBadgeVariant.Secondary;
+                    var label   = c.DeletedAtUtc != null ? $"In hold (until {c.HoldUntilUtc?.ToString("yyyy-MM-dd")})"
+                                : c.IsActive    ? "Active"
+                                : "Disabled";
+                    <tr>
+                        <td class="ui-mono ui-text-strong">@c.ClientCode</td>
+                        <td>
+                            <div class="ui-text-strong">@c.ClientName</div>
+                            @if (!string.IsNullOrEmpty(c.ShortName))
+                            {
+                                <div class="ui-muted" style="font-size:12px">@c.ShortName</div>
+                            }
+                        </td>
+                        <td>
+                            <div>@(c.Email ?? "—")</div>
+                            <div class="ui-muted" style="font-size:12px">@(c.PhoneNumber ?? "")</div>
+                        </td>
+                        <td>
+                            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = label, Variant = variant, WithDot = true })" />
+                        </td>
+                        <td class="text-end ui-muted ui-tabular">@c.CreatedAtUtc.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="Actions">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if (c.DeletedAtUtc != null)
+                                    {
+                                        <li>
+                                            <form method="post" action="/sysadmin/tenants/@c.ClientId/restore" class="m-0">
+                                                @Html.AntiForgeryToken()
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fa-solid fa-arrow-rotate-left me-2"></i> Restore
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <form method="post" action="/sysadmin/tenants/@c.ClientId/soft-delete" class="m-0"
+                                                  data-cl-confirm="Soft-delete @c.ClientCode? Hard-delete will run after the hold window." data-cl-confirm-variant="warning">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="reason" value="Manual soft-delete from console" />
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fa-solid fa-trash me-2"></i> Soft delete
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

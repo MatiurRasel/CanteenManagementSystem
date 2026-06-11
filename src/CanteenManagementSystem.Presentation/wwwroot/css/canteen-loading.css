@@ -1,0 +1,215 @@
+/* =============================================================================
+   canteen-loading.css  — global loading + skeleton system
+   -----------------------------------------------------------------------------
+   The single source of truth for every loading affordance in the app:
+     * Skeleton shimmer blocks (light / dark / reduced-motion)
+     * Skeleton card containers
+     * Width modifier utilities (skeleton-w-N)
+     * Inline + button + overlay spinners
+     * Reveal-on-load contract via [data-loaded] attribute
+
+   USAGE (markup level)
+     <div data-loaded="false">
+         <partial name="_Skeleton" model="..." />
+         <div class="skeleton-target">…real content…</div>
+     </div>
+
+     <button data-loading="false" data-loading-text="Saving…">Save</button>
+
+     <div class="cl-overlay" data-active="false">…</div>
+
+   USAGE (JS) — see /js/canteen-loading.js for the API:
+     CanteenLoading.show(el) / hide(el)
+     CanteenLoading.wrap(el, promise)
+     CanteenLoading.button(btn, asyncFn)
+     CanteenLoading.overlay({ text }) / overlay.hide()
+
+   Theming hooks (all defined here, no inline <style>):
+     --cl-skeleton-base, --cl-skeleton-shine, --cl-skeleton-radius,
+     --cl-skeleton-height, --cl-shimmer-duration, --cl-spinner-color
+============================================================================= */
+
+:root {
+    --cl-skeleton-base:      #eef0f3;
+    --cl-skeleton-shine:     #f7f8fa;
+    --cl-skeleton-radius:    0.4rem;
+    --cl-skeleton-height:    0.85rem;
+    --cl-skeleton-gap:       0.5rem;
+    --cl-skeleton-card-bg:   var(--bs-card-bg, #fff);
+    --cl-skeleton-card-bd:   var(--bs-border-color, #e9ecef);
+    --cl-skeleton-card-pad:  1rem;
+    --cl-shimmer-duration:   1.2s;
+    --cl-spinner-color:      var(--app-accent, currentColor);
+    --cl-overlay-bg:         rgba(255, 255, 255, 0.72);
+    --cl-overlay-blur:       2px;
+}
+
+[data-bs-theme="dark"] {
+    --cl-skeleton-base:    #2e2e3a;
+    --cl-skeleton-shine:   #3a3a48;
+    --cl-overlay-bg:       rgba(20, 22, 28, 0.72);
+}
+
+/* ─── Skeleton shimmer block ────────────────────────────────────────────── */
+.cl-skeleton-block,
+.canteen-skeleton .skeleton-block {
+    display: block;
+    background: linear-gradient(
+        90deg,
+        var(--cl-skeleton-base) 0%,
+        var(--cl-skeleton-shine) 50%,
+        var(--cl-skeleton-base) 100%);
+    background-size: 200% 100%;
+    border-radius: var(--cl-skeleton-radius);
+    height: var(--cl-skeleton-height);
+    animation: cl-shimmer var(--cl-shimmer-duration) linear infinite;
+}
+
+.cl-skeleton-circle {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(
+        90deg,
+        var(--cl-skeleton-base) 0%,
+        var(--cl-skeleton-shine) 50%,
+        var(--cl-skeleton-base) 100%);
+    background-size: 200% 100%;
+    animation: cl-shimmer var(--cl-shimmer-duration) linear infinite;
+    flex-shrink: 0;
+}
+
+/* Card wrapper — the lightweight panel each skeleton variant sits inside. */
+.cl-skeleton-card,
+.canteen-skeleton .skeleton-card {
+    background: var(--cl-skeleton-card-bg);
+    border: 1px solid var(--cl-skeleton-card-bd);
+    border-radius: 0.5rem;
+    padding: var(--cl-skeleton-card-pad);
+}
+
+/* Width modifier utilities — composable, predictable. */
+.canteen-skeleton .skeleton-w-15  { width: 15%; }
+.canteen-skeleton .skeleton-w-20  { width: 20%; }
+.canteen-skeleton .skeleton-w-25  { width: 25%; }
+.canteen-skeleton .skeleton-w-30  { width: 30%; }
+.canteen-skeleton .skeleton-w-40  { width: 40%; }
+.canteen-skeleton .skeleton-w-50  { width: 50%; }
+.canteen-skeleton .skeleton-w-60  { width: 60%; }
+.canteen-skeleton .skeleton-w-70  { width: 70%; }
+.canteen-skeleton .skeleton-w-80  { width: 80%; }
+.canteen-skeleton .skeleton-w-90  { width: 90%; }
+.canteen-skeleton .skeleton-w-100 { width: 100%; }
+
+/* Sizing helpers — explicit overrides where the default height isn't right. */
+.canteen-skeleton .skeleton-h-sm  { height: 0.6rem; }
+.canteen-skeleton .skeleton-h-md  { height: 0.85rem; }
+.canteen-skeleton .skeleton-h-lg  { height: 1.5rem; }
+.canteen-skeleton .skeleton-h-xl  { height: 2rem; }
+
+/* ─── Auto reveal: [data-loaded] toggle ─────────────────────────────────── */
+/* Recursive descendant selector — works whether the skeleton is a direct
+   child or nested in a card body / col / etc.                              */
+[data-loaded="true"]  .canteen-skeleton { display: none !important; }
+[data-loaded="false"] .skeleton-target  { display: none !important; }
+
+/* ─── Spinner (inline + button + overlay) ───────────────────────────────── */
+.cl-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 0.15em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: cl-spin 0.7s linear infinite;
+    vertical-align: -0.125em;
+    color: var(--cl-spinner-color);
+}
+.cl-spinner-sm { width: 0.85em; height: 0.85em; border-width: 0.12em; }
+.cl-spinner-lg { width: 1.6em;  height: 1.6em;  border-width: 0.18em; }
+
+/* Button loading state — flips the spinner, swaps text, blocks clicks. */
+button[data-loading="true"],
+a[data-loading="true"] {
+    pointer-events: none;
+    opacity: 0.85;
+    position: relative;
+}
+button[data-loading="true"] .cl-btn-text,
+a[data-loading="true"] .cl-btn-text {
+    visibility: hidden;
+}
+button[data-loading="true"] .cl-btn-spinner,
+a[data-loading="true"] .cl-btn-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: absolute;
+    inset: 0;
+    justify-content: center;
+}
+button[data-loading="false"] .cl-btn-spinner,
+a[data-loading="false"] .cl-btn-spinner {
+    display: none;
+}
+
+/* ─── Full-page / scoped overlay ────────────────────────────────────────── */
+.cl-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--cl-overlay-bg);
+    backdrop-filter: blur(var(--cl-overlay-blur));
+    -webkit-backdrop-filter: blur(var(--cl-overlay-blur));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 1080;        /* above bootstrap modals' backdrop but below toasts */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    border-radius: inherit;
+}
+.cl-overlay[data-active="true"] {
+    opacity: 1;
+    pointer-events: auto;
+}
+.cl-overlay.cl-overlay-fixed {
+    position: fixed;
+    z-index: 1090;
+}
+.cl-overlay .cl-overlay-text {
+    color: var(--bs-body-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+.cl-overlay .cl-spinner {
+    width: 2rem;
+    height: 2rem;
+    border-width: 0.2rem;
+}
+
+/* The container an overlay sits in must be positioned. */
+.cl-overlay-host { position: relative; }
+
+/* ─── Shimmer + spin keyframes ──────────────────────────────────────────── */
+@keyframes cl-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+@keyframes cl-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ─── Reduced motion: kill the animations, keep the visual ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .cl-skeleton-block,
+    .canteen-skeleton .skeleton-block,
+    .cl-skeleton-circle,
+    .cl-spinner {
+        animation: none !important;
+    }
+    .cl-overlay { transition: none; }
+}

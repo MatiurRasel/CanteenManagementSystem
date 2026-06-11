@@ -1,0 +1,61 @@
+@*
+    /whats-new — every shipped batch surfaced in one scrollable timeline.
+    Records "now" in localStorage so the topbar bell badge can clear itself.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.WhatsNewController.WhatsNewVm
+@{
+    ViewData["Title"] = "What's new";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "What's new",
+        Subtitle = "Every shipped batch — most recent first."
+    };
+}
+
+<div class="container py-4" style="max-width:780px">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Entries.Count == 0)
+    {
+        var emptyVm = new EmptyStateOptions
+        {
+            Icon        = "fa-bell-slash",
+            Title       = "Nothing shipped yet",
+            Description = "Check back after the next release."
+        };
+        <partial name="_EmptyState" model="emptyVm" />
+    }
+    else
+    {
+        <ol class="list-unstyled mb-0">
+            @for (var i = 0; i < Model.Entries.Count; i++)
+            {
+                var e = Model.Entries[i];
+                var dateBadge = new UiBadgeOptions { Text = e.Date.ToString("yyyy-MM-dd"), Variant = UiBadgeVariant.Secondary };
+                <li class="ui-card mb-3">
+                    <div class="ui-card-header">
+                        <div>
+                            <div class="ui-card-title">@e.Title</div>
+                        </div>
+                        <partial name="_UiBadge" model="dateBadge" />
+                    </div>
+                    <div class="ui-card-body">
+                        <ul class="mb-0 ui-stack-sm" style="padding-left:1.25rem">
+                            @foreach (var b in e.Bullets)
+                            {
+                                <li>@b</li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+            }
+        </ol>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        try { localStorage.setItem('whatsNewSeenAt', new Date().toISOString()); } catch (e) {}
+    </script>
+}

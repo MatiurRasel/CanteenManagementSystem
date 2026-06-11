@@ -1,0 +1,417 @@
+@*
+    /Menu/ManageItems — admin CRUD for the FoodItems catalog.
+
+    Backend contract (preserved):
+      * GET  /Menu/GetFoodItem?id=…       → { success, item }
+      * POST /Menu/CreateItem  [FromBody] CreateFoodItemRequestDto
+      * POST /Menu/UpdateItem  [FromBody] UpdateFoodItemRequestDto
+      * POST /Menu/ToggleFoodItemStatus?id=…
+*@
+@using CanteenManagementSystem
+@using CanteenManagementSystem.Domain.Menu
+@using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
+@model List<FoodItem>
+
+@{
+    ViewData["Title"] = L["FoodItems"].Value;
+    var activeCount   = Model.Count(i => i.IsActive);
+    var inactiveCount = Model.Count - activeCount;
+    var avgPrice      = Model.Count == 0 ? 0m : Model.Average(i => i.Price);
+    var withImage     = Model.Count(i => !string.IsNullOrEmpty(i.ImageUrl));
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = L["FoodItems"].Value,
+        Subtitle = "Catalog of every food item this canteen serves. Activating / deactivating items hides them from the menu — it doesn't delete them.",
+        Actions  = Html.Raw(@"<button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#itemModal' data-mode='create'>
+                                <i class='bx bx-plus me-1'></i> Add item
+                              </button>
+                              <a class='btn btn-outline-secondary btn-sm ms-2' href='/Menu/Manage'>
+                                <i class='bx bx-arrow-back me-1'></i> Back to menu
+                              </a>")
+    };
+
+    var kpiTotal    = new UiKpiOptions { Label = "Total items",     Value = Model.Count.ToString("N0"),  Icon = "fa-bowl-rice" };
+    var kpiActive   = new UiKpiOptions { Label = "Active",          Value = activeCount.ToString("N0"),  Icon = "fa-check",     Trend = UiKpiTrend.Up };
+    var kpiInactive = new UiKpiOptions { Label = "Inactive",        Value = inactiveCount.ToString("N0"),Icon = "fa-pause",     Trend = inactiveCount > 0 ? UiKpiTrend.Down : UiKpiTrend.None };
+    var kpiAvg      = new UiKpiOptions { Label = "Average price",   Value = "৳ " + avgPrice.ToString("N0"), Icon = "fa-coins", Hint = withImage + " items have a photo" };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiTotal"    /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiActive"   /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiInactive" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiAvg"      /></div>
+    </div>
+
+    <div class="d-flex gap-2 align-items-center mb-3 flex-wrap">
+        <input id="item-search" type="search" class="ui-input form-control form-control-sm"
+               placeholder="Search by name / description / allergen…" style="max-width:340px" />
+        <select id="item-status" class="form-select ui-select form-select-sm" style="max-width:160px">
+            <option value="all">All</option>
+            <option value="active">Active only</option>
+            <option value="inactive">Inactive only</option>
+        </select>
+        <span class="ui-muted small ms-auto" id="item-count">@Model.Count item(s)</span>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions
+        {
+            Icon        = "fa-bowl-food",
+            Title       = "No items yet",
+            Description = "Add your first dish — it'll be available to schedule on today's menu and on weekly templates.",
+            CtaLabel    = "Add item",
+            CtaIcon     = "fa-plus",
+            CtaUrl      = "#"
+        };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th style="width:1%"></th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Dietary</th>
+                        <th class="text-end">Price</th>
+                        <th>Status</th>
+                        <th class="text-end" style="width:1%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="item-tbody">
+                @foreach (var item in Model.OrderBy(i => !i.IsActive).ThenBy(i => i.ItemName))
+                {
+                    var statusBadge = new UiBadgeOptions
+                    {
+                        Text    = item.IsActive ? "Active" : "Inactive",
+                        Variant = item.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    var search = (item.ItemName + " " + (item.Description ?? "") + " " + (item.Allergens ?? "")).ToLowerInvariant();
+                    <tr data-item-id="@item.FoodItemID" data-status="@(item.IsActive ? "active" : "inactive")" data-search="@search">
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" alt="" loading="lazy"
+                                     style="width:44px;height:44px;border-radius:var(--rad);object-fit:cover;border:1px solid var(--border)" />
+                            }
+                            else
+                            {
+                                <div style="width:44px;height:44px;border-radius:var(--rad);background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px solid var(--border)">
+                                    <i class="bx bx-bowl-hot"></i>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <div class="ui-text-strong">@item.ItemName</div>
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <div class="ui-muted small text-truncate" style="max-width:340px">@item.Description</div>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Category.HasValue)
+                            {
+                                <span class="ui-muted small">@item.Category</span>
+                            }
+                            else
+                            {
+                                <span class="ui-muted small">—</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                @if (item.IsVegetarian)
+                                {
+                                    <span class="ks-chip chip-veg"><i class="bx bx-leaf"></i> Veg</span>
+                                }
+                                @if (item.IsHalal)
+                                {
+                                    <span class="ks-chip chip-halal"><i class="bx bx-check-circle"></i> Halal</span>
+                                }
+                                @if (item.KCalories.HasValue && item.KCalories.Value > 0)
+                                {
+                                    <span class="ks-chip chip-kcal"><i class="bx bx-flame"></i> @item.KCalories kcal</span>
+                                }
+                                @if (!string.IsNullOrEmpty(item.Allergens))
+                                {
+                                    foreach (var a in item.Allergens.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Take(2))
+                                    {
+                                        <span class="ks-chip chip-allergy"><i class="bx bx-error"></i> @a</span>
+                                    }
+                                }
+                            </div>
+                        </td>
+                        <td class="text-end ui-tabular ui-text-strong">৳ @item.Price.ToString("N0")</td>
+                        <td><partial name="_UiBadge" model="statusBadge" /></td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#itemModal" data-mode="edit" data-id="@item.FoodItemID" title="Edit">
+                                    <i class="bx bx-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-@(item.IsActive ? "warning" : "success")"
+                                        data-toggle-item="@item.FoodItemID"
+                                        title="@(item.IsActive ? "Deactivate" : "Activate")">
+                                    <i class="bx @(item.IsActive ? "bx-pause" : "bx-play")"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@* ── Create / Edit modal ─────────────────────────────────────────────── *@
+<div class="modal fade" id="itemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" id="item-form" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bx bx-bowl-hot me-1" style="color:var(--accent)"></i>
+                    <span id="item-modal-title">Add item</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="FoodItemID" id="f-id" value="0" />
+
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="ui-label" for="f-name">Item name</label>
+                        <input id="f-name" name="ItemName" required maxlength="200" class="ui-input form-control" placeholder="e.g. Veg Biryani" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="ui-label" for="f-price">Price (৳)</label>
+                        <input id="f-price" name="Price" type="number" min="0" step="0.01" required class="ui-input form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label class="ui-label" for="f-desc">Description</label>
+                        <input id="f-desc" name="Description" maxlength="500" class="ui-input form-control" placeholder="One short line" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="ui-label" for="f-cat">Category</label>
+                        <select id="f-cat" name="Category" class="form-select ui-select">
+                            <option value="">—</option>
+                            @foreach (var c in Enum.GetValues<CanteenManagementSystem.Domain.Enums.CanteenMealType>())
+                            {
+                                <option value="@c">@c</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="ui-label" for="f-kcal">Calories (kcal)</label>
+                        <input id="f-kcal" name="KCalories" type="number" min="0" step="1" class="ui-input form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="ui-label" for="f-prep">Prep time (sec)</label>
+                        <input id="f-prep" name="PrepTimeSeconds" type="number" min="0" step="1" class="ui-input form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="ui-label" for="f-image">Image URL</label>
+                        <input id="f-image" name="ImageUrl" maxlength="500" class="ui-input form-control" placeholder="https://…/photo.jpg" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="ui-label" for="f-allerg">Allergens (comma-separated)</label>
+                        <input id="f-allerg" name="Allergens" maxlength="200" class="ui-input form-control" placeholder="nuts, dairy" />
+                    </div>
+
+                    <div class="col-12">
+                        <div class="d-flex gap-3 flex-wrap">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="f-veg"   name="IsVegetarian" />
+                                <label class="form-check-label" for="f-veg">Vegetarian</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="f-halal" name="IsHalal" />
+                                <label class="form-check-label" for="f-halal">Halal</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="f-active" name="IsActive" checked />
+                                <label class="form-check-label" for="f-active">Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="item-form-error" class="alert alert-danger small mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="item-form-save">
+                    <i class="bx bx-save me-1"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    'use strict';
+
+    var modal     = document.getElementById('itemModal');
+    var modalForm = document.getElementById('item-form');
+    var titleEl   = document.getElementById('item-modal-title');
+    var errBox    = document.getElementById('item-form-error');
+    var saveBtn   = document.getElementById('item-form-save');
+
+    var fields = {
+        FoodItemID:      document.getElementById('f-id'),
+        ItemName:        document.getElementById('f-name'),
+        Description:     document.getElementById('f-desc'),
+        Price:           document.getElementById('f-price'),
+        Category:        document.getElementById('f-cat'),
+        KCalories:       document.getElementById('f-kcal'),
+        PrepTimeSeconds: document.getElementById('f-prep'),
+        ImageUrl:        document.getElementById('f-image'),
+        Allergens:       document.getElementById('f-allerg'),
+        IsVegetarian:    document.getElementById('f-veg'),
+        IsHalal:         document.getElementById('f-halal'),
+        IsActive:        document.getElementById('f-active')
+    };
+
+    function resetForm() {
+        Object.keys(fields).forEach(function (k) {
+            var el = fields[k];
+            if (el.type === 'checkbox') el.checked = (k === 'IsActive');
+            else el.value = (k === 'FoodItemID' ? '0' : '');
+        });
+        errBox.classList.add('d-none'); errBox.textContent = '';
+    }
+
+    function loadIntoForm(item) {
+        resetForm();
+        Object.keys(fields).forEach(function (k) {
+            if (!(k in item)) return;
+            var v = item[k];
+            var el = fields[k];
+            if (el.type === 'checkbox') el.checked = !!v;
+            else el.value = v == null ? '' : v;
+        });
+    }
+
+    modal.addEventListener('show.bs.modal', function (evt) {
+        var trigger = evt.relatedTarget;
+        if (!trigger) return;
+        var mode = trigger.getAttribute('data-mode') || 'create';
+        if (mode === 'create') {
+            titleEl.textContent = 'Add item';
+            resetForm();
+            return;
+        }
+        titleEl.textContent = 'Edit item';
+        var id = trigger.getAttribute('data-id');
+        if (!id) return;
+        fetch('/Menu/GetFoodItem?id=' + encodeURIComponent(id))
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (d && d.success && d.item) loadIntoForm(d.item);
+                else {
+                    errBox.classList.remove('d-none');
+                    errBox.textContent = (d && d.message) || 'Item not found.';
+                }
+            })
+            .catch(function () {
+                errBox.classList.remove('d-none');
+                errBox.textContent = 'Could not load item.';
+            });
+    });
+
+    modalForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        errBox.classList.add('d-none'); errBox.textContent = '';
+
+        var body = {};
+        Object.keys(fields).forEach(function (k) {
+            var el = fields[k];
+            if (el.type === 'checkbox') body[k] = el.checked;
+            else if (el.type === 'number') body[k] = el.value === '' ? null : Number(el.value);
+            else body[k] = el.value;
+        });
+        var isEdit = Number(body.FoodItemID) > 0;
+        var url    = isEdit ? '/Menu/UpdateItem' : '/Menu/CreateItem';
+        saveBtn.disabled = true;
+        try {
+            var res = await fetch(url, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(body)
+            });
+            var data = await res.json();
+            if (data && data.success) {
+                if (window.cmsToast) window.cmsToast(isEdit ? 'Item updated.' : 'Item created.', 'success');
+                bootstrap.Modal.getInstance(modal).hide();
+                setTimeout(function () { location.reload(); }, 200);
+            } else {
+                errBox.classList.remove('d-none');
+                errBox.textContent = (data && data.message) || 'Save failed.';
+            }
+        } catch (err) {
+            console.error('save failed', err);
+            errBox.classList.remove('d-none');
+            errBox.textContent = 'Network error.';
+        } finally {
+            saveBtn.disabled = false;
+        }
+    });
+
+    // Per-row toggle (Active ↔ Inactive)
+    document.addEventListener('click', async function (evt) {
+        var btn = evt.target.closest('button[data-toggle-item]');
+        if (!btn) return;
+        var id = btn.getAttribute('data-toggle-item');
+        btn.disabled = true;
+        try {
+            var res = await fetch('/Menu/ToggleFoodItemStatus?id=' + encodeURIComponent(id), { method: 'POST' });
+            var data = await res.json();
+            if (data && data.success) {
+                if (window.cmsToast) window.cmsToast('Status updated.', 'success');
+                setTimeout(function () { location.reload(); }, 200);
+            } else {
+                if (window.cmsToast) window.cmsToast((data && data.message) || 'Could not update.', 'warning');
+            }
+        } catch (e) {
+            if (window.cmsToast) window.cmsToast('Network error.', 'warning');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    // Search + status filter
+    var search = document.getElementById('item-search');
+    var status = document.getElementById('item-status');
+    var count  = document.getElementById('item-count');
+    function applyFilter() {
+        var q = (search.value || '').toLowerCase().trim();
+        var s = status.value;
+        var rows = document.querySelectorAll('#item-tbody tr');
+        var shown = 0;
+        rows.forEach(function (r) {
+            var matches = !q || (r.getAttribute('data-search') || '').indexOf(q) >= 0;
+            var statusOk = s === 'all' || r.getAttribute('data-status') === s;
+            var on = matches && statusOk;
+            r.style.display = on ? '' : 'none';
+            if (on) shown++;
+        });
+        count.textContent = shown + ' item(s)';
+    }
+    search.addEventListener('input', applyFilter);
+    status.addEventListener('change', applyFilter);
+})();
+</script>
+}

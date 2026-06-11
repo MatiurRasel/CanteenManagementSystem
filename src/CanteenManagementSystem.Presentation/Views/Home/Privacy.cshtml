@@ -1,0 +1,52 @@
+@*
+    /Home/Privacy — placeholder privacy policy. Replace with real legal copy
+    before production. Rendered on the standard layout so it picks up branding.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@{
+    ViewData["Title"] = "Privacy policy";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Privacy policy",
+        Subtitle = "How SmartCanteen handles personal data."
+    };
+}
+
+<div class="container py-4" style="max-width:820px">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="ui-card">
+        <div class="ui-card-body ui-stack">
+            <section>
+                <h6 class="ui-text-strong">What we collect</h6>
+                <p class="ui-muted small mb-0">
+                    User profile (name, email, role), card UID, order history, wallet transactions, device pairing tokens,
+                    and webhook delivery logs. Sensitive credentials (passwords, gateway secrets) are hashed or encrypted
+                    at rest and never returned to the browser.
+                </p>
+            </section>
+            <section>
+                <h6 class="ui-text-strong">How we use it</h6>
+                <p class="ui-muted small mb-0">
+                    Strictly to operate this canteen — process orders, settle wallet balances, deliver SMS / email
+                    notifications, run reports, and audit transactions. Data is segregated per tenant; one tenant cannot
+                    see another tenant's data.
+                </p>
+            </section>
+            <section>
+                <h6 class="ui-text-strong">Retention</h6>
+                <p class="ui-muted small mb-0">
+                    Transaction history is retained for the duration required by your local tax law (typically 5 years).
+                    Soft-deleted tenants are kept on a 30-day cooling-off window before a one-shot hard delete.
+                </p>
+            </section>
+            <section>
+                <h6 class="ui-text-strong">Your rights</h6>
+                <p class="ui-muted small mb-0">
+                    Subject access, correction, and erasure requests should be addressed to your tenant administrator —
+                    they hold the data controller role for your canteen's deployment.
+                </p>
+            </section>
+        </div>
+    </div>
+</div>

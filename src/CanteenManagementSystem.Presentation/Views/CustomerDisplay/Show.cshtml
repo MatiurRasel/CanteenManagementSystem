@@ -1,0 +1,132 @@
+@*
+    /display/order/{orderNumber} — anonymous customer-facing pole display.
+    Big text, dark canvas, no chrome. Auto-refreshes every 10s.
+*@
+@model CanteenManagementSystem.Presentation.Controllers.CustomerDisplayController.CustomerDisplayVm
+@{
+    Layout = null;
+    ViewData["Title"] = $"Order {Model.OrderNumber}";
+    var statusClass = Model.Status switch
+    {
+        "Delivered" => "delivered",
+        "Ready"     => "ready",
+        "Pending"   => "pending",
+        "Confirmed" => "confirmed",
+        "Preparing" => "preparing",
+        _ => "other"
+    };
+}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order @Model.OrderNumber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+    <style>
+        /* The pole-screen uses a locked dark palette regardless of tenant theme
+           so the contrast stays predictable at TV distance.  --tone-* drives
+           the colour of the status dot + status text. */
+        :root {
+            --tone-pending:   #f59e0b;
+            --tone-confirmed: #3b82f6;
+            --tone-preparing: #6366f1;
+            --tone-ready:     #10b981;
+            --tone-delivered: #71717a;
+            --tone-other:     #71717a;
+        }
+        html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; }
+        .display-wrap { min-height: 100vh; display: grid; place-items: center; padding: 32px; }
+        .display-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--rad-lg);
+            padding: 48px;
+            max-width: 720px; width: 100%;
+            box-shadow: var(--sh-3);
+        }
+        .order-no {
+            font-size: 64px; font-weight: 700;
+            letter-spacing: -0.02em; line-height: 1;
+            margin-bottom: 16px;
+            font-variant-numeric: tabular-nums;
+            color: var(--fg);
+        }
+        .status {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 12px 24px;
+            border-radius: var(--rad-pill);
+            font-size: 24px; font-weight: 600;
+            background: rgba(255,255,255,.08);
+        }
+        .status-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--tone-@statusClass); }
+        .status.pending   { color: var(--tone-pending); }
+        .status.confirmed { color: var(--tone-confirmed); }
+        .status.preparing { color: var(--tone-preparing); }
+        .status.ready     { color: var(--tone-ready); }
+        .status.delivered { color: var(--tone-delivered); }
+        .items { margin-top: 32px; }
+        .items-title {
+            font-size: 14px; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.08em;
+            margin-bottom: 16px; font-weight: 600;
+        }
+        .item {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 12px 0; border-bottom: 1px solid var(--border);
+            font-size: 20px;
+        }
+        .item:last-child { border-bottom: none; }
+        .item-qty   { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 48px; }
+        .item-name  { flex-grow: 1; padding: 0 16px; }
+        .item-price { font-weight: 600; font-variant-numeric: tabular-nums; }
+        .total {
+            display: flex; justify-content: space-between;
+            padding-top: 24px; margin-top: 8px;
+            border-top: 2px solid var(--border);
+            font-size: 28px; font-weight: 700;
+        }
+        .meta { margin-top: 24px; color: var(--muted); font-size: 13px; }
+        @@media (max-width: 600px) {
+            .display-card { padding: 24px; }
+            .order-no { font-size: 44px; }
+            .item { font-size: 17px; }
+            .total { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="display-wrap">
+        <div class="display-card">
+            <div class="order-no">#@Model.OrderNumber</div>
+            <span class="status @statusClass">
+                <span class="status-dot"></span>
+                @Model.Status
+            </span>
+            <div class="items">
+                <div class="items-title">Items</div>
+                @foreach (var i in Model.Items)
+                {
+                    <div class="item">
+                        <span class="item-qty">@i.Quantity×</span>
+                        <span class="item-name">@i.ItemName</span>
+                        <span class="item-price">৳ @i.LineTotal.ToString("N0")</span>
+                    </div>
+                }
+            </div>
+            <div class="total">
+                <span>Total</span>
+                <span>৳ @Model.TotalAmount.ToString("N0")</span>
+            </div>
+            <div class="meta">Placed @Model.OrderDate.ToString("yyyy-MM-dd · HH:mm")</div>
+        </div>
+    </div>
+    <script>
+        // Re-fetch every 10 seconds so the status badge tracks the order lifecycle live.
+        setTimeout(function () { location.reload(); }, 10000);
+    </script>
+</body>
+</html>

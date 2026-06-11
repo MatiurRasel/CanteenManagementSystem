@@ -1,0 +1,57 @@
+@*
+    /admin/users/bulk-import — CSV upload of multiple users at once.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.UsersAdminController.BulkImportResult
+@{
+    ViewData["Title"] = "Bulk import users";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Bulk import users (CSV)",
+        Subtitle = "Upload a CSV — existing usernames are skipped, so re-uploading is idempotent.",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/users'><i class='fa-solid fa-arrow-left me-1'></i> All users</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <form method="post" enctype="multipart/form-data" asp-action="BulkImport">
+                @Html.AntiForgeryToken()
+                <div class="ui-card">
+                    <div class="ui-card-body">
+                        <label class="ui-label">CSV file</label>
+                        <input type="file" name="file" accept=".csv" class="ui-input form-control" required />
+                        <div class="ui-help-text">UTF-8 encoded. First row is the header. Up to ~10k rows in one go.</div>
+                    </div>
+                    <div class="ui-card-footer d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-file-arrow-up me-1"></i> Import
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Expected CSV shape</div></div>
+                <div class="ui-card-body">
+                    <pre class="ui-mono small mb-2" style="background:var(--surface-2);padding:.75rem;border-radius:var(--rad);border:1px solid var(--border);white-space:pre-wrap">UserName,DisplayName,Email,UserKind,RoleCode,ExternalId
+ccpc.op1,Imran Ahmed,imran@ccpc.edu,Operator,Operator,
+ccpc.op2,Reza Karim,reza@ccpc.edu,Cashier,Cashier,STAFF-001
+ccpc.aud1,Audit One,audit@ccpc.edu,Auditor,Auditor,</pre>
+                    <p class="ui-muted small mb-0">
+                        Required: <code>UserName</code>, <code>DisplayName</code>.
+                        Optional: <code>Email</code>, <code>UserKind</code> (default <code>Operator</code>),
+                        <code>RoleCode</code> (default <code>Operator</code>), <code>ExternalId</code>
+                        (linked person id, e.g. employee number).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

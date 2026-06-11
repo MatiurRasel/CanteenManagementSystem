@@ -1,0 +1,35 @@
+<Project>
+
+  <!-- ============================================================
+       Directory.Build.props — repo-wide MSBuild defaults
+       ============================================================
+       Inherited by every .csproj in the solution. Use this for
+       cross-cutting settings (warnings, audit suppressions, etc.)
+       so individual project files stay focused on their content.
+       ============================================================ -->
+
+  <PropertyGroup>
+    <!-- Surface vulnerable transitive packages. Keep on. -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+  </PropertyGroup>
+
+  <!-- ============================================================
+       Whitelisted advisories — consciously accepted with rationale.
+       Each entry MUST link to the ADR or code comment that explains
+       why we accept the risk (so audits surface the decision trail).
+       ============================================================ -->
+  <ItemGroup>
+    <!--
+      SixLabors.ImageSharp 2.1.10 — moderate, no fix in the 2.x line.
+      The 3.x fix is dual-licensed (Apache-2.0 + commercial above $1M ARR);
+      adopting it would break docs/ADR/0003-oss-charter.md. We pin 2.1.10
+      (last truly OSS release with every other CVE patched) and accept
+      this single residual moderate. Revisit at $1M ARR scale.
+      Advisory: https://github.com/advisories/GHSA-rxmq-m78w-7wmc
+    -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rxmq-m78w-7wmc" />
+  </ItemGroup>
+
+</Project>

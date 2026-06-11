@@ -1,0 +1,122 @@
+@*
+    /admin/combos/edit/{id?} — create or edit a counter combo.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.CombosAdminController.ComboFormVm
+@{
+    ViewData["Title"] = Model.ComboButtonId is null ? "Add combo" : $"Edit combo {Model.Code}";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = Model.ComboButtonId is null ? "Add combo" : "Edit combo",
+        Subtitle = "One-tap counter button — bundles N FoodItems behind a memorable code + colour.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/combos'><i class='fa-solid fa-arrow-left me-1'></i> Back to list</a>")
+    };
+    var selectedIds = (Model.FoodItemIdsCsv ?? string.Empty)
+        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+        .Select(s => int.TryParse(s, out var n) ? n : 0)
+        .Where(n => n > 0).ToHashSet();
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" action="/admin/combos/save" data-cl-form>
+        @Html.AntiForgeryToken()
+        @if (Model.ComboButtonId is not null)
+        {
+            <input type="hidden" name="comboButtonId" value="@Model.ComboButtonId" />
+        }
+        <div class="row g-4">
+            <div class="col-12 col-lg-7">
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Details</div>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <label class="ui-label">Code <span class="ui-muted">*</span></label>
+                                <input class="ui-input form-control" name="code" maxlength="20" required
+                                       value="@Model.Code" placeholder="LUNCH" style="text-transform:uppercase" />
+                                <div class="ui-help-text">Short alphanumeric ID — shown on the button.</div>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <label class="ui-label">Display name <span class="ui-muted">*</span></label>
+                                <input class="ui-input form-control" name="displayName" maxlength="80" required
+                                       value="@Model.DisplayName" placeholder="Lunch combo" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="ui-label">Color</label>
+                                <input class="ui-input form-control" name="color" type="color"
+                                       value="@(string.IsNullOrEmpty(Model.Color) ? "#6f42c1" : Model.Color)" />
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="ui-label">Sort order</label>
+                                <input class="ui-input form-control" name="sortOrder" type="number" min="0" max="999"
+                                       value="@Model.SortOrder" />
+                            </div>
+                            <div class="col-6 col-md-4 d-flex align-items-end">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="true" @(Model.IsActive ? "checked" : "") />
+                                    <label class="form-check-label ui-label mb-0" for="isActive">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div>
+                            <div class="ui-card-title">Items in combo</div>
+                            <div class="ui-card-muted-body">Tick every food item the combo orders.</div>
+                        </div>
+                    </div>
+                    <div class="ui-card-body">
+                        <input type="hidden" id="foodItemIdsCsv" name="foodItemIdsCsv" value="@Model.FoodItemIdsCsv" />
+                        <div class="ui-stack-sm" style="max-height: 380px; overflow-y: auto;">
+                        @if (Model.AvailableFoodItems.Count == 0)
+                        {
+                            <div class="ui-muted" style="font-size:13px">No active food items yet — add some at /Menu/Manage first.</div>
+                        }
+                        @foreach (var f in Model.AvailableFoodItems)
+                        {
+                            <label class="ui-row" style="padding: 6px 8px; border: 1px solid var(--border-soft); border-radius: var(--rad-sm); cursor: pointer; gap: 8px">
+                                <input type="checkbox" class="combo-item-pick" data-id="@f.FoodItemID" @(selectedIds.Contains(f.FoodItemID) ? "checked" : "") />
+                                <span class="ui-text-strong" style="flex:1;font-size:13px">@f.ItemName</span>
+                                <span class="ui-muted ui-tabular" style="font-size:12px">৳ @f.Price.ToString("N0")</span>
+                            </label>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-row" style="justify-content:flex-end; margin-top: 1.5rem; gap: .5rem">
+            <a class="btn btn-ghost" href="/admin/combos">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save combo
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Maintain the hidden CSV from every checkbox tick. Server-side parses CSV → int[].
+        (function () {
+            var hidden = document.getElementById('foodItemIdsCsv');
+            function refresh() {
+                var ids = Array.from(document.querySelectorAll('.combo-item-pick:checked'))
+                    .map(function (cb) { return cb.getAttribute('data-id'); });
+                hidden.value = ids.join(',');
+            }
+            document.querySelectorAll('.combo-item-pick').forEach(function (cb) {
+                cb.addEventListener('change', refresh);
+            });
+            refresh();
+        })();
+    </script>
+}

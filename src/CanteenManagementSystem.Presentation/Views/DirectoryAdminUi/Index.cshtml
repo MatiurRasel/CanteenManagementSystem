@@ -1,0 +1,184 @@
+@*
+    /directory-admin — student/employee roster health + CSV upload + sync history.
+*@
+@using Platform.Domain.Directory
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.DirectoryAdminUiController.HealthVm
+@{
+    ViewData["Title"] = "Directory";
+    UiBadgeVariant StatusVar(string s) => s switch
+    {
+        "Healthy"  => UiBadgeVariant.Success,
+        "Failing"  => UiBadgeVariant.Danger,
+        "Disabled" => UiBadgeVariant.Secondary,
+        _ => UiBadgeVariant.Warning
+    };
+    UiBadgeVariant RunVar(string s) => s switch
+    {
+        "Success" => UiBadgeVariant.Success,
+        "Failed"  => UiBadgeVariant.Danger,
+        "Running" => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Secondary
+    };
+    string Ago(DateTime? when)
+    {
+        if (when is null) return "—";
+        var t = DateTime.UtcNow - when.Value;
+        if (t.TotalSeconds < 60) return $"{(int)t.TotalSeconds}s ago";
+        if (t.TotalMinutes < 60) return $"{(int)t.TotalMinutes}m ago";
+        if (t.TotalHours   < 24) return $"{(int)t.TotalHours}h ago";
+        return $"{(int)t.TotalDays}d ago";
+    }
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Directory",
+        Subtitle = "Student / employee roster for this tenant. Synced from your configured source."
+    };
+    var healthBadge = new UiBadgeOptions { Text = Model.Status, Variant = StatusVar(Model.Status), WithDot = true };
+    var kpiStudents  = new UiKpiOptions { Label = "Students",  Value = Model.StudentsTotal.ToString("N0"),  Icon = "fa-graduation-cap" };
+    var kpiEmployees = new UiKpiOptions { Label = "Employees", Value = Model.EmployeesTotal.ToString("N0"), Icon = "fa-id-badge" };
+}
+
+<partial name="_FlashMessages" />
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <form asp-action="SyncNow" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-rotate me-1"></i> Sync now
+            </button>
+        </form>
+        <a asp-action="Setup" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-gear me-1"></i> Setup
+        </a>
+        <a asp-action="Students"  class="btn btn-outline-secondary ms-auto">Students</a>
+        <a asp-action="Employees" class="btn btn-outline-secondary">Employees</a>
+        <a asp-action="Runs"      class="btn btn-outline-secondary">All runs</a>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6 col-xl-3">
+            <div class="ui-card h-100">
+                <div class="ui-card-body">
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Health</div>
+                    <div class="d-flex align-items-center mt-2">
+                        <partial name="_UiBadge" model="healthBadge" />
+                        <span class="ui-muted small ms-2">
+                            @if (Model.ConsecutiveFailures > 0)
+                            { <text>@Model.ConsecutiveFailures consec. failure(s)</text> }
+                            else
+                            { <text>No recent failures</text> }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="ui-card h-100">
+                <div class="ui-card-body">
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Source</div>
+                    <div class="ui-text-strong mt-2">@Model.Source</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3"><partial name="_UiKpi" model="kpiStudents"  /></div>
+        <div class="col-md-6 col-xl-3"><partial name="_UiKpi" model="kpiEmployees" /></div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-body">
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Last sync</div>
+                    <div class="ui-text-strong mt-2">@Ago(Model.LastSyncAtUtc)</div>
+                    <div class="ui-muted small">@(Model.LastSyncAtUtc?.ToString("u") ?? "—")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-body">
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Last successful sync</div>
+                    <div class="ui-text-strong mt-2">@Ago(Model.LastSuccessAtUtc)</div>
+                    @if (!string.IsNullOrEmpty(Model.LastErrorMessage))
+                    {
+                        <div class="text-danger small mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>@Model.LastErrorMessage</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-header"><div class="ui-card-title">Upload students CSV</div></div>
+                <div class="ui-card-body">
+                    <div class="ui-muted small mb-2">Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Program, Class, Section, Session, Version).</div>
+                    <form asp-action="UploadStudents" method="post" enctype="multipart/form-data" class="d-flex gap-2">
+                        @Html.AntiForgeryToken()
+                        <input type="file" name="file" accept=".csv" class="ui-input form-control" required />
+                        <button type="submit" class="btn btn-outline-primary text-nowrap">
+                            <i class="fa-solid fa-upload me-1"></i> Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-header"><div class="ui-card-title">Upload employees CSV</div></div>
+                <div class="ui-card-body">
+                    <div class="ui-muted small mb-2">Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Designation, EmployeeType).</div>
+                    <form asp-action="UploadEmployees" method="post" enctype="multipart/form-data" class="d-flex gap-2">
+                        @Html.AntiForgeryToken()
+                        <input type="file" name="file" accept=".csv" class="ui-input form-control" required />
+                        <button type="submit" class="btn btn-outline-primary text-nowrap">
+                            <i class="fa-solid fa-upload me-1"></i> Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-card">
+        <div class="ui-card-header"><div class="ui-card-title">Recent sync runs</div></div>
+        <div class="ui-table-wrap">
+            <table class="table mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>When</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                        <th>Students Δ</th>
+                        <th>Employees Δ</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model.RecentRuns)
+                {
+                    var rb = new UiBadgeOptions { Text = r.Status, Variant = RunVar(r.Status), WithDot = true };
+                    <tr>
+                        <td class="ui-mono small">@r.StartedAtUtc.ToString("MM-dd HH:mm:ss")</td>
+                        <td><span class="ui-mono small">@r.Source</span></td>
+                        <td><partial name="_UiBadge" model="rb" /></td>
+                        <td class="ui-muted small">+@r.StudentsAdded / ~@r.StudentsUpdated / -@r.StudentsDisabled</td>
+                        <td class="ui-muted small">+@r.EmployeesAdded / ~@r.EmployeesUpdated / -@r.EmployeesDisabled</td>
+                        <td class="ui-tabular small">@(r.Duration?.ToString(@"mm\:ss") ?? "—")</td>
+                    </tr>
+                }
+                @if (Model.RecentRuns.Count == 0)
+                {
+                    <tr><td colspan="6" class="ui-muted text-center py-4">No sync runs yet. Press <strong>Sync now</strong> or upload a CSV.</td></tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

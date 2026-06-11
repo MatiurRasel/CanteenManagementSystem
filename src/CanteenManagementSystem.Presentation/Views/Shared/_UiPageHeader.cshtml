@@ -1,0 +1,26 @@
+@*
+    _UiPageHeader — consistent page heading + optional subtitle + actions row.
+
+    USAGE
+        <partial name="_UiPageHeader" model="@new UiPageHeaderOptions {
+            Title    = "Reports",
+            Subtitle = "Daily collection, popular items, audit trail …",
+            Actions  = Html.Raw("<a class='btn btn-sm btn-primary'>Run report</a>")
+        }" />
+*@
+@model CanteenManagementSystem.Presentation.Models.UiPageHeaderOptions
+@{ var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiPageHeaderOptions(); }
+
+<div class="ui-page-header">
+    <div>
+        <h1 class="ui-page-title">@opts.Title</h1>
+        @if (!string.IsNullOrWhiteSpace(opts.Subtitle))
+        {
+            <div class="ui-page-subtitle">@opts.Subtitle</div>
+        }
+    </div>
+    @if (opts.Actions is not null)
+    {
+        <div class="ui-page-actions">@opts.Actions</div>
+    }
+</div>

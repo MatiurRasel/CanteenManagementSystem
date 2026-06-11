@@ -1,0 +1,19 @@
+apiVersion: v2
+name: canteen-platform
+description: Multi-tenant canteen / cafeteria SaaS — Sneat admin UI, ESC/POS thermal printing, gateway-agnostic payments, directory sync, MFA, audit trail.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - canteen
+  - cafeteria
+  - school
+  - saas
+  - mfs
+  - bkash
+home: https://github.com/your-org/canteen
+sources:
+  - https://github.com/your-org/canteen
+maintainers:
+  - name: Platform team
+    email: platform@your-org

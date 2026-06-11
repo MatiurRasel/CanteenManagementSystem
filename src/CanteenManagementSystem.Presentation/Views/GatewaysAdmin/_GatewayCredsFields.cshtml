@@ -1,0 +1,67 @@
+@*
+   Reusable creds form block. Renders Live or Sandbox depending on the
+   "Prefix" key in ViewData. All POSTed fields are named
+   "{Prefix}{FieldName}" so the controller's strong-typed model bind picks
+   them up automatically.
+*@
+@{
+    var prefix = ViewData["Prefix"] as string ?? "Live";
+    var baseUrl  = ViewData["BaseUrl"]  as string;
+    var user     = ViewData["Username"] as string;
+    var pwd      = ViewData["Password"] as string;
+    var key      = ViewData["AppKey"]   as string;
+    var secret   = ViewData["AppSecret"] as string;
+    var mid      = ViewData["MerchantId"] as string;
+    var mnum     = ViewData["MerchantNumber"] as string;
+    var cb       = ViewData["Callback"] as string;
+    var wh       = ViewData["Webhook"]  as string;
+    var ipn      = ViewData["Ipn"]      as string;
+    var fail     = ViewData["Fail"]     as string;
+}
+
+<div class="row g-3">
+    <div class="col-md-12">
+        <label class="form-label small">Base URL</label>
+        <input name="@(prefix)BaseUrl" value="@baseUrl" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Username</label>
+        <input name="@(prefix)Username" value="@user" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Password</label>
+        <input name="@(prefix)Password" value="@pwd" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">App key</label>
+        <input name="@(prefix)AppKey" value="@key" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">App secret</label>
+        <input name="@(prefix)AppSecret" value="@secret" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Merchant ID</label>
+        <input name="@(prefix)MerchantId" value="@mid" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Merchant number</label>
+        <input name="@(prefix)MerchantNumber" value="@mnum" class="form-control" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Success callback URL</label>
+        <input name="@(prefix)CallbackUrl" value="@cb" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Webhook URL</label>
+        <input name="@(prefix)WebhookUrl" value="@wh" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">IPN URL</label>
+        <input name="@(prefix)IpnUrl" value="@ipn" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label small">Failure callback URL</label>
+        <input name="@(prefix)FailCallbackUrl" value="@fail" class="form-control" />
+    </div>
+</div>

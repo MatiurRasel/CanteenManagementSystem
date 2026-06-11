@@ -1,0 +1,66 @@
+@*
+    / — public landing page (operator quick-links).
+*@
+@using CanteenManagementSystem
+@using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
+
+@{
+    ViewData["Title"] = L["AppName"].Value;
+    var header = new UiPageHeaderOptions
+    {
+        Title    = L["AppName"].Value,
+        Subtitle = L["AppSubtitle"].Value
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-3">
+            <a asp-controller="Operator" asp-action="Dashboard" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
+                <div class="ui-card-body">
+                    <span class="icon-circle"><i class="fa-solid fa-chart-line"></i></span>
+                    <div class="mt-3">
+                        <div class="ui-card-title">@L["Dashboard"]</div>
+                        <div class="ui-muted small mt-1">Live KPIs and order queue.</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a asp-controller="Verification" asp-action="Index" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
+                <div class="ui-card-body">
+                    <span class="icon-circle"><i class="fa-solid fa-id-card-clip"></i></span>
+                    <div class="mt-3">
+                        <div class="ui-card-title">@L["Verification"]</div>
+                        <div class="ui-muted small mt-1">Scan a user, see balance &amp; menu.</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a asp-controller="Menu" asp-action="Manage" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
+                <div class="ui-card-body">
+                    <span class="icon-circle"><i class="fa-solid fa-utensils"></i></span>
+                    <div class="mt-3">
+                        <div class="ui-card-title">@L["Menu"]</div>
+                        <div class="ui-muted small mt-1">Curate today's menu and stock.</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a asp-controller="Display" asp-action="Menu" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
+                <div class="ui-card-body">
+                    <span class="icon-circle"><i class="fa-solid fa-tv"></i></span>
+                    <div class="mt-3">
+                        <div class="ui-card-title">@L["Display"]</div>
+                        <div class="ui-muted small mt-1">Customer-facing display board.</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

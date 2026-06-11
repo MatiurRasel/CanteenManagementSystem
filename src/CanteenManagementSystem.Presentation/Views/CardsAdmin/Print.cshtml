@@ -1,0 +1,112 @@
+@*
+    Print.cshtml — printable NFC-card layout (CR80 / 86×54mm).
+
+    Designed for "send to OS print dialog" on a card-printer driver or a
+    standard inkjet with cardstock. Includes inline @media print rules so
+    nothing other than the card itself appears on paper.
+*@
+@model CanteenManagementSystem.Presentation.Controllers.CardsAdminController.CardPrintVm
+@{
+    ViewData["Title"] = $"Print card {Model.Card.CardUid}";
+    Layout = "_Layout";
+    var accent = string.IsNullOrWhiteSpace(Model.AccentColor) ? "#6f42c1" : Model.AccentColor;
+}
+
+@section Styles {
+    <style>
+        .card-print-wrap {
+            display: flex; justify-content: center; padding: 1.5rem;
+        }
+        .nfc-card-print {
+            width: 86mm; height: 54mm;
+            border-radius: 4mm;
+            box-shadow: 0 8px 24px rgba(0,0,0,.18);
+            background: linear-gradient(135deg, #fff 0%, #f6f7f9 100%);
+            overflow: hidden;
+            position: relative;
+            font-family: "Inter", Arial, sans-serif;
+            color: #1a1a1a;
+        }
+        .nfc-card-print .accent-stripe {
+            height: 8mm;
+            background: var(--accent);
+        }
+        .nfc-card-print .body {
+            display: flex;
+            padding: 3mm 4mm;
+            gap: 4mm;
+            height: calc(100% - 8mm);
+            box-sizing: border-box;
+        }
+        .nfc-card-print .photo {
+            width: 22mm; height: 28mm;
+            border-radius: 2mm;
+            background: #e9ecef;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .nfc-card-print .meta {
+            flex-grow: 1;
+            display: flex; flex-direction: column;
+            font-size: 8pt; line-height: 1.25;
+        }
+        .nfc-card-print .meta .name {
+            font-size: 11pt; font-weight: 700; line-height: 1.1;
+            margin-bottom: 1mm;
+        }
+        .nfc-card-print .meta .row {
+            color: #444; margin: 0.4mm 0;
+        }
+        .nfc-card-print .tenant {
+            position: absolute; top: 2mm; right: 3mm;
+            font-size: 8pt; font-weight: 600;
+            color: #fff;
+        }
+        .nfc-card-print .uid {
+            position: absolute; bottom: 2mm; right: 3mm;
+            font-family: "JetBrains Mono", "Courier New", monospace;
+            font-size: 7pt; color: #6c757d;
+            letter-spacing: 0.05em;
+        }
+        @@media print {
+            body { background: #fff !important; }
+            .app-shell-sidebar, .app-shell-topbar, .app-shell-footer,
+            .no-print, .breadcrumb, .toast-container { display: none !important; }
+            .card-print-wrap { padding: 0; }
+            .nfc-card-print { box-shadow: none; page-break-after: always; }
+            @@page { size: 86mm 54mm; margin: 0; }
+        }
+    </style>
+}
+
+<div class="no-print d-flex justify-content-between align-items-center px-3 py-2">
+    <a asp-action="Detail" asp-route-id="@Model.Card.CardId" class="btn btn-link">← Back</a>
+    <button class="btn btn-primary" onclick="window.print()">Print card</button>
+</div>
+
+<div class="card-print-wrap">
+    <div class="nfc-card-print" style="--accent: @accent">
+        <div class="accent-stripe">
+            <div class="tenant">@Model.TenantName</div>
+        </div>
+        <div class="body">
+            @if (!string.IsNullOrWhiteSpace(Model.UserPhotoUrl))
+            {
+                <img src="@Model.UserPhotoUrl" alt="" class="photo" />
+            }
+            else
+            {
+                <div class="photo d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-user fa-2x text-muted"></i>
+                </div>
+            }
+            <div class="meta">
+                <div class="name">@Model.UserName</div>
+                <div class="row"><strong>ID:</strong> @Model.Card.UserId</div>
+                <div class="row"><strong>Type:</strong> @Model.Card.UserType</div>
+                <div class="row"><strong>Issued:</strong> @Model.Card.IssuedAtUtc.ToString("yyyy-MM-dd")</div>
+            </div>
+        </div>
+        <div class="uid">@Model.Card.CardUid</div>
+    </div>
+</div>

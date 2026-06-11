@@ -1,0 +1,79 @@
+# =============================================================================
+# Dependabot — Supply-chain hygiene
+# -----------------------------------------------------------------------------
+# Tracks updates for:
+#   * NuGet packages (every project under /, weekly)
+#   * GitHub Actions in .github/workflows (weekly)
+#   * Docker base images (weekly)
+#
+# Security advisories are pulled DAILY automatically by Dependabot regardless
+# of the cadence below — these settings only govern regular bump PRs.
+#
+# Grouping cuts noise: all .NET runtime + EF Core / OpenTelemetry / Auth bumps
+# arrive in one PR each week instead of a 30-item PR storm.
+# =============================================================================
+
+version: 2
+updates:
+
+  # ─── NuGet (all .csproj files) ─────────────────────────────────────────────
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Asia/Dhaka"
+    open-pull-requests-limit: 8
+    labels:
+      - "dependencies"
+      - "nuget"
+    groups:
+      dotnet-runtime:
+        patterns:
+          - "Microsoft.AspNetCore.*"
+          - "Microsoft.Extensions.*"
+          - "Microsoft.EntityFrameworkCore*"
+          - "System.IdentityModel*"
+          - "Microsoft.IdentityModel*"
+      opentelemetry:
+        patterns:
+          - "OpenTelemetry*"
+      reporting-printing:
+        patterns:
+          - "ClosedXML"
+          - "PdfSharpCore"
+          - "QuestPDF"
+          - "SixLabors.*"
+      payments-comms:
+        patterns:
+          - "Twilio*"
+          - "Stripe*"
+      misc-tests:
+        patterns:
+          - "xunit*"
+          - "FluentAssertions"
+          - "Moq*"
+          - "Microsoft.NET.Test.Sdk"
+
+  # ─── GitHub Actions ───────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 4
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # ─── Docker base images ───────────────────────────────────────────────────
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 4
+    labels:
+      - "dependencies"
+      - "docker"

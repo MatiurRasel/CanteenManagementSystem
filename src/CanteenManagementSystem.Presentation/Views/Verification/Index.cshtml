@@ -1,0 +1,462 @@
+@*
+    /Verification — counter scan flow, polish round 2.
+
+    Visual additions:
+      * Animated "scanner" icon when idle (NFC pulse SVG) so the counter staff
+        knows the page is ready for a tap.
+      * Avatar fallback with initials gradient when no photo URL.
+      * Hero balance with health colour: green (>50%), amber (10–50%), red (≤10%).
+      * Spending progress bar across totalBalance.
+      * Menu rows with item images when present, dietary tags inline.
+      * Toast on found / not-found via cmsToast (SweetAlert2 wrapper already in layout).
+
+    Behaviour contract (preserved):
+      * window.canteenFetch('/Verification/VerifyUser', {Identifier}) — DTO shape
+        from VerificationViewModel (Success, UserName, UserIdentifier, AvailableBalance,
+        TotalBalance, UsedBalance, UserPhotoUrl, AcademicInformation, EmployeeTypeName,
+        TodayMenu: [{ItemName, Description, Price, InStock, AvailableQuantity, ImageUrl}])
+      * Keystroke anywhere → focus input; Esc → clear; Enter → submit.
+      * Hardware-reader hook stays on [data-cl-hid-uid].
+*@
+@using CanteenManagementSystem
+@using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
+
+@{
+    ViewData["Title"] = L["Verification"].Value;
+    var header = new UiPageHeaderOptions
+    {
+        Title    = L["VerifyHeading"].Value,
+        Subtitle = L["VerifySubtitle"].Value,
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/Verification/KeypadOrder'><i class='bx bx-grid me-1'></i> Keypad mode</a>")
+    };
+}
+
+@section Styles {
+    <style>
+        .verify-scanner-card { display: flex; flex-direction: column; gap: 1.1rem; padding: 1.25rem; }
+        .scanner-orb {
+            width: 96px; height: 96px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 32%, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 18%, transparent) 70%, transparent);
+            display: flex; align-items: center; justify-content: center;
+            margin: .25rem auto;
+            position: relative;
+        }
+        .scanner-orb::before, .scanner-orb::after {
+            content: ""; position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0;
+            animation: scanner-pulse 2.4s ease-out infinite;
+        }
+        .scanner-orb::after { animation-delay: 1.2s; }
+        .scanner-orb i { color: var(--accent); font-size: 2rem; z-index: 1; }
+        @@keyframes scanner-pulse {
+            0%   { transform: scale(.9);  opacity: .55; }
+            70%  { transform: scale(1.55); opacity: 0; }
+            100% { transform: scale(1.55); opacity: 0; }
+        }
+        .verify-scanner-card.is-busy .scanner-orb i { animation: ks-spin 1s linear infinite; }
+
+        .form-control-kiosk {
+            font-size: 1.6rem !important;
+            padding: 1rem 1.2rem !important;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .08em;
+        }
+
+        /* Avatar fallback (initials gradient) when no photo */
+        .ks-user-photo {
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.5rem; color: var(--accent-fg);
+            text-transform: uppercase;
+        }
+        .ks-user-photo[data-has-photo="0"] {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        }
+        .ks-user-photo[data-has-photo="1"] { font-size: 0; }
+
+        /* Balance heath colour */
+        .ks-balance-card[data-health="healthy"]  { border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+        .ks-balance-card[data-health="healthy"]  .ks-balance-value,
+        .ks-balance-card[data-health="healthy"]  .ks-balance-icon { background: var(--success); color: #fff; }
+        .ks-balance-card[data-health="healthy"]  .ks-balance-value { background: none; color: var(--success); }
+        .ks-balance-card[data-health="low"]      { border-color: color-mix(in srgb, var(--warning) 35%, transparent); background: rgba(217,119,6,.07); }
+        .ks-balance-card[data-health="low"]      .ks-balance-value { color: var(--warning); }
+        .ks-balance-card[data-health="low"]      .ks-balance-icon  { background: var(--warning); }
+        .ks-balance-card[data-health="empty"]    { border-color: color-mix(in srgb, var(--danger) 40%, transparent); background: rgba(220,38,38,.08); }
+        .ks-balance-card[data-health="empty"]    .ks-balance-value { color: var(--danger); }
+        .ks-balance-card[data-health="empty"]    .ks-balance-icon  { background: var(--danger); }
+
+        /* Spending bar */
+        .spend-bar {
+            height: 8px;
+            background: var(--surface-2);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: .65rem;
+        }
+        .spend-bar > span {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, transparent));
+            transition: width 600ms cubic-bezier(.4,0,.2,1);
+        }
+        .spend-bar.is-low  > span { background: linear-gradient(90deg, var(--warning), color-mix(in srgb, var(--warning) 60%, transparent)); }
+        .spend-bar.is-empty > span { background: linear-gradient(90deg, var(--danger),  color-mix(in srgb, var(--danger) 60%, transparent)); }
+
+        /* Menu rows with image + chips */
+        .ks-menu-row { gap: .85rem; align-items: center; }
+        .ks-menu-thumb {
+            width: 44px; height: 44px;
+            border-radius: var(--rad);
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted);
+            font-size: 1.2rem;
+        }
+        .ks-menu-meta { display: flex; flex-direction: column; min-width: 0; flex-grow: 1; }
+        .ks-menu-name { font-weight: 600; color: var(--fg); }
+        .ks-menu-sub  { font-size: .78rem; color: var(--muted); }
+
+        /* Hide the input-as-counter shortcut hint on touch devices */
+        @@media (hover: none) and (pointer: coarse) {
+            .verify-shortcuts { display: none; }
+        }
+    </style>
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-4">
+
+        @* ── Left: Scanner ─────────────────────────────────────────────── *@
+        <div class="col-12 col-xl-5">
+            <div class="ui-card h-100">
+                <div class="verify-scanner-card" id="verify-scanner-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="ks-pill is-ready" id="ver-pill">
+                            <span class="ks-dot"></span>
+                            <span id="ver-pill-text">@L["VerifyHint"]</span>
+                        </span>
+                        <span class="ui-muted small">
+                            <i class="bx bx-id-card me-1"></i>NFC / keyboard
+                        </span>
+                    </div>
+
+                    <div class="scanner-orb"><i class="bx bx-id-card" id="scanner-icon"></i></div>
+
+                    <form id="verify-form" autocomplete="off">
+                        <label class="ui-label" for="verify-input">@L["VerifyInputLabel"]</label>
+                        <input id="verify-input" name="identifier"
+                               class="ui-input form-control form-control-kiosk"
+                               placeholder="@L["VerifyInputPlaceholder"]"
+                               autocomplete="off" spellcheck="false"
+                               data-autofocus data-cl-hid-uid required />
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary ks-bigtap flex-grow-1">
+                                <i class="bx bx-search-alt me-1"></i>@L["VerifyButton"]
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary ks-bigtap" title="Clear (Esc)">
+                                <i class="bx bx-x"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="verify-shortcuts ui-muted small" style="border-top:1px solid var(--border); padding-top:.85rem">
+                        <div class="d-flex gap-3 flex-wrap">
+                            <span><kbd>Esc</kbd> clear</span>
+                            <span><kbd>Enter</kbd> verify</span>
+                            <span>Type / scan anywhere</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* ── Right: state machine ──────────────────────────────────────── *@
+        <div class="col-12 col-xl-7">
+            <div class="ui-card h-100">
+                <div class="ui-card-header">
+                    <div class="ui-card-title">@L["ResultsTitle"]</div>
+                    <span class="ks-pill" id="ver-status-chip" hidden></span>
+                </div>
+                <div class="ui-card-body p-0" style="overflow:hidden">
+
+                    @* State: empty (initial) *@
+                    <div class="ks-state" id="ver-empty">
+                        <div class="ks-state-icon"><i class="bx bx-credit-card-front"></i></div>
+                        <h3>@L["ResultsEmptyTitle"]</h3>
+                        <p>@L["ResultsEmptyHint"]</p>
+                    </div>
+
+                    @* State: loading *@
+                    <div class="ks-state is-loading" id="ver-loading" hidden>
+                        <div class="ks-state-icon"><i class="bx bx-loader-alt"></i></div>
+                        <h3>Verifying…</h3>
+                        <p>Looking up the card / ID.</p>
+                    </div>
+
+                    @* State: error *@
+                    <div class="ks-state is-error" id="ver-error" hidden>
+                        <div class="ks-state-icon"><i class="bx bx-error-circle"></i></div>
+                        <h3 id="ver-error-title">Not found</h3>
+                        <p id="ver-error-msg">Check the card UID or student ID and scan again.</p>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-outline-primary ks-bigtap" onclick="document.getElementById('verify-input').focus()">
+                                <i class="bx bx-rotate-left me-1"></i> Try again
+                            </button>
+                        </div>
+                    </div>
+
+                    @* State: result *@
+                    <div id="ver-result" hidden>
+                        <div class="ks-user-card">
+                            <img id="ver-photo" class="ks-user-photo" alt="" src="" data-has-photo="0" />
+                            <div class="ks-user-info">
+                                <h2 id="ver-name" class="text-truncate">—</h2>
+                                <div id="ver-id" class="ks-meta-line text-truncate"></div>
+                                <div id="ver-academic" class="ks-meta-line text-truncate" style="font-size:.8rem;opacity:.85"></div>
+                            </div>
+                            <div class="ks-pill is-found d-none d-md-inline-flex" id="ver-greeting">
+                                <span class="ks-dot"></span>
+                                <span>Customer found</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="ks-balance-card mb-2" id="ver-balance-card" data-health="healthy">
+                                <div style="flex:1">
+                                    <div class="ks-balance-label">@L["AvailableBalance"]</div>
+                                    <div class="ks-balance-value">৳ <span id="ver-available">0</span></div>
+                                    <div class="spend-bar" id="ver-spend-bar"><span style="width:0%"></span></div>
+                                    <div class="ui-muted small mt-2" id="ver-spend-text">—</div>
+                                </div>
+                                <div class="ks-balance-icon"><i class="bx bxs-wallet"></i></div>
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="ks-balance-card is-mini">
+                                        <div>
+                                            <div class="ks-balance-label">@L["TotalBalance"]</div>
+                                            <div class="ks-balance-value">৳ <span id="ver-total">0</span></div>
+                                        </div>
+                                        <div class="ks-balance-icon"><i class="bx bx-coin-stack"></i></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="ks-balance-card is-mini">
+                                        <div>
+                                            <div class="ks-balance-label">@L["UsedBalance"]</div>
+                                            <div class="ks-balance-value">৳ <span id="ver-used">0</span></div>
+                                        </div>
+                                        <div class="ks-balance-icon"><i class="bx bx-receipt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="ui-text-strong">@L["TodayMenu"]</div>
+                                <span class="ks-chip chip-in" id="ver-menu-count">0</span>
+                            </div>
+                            <div id="ver-menu" class="d-flex flex-column gap-2" style="max-height:340px;overflow:auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    'use strict';
+
+    var form     = document.getElementById('verify-form');
+    var input    = document.getElementById('verify-input');
+    var scanner  = document.getElementById('verify-scanner-card');
+    var pill     = document.getElementById('ver-pill');
+    var pillText = document.getElementById('ver-pill-text');
+    var chip     = document.getElementById('ver-status-chip');
+
+    var states = {
+        empty:   document.getElementById('ver-empty'),
+        loading: document.getElementById('ver-loading'),
+        error:   document.getElementById('ver-error'),
+        result:  document.getElementById('ver-result')
+    };
+
+    var els = {
+        photo:    document.getElementById('ver-photo'),
+        name:     document.getElementById('ver-name'),
+        idLine:   document.getElementById('ver-id'),
+        academic: document.getElementById('ver-academic'),
+        avail:    document.getElementById('ver-available'),
+        total:    document.getElementById('ver-total'),
+        used:     document.getElementById('ver-used'),
+        menu:     document.getElementById('ver-menu'),
+        menuCount:document.getElementById('ver-menu-count'),
+        balCard:  document.getElementById('ver-balance-card'),
+        spendBar: document.getElementById('ver-spend-bar'),
+        spendTxt: document.getElementById('ver-spend-text'),
+        errTitle: document.getElementById('ver-error-title'),
+        errMsg:   document.getElementById('ver-error-msg')
+    };
+
+    function setState(state) {
+        Object.keys(states).forEach(function (k) { states[k].hidden = (k !== state); });
+        pill.classList.remove('is-ready','is-scanning','is-found','is-error');
+        scanner.classList.toggle('is-busy', state === 'loading');
+        if (state === 'empty')   { pill.classList.add('is-ready');    pillText.textContent = 'Ready — scan / type'; }
+        if (state === 'loading') { pill.classList.add('is-scanning'); pillText.textContent = 'Verifying…'; }
+        if (state === 'error')   { pill.classList.add('is-error');    pillText.textContent = 'Not found'; }
+        if (state === 'result')  { pill.classList.add('is-found');    pillText.textContent = 'Customer found'; }
+        chip.hidden = true;
+    }
+
+    function fmt(n) {
+        return (Number(n) || 0).toLocaleString('bn-BD', { maximumFractionDigits: 2 });
+    }
+    function fmtPct(n) { return (Number(n) || 0).toFixed(0); }
+    function escapeHtml(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+        });
+    }
+    function initials(name) {
+        var p = String(name || '?').trim().split(/\s+/).filter(Boolean);
+        if (!p.length) return '?';
+        if (p.length === 1) return p[0].charAt(0).toUpperCase();
+        return (p[0].charAt(0) + p[p.length - 1].charAt(0)).toUpperCase();
+    }
+    function setPhoto(url, name) {
+        if (url) {
+            els.photo.src = url;
+            els.photo.alt = name || '';
+            els.photo.dataset.hasPhoto = '1';
+            els.photo.innerText = '';
+        } else {
+            // Avatar fallback: initials over accent gradient.
+            els.photo.removeAttribute('src');
+            els.photo.alt = name || '';
+            els.photo.dataset.hasPhoto = '0';
+            els.photo.innerText = initials(name);
+        }
+    }
+    function setBalanceHealth(available, total) {
+        var card = els.balCard;
+        var bar  = els.spendBar;
+        var used = Math.max(0, (total || 0) - (available || 0));
+        var pct  = total > 0 ? Math.min(100, (used / total) * 100) : 0;
+        var availPct = 100 - pct;
+        var health = availPct > 50 ? 'healthy'
+                  : availPct > 10  ? 'low'
+                  : 'empty';
+        card.dataset.health = health;
+        bar.classList.toggle('is-low',   health === 'low');
+        bar.classList.toggle('is-empty', health === 'empty');
+        bar.firstElementChild.style.width = pct + '%';
+        els.spendTxt.textContent = pct > 0
+            ? ('Used ' + fmtPct(pct) + '% of ৳ ' + fmt(total))
+            : 'No spend yet this month';
+    }
+
+    function showResult(data) {
+        setPhoto(data.userPhotoUrl, data.userName);
+        els.name.textContent = data.userName || '—';
+        var meta = (data.userIdentifier || '') + (data.userMobileNo ? ' · ' + data.userMobileNo : '');
+        els.idLine.textContent = meta;
+        els.academic.textContent = data.academicInformation || data.employeeTypeName || '';
+        els.avail.textContent = fmt(data.availableBalance);
+        els.total.textContent = fmt(data.totalBalance);
+        els.used.textContent  = fmt(data.usedBalance);
+        setBalanceHealth(Number(data.availableBalance), Number(data.totalBalance));
+
+        var items = Array.isArray(data.todayMenu) ? data.todayMenu : [];
+        els.menuCount.textContent = items.length;
+        els.menuCount.className   = 'ks-chip ' + (items.length ? 'chip-in' : 'chip-out');
+
+        if (items.length === 0) {
+            els.menu.innerHTML = '<div class="ui-muted small text-center py-3">No items on today\'s menu.</div>';
+        } else {
+            var html = '';
+            for (var i = 0; i < items.length; i++) {
+                var it = items[i];
+                var stockClass = it.inStock ? 'chip-in' : 'chip-out';
+                var stockText  = it.inStock ? ('In stock · ' + (it.availableQuantity != null ? it.availableQuantity : '')) : 'Out';
+                var thumb = it.imageUrl
+                    ? '<img class="ks-menu-thumb" src="' + escapeHtml(it.imageUrl) + '" alt="" loading="lazy" />'
+                    : '<div class="ks-menu-thumb"><i class="bx bx-bowl-hot"></i></div>';
+                html += '<div class="ks-menu-row">' +
+                          thumb +
+                          '<div class="ks-menu-meta">' +
+                            '<div class="ks-menu-name">' + escapeHtml(it.itemName || '') + '</div>' +
+                            (it.description ? '<div class="ks-menu-sub text-truncate">' + escapeHtml(it.description) + '</div>' : '') +
+                          '</div>' +
+                          '<span class="ks-chip ' + stockClass + '">' + stockText + '</span>' +
+                          '<div class="ks-menu-price">৳ ' + fmt(it.price) + '</div>' +
+                        '</div>';
+            }
+            els.menu.innerHTML = html;
+        }
+
+        setState('result');
+        chip.hidden = false;
+        chip.className = 'ks-pill is-found';
+        chip.innerHTML = '<i class="bx bx-check-circle"></i>&nbsp;' + escapeHtml(data.message || 'OK');
+    }
+
+    function showError(message) {
+        els.errTitle.textContent = 'Not found';
+        els.errMsg.textContent = message || 'User not found. Check the card UID or student ID and try again.';
+        setState('error');
+    }
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var identifier = (input.value || '').trim();
+        if (!identifier) return;
+        setState('loading');
+        try {
+            var data = await window.canteenFetch('/Verification/VerifyUser', {
+                method: 'POST',
+                body:   { Identifier: identifier }
+            });
+            if (data && data.success) {
+                showResult(data);
+                input.select();
+            } else {
+                showError((data && data.message) || 'User not found');
+                if (window.cmsToast) window.cmsToast(((data && data.message) || 'User not found'), 'warning');
+            }
+        } catch (err) {
+            console.error('Verification error', err);
+            showError('Network error — try again.');
+        }
+    });
+
+    form.addEventListener('reset', function () {
+        setState('empty');
+        setTimeout(function () { input.focus(); }, 0);
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { form.reset(); return; }
+        if (document.activeElement === input) return;
+        if (e.target.closest && e.target.closest('input, textarea, button, [contenteditable]')) return;
+        if (e.key.length === 1 || e.key === 'Backspace') input.focus();
+    });
+
+    setState('empty');
+})();
+</script>
+}

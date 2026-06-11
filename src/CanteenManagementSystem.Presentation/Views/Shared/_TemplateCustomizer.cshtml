@@ -1,0 +1,165 @@
+@*
+    Template Customizer (Phase-2 extended)
+    --------------------------------------
+    Floating gear icon (bottom-right) opens a slide-in panel. Lets each user
+    personalize on top of the tenant's branding defaults (which an admin sets
+    at /admin/branding).
+
+    Sections, top to bottom:
+      1. Preset templates — bundles theme + accent + layout + density.
+      2. Theme — Light | Dark | System.
+      3. Primary color — 8 swatches + a custom picker (native color input + HSL sliders).
+      4. Density — Compact | Comfortable | Spacious (rescales padding).
+      5. Layout direction — LTR | RTL.
+      6. Content width — Fluid | Contained.
+      7. Sidebar — Expanded | Collapsed.
+      8. Reset to tenant defaults (clears localStorage; tenant brand wins again).
+
+    State persisted to localStorage (per-device, NOT shared):
+      canteen.theme     light | dark | system
+      canteen.accent    #hex      (per-user override; tenant default in <body data-tenant-accent>)
+      canteen.density   compact | comfortable | spacious
+      canteen.dir       ltr | rtl
+      canteen.contained true | false
+      canteen.menuCollapsed  true | false
+
+    The pre-render snippet in _Layout reads these BEFORE first paint.
+*@
+
+<button id="cz-trigger" class="cz-trigger" type="button"
+        aria-label="Open template customizer" aria-controls="cz-panel" aria-expanded="false">
+    <i class="fa-solid fa-gear"></i>
+</button>
+
+<aside id="cz-panel" class="cz-panel" aria-hidden="true" aria-labelledby="cz-title" role="dialog">
+    <header class="cz-head">
+        <div>
+            <div id="cz-title" class="cz-h">Customize</div>
+            <div class="cz-sub">Personalize this device. Tenant brand wins when you reset.</div>
+        </div>
+        <button class="cz-close" type="button" aria-label="Close" id="cz-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </header>
+
+    <div class="cz-body">
+
+        @* ─── 1. Preset templates ───────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Preset templates</div>
+            <div class="cz-presets">
+                @{
+                    var presets = new (string id, string label, string accent, string theme, string density, string sample1, string sample2, string sample3)[]
+                    {
+                        ("default",    "SmartCanteen", "#10B981", "system", "comfortable", "#10B981", "#0EA5E9", "#0F172A"),
+                        ("corporate",  "Corporate",    "#1E3A8A", "light",  "comfortable", "#1E3A8A", "#64748B", "#F8FAFC"),
+                        ("vibrant",    "Vibrant",      "#EC4899", "dark",   "comfortable", "#EC4899", "#8B5CF6", "#F59E0B"),
+                        ("monochrome", "Monochrome",   "#0F172A", "light",  "compact",     "#0F172A", "#475569", "#E2E8F0"),
+                        ("ocean",      "Ocean",        "#0EA5E9", "light",  "comfortable", "#0EA5E9", "#06B6D4", "#10B981"),
+                        ("sunset",     "Sunset",       "#F97316", "dark",   "spacious",    "#F97316", "#F59E0B", "#EF4444"),
+                    };
+                }
+                @foreach (var p in presets)
+                {
+                    <button class="cz-preset" type="button"
+                            data-preset="@p.id"
+                            data-accent="@p.accent"
+                            data-theme="@p.theme"
+                            data-density="@p.density"
+                            aria-label="Apply @p.label preset">
+                        <span class="cz-preset-stripes" aria-hidden="true">
+                            <span style="background:@p.sample1"></span>
+                            <span style="background:@p.sample2"></span>
+                            <span style="background:@p.sample3"></span>
+                        </span>
+                        <span class="cz-preset-label">@p.label</span>
+                    </button>
+                }
+            </div>
+        </section>
+
+        @* ─── 2. Theme ─────────────────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Theme</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="Theme">
+                <button class="cz-pill" data-theme="light"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-sun"></i><span>Light</span></button>
+                <button class="cz-pill" data-theme="dark"   role="radio" aria-checked="false" type="button"><i class="fa-solid fa-moon"></i><span>Dark</span></button>
+                <button class="cz-pill" data-theme="system" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-circle-half-stroke"></i><span>System</span></button>
+            </div>
+        </section>
+
+        @* ─── 3. Primary color ─────────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Primary color</div>
+            <div class="cz-swatches" role="radiogroup" aria-label="Primary color">
+                @{ var swatches = new[] { "#10B981", "#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B", "#EF4444", "#0EA5E9", "#14B8A6" }; }
+                @foreach (var c in swatches)
+                {
+                    <button class="cz-swatch" data-accent="@c" style="--swatch:@c" type="button"
+                            role="radio" aria-checked="false" aria-label="Use @c">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                }
+            </div>
+
+            <details class="cz-custom-color">
+                <summary><i class="fa-solid fa-eye-dropper me-1"></i> Custom color</summary>
+                <div class="cz-color-row">
+                    <input type="color" id="cz-color-input" value="#10B981" aria-label="Pick any color" />
+                    <input type="text"  id="cz-color-hex"   value="#10B981" maxlength="7" class="cz-hex-input" aria-label="Hex value" />
+                </div>
+                <div class="cz-hsl">
+                    <label class="cz-slider"><span>Hue</span>        <input type="range" id="cz-hue" min="0" max="360" step="1" value="160" /></label>
+                    <label class="cz-slider"><span>Saturation</span> <input type="range" id="cz-sat" min="0" max="100" step="1" value="65"  /></label>
+                    <label class="cz-slider"><span>Lightness</span>  <input type="range" id="cz-lit" min="0" max="100" step="1" value="45"  /></label>
+                </div>
+            </details>
+        </section>
+
+        @* ─── 4. Density ───────────────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Density</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="Density">
+                <button class="cz-pill" data-density="compact"     role="radio" aria-checked="false" type="button"><i class="fa-solid fa-grip-lines"></i><span>Compact</span></button>
+                <button class="cz-pill" data-density="comfortable" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-grip"></i><span>Comfortable</span></button>
+                <button class="cz-pill" data-density="spacious"    role="radio" aria-checked="false" type="button"><i class="fa-solid fa-up-down-left-right"></i><span>Spacious</span></button>
+            </div>
+        </section>
+
+        @* ─── 5. Layout direction ─────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Layout direction</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="Direction">
+                <button class="cz-pill" data-dir="ltr" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrow-right"></i><span>LTR</span></button>
+                <button class="cz-pill" data-dir="rtl" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrow-left"></i><span>RTL</span></button>
+            </div>
+        </section>
+
+        @* ─── 6. Content width ────────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Content width</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="Width">
+                <button class="cz-pill" data-contained="false" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrows-left-right-to-line"></i><span>Fluid</span></button>
+                <button class="cz-pill" data-contained="true"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-compress"></i><span>Contained</span></button>
+            </div>
+        </section>
+
+        @* ─── 7. Sidebar ──────────────────────────────────────────── *@
+        <section class="cz-section">
+            <div class="cz-section-h">Sidebar</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="Sidebar">
+                <button class="cz-pill" data-menu="expanded"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-bars"></i><span>Expanded</span></button>
+                <button class="cz-pill" data-menu="collapsed" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-bars-staggered"></i><span>Collapsed</span></button>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="cz-foot">
+        <button id="cz-reset" class="cz-reset" type="button">
+            <i class="fa-solid fa-arrow-rotate-left"></i> Reset to tenant defaults
+        </button>
+    </footer>
+</aside>
+
+<div id="cz-backdrop" class="cz-backdrop" aria-hidden="true"></div>

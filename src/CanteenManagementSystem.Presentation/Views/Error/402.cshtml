@@ -1,0 +1,25 @@
+@{
+    ViewData["Code"]           = "402";
+    ViewData["Tone"]           = "warning";
+    ViewData["Icon"]           = "fa-credit-card";
+    ViewData["Title"]          = "Payment required";
+    ViewData["Description"]    = "This tenant's subscription is past due or the current plan doesn't include the feature you tried to access. Pay the latest invoice or upgrade your plan to continue.";
+    ViewData["CtaUrl"]         = "/admin/billing";
+    ViewData["CtaLabel"]       = "Go to billing";
+    ViewData["CtaIcon"]        = "fa-receipt";
+    ViewData["SecondaryUrl"]   = "/";
+    ViewData["SecondaryLabel"] = "Home";
+    ViewData["SecondaryIcon"]  = "fa-house";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment required · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

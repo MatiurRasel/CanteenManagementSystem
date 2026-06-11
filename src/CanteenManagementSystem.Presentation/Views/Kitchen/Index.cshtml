@@ -1,0 +1,219 @@
+@*
+    /Kitchen — full-screen TV view for the kitchen team.
+    SignalR-driven; cards flow Pending → Preparing → Ready as the cook
+    progresses orders. Uses the shared ks-* design tokens so it matches the
+    Verification / Kiosk / Display family. Dark theme by default for TV view.
+
+    Behaviour contract (preserved):
+      * POST /Kitchen/status { orderId, status } updates server-side
+      * SignalR /hubs/kitchen events: order:placed, order:status
+      * Card age is rendered as MM:SS, turns warning at 5min, critical at 10min
+*@
+@using CanteenManagementSystem.Application.Orders.Dtos
+@using CanteenManagementSystem.Domain.Enums
+@model PagedOrdersResultDto
+@{
+    ViewData["Title"] = "Kitchen Display";
+    Layout = null;
+    var pending    = Model.Orders.Where(x => x.Status == CanteenOrderStatus.Pending || x.Status == CanteenOrderStatus.Placed).ToList();
+    var preparing  = Model.Orders.Where(x => x.Status == CanteenOrderStatus.Preparing || x.Status == CanteenOrderStatus.Confirmed).ToList();
+    var ready      = Model.Orders.Where(x => x.Status == CanteenOrderStatus.Ready).ToList();
+}
+<!DOCTYPE html>
+<html lang="en" class="ks-html" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <title>Kitchen Display · SmartCanteen</title>
+    <partial name="_KioskShell" />
+</head>
+<body class="ks-body">
+
+<div class="ks-shell">
+    <header class="ks-header">
+        <div>
+            <h1><i class="bx bx-restaurant me-2"></i> Kitchen Display</h1>
+            <small class="ks-subtitle">Real-time · <span id="kds-conn" class="ks-pill is-scanning" style="font-size:.7rem;padding:.15rem .55rem"><span class="ks-dot"></span> connecting…</span></small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="kds-fullscreen" title="Fullscreen (F11 / F)">
+                <i class="bx bx-fullscreen"></i>
+            </button>
+            <div class="ks-clock" id="kds-clock">--:--:--</div>
+        </div>
+    </header>
+
+    <main class="ks-board">
+        <div class="ks-board-col" data-bucket="pending">
+            <h2><span><i class="bx bx-time-five me-1"></i> Pending</span><span class="ks-col-count" data-count-for="pending">@pending.Count</span></h2>
+            <div class="ks-cards" data-cards="pending">
+                @foreach (var o in pending)
+                {
+                    <partial name="_KdsCard" model="o" />
+                }
+            </div>
+        </div>
+        <div class="ks-board-col" data-bucket="preparing">
+            <h2><span><i class="bx bx-flame me-1"></i> Preparing</span><span class="ks-col-count" data-count-for="preparing">@preparing.Count</span></h2>
+            <div class="ks-cards" data-cards="preparing">
+                @foreach (var o in preparing)
+                {
+                    <partial name="_KdsCard" model="o" />
+                }
+            </div>
+        </div>
+        <div class="ks-board-col" data-bucket="ready">
+            <h2><span><i class="bx bx-bell me-1"></i> Ready for pickup</span><span class="ks-col-count" data-count-for="ready">@ready.Count</span></h2>
+            <div class="ks-cards" data-cards="ready">
+                @foreach (var o in ready)
+                {
+                    <partial name="_KdsCard" model="o" />
+                }
+            </div>
+        </div>
+    </main>
+</div>
+
+<form id="kds-form" style="display:none">
+    @Html.AntiForgeryToken()
+</form>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/signalr/signalr.min.js"></script>
+<script>
+(function () {
+    'use strict';
+    var STATUS = { Preparing: 30, Ready: 40, Delivered: 1 };
+    var tokenInput = document.querySelector('#kds-form input[name="__RequestVerificationToken"]');
+    var token = tokenInput ? tokenInput.value : '';
+
+    var clockEl = document.getElementById('kds-clock');
+    function pad2(n) { return String(n).padStart(2, '0'); }
+    function tickClock () {
+        var d = new Date();
+        clockEl.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+    }
+    tickClock(); setInterval(tickClock, 1000);
+
+    function refreshAges () {
+        document.querySelectorAll('.ks-kds-card[data-placed]').forEach(function (card) {
+            var placed = new Date(card.getAttribute('data-placed'));
+            var ageMs = Date.now() - placed.getTime();
+            var mins = Math.floor(ageMs / 60000);
+            var secs = Math.floor((ageMs % 60000) / 1000);
+            var ageEl = card.querySelector('.ks-kds-age');
+            if (!ageEl) return;
+            ageEl.textContent = pad2(mins) + ':' + pad2(secs);
+            ageEl.classList.toggle('is-old',      mins >= 5  && mins < 10);
+            ageEl.classList.toggle('is-critical', mins >= 10);
+            card.classList.toggle('is-stale',    mins >= 5  && mins < 10);
+            card.classList.toggle('is-critical', mins >= 10);
+        });
+        refreshCounts();
+    }
+    function refreshCounts () {
+        ['pending','preparing','ready'].forEach(function (b) {
+            var el = document.querySelector('[data-count-for="' + b + '"]');
+            var n  = document.querySelectorAll('[data-cards="' + b + '"] .ks-kds-card').length;
+            if (el) el.textContent = n;
+        });
+    }
+    setInterval(refreshAges, 1000); refreshAges();
+
+    async function setStatus (orderId, status) {
+        var fd = new FormData();
+        fd.append('orderId', orderId);
+        fd.append('status',  status);
+        if (token) fd.append('__RequestVerificationToken', token);
+        try { await fetch('/Kitchen/status', { method: 'POST', body: fd }); }
+        catch (e) { console.error('status update failed', e); }
+    }
+
+    document.addEventListener('click', function (evt) {
+        var btn = evt.target.closest('button[data-status]');
+        if (!btn) return;
+        var card = btn.closest('.ks-kds-card');
+        if (!card) return;
+        var id  = card.getAttribute('data-order-id');
+        var newStatus = parseInt(btn.getAttribute('data-status'), 10);
+        var targetBucket = newStatus === STATUS.Preparing ? 'preparing'
+                         : newStatus === STATUS.Ready     ? 'ready'
+                         : null;
+        if (targetBucket) {
+            var dst = document.querySelector('[data-cards="' + targetBucket + '"]');
+            if (dst) dst.prepend(card);
+        }
+        if (newStatus === STATUS.Delivered) card.remove();
+        refreshCounts();
+        setStatus(id, newStatus);
+    });
+
+    var conn = new signalR.HubConnectionBuilder()
+        .withUrl('/hubs/kitchen')
+        .withAutomaticReconnect()
+        .build();
+
+    var connBadge = document.getElementById('kds-conn');
+    function setConn(state, text) {
+        if (!connBadge) return;
+        connBadge.className = 'ks-pill ' + state;
+        connBadge.innerHTML = '<span class="ks-dot"></span> ' + text;
+        connBadge.style.fontSize  = '.7rem';
+        connBadge.style.padding   = '.15rem .55rem';
+    }
+    conn.onreconnecting(function () { setConn('is-scanning', 'reconnecting…'); });
+    conn.onreconnected(function ()  { setConn('is-ready',    'live'); });
+    conn.onclose(function ()        { setConn('is-error',    'offline (refresh)'); });
+
+    function escapeHtml (s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+        });
+    }
+    function renderCard (p) {
+        var items = '';
+        (p.items || []).forEach(function (i) {
+            items += '<li><span>' + escapeHtml(i.itemName) + '</span><span class="ui-muted">× ' + i.quantity + '</span></li>';
+        });
+        return '<div class="ks-kds-card" data-order-id="' + p.orderId + '" data-placed="' + (p.orderDateUtc || new Date().toISOString()) + '">' +
+                '<div class="ks-kds-head"><div class="ks-kds-no">#' + escapeHtml(p.orderNumber) + '</div><div class="ks-kds-age">00:00</div></div>' +
+                '<div class="ks-kds-user">' + escapeHtml(p.userName || '') + '</div>' +
+                '<ul class="ks-kds-items">' + items + '</ul>' +
+                '<div class="ks-kds-actions">' +
+                    '<button class="btn btn-sm btn-primary" data-status="30"><i class="bx bx-flame me-1"></i>Start</button>' +
+                    '<button class="btn btn-sm btn-success" data-status="40"><i class="bx bx-check me-1"></i>Ready</button>' +
+                '</div>' +
+            '</div>';
+    }
+    conn.on('order:placed', function (payload) {
+        var dst = document.querySelector('[data-cards="pending"]');
+        var html = renderCard(payload);
+        if (dst && html) { dst.insertAdjacentHTML('afterbegin', html); refreshCounts(); }
+    });
+    conn.on('order:status', function (payload) {
+        var card = document.querySelector('.ks-kds-card[data-order-id="' + payload.orderId + '"]');
+        if (!card) return;
+        var target = payload.status === 30 ? 'preparing'
+                   : payload.status === 40 ? 'ready'
+                   : null;
+        if (target) document.querySelector('[data-cards="' + target + '"]').prepend(card);
+        else card.remove();
+        refreshCounts();
+    });
+    conn.start()
+        .then(function () { setConn('is-ready', 'live'); })
+        .catch(function () { setConn('is-error', 'offline (refresh)'); });
+
+    // F / F11 toggles browser fullscreen — handy on the TV install.
+    document.getElementById('kds-fullscreen').addEventListener('click', function () {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'f' || e.key === 'F') {
+            document.getElementById('kds-fullscreen').click();
+        }
+    });
+})();
+</script>
+</body>
+</html>

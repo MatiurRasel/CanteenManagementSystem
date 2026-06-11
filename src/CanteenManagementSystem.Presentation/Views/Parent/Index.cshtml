@@ -1,0 +1,157 @@
+@*
+    /parent — Parent portal: linked children + balance + recent orders + topup + freeze card.
+    Reference page demonstrating shadcn-style design system on a consumer-facing screen.
+*@
+@using CanteenManagementSystem.Domain.Cards
+@using CanteenManagementSystem.Domain.Enums
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.ParentController.DashboardVm
+@{
+    ViewData["Title"] = "Parent portal";
+
+    UiBadgeVariant CardVariant(CardStatus? s) => s switch
+    {
+        CardStatus.Active  => UiBadgeVariant.Success,
+        CardStatus.Blocked => UiBadgeVariant.Warning,
+        CardStatus.Lost    => UiBadgeVariant.Danger,
+        _                  => UiBadgeVariant.Secondary
+    };
+    UiBadgeVariant OrderVariant(CanteenOrderStatus s) => s switch
+    {
+        CanteenOrderStatus.Delivered => UiBadgeVariant.Success,
+        CanteenOrderStatus.Cancelled => UiBadgeVariant.Secondary,
+        CanteenOrderStatus.Refunded  => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Info
+    };
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "My children",
+        Subtitle = "Balance, recent orders, top-up, and emergency card freeze."
+    };
+
+    var noChildrenAlert = new UiAlertOptions
+    {
+        Variant = UiAlertVariant.Info,
+        Heading = "No linked children",
+        Body    = "No children are linked to this account yet. Ask the canteen admin to add your children's IDs to your profile."
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Children.Count == 0)
+    {
+        <partial name="_UiAlert" model="noChildrenAlert" />
+    }
+
+    @foreach (var c in Model.Children)
+    {
+        <div class="ui-card mb-4">
+            <div class="ui-card-header">
+                <div>
+                    <div class="ui-card-title">@c.Name</div>
+                    <div class="ui-card-muted-body">
+                        <span class="ui-mono">@c.ExternalId</span>
+                        @if (!string.IsNullOrEmpty(c.Program))
+                        {
+                            <text> · @c.Program</text>
+                        }
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div style="font-size:24px; font-weight:600" class="ui-text-strong ui-tabular">৳ @c.Balance.ToString("N0")</div>
+                    <div class="ui-muted" style="font-size:12px">spent ৳ @c.SpentThisMonth.ToString("N0") this month</div>
+                </div>
+            </div>
+            <div class="ui-card-body">
+                <div class="row g-4">
+                    @* Top-up + NFC card *@
+                    <div class="col-md-4">
+                        <div class="ui-section-label">Top up</div>
+                        <form method="post" asp-action="Topup" class="ui-stack-sm" data-cl-form>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="ExternalId" value="@c.ExternalId" />
+                            <div class="input-group">
+                                <span class="input-group-text">৳</span>
+                                <input name="Amount" type="number" min="1" step="1" class="form-control" placeholder="500" required />
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="ui-help-text">Goes straight into the child's wallet.</div>
+                        </form>
+
+                        <div class="ui-section-label mt-4">NFC card</div>
+                        @if (c.ActiveCardId is null)
+                        {
+                            <div class="ui-muted" style="font-size:13px">No card on file yet — ask the counter to issue one.</div>
+                        }
+                        else
+                        {
+                            var cardBadge = new UiBadgeOptions
+                            {
+                                Text    = c.ActiveCardStatus?.ToString() ?? "Unknown",
+                                Variant = CardVariant(c.ActiveCardStatus),
+                                WithDot = true
+                            };
+                            <div class="ui-row mb-2">
+                                <span class="ui-mono" style="font-size:13px">@c.ActiveCardUid</span>
+                                <partial name="_UiBadge" model="cardBadge" />
+                            </div>
+                            @if (c.ActiveCardStatus == CardStatus.Active)
+                            {
+                                <form method="post" asp-action="FreezeCard" data-cl-confirm="Freeze card @c.ActiveCardUid? Counter scans will reject it immediately." data-cl-confirm-variant="warning">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="cardId" value="@c.ActiveCardId" />
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                                        <i class="fa-solid fa-snowflake me-1"></i> Freeze card
+                                    </button>
+                                </form>
+                            }
+                        }
+                    </div>
+
+                    @* Recent orders *@
+                    <div class="col-md-8">
+                        <div class="ui-section-label">Recent orders</div>
+                        @if (c.RecentOrders.Count == 0)
+                        {
+                            <div class="ui-muted" style="font-size:13px">No orders yet.</div>
+                        }
+                        else
+                        {
+                            <div class="ui-table-wrap">
+                                <table class="table table-hover mb-0 ui-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>When</th>
+                                            <th>Items</th>
+                                            <th class="text-end">Total</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var o in c.RecentOrders)
+                                    {
+                                        var ob = new UiBadgeOptions { Text = o.Status.ToString(), Variant = OrderVariant(o.Status), WithDot = true };
+                                        <tr>
+                                            <td class="ui-mono" style="font-size:12px">@o.OrderNumber</td>
+                                            <td class="ui-muted ui-tabular" style="font-size:12px">@o.OrderDate.ToString("MM-dd HH:mm")</td>
+                                            <td style="font-size:13px">@string.Join(", ", o.OrderItems.Select(i => $"{i.Quantity}× {i.FoodItem.ItemName}"))</td>
+                                            <td class="text-end ui-tabular ui-text-strong">৳ @o.TotalAmount.ToString("N0")</td>
+                                            <td><partial name="_UiBadge" model="ob" /></td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

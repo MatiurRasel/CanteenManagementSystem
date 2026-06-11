@@ -1,0 +1,119 @@
+@*
+    /admin/report-schedules — recurring report runs + email.
+*@
+@using Platform.Domain.Reporting
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<ReportSchedule>
+@{
+    ViewData["Title"] = "Scheduled reports";
+    UiBadgeVariant StatusVar(string? s) => s switch
+    {
+        "Success" => UiBadgeVariant.Success,
+        "Failed"  => UiBadgeVariant.Danger,
+        _ => UiBadgeVariant.Secondary
+    };
+    string DescribeRecurrence(ReportSchedule s) => s.Recurrence switch
+    {
+        "Hourly"  => $"every {(s.IntervalHours ?? 1)} h",
+        "Daily"   => $"daily at {(s.HourOfDay ?? 0):00}:{(s.Minute ?? 0):00}",
+        "Weekly"  => $"{System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetDayName((DayOfWeek)(s.DayOfWeek ?? 1))}s at {(s.HourOfDay ?? 0):00}:{(s.Minute ?? 0):00}",
+        "Monthly" => $"day {(s.DayOfMonth ?? 1)} at {(s.HourOfDay ?? 0):00}:{(s.Minute ?? 0):00}",
+        _ => s.Recurrence
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Scheduled reports",
+        Subtitle = "Run automatically + email the result. @TODAY / @YESTERDAY / @WEEK_AGO tokens supported inside the parameters JSON.",
+        Actions  = Html.Raw("<a class='btn btn-primary btn-sm' href='/admin/report-schedules/new'><i class='fa-solid fa-plus me-1'></i> New schedule</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions
+        {
+            Icon        = "fa-calendar-days",
+            Title       = "No schedules yet",
+            Description = "Create one to start emailing reports automatically.",
+            CtaLabel    = "New schedule",
+            CtaIcon     = "fa-plus",
+            CtaUrl      = "/admin/report-schedules/new"
+        };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Report</th>
+                        <th>When</th>
+                        <th>Format</th>
+                        <th>Recipients</th>
+                        <th>Last run</th>
+                        <th>Next run</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var s in Model)
+                {
+                    var recBadge = new UiBadgeOptions { Text = s.Recurrence, Variant = UiBadgeVariant.Primary };
+                    var fmtBadge = new UiBadgeOptions { Text = s.Format, Variant = UiBadgeVariant.Secondary };
+                    <tr>
+                        <td>
+                            <div class="ui-text-strong">@s.DisplayName</div>
+                            <div class="ui-muted small"><code>@s.ReportKey</code></div>
+                        </td>
+                        <td>
+                            <partial name="_UiBadge" model="recBadge" />
+                            <span class="ui-muted small ms-2">@DescribeRecurrence(s)</span>
+                        </td>
+                        <td><partial name="_UiBadge" model="fmtBadge" /></td>
+                        <td class="ui-muted small">@s.Recipients</td>
+                        <td>
+                            <div class="ui-muted small">@(s.LastRunAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "never")</div>
+                            @if (!string.IsNullOrEmpty(s.LastRunStatus))
+                            {
+                                var b = new UiBadgeOptions { Text = s.LastRunStatus, Variant = StatusVar(s.LastRunStatus), WithDot = true };
+                                <partial name="_UiBadge" model="b" />
+                            }
+                            @if (!string.IsNullOrEmpty(s.LastError))
+                            {
+                                <div class="text-danger small text-truncate" style="max-width:280px" title="@s.LastError">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>@s.LastError
+                                </div>
+                            }
+                        </td>
+                        <td class="ui-muted small">@(s.NextRunAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <form asp-action="RunNow" asp-route-id="@s.ScheduleId" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-primary" title="Run now"><i class="fa-solid fa-paper-plane"></i></button>
+                                </form>
+                                <a asp-action="Edit" asp-route-id="@s.ScheduleId" class="btn btn-outline-secondary" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <form asp-action="Toggle" asp-route-id="@s.ScheduleId" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-@(s.IsEnabled ? "warning" : "success")" title="@(s.IsEnabled ? "Pause" : "Resume")">
+                                        <i class="fa-solid @(s.IsEnabled ? "fa-pause" : "fa-play")"></i>
+                                    </button>
+                                </form>
+                                <form asp-action="Delete" asp-route-id="@s.ScheduleId" method="post" class="d-inline"
+                                      data-cl-confirm="Delete @s.DisplayName?" data-cl-confirm-variant="warning">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

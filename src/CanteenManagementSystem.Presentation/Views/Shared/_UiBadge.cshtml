@@ -1,0 +1,17 @@
+@*
+    _UiBadge — pill-shaped label with semantic variant.
+
+    USAGE
+        <partial name="_UiBadge" model="@new UiBadgeOptions { Text = "Active",  Variant = UiBadgeVariant.Success, WithDot = true }" />
+        <partial name="_UiBadge" model="@new UiBadgeOptions { Text = "Pending", Variant = UiBadgeVariant.Warning }" />
+*@
+@model CanteenManagementSystem.Presentation.Models.UiBadgeOptions
+@{
+    var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiBadgeOptions();
+    var variantClass = "variant-" + opts.Variant.ToString().ToLowerInvariant();
+}
+<span class="ui-badge @variantClass">
+    @if (opts.WithDot) { <span class="ui-dot"></span> }
+    @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon"></i> }
+    @opts.Text
+</span>

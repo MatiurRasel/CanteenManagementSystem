@@ -1,0 +1,223 @@
+@model CanteenManagementSystem.Application.Menus.ViewModels.MenuManagementViewModel
+@using System.Globalization
+@using CanteenManagementSystem
+@using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
+
+@{
+    ViewData["Title"] = "মেনু ম্যানেজমেন্ট";
+    var culture = CultureInfo.GetCultureInfo("bn-BD");
+    var dailyItems = Model.MenuItems ?? new List<DailyMenuItemViewModel>();
+    var weeklyTemplates = Model.WeeklyTemplates ?? new List<WeeklyMenuTemplate>();
+    var foodItems = Model.AllFoodItems ?? new List<FoodItem>();
+
+    // Date filter rendered AFTER the header (Html.AntiForgeryToken() returns
+    // IHtmlContent and can't be inlined into a string).
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "মেনু ম্যানেজমেন্ট",
+        Subtitle = "দৈনিক মেনু, সাপ্তাহিক টেমপ্লেট এবং খাবার আইটেম এক জায়গায় দেখুন।"
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form class="d-flex gap-2 align-items-end mb-3 flex-wrap" method="post" action="/Menu/Manage">
+        @Html.AntiForgeryToken()
+        <div>
+            <label class="ui-label mb-1" for="menu-date">তারিখ</label>
+            <input id="menu-date" type="date" name="date"
+                   value="@Model.TargetDate.ToString("yyyy-MM-dd")"
+                   class="ui-input form-control form-control-sm" style="max-width:180px" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">
+            <i class="bx bx-calendar me-1"></i> লোড করুন
+        </button>
+    </form>
+
+    <div class="row g-4">
+        <div class="col-12 col-xl-8">
+            <div class="ui-card h-100">
+                <div class="ui-card-header pb-0">
+                    <ul class="nav nav-pills gap-2" id="menuTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="daily-tab" data-bs-toggle="pill" data-bs-target="#daily-pane" type="button" role="tab">দৈনিক মেনু</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="weekly-tab" data-bs-toggle="pill" data-bs-target="#weekly-pane" type="button" role="tab">সাপ্তাহিক টেমপ্লেট</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="food-tab" data-bs-toggle="pill" data-bs-target="#food-pane" type="button" role="tab">খাবার আইটেম</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ui-card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="daily-pane" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="ui-card-title">আজকের মেনু</div>
+                                    <div class="ui-muted small">@Model.TargetDate.ToString("dd MMMM yyyy", culture)</div>
+                                </div>
+                                <span class="ui-badge variant-primary">@dailyItems.Count আইটেম</span>
+                            </div>
+                            <div class="ui-table-wrap">
+                                <table class="table table-hover mb-0 ui-table">
+                                    <thead>
+                                        <tr>
+                                            <th>আইটেম</th>
+                                            <th>ক্যাটাগরি</th>
+                                            <th class="text-end">দাম</th>
+                                            <th class="text-end">মোট</th>
+                                            <th class="text-end">বিক্রি</th>
+                                            <th class="text-end">বাকি</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if (dailyItems.Any())
+                                    {
+                                        foreach (var item in dailyItems)
+                                        {
+                                            var sb = new UiBadgeOptions
+                                            {
+                                                Text = item.IsAvailable ? "উপলব্ধ" : "অনুপলব্ধ",
+                                                Variant = item.IsAvailable ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                                                WithDot = true
+                                            };
+                                            <tr>
+                                                <td class="ui-text-strong">@item.ItemName</td>
+                                                <td class="small">@item.Category</td>
+                                                <td class="text-end ui-tabular">৳@item.Price.ToString("N0", culture)</td>
+                                                <td class="text-end ui-tabular">@item.InitialQuantity</td>
+                                                <td class="text-end ui-tabular">@item.OrderedQuantity</td>
+                                                <td class="text-end ui-tabular ui-text-strong">@item.AvailableQuantity</td>
+                                                <td><partial name="_UiBadge" model="sb" /></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="7" class="text-center ui-muted py-5">এই তারিখের জন্য কোনো মেনু নেই।</td></tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="weekly-pane" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="ui-card-title">সাপ্তাহিক টেমপ্লেট</div>
+                                <span class="ui-badge variant-info">@weeklyTemplates.Count টেমপ্লেট</span>
+                            </div>
+                            <div class="ui-table-wrap">
+                                <table class="table table-hover mb-0 ui-table">
+                                    <thead>
+                                        <tr>
+                                            <th>টেমপ্লেট</th>
+                                            <th>দিন</th>
+                                            <th>আইটেম</th>
+                                            <th>Meal Type</th>
+                                            <th class="text-end">ডিফল্ট Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if (weeklyTemplates.Any())
+                                    {
+                                        foreach (var template in weeklyTemplates)
+                                        {
+                                            <tr>
+                                                <td class="ui-text-strong">@template.TemplateName</td>
+                                                <td>@template.DayOfWeek</td>
+                                                <td>@template.FoodItem?.ItemName</td>
+                                                <td>@template.MealType</td>
+                                                <td class="text-end ui-tabular">@template.DefaultQuantity</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="5" class="text-center ui-muted py-5">কোনো সাপ্তাহিক টেমপ্লেট নেই।</td></tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="food-pane" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="ui-card-title">খাবার আইটেম</div>
+                                <a asp-action="ManageItems" asp-controller="Menu" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa-solid fa-utensils me-1"></i> আইটেম ম্যানেজ
+                                </a>
+                            </div>
+                            <div class="ui-table-wrap">
+                                <table class="table table-hover mb-0 ui-table">
+                                    <thead>
+                                        <tr>
+                                            <th>নাম</th>
+                                            <th>বিবরণ</th>
+                                            <th class="text-end">দাম</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if (foodItems.Any())
+                                    {
+                                        foreach (var item in foodItems)
+                                        {
+                                            var ab = new UiBadgeOptions
+                                            {
+                                                Text = item.IsActive ? "Active" : "Inactive",
+                                                Variant = item.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary
+                                            };
+                                            <tr>
+                                                <td class="ui-text-strong">@item.ItemName</td>
+                                                <td class="ui-muted">@item.Description</td>
+                                                <td class="text-end ui-tabular">৳@item.Price.ToString("N0", culture)</td>
+                                                <td><partial name="_UiBadge" model="ab" /></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="4" class="text-center ui-muted py-5">কোনো খাবার আইটেম পাওয়া যায়নি।</td></tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="ui-card h-100">
+                <div class="ui-card-header"><div class="ui-card-title">দ্রুত কাজ</div></div>
+                <div class="ui-card-body ui-stack-sm">
+                    <a asp-action="ManageItems" asp-controller="Menu" class="btn btn-outline-primary w-100 text-start">
+                        <i class="fa-solid fa-plus me-2"></i>নতুন আইটেম
+                    </a>
+                    <a asp-action="Manage" asp-controller="Menu" class="btn btn-outline-secondary w-100 text-start">
+                        <i class="fa-solid fa-rotate me-2"></i>রিফ্রেশ
+                    </a>
+                    <a asp-controller="Operator" asp-action="Dashboard" class="btn btn-outline-success w-100 text-start">
+                        <i class="fa-solid fa-chart-line me-2"></i>ড্যাশবোর্ডে যান
+                    </a>
+                    <form method="post" asp-controller="MenuExtension" asp-action="CopyYesterday" data-cl-form>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="targetDate" value="@Model.TargetDate.ToString("yyyy-MM-dd")" />
+                        <button class="btn btn-outline-secondary w-100 text-start" type="submit">
+                            <i class="fa-solid fa-copy me-2"></i> Copy yesterday
+                        </button>
+                    </form>
+                </div>
+                <div class="ui-card-footer ui-muted small">
+                    নির্দিষ্ট দিনের মেনু লোড করুন এবং টেমপ্লেট/আইটেম দ্রুত দেখুন।
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

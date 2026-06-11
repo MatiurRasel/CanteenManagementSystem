@@ -1,0 +1,25 @@
+@{
+    ViewData["Code"]           = "502";
+    ViewData["Tone"]           = "danger";
+    ViewData["Icon"]           = "fa-network-wired";
+    ViewData["Title"]          = "Bad gateway";
+    ViewData["Description"]    = "An upstream service we depend on returned an invalid response. This usually clears itself within a minute or two — try again shortly.";
+    ViewData["CtaUrl"]         = "javascript:location.reload()";
+    ViewData["CtaLabel"]       = "Try again";
+    ViewData["CtaIcon"]        = "fa-rotate-right";
+    ViewData["SecondaryUrl"]   = "/";
+    ViewData["SecondaryLabel"] = "Home";
+    ViewData["SecondaryIcon"]  = "fa-house";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bad gateway · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

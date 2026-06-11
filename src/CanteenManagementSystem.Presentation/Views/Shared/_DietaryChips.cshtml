@@ -1,0 +1,43 @@
+@*
+   _DietaryChips.cshtml — renders coloured chips next to a menu item showing
+   its dietary attributes. Pass the FoodItem (or any object with the same
+   shape) as Model. Used by:
+     * the public /Display/Menu board
+     * the operator kiosk verification screen
+     * the parent portal recent-orders rows
+*@
+@model dynamic
+@{
+    bool? veg     = Model?.IsVegetarian as bool?;
+    bool? halal   = Model?.IsHalal as bool?;
+    int?  kcal    = Model?.KCalories as int?;
+    string? aler  = Model?.Allergens as string;
+}
+
+@if (veg == true)
+{
+    <span class="badge bg-success-subtle text-success border border-success-subtle me-1" title="Vegetarian">
+        <i class="fa-solid fa-leaf me-1"></i>Veg
+    </span>
+}
+@if (halal == true)
+{
+    <span class="badge bg-info-subtle text-info border border-info-subtle me-1" title="Halal">
+        <i class="fa-solid fa-circle-check me-1"></i>Halal
+    </span>
+}
+@if (kcal.HasValue && kcal.Value > 0)
+{
+    <span class="badge bg-light text-dark border me-1" title="@kcal kcal per serving">
+        @kcal kcal
+    </span>
+}
+@if (!string.IsNullOrWhiteSpace(aler))
+{
+    foreach (var a in aler.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+    {
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle me-1" title="Contains @a">
+            <i class="fa-solid fa-triangle-exclamation me-1"></i>@a
+        </span>
+    }
+}

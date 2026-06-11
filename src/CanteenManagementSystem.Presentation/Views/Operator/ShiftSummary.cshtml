@@ -1,0 +1,134 @@
+@*
+    /Operator/ShiftSummary — daily counter sign-off sheet (printable).
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Application.Orders.Dtos.ShiftSummaryDto
+@{
+    ViewData["Title"] = $"Shift summary · {Model.ShiftDate:dd MMM yyyy}";
+    var actions = $@"
+        <form method='get' class='d-flex gap-2 align-items-end'>
+            <div>
+                <label class='ui-label mb-1'>Date</label>
+                <input type='date' name='date' value='{Model.ShiftDate:yyyy-MM-dd}' class='ui-input form-control form-control-sm' />
+            </div>
+            <button type='submit' class='btn btn-primary btn-sm'>Refresh</button>
+            <a class='btn btn-outline-secondary btn-sm' href='/Operator/ExportOrdersCsv?date={Model.ShiftDate:yyyy-MM-dd}'>
+                <i class='fa-solid fa-file-csv me-1'></i> CSV
+            </a>
+            <button class='btn btn-outline-primary btn-sm' type='button' onclick='window.print()'>
+                <i class='fa-solid fa-print me-1'></i> Print
+            </button>
+        </form>";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Shift summary",
+        Subtitle = $"{Model.ShiftDate:dddd, d MMMM yyyy} · canteen counter",
+        Actions  = Html.Raw($"<div class='no-print'>{actions}</div>")
+    };
+    var avg = Model.OrdersDelivered == 0 ? 0 : Model.GrossRevenue / Model.OrdersDelivered;
+    var kpiOrders = new UiKpiOptions
+    {
+        Label = "Orders placed",
+        Value = Model.OrdersPlaced.ToString(),
+        Hint  = $"{Model.OrdersDelivered} delivered · {Model.OrdersPending} open · {Model.OrdersCancelled} cancelled",
+        Icon  = "fa-cart-shopping"
+    };
+    var kpiRevenue = new UiKpiOptions
+    {
+        Label = "Gross revenue",
+        Value = "৳ " + Model.GrossRevenue.ToString("N0"),
+        Hint  = $"avg ৳ {avg:N0} / order",
+        Icon  = "fa-coins"
+    };
+    var kpiRefunds = new UiKpiOptions
+    {
+        Label = "Refunds",
+        Value = "৳ " + Model.Refunded.ToString("N0"),
+        Hint  = $"net ৳ {Model.NetRevenue:N0}",
+        Icon  = "fa-rotate-left",
+        Trend = Model.Refunded > 0 ? UiKpiTrend.Down : UiKpiTrend.None
+    };
+    var kpiCust = new UiKpiOptions
+    {
+        Label = "Unique customers",
+        Value = Model.UniqueCustomers.ToString(),
+        Hint  = $"{(Model.FirstOrderAtUtc?.ToLocalTime().ToString("HH:mm") ?? "—")} – {(Model.LastOrderAtUtc?.ToLocalTime().ToString("HH:mm") ?? "—")}",
+        Icon  = "fa-users"
+    };
+}
+
+<style media="print">
+    .no-print { display: none !important; }
+    body { background: #fff !important; }
+    .ui-card { box-shadow: none !important; border: 1px solid #ddd !important; }
+</style>
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-3">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOrders" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRevenue" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRefunds" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiCust" /></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-header"><div class="ui-card-title">Top items</div></div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var i in Model.TopItems)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
+                            <div>
+                                <div class="ui-text-strong small">@i.ItemName</div>
+                                <div class="ui-muted small">@i.QuantitySold sold</div>
+                            </div>
+                            <span class="ui-badge variant-primary">৳ @i.Revenue.ToString("N0")</span>
+                        </li>
+                    }
+                    @if (Model.TopItems.Count == 0)
+                    {
+                        <li class="list-group-item ui-muted text-center" style="background:transparent">No deliveries yet.</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ui-card h-100">
+                <div class="ui-card-header"><div class="ui-card-title">Cancelled orders</div></div>
+                <div class="ui-table-wrap">
+                    <table class="table table-sm mb-0 ui-table">
+                        <thead><tr><th>Order #</th><th class="text-end">Amount</th><th>At</th></tr></thead>
+                        <tbody>
+                        @foreach (var c in Model.Cancelled)
+                        {
+                            <tr>
+                                <td><code class="small">@c.OrderNumber</code></td>
+                                <td class="text-end ui-tabular">৳ @c.Amount.ToString("N0")</td>
+                                <td class="ui-muted small">@c.At.ToString("HH:mm")</td>
+                            </tr>
+                        }
+                        @if (Model.Cancelled.Count == 0)
+                        {
+                            <tr><td colspan="3" class="text-center ui-muted">None.</td></tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-card mt-3 no-print">
+        <div class="ui-card-header"><div class="ui-card-title">Operator sign-off</div></div>
+        <div class="ui-card-body">
+            <p class="ui-muted small mb-3">Sign and file this sheet with the day's cash drop. The system has logged every transaction independently.</p>
+            <div class="row g-3">
+                <div class="col-md-6"><label class="ui-label">Operator name</label><input type="text" class="ui-input form-control" /></div>
+                <div class="col-md-6"><label class="ui-label">Signature</label><input type="text" class="ui-input form-control" /></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+@*
+    /admin/kiosks — paired self-service tablets.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.KiosksAdminController.IndexVm
+@{
+    ViewData["Title"] = "Kiosk tablets";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Kiosk tablets",
+        Subtitle = "Pair self-service tablets so students can scan + order with no staff login.",
+        Actions  = Html.Raw("<button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#issueModal'><i class='fa-solid fa-plus me-1'></i> Pair new tablet</button>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.JustIssued is not null)
+    {
+        <div class="ui-card mb-4" style="border-color:var(--success)">
+            <div class="ui-card-header">
+                <div>
+                    <div class="ui-card-title">
+                        <i class="fa-solid fa-circle-check me-1" style="color:var(--success)"></i>
+                        Tablet "@Model.JustIssued.Name" is paired
+                    </div>
+                    <div class="ui-card-muted-body">Open this URL <strong>ONCE</strong> on the tablet's browser. The tablet then stays paired for 30 days with no further setup.</div>
+                </div>
+            </div>
+            <div class="ui-card-body">
+                <div class="input-group mb-3">
+                    <input type="text" id="pairUrl" class="ui-input form-control ui-mono small" value="@Model.JustIssued.PairUrl" readonly />
+                    <button class="btn btn-outline-primary" type="button"
+                            onclick="navigator.clipboard.writeText(document.getElementById('pairUrl').value);this.innerText='Copied!';setTimeout(()=>this.innerHTML='<i class=\'fa-solid fa-copy me-1\'></i>Copy',1500)">
+                        <i class="fa-solid fa-copy me-1"></i>Copy
+                    </button>
+                </div>
+                <div class="ui-muted small mb-2">Or scan this QR with the tablet camera:</div>
+                <img alt="Pair QR" loading="lazy"
+                     src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=@Uri.EscapeDataString(Model.JustIssued.PairUrl)"
+                     style="border-radius:var(--rad);border:1px solid var(--border);padding:.5rem;background:#fff" />
+                <div class="ui-muted small mt-2">Raw token (record once if QR isn't an option): <code>@Model.JustIssued.RawToken</code></div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Devices.Count == 0)
+    {
+        var emptyOpts = new EmptyStateOptions
+        {
+            Icon        = "fa-tablet-screen-button",
+            Title       = "No kiosk tablets paired yet",
+            Description = "Click 'Pair new tablet' to issue a one-time token. Students never need to log in.",
+            CtaLabel    = "Pair new tablet",
+            CtaIcon     = "fa-plus",
+            CtaUrl      = "#issueModal"
+        };
+        <partial name="_EmptyState" model="emptyOpts" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Token</th>
+                        <th>Status</th>
+                        <th>Issued</th>
+                        <th>Last seen</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var d in Model.Devices)
+                {
+                    var b = new UiBadgeOptions
+                    {
+                        Text    = d.IsActive ? "Active" : "Revoked",
+                        Variant = d.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    <tr>
+                        <td class="ui-text-strong">@d.Name</td>
+                        <td class="ui-mono small ui-muted">@d.TokenPrefix… <span class="small">(hidden)</span></td>
+                        <td><partial name="_UiBadge" model="b" /></td>
+                        <td class="small">@d.IssuedAtUtc.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                        <td>
+                            @if (d.LastSeenAtUtc is null)
+                            {
+                                <span class="small ui-muted">Never</span>
+                            }
+                            else
+                            {
+                                <span class="small">@d.LastSeenAtUtc.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm") <span class="ui-muted">(@d.LastSeenIp)</span></span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @if (d.IsActive)
+                            {
+                                <form asp-action="Revoke" asp-route-id="@d.KioskDeviceId" method="post" class="d-inline"
+                                      data-cl-confirm="Revoke this tablet? It will sign out on next page load." data-cl-confirm-variant="warning">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-ban me-1"></i>Revoke</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="issueModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" method="post" asp-action="Issue">
+            @Html.AntiForgeryToken()
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa-solid fa-tablet-screen-button me-2" style="color:var(--accent)"></i>Pair a new kiosk tablet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="ui-muted small">Give the tablet a name you'll recognise. The token is generated immediately and shown ONCE on the next screen.</p>
+                <label class="ui-label">Tablet name</label>
+                <input name="Name" class="ui-input form-control" placeholder="Counter A tablet" required maxlength="120" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-key me-1"></i>Issue pairing token</button>
+            </div>
+        </form>
+    </div>
+</div>

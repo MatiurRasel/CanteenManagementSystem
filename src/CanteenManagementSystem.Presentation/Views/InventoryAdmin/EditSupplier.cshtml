@@ -1,0 +1,66 @@
+@*
+    /admin/inventory/suppliers/edit/{id?} — create or edit a supplier.
+*@
+@using CanteenManagementSystem.Domain.Inventory
+@using CanteenManagementSystem.Presentation.Models
+@model Supplier
+@{
+    var isNew = Model.SupplierId == 0;
+    ViewData["Title"] = isNew ? "Add supplier" : $"Edit {Model.Name}";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = isNew ? "Add supplier" : "Edit supplier",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/inventory/suppliers'><i class='fa-solid fa-arrow-left me-1'></i> Back</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" action="/admin/inventory/suppliers/save" class="ui-stack" data-cl-form>
+        @Html.AntiForgeryToken()
+        @if (!isNew) { <input type="hidden" name="supplierId" value="@Model.SupplierId" /> }
+        <div class="ui-card">
+            <div class="ui-card-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="ui-label">Name <span class="ui-muted">*</span></label>
+                        <input class="ui-input form-control" name="name" maxlength="150" required value="@Model.Name" />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="ui-label">Contact name</label>
+                        <input class="ui-input form-control" name="contactName" maxlength="50" value="@Model.ContactName" />
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="ui-label">Phone</label>
+                        <input class="ui-input form-control" name="contactNo" type="tel" maxlength="30" value="@Model.ContactNo" />
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <label class="ui-label">Email</label>
+                        <input class="ui-input form-control" name="email" type="email" maxlength="150" value="@Model.Email" />
+                    </div>
+                    <div class="col-12">
+                        <label class="ui-label">Address</label>
+                        <input class="ui-input form-control" name="address" maxlength="500" value="@Model.Address" />
+                    </div>
+                    <div class="col-12">
+                        <label class="ui-label">Notes</label>
+                        <input class="ui-input form-control" name="notes" maxlength="500" value="@Model.Notes" />
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="true" @(Model.IsActive ? "checked" : "") />
+                            <label class="form-check-label ui-label mb-0" for="isActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-row" style="justify-content:flex-end; gap: .5rem">
+            <a class="btn btn-ghost" href="/admin/inventory/suppliers">Cancel</a>
+            <button class="btn btn-primary" type="submit">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save supplier
+            </button>
+        </div>
+    </form>
+</div>

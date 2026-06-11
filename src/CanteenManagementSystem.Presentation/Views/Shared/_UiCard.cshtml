@@ -1,0 +1,44 @@
+@*
+    _UiCard — shadcn-style card with optional header (title + actions) and footer.
+
+    USAGE
+        @{
+            ViewBag.UiCardTitle    = "Today's revenue";   // optional
+            ViewBag.UiCardSubtitle = "from delivered orders";
+            ViewBag.UiCardActions  = "<a class=\"btn btn-sm btn-ghost\">Export</a>";   // raw HTML
+        }
+        <partial name="_UiCard" view-data="@(new ViewDataDictionary(ViewData) { ["BodyContent"] = bodyHtml })" />
+
+    OR use the @section pattern via the `_UiCardSection` partial below.
+*@
+@{
+    var title    = ViewData["UiCardTitle"]    as string;
+    var subtitle = ViewData["UiCardSubtitle"] as string;
+    var actions  = ViewData["UiCardActions"]  as string;
+    var body     = ViewData["BodyContent"]    as Microsoft.AspNetCore.Html.IHtmlContent ?? new Microsoft.AspNetCore.Html.HtmlString("");
+    var footer   = ViewData["FooterContent"]  as Microsoft.AspNetCore.Html.IHtmlContent;
+    var compact  = ViewData["UiCardCompact"] as bool? ?? false;
+}
+<div class="ui-card@((compact) ? " ui-card-compact" : "")">
+    @if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(actions))
+    {
+        <div class="ui-card-header">
+            <div>
+                <div class="ui-card-title">@title</div>
+                @if (!string.IsNullOrWhiteSpace(subtitle))
+                {
+                    <div class="ui-card-muted-body">@subtitle</div>
+                }
+            </div>
+            @if (!string.IsNullOrEmpty(actions))
+            {
+                <div class="ui-row">@Html.Raw(actions)</div>
+            }
+        </div>
+    }
+    <div class="ui-card-body">@body</div>
+    @if (footer is not null)
+    {
+        <div class="ui-card-footer">@footer</div>
+    }
+</div>

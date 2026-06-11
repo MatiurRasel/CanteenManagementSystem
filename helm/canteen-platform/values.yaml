@@ -1,0 +1,97 @@
+# Default values for canteen-platform.
+# Override per environment via `helm install -f values.prod.yaml`.
+
+image:
+  repository: ghcr.io/your-org/canteen-platform
+  tag: ""           # defaults to .Chart.AppVersion when blank
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+# Per-pod resource requests + limits — sized for ~1k students / 200 orders per lunch.
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 768Mi
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: canteen.school.edu
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: canteen-tls
+      hosts:
+        - canteen.school.edu
+
+# K8s probes — wired to the /health endpoints baked into the image.
+probes:
+  liveness:
+    path: /health/live
+    initialDelaySeconds: 30
+    periodSeconds: 30
+  readiness:
+    path: /health/ready
+    initialDelaySeconds: 30
+    periodSeconds: 15
+
+# Persists the ASP.NET DataProtection key ring — without it, every pod restart
+# invalidates encrypted tenant settings (gateway creds, SMTP passwords, etc.).
+dataProtection:
+  enabled: true
+  size: 1Gi
+  storageClass: ""
+
+# Connection strings — fed in via env vars from this chart's Secret.
+# The actual VALUES must be supplied via:
+#   helm install --set "secrets.authSigningKey=$(openssl rand -base64 48)" ...
+# or `--set-file secrets.connectionString=./db.txt`.
+secrets:
+  authSigningKey: ""             # REQUIRED
+  connectionString: ""           # REQUIRED — Server=...;Database=canteen_saas;...
+  redisConnectionString: ""      # optional — empty → in-memory cache fallback
+
+env:
+  ASPNETCORE_ENVIRONMENT: Production
+  Migration__ApplyOnStartup: "false"    # release pipeline runs migrations
+  Seed__RunOnStartup: "true"
+  Observability__OtlpEndpoint: ""        # set to your OTel collector
+  Observability__EnablePrometheus: "true"
+
+# Run the EF migration as a pre-install / pre-upgrade Job so the schema is
+# applied before pods start serving traffic.
+migrate:
+  enabled: true
+  image: { repository: "", tag: "" }   # leave blank to use the same app image
+  ttlSecondsAfterFinished: 86400
+
+# HPA — scale on CPU.
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10000
+  fsGroup: 10000
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ "ALL" ]
+  readOnlyRootFilesystem: false       # DataProtection key ring + logs need write

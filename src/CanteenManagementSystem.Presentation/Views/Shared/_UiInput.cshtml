@@ -1,0 +1,39 @@
+@*
+    _UiInput — labelled form input with optional help text + error message.
+
+    USAGE
+        <partial name="_UiInput" model="@new UiInputOptions {
+            Name        = "email",
+            Label       = "Email address",
+            Placeholder = "name@example.com",
+            HelpText    = "We'll send a one-time login link.",
+            Required    = true,
+            InputType   = "email"
+        }" />
+*@
+@model CanteenManagementSystem.Presentation.Models.UiInputOptions
+@{ var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiInputOptions(); }
+
+<div class="ui-stack-sm">
+    @if (!string.IsNullOrWhiteSpace(opts.Label))
+    {
+        <label class="ui-label" for="@opts.Id">
+            @opts.Label
+            @if (opts.Required) { <span class="ui-muted" aria-hidden="true">*</span> }
+        </label>
+    }
+    <input id="@opts.Id" name="@opts.Name" type="@opts.InputType"
+           value="@opts.Value" placeholder="@opts.Placeholder"
+           autocomplete="@opts.Autocomplete"
+           @(opts.Required ? "required" : "")
+           @(opts.ReadOnly ? "readonly" : "")
+           class="ui-input form-control @(opts.HasError ? "is-invalid" : "")" />
+    @if (opts.HasError)
+    {
+        <div class="ui-error">@opts.ErrorMessage</div>
+    }
+    else if (!string.IsNullOrWhiteSpace(opts.HelpText))
+    {
+        <div class="ui-help-text">@opts.HelpText</div>
+    }
+</div>

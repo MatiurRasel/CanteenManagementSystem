@@ -1,0 +1,92 @@
+@*
+    /admin/inventory/stock-takes/{id} — count form.
+*@
+@using CanteenManagementSystem.Domain.Inventory
+@using CanteenManagementSystem.Presentation.Models
+@model StockTake
+@{
+    ViewData["Title"] = $"Stock take #{Model.StockTakeId}";
+    var isDraft = Model.Status == StockTakeStatus.Draft;
+    var statusBadge = new UiBadgeOptions
+    {
+        Text    = Model.Status.ToString(),
+        Variant = Model.Status switch { StockTakeStatus.Draft => UiBadgeVariant.Info, StockTakeStatus.Submitted => UiBadgeVariant.Success, _ => UiBadgeVariant.Warning },
+        WithDot = true
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = $"Stock take #{Model.StockTakeId}",
+        Subtitle = $"Started {Model.StartedAtUtc:yyyy-MM-dd HH:mm} by {Model.StartedBy ?? "—"}",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/inventory/stock-takes'><i class='fa-solid fa-arrow-left me-1'></i> All takes</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="ui-row mb-3">
+        <partial name="_UiBadge" model="statusBadge" />
+        <span class="ui-muted" style="font-size:13px">@Model.Lines.Count items</span>
+    </div>
+
+    <form method="post" action="/admin/inventory/stock-takes/@Model.StockTakeId/submit" data-cl-form>
+        @Html.AntiForgeryToken()
+        <div class="ui-table-wrap">
+            <table class="table ui-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-end" style="width:15%">Expected</th>
+                        <th class="text-end" style="width:20%">Counted</th>
+                        <th class="text-end" style="width:15%">Variance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var line in Model.Lines.OrderBy(l => l.FoodItem?.ItemName))
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" name="foodItemId" value="@line.FoodItemID" />
+                            @line.FoodItem?.ItemName
+                        </td>
+                        <td class="text-end ui-tabular ui-muted">@line.ExpectedQty</td>
+                        <td>
+                            <input class="ui-input form-control text-end count-input" type="number" min="0" step="1" name="countedQty"
+                                   value="@(isDraft ? "" : line.CountedQty.ToString())" data-expected="@line.ExpectedQty"
+                                   @(isDraft ? "" : "readonly") />
+                        </td>
+                        <td class="text-end ui-tabular variance-cell">@(isDraft ? "—" : (line.CountedQty - line.ExpectedQty).ToString("+#;-#;0"))</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        @if (isDraft)
+        {
+            <div class="ui-row" style="justify-content:flex-end; gap:.5rem; margin-top:1.5rem">
+                <a class="btn btn-ghost" href="/admin/inventory/stock-takes">Cancel</a>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa-solid fa-check me-1"></i> Submit count
+                </button>
+            </div>
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Live-update the variance column as the operator types.
+        document.querySelectorAll('.count-input').forEach(function (input) {
+            input.addEventListener('input', function () {
+                var expected = parseInt(input.getAttribute('data-expected'), 10) || 0;
+                var counted  = parseInt(input.value || '0', 10);
+                var cell = input.closest('tr').querySelector('.variance-cell');
+                var v = counted - expected;
+                cell.textContent = (v > 0 ? '+' : '') + v;
+                cell.classList.remove('text-danger', 'text-success', 'ui-muted');
+                cell.classList.add(v < 0 ? 'text-danger' : v > 0 ? 'text-success' : 'ui-muted');
+            });
+        });
+    </script>
+}

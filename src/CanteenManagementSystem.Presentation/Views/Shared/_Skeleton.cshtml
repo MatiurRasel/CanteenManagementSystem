@@ -1,0 +1,168 @@
+@*
+    _Skeleton.cshtml — reusable skeleton loader.
+    See /wwwroot/css/canteen-loading.css for styling (loaded globally).
+
+    USAGE
+        <div data-loaded="false">
+            <partial name="_Skeleton" model="@new SkeletonOptions { Variant = SkeletonVariant.Table, Rows = 6 }" />
+            <div class="skeleton-target">…real content once loaded…</div>
+        </div>
+
+    JS HELPER  (see /wwwroot/js/canteen-loading.js)
+        await CanteenLoading.wrap('#myWrap', async () => { await fetch(…); });
+
+    VARIANTS
+        Line     — N stacked blocks (default)
+        Table    — header row + N data rows (3-col)
+        Card     — N tiles in a 3-up grid
+        Kpi      — N stat cards in a 4-up grid
+        List     — N rows of avatar + two text lines
+        Form     — N rows of label + input
+        Detail   — page-header + paragraph + paragraph
+        Chart    — bar/line graph placeholder
+        Avatar   — single profile row (avatar + name + sub)
+        Stat     — single inline stat block
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model SkeletonOptions
+@{ var opts = Model ?? new SkeletonOptions(); }
+@functions {
+    string CardClass(SkeletonOptions o) => o.Card ? "skeleton-card" : "";
+}
+
+<div class="canteen-skeleton" aria-busy="true" aria-label="@(opts.Label ?? "Loading…")">
+@switch (opts.Variant)
+{
+    case SkeletonVariant.Kpi:
+        <div class="row g-3">
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="col-6 col-md-3">
+                    <div class="@CardClass(opts)">
+                        <div class="skeleton-block skeleton-w-50 mb-2"></div>
+                        <div class="skeleton-block skeleton-w-80 skeleton-h-lg mb-1"></div>
+                        <div class="skeleton-block skeleton-w-40"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        break;
+
+    case SkeletonVariant.Table:
+        <div class="@CardClass(opts)">
+            <div class="skeleton-block skeleton-w-100 skeleton-h-xl mb-2"></div>
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="d-flex gap-2 mb-2">
+                    <div class="skeleton-block skeleton-w-25"></div>
+                    <div class="skeleton-block skeleton-w-50"></div>
+                    <div class="skeleton-block skeleton-w-25"></div>
+                </div>
+            }
+        </div>
+        break;
+
+    case SkeletonVariant.Card:
+        <div class="row g-3">
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="@CardClass(opts)">
+                        <div class="skeleton-block skeleton-w-70 skeleton-h-lg mb-2"></div>
+                        <div class="skeleton-block skeleton-w-100 mb-1"></div>
+                        <div class="skeleton-block skeleton-w-90 mb-1"></div>
+                        <div class="skeleton-block skeleton-w-60"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        break;
+
+    case SkeletonVariant.List:
+        <div class="@CardClass(opts)">
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="cl-skeleton-circle"></div>
+                    <div class="flex-grow-1">
+                        <div class="skeleton-block skeleton-w-40 mb-1"></div>
+                        <div class="skeleton-block skeleton-w-70 skeleton-h-sm"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        break;
+
+    case SkeletonVariant.Form:
+        <div class="@CardClass(opts)">
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="mb-3">
+                    <div class="skeleton-block skeleton-w-30 skeleton-h-sm mb-2"></div>
+                    <div class="skeleton-block skeleton-w-100 skeleton-h-lg"></div>
+                </div>
+            }
+            <div class="d-flex gap-2 mt-4">
+                <div class="skeleton-block skeleton-w-20 skeleton-h-xl"></div>
+                <div class="skeleton-block skeleton-w-20 skeleton-h-xl"></div>
+            </div>
+        </div>
+        break;
+
+    case SkeletonVariant.Detail:
+        <div class="@CardClass(opts)">
+            <div class="skeleton-block skeleton-w-50 skeleton-h-xl mb-3"></div>
+            <div class="skeleton-block skeleton-w-30 mb-4"></div>
+            @for (var i = 0; i < opts.Rows; i++)
+            {
+                <div class="skeleton-block skeleton-w-100 mb-2"></div>
+                <div class="skeleton-block skeleton-w-90 mb-2"></div>
+                <div class="skeleton-block skeleton-w-70 mb-4"></div>
+            }
+        </div>
+        break;
+
+    case SkeletonVariant.Chart:
+        <div class="@CardClass(opts)">
+            <div class="skeleton-block skeleton-w-30 skeleton-h-lg mb-3"></div>
+            <div class="d-flex align-items-end gap-2" style="height: 180px;">
+                @for (var i = 0; i < Math.Max(6, opts.Rows); i++)
+                {
+                    var h = 20 + (i * 47) % 80;
+                    <div class="skeleton-block" style="width: 12%; height: @(h)%; align-self: flex-end;"></div>
+                }
+            </div>
+            <div class="d-flex gap-2 mt-2">
+                @for (var i = 0; i < Math.Max(6, opts.Rows); i++)
+                {
+                    <div class="skeleton-block skeleton-h-sm" style="width: 12%;"></div>
+                }
+            </div>
+        </div>
+        break;
+
+    case SkeletonVariant.Avatar:
+        <div class="d-flex align-items-center gap-3 @CardClass(opts)">
+            <div class="cl-skeleton-circle" style="width:3.5rem;height:3.5rem;"></div>
+            <div class="flex-grow-1">
+                <div class="skeleton-block skeleton-w-30 skeleton-h-lg mb-2"></div>
+                <div class="skeleton-block skeleton-w-50"></div>
+            </div>
+        </div>
+        break;
+
+    case SkeletonVariant.Stat:
+        <div class="@CardClass(opts)">
+            <div class="skeleton-block skeleton-w-40 skeleton-h-sm mb-2"></div>
+            <div class="skeleton-block skeleton-w-60 skeleton-h-xl"></div>
+        </div>
+        break;
+
+    default:    // Line
+        @for (var i = 0; i < opts.Rows; i++)
+        {
+            <div class="skeleton-block skeleton-w-100 mb-2"></div>
+        }
+        break;
+}
+</div>

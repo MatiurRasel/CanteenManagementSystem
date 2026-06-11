@@ -1,0 +1,60 @@
+# =============================================================================
+# CodeQL — static analysis for security vulnerabilities
+# -----------------------------------------------------------------------------
+# Runs on:
+#   * Every push to master / main
+#   * Every pull request targeting master / main
+#   * Weekly Monday cron (catches advisories added after the code was merged)
+#
+# Languages: csharp (the only first-party language; client-side JS is small
+# enough that the marginal value of scanning it is low).
+# =============================================================================
+
+name: CodeQL
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  schedule:
+    - cron: '17 5 * * 1'   # Mondays 05:17 UTC
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: +security-and-quality
+
+      - name: Build
+        run: dotnet build --configuration Release --no-incremental
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

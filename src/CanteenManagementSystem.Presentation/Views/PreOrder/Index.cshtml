@@ -1,0 +1,73 @@
+@*
+    /pre-orders — consumer order-ahead landing.
+*@
+@using CanteenManagementSystem.Domain.Enums
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.PreOrderController.OrderRow>
+@{
+    ViewData["Title"] = "Pre-orders";
+    UiBadgeVariant V(CanteenOrderStatus s) => s switch
+    {
+        CanteenOrderStatus.Delivered => UiBadgeVariant.Success,
+        CanteenOrderStatus.Cancelled => UiBadgeVariant.Secondary,
+        CanteenOrderStatus.Refunded  => UiBadgeVariant.Warning,
+        CanteenOrderStatus.Ready     => UiBadgeVariant.Primary,
+        _ => UiBadgeVariant.Info
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Pre-orders",
+        Subtitle = "Order ahead for a specific pickup time — skip the lunch queue.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/pre-orders/new'><i class='fa-solid fa-plus me-1'></i> New pre-order</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions
+        {
+            Icon = "fa-calendar-plus",
+            Title = "No pre-orders yet",
+            Description = "Place a pre-order for a specific pickup time and skip the rush.",
+            CtaLabel = "Create one",
+            CtaUrl   = "/pre-orders/new",
+            CtaIcon  = "fa-plus"
+        };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th class="text-end">Pickup at</th>
+                        <th>Items</th>
+                        <th class="text-end">Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var o in Model)
+                {
+                    var b = new UiBadgeOptions { Text = o.Status.ToString(), Variant = V(o.Status), WithDot = true };
+                    var itemSummary = o.Items.Count == 0
+                        ? "—"
+                        : string.Join(", ", o.Items.Take(3)) + (o.Items.Count > 3 ? $" +{o.Items.Count - 3} more" : "");
+                    <tr>
+                        <td class="ui-mono">@o.OrderNumber</td>
+                        <td class="text-end ui-text-strong ui-tabular">@o.PickupAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="ui-muted" style="font-size:13px">@itemSummary</td>
+                        <td class="text-end ui-tabular ui-text-strong">৳ @o.TotalAmount.ToString("N0")</td>
+                        <td><partial name="_UiBadge" model="b" /></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

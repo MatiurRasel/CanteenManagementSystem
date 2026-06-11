@@ -1,0 +1,130 @@
+# =============================================================================
+# .github/workflows/ci.yml  — GitHub Actions CI
+# -----------------------------------------------------------------------------
+# Trigger:   every push + every PR against any branch
+# Stages:
+#   * build-test    restore + build + test on net10
+#   * docker-build  publish a single-arch image (no push — guard for forks)
+#
+# Outputs an idempotent migration SQL artefact so reviewers can diff the
+# schema change a PR introduces without running a DB.
+# =============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ADR-0004 gate — controllers + application layer must not depend on IAppDbContext
+        run: |
+          # Per ADR 0004, controllers depend only on application service interfaces,
+          # and the application layer (services + CQRS handlers) depends only on
+          # IUnitOfWork / IRepository<T> / IReadOnlyRepository<T>. The Infrastructure
+          # layer is where DbContext lives, so this gate intentionally does NOT
+          # scan it (UnitOfWork, GenericRepository, seed code, TransactionBehavior,
+          # background workers all legitimately reference IAppDbContext).
+          #
+          # We grep for the FIELD declaration pattern so plain `using` lines
+          # don't false-trip the gate.
+          matches=$(grep -REn --include="*.cs" \
+            '^\s*(private\s+readonly\s+)?IAppDbContext\b' \
+            src/CanteenManagementSystem.Presentation/Controllers \
+            src/CanteenManagementSystem.Application \
+            platform/Platform.Presentation 2>/dev/null || true)
+          if [ -n "$matches" ]; then
+            echo "::error::ADR-0004 violation — controllers + application layer must use IUnitOfWork / IRepository, not IAppDbContext."
+            echo "$matches"
+            exit 1
+          fi
+          echo "OK — controller + application layers are ADR-0004 clean."
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore tools (dotnet-ef)
+        run: dotnet tool restore || true
+
+      - name: Restore packages
+        run: dotnet restore CanteenManagementSystem.sln
+
+      - name: Build (Release)
+        run: dotnet build CanteenManagementSystem.sln --configuration Release --no-restore
+
+      - name: Test (Release)
+        run: |
+          if find . -name "*.Tests.csproj" -print -quit | grep -q .; then
+            dotnet test CanteenManagementSystem.sln --configuration Release --no-build --verbosity normal
+          else
+            echo "No test projects found — skipping."
+          fi
+
+      - name: Generate idempotent migration SQL artefact
+        run: |
+          mkdir -p artifacts
+          dotnet ef migrations script --idempotent \
+            --project src/CanteenManagementSystem.Infrastructure \
+            --startup-project src/CanteenManagementSystem.Presentation \
+            --output artifacts/migration.sql || echo "EF script generation skipped"
+
+      - name: Upload migration SQL
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-sql
+          path: artifacts/migration.sql
+          if-no-files-found: warn
+
+  docker-build:
+    needs: build-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          load: true
+          tags: canteen-platform:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke-test the image
+        run: |
+          docker run -d --name smoke \
+            -e ASPNETCORE_ENVIRONMENT=Development \
+            -e Auth__SigningKey=$(openssl rand -base64 48) \
+            -e Migration__ApplyOnStartup=false \
+            -e Seed__RunOnStartup=false \
+            -p 8080:8080 \
+            canteen-platform:ci-${{ github.sha }}
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/health/live >/dev/null; then
+              echo "ok"; exit 0
+            fi
+            sleep 2
+          done
+          docker logs smoke
+          exit 1

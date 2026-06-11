@@ -1,0 +1,25 @@
+@{
+    var code = Context.Response.StatusCode;
+    ViewData["Code"]           = code.ToString();
+    ViewData["Tone"]           = code >= 500 ? "danger" : "warning";
+    ViewData["Icon"]           = code >= 500 ? "fa-triangle-exclamation" : "fa-circle-question";
+    ViewData["Title"]          = code >= 500 ? "Server error" : "Request error";
+    ViewData["Description"]    = code >= 500
+        ? "Something went wrong on our side. Try again, or come back in a few minutes."
+        : "The request couldn't be completed. Check the URL or try again from the home page.";
+    ViewData["CtaUrl"]         = "/";
+    ViewData["CtaLabel"]       = "Back to home";
+    ViewData["CtaIcon"]        = "fa-house";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error @code · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

@@ -1,0 +1,489 @@
+/* =============================================================================
+   kiosk-surfaces.css — shared design tokens for the four "specialist" surfaces:
+       /Verification          counter staff scan flow
+       /kiosk                 self-service tablet
+       /Display/Menu          TV menu board
+       /Kitchen               cook bump-bar / KDS
+
+   Each surface has different audience constraints (distance, touch vs keyboard,
+   noise, lighting) but they MUST feel like the same product family. This file
+   defines:
+
+   * --ks-*  family tokens   (touch sizes, hero typography, color palettes)
+   * .ks-shell               full-screen flexbox shell (kiosk + display)
+   * .ks-bigtap              44 px minimum, 64 px preferred touch zones
+   * .ks-pill / .ks-chip     state-machine indicators
+   * .ks-balance-card        hero balance / KPI card
+   * .ks-user-card           avatar + name + meta row
+   * .ks-state-empty/loading/error/found  Verification + Kiosk state machines
+   * .ks-board               KDS / kitchen 3-column board
+   * .ks-tv-card             TV menu carousel card
+
+   All tokens map to shadcn.css aliases so per-tenant accent flows through
+   automatically.
+============================================================================= */
+
+:root {
+    /* Touch zone rules — Apple HIG = 44px, Android Material = 48px.
+       64px is the "first-time-user touches with one finger" comfort zone. */
+    --ks-touch-min:    44px;
+    --ks-touch-tap:    56px;
+    --ks-touch-hero:   72px;
+
+    /* Hero typography — for distance reading and tablet-arm's-length. */
+    --ks-fs-hero:      clamp(2.2rem, 4.5vw, 3.4rem);
+    --ks-fs-display:   clamp(1.5rem, 2.8vw, 2.2rem);
+    --ks-fs-label:     0.82rem;
+    --ks-fs-helper:    0.78rem;
+
+    /* Status family (consistent across Kitchen / Verification / Kiosk) */
+    --ks-pending:   #f59e0b;
+    --ks-preparing: #3b82f6;
+    --ks-ready:     #10b981;
+    --ks-delivered: #6366f1;
+    --ks-cancelled: #71717a;
+    --ks-stale:     #dc2626;
+
+    /* Surface base for standalone TV / kiosk layouts */
+    --ks-surface-canvas:     var(--bg);
+    --ks-surface-card:       var(--surface);
+    --ks-surface-raised:     var(--surface-2);
+}
+
+[data-bs-theme="dark"] {
+    --ks-surface-canvas:     #0a0a0c;     /* one shade deeper than --bg for distance contrast */
+    --ks-surface-card:       #1a1a1e;
+    --ks-surface-raised:     #25252a;
+}
+
+/* ─── Standalone-layout shell (kiosk, display, kitchen) ─────────────────── */
+html.ks-html, body.ks-body {
+    height: 100%;
+    margin: 0;
+    background: var(--ks-surface-canvas);
+    color: var(--fg);
+    font-family: 'Inter', 'Hind Siliguri', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.ks-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.ks-shell-center {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+
+/* ─── Surface header (kiosk + kitchen + display all share this band) ────── */
+.ks-header {
+    background: var(--ks-surface-card);
+    color: var(--fg);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+.ks-header h1, .ks-header .ks-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+}
+.ks-header .ks-subtitle {
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin: 0;
+}
+.ks-clock {
+    font-variant-numeric: tabular-nums;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--rad);
+    background: var(--ks-surface-raised);
+}
+
+/* ─── Big-tap action (single source for ALL touch buttons) ──────────────── */
+.ks-bigtap {
+    min-height: var(--ks-touch-tap);
+    padding: 0.85rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: var(--rad-lg);
+    letter-spacing: 0.01em;
+    transition: transform 100ms cubic-bezier(.4,0,.2,1), box-shadow 160ms;
+}
+.ks-bigtap:active { transform: translateY(1px) scale(.98); }
+.ks-bigtap-hero {
+    min-height: var(--ks-touch-hero);
+    padding: 1.15rem 1.75rem;
+    font-size: 1.2rem;
+    border-radius: var(--rad-xl);
+}
+
+/* ─── State-machine pills (used by Verification, Kiosk, Kitchen) ────────── */
+.ks-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--rad-pill);
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--ks-surface-raised);
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+.ks-pill.is-ready    { background: rgba(16,185,129,.14); color: #15803d; border-color: rgba(16,185,129,.25); }
+.ks-pill.is-scanning { background: rgba(59,130,246,.14); color: #1e3a8a; border-color: rgba(59,130,246,.25); }
+.ks-pill.is-found    { background: rgba(99,102,241,.14); color: #3730a3; border-color: rgba(99,102,241,.25); }
+.ks-pill.is-error    { background: rgba(220,38,38,.14);  color: #991b1b; border-color: rgba(220,38,38,.25); }
+[data-bs-theme="dark"] .ks-pill.is-ready    { color: #6ee7b7; }
+[data-bs-theme="dark"] .ks-pill.is-scanning { color: #93c5fd; }
+[data-bs-theme="dark"] .ks-pill.is-found    { color: #a5b4fc; }
+[data-bs-theme="dark"] .ks-pill.is-error    { color: #fca5a5; }
+
+.ks-pill .ks-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 18%, transparent);
+    animation: ks-pulse 1.6s ease-in-out infinite;
+}
+@keyframes ks-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .6; transform: scale(1.18); }
+}
+
+/* ─── Hero balance card (the big number on Verification + Kiosk) ────────── */
+.ks-balance-card {
+    background: linear-gradient(135deg, var(--accent-soft), color-mix(in srgb, var(--accent-soft) 60%, transparent));
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    border-radius: var(--rad-lg);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.ks-balance-card .ks-balance-label {
+    font-size: var(--ks-fs-label);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+}
+.ks-balance-card .ks-balance-value {
+    font-size: var(--ks-fs-hero);
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+.ks-balance-card .ks-balance-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px;
+    border-radius: var(--rad-lg);
+    background: var(--accent);
+    color: var(--accent-fg);
+    font-size: 1.4rem;
+    box-shadow: 0 8px 22px -6px var(--accent);
+    flex-shrink: 0;
+}
+.ks-balance-card.is-mini { padding: .85rem 1rem; }
+.ks-balance-card.is-mini .ks-balance-value { font-size: 1.5rem; }
+.ks-balance-card.is-mini .ks-balance-icon  { width: 40px; height: 40px; font-size: 1rem; }
+
+/* ─── User card (avatar + name + meta) ──────────────────────────────────── */
+.ks-user-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+.ks-user-photo {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--surface-2);
+    border: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    box-shadow: 0 6px 14px -6px rgba(0,0,0,.25);
+}
+.ks-user-info { flex: 1 1 auto; min-width: 0; }
+.ks-user-info h2 {
+    margin: 0 0 .15rem;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+}
+.ks-user-info .ks-meta-line {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* ─── State boxes (Verification + Kiosk swap between these) ─────────────── */
+.ks-state {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+}
+.ks-state-icon {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: var(--surface-2);
+    color: var(--accent);
+}
+.ks-state h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0 0 .35rem;
+}
+.ks-state p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+.ks-state.is-error .ks-state-icon { background: rgba(220,38,38,.10); color: var(--danger); }
+.ks-state.is-loading .ks-state-icon { background: rgba(59,130,246,.10); color: #3b82f6; }
+.ks-state.is-loading .ks-state-icon i { animation: ks-spin 1s linear infinite; }
+@keyframes ks-spin { to { transform: rotate(360deg); } }
+
+/* ─── Menu rows on Verification ────────────────────────────────────────── */
+.ks-menu-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--rad);
+    transition: background 120ms;
+}
+.ks-menu-row:hover { background: var(--surface-2); }
+.ks-menu-row .ks-menu-name { flex: 1; font-weight: 600; color: var(--fg); }
+.ks-menu-row .ks-menu-price { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* ─── Dietary chip family (shared with /menu phone preview) ─────────────── */
+.ks-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .68rem;
+    font-weight: 700;
+    padding: .15rem .55rem;
+    border-radius: var(--rad-pill);
+}
+.ks-chip.chip-veg     { background: rgba(16,185,129,.22); color: #065f46; }
+.ks-chip.chip-halal   { background: rgba(59,130,246,.22); color: #1e3a8a; }
+.ks-chip.chip-kcal    { background: rgba(245,158,11,.22); color: #7c2d12; }
+.ks-chip.chip-allergy { background: rgba(239,68,68,.22);  color: #7f1d1d; }
+.ks-chip.chip-out     { background: rgba(113,113,122,.22); color: #3f3f46; }
+.ks-chip.chip-low     { background: rgba(245,158,11,.22); color: #7c2d12; }
+.ks-chip.chip-in      { background: rgba(16,185,129,.22); color: #065f46; }
+[data-bs-theme="dark"] .ks-chip.chip-veg     { color: #6ee7b7; }
+[data-bs-theme="dark"] .ks-chip.chip-halal   { color: #93c5fd; }
+[data-bs-theme="dark"] .ks-chip.chip-kcal    { color: #fcd34d; }
+[data-bs-theme="dark"] .ks-chip.chip-allergy { color: #fca5a5; }
+[data-bs-theme="dark"] .ks-chip.chip-out     { color: #a1a1aa; }
+[data-bs-theme="dark"] .ks-chip.chip-low     { color: #fcd34d; }
+[data-bs-theme="dark"] .ks-chip.chip-in      { color: #6ee7b7; }
+
+/* ─── KDS / Kitchen board ───────────────────────────────────────────────── */
+.ks-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    flex: 1 1 auto;
+}
+.ks-board-col {
+    background: var(--ks-surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--rad-lg);
+    padding: 1rem 0.85rem 1.25rem;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+}
+.ks-board-col h2 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0 0 .85rem;
+    padding: 0 .15rem .75rem;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ks-board-col[data-bucket="pending"]   { border-top: 4px solid var(--ks-pending); }
+.ks-board-col[data-bucket="preparing"] { border-top: 4px solid var(--ks-preparing); }
+.ks-board-col[data-bucket="ready"]     { border-top: 4px solid var(--ks-ready); }
+.ks-board-col h2 .ks-col-count {
+    font-size: .85rem;
+    background: var(--ks-surface-raised);
+    color: var(--fg);
+    padding: .15rem .55rem;
+    border-radius: var(--rad-pill);
+    font-weight: 700;
+}
+
+.ks-kds-card {
+    background: var(--ks-surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--rad);
+    padding: .85rem 1rem;
+    margin-bottom: .75rem;
+    transition: transform 120ms, box-shadow 160ms, border-color 200ms;
+}
+.ks-kds-card:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
+.ks-kds-card.is-stale { border-color: var(--ks-pending); }
+.ks-kds-card.is-critical {
+    border-color: var(--ks-stale);
+    box-shadow: 0 0 0 1px var(--ks-stale), 0 0 22px -6px var(--ks-stale);
+    animation: ks-shake 700ms ease-in-out;
+}
+@keyframes ks-shake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-3px); }
+    40%      { transform: translateX(3px); }
+    60%      { transform: translateX(-2px); }
+    80%      { transform: translateX(2px); }
+}
+.ks-kds-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: .35rem; gap: .5rem;
+}
+.ks-kds-no {
+    font-weight: 800; font-size: 1.1rem;
+    color: var(--fg); font-variant-numeric: tabular-nums;
+    letter-spacing: -.01em;
+}
+.ks-kds-age {
+    font-variant-numeric: tabular-nums;
+    font-size: .85rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+.ks-kds-age.is-old      { color: var(--ks-pending); }
+.ks-kds-age.is-critical { color: var(--ks-stale); }
+.ks-kds-user {
+    font-size: .82rem;
+    color: var(--muted);
+    margin-bottom: .35rem;
+}
+.ks-kds-items {
+    font-size: .92rem;
+    color: var(--fg);
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 .65rem;
+}
+.ks-kds-items li {
+    padding: 2px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed var(--border);
+}
+.ks-kds-items li:last-child { border-bottom: 0; }
+.ks-kds-actions {
+    display: flex;
+    gap: .35rem;
+}
+.ks-kds-actions .btn {
+    flex: 1;
+    min-height: var(--ks-touch-min);
+    font-weight: 600;
+}
+
+/* ─── TV menu carousel cards (Display/Menu) ─────────────────────────────── */
+.ks-tv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+}
+.ks-tv-card {
+    background: var(--surface);
+    color: var(--fg);
+    border-radius: var(--rad-lg);
+    padding: 1.5rem 1.5rem 1.25rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,.35);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    position: relative;
+    overflow: hidden;
+}
+.ks-tv-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 50%, transparent));
+}
+.ks-tv-card-number {
+    position: absolute; top: 1rem; right: 1.25rem;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-fg);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.05rem;
+    box-shadow: 0 4px 12px -4px var(--accent);
+}
+.ks-tv-card-name {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 800;
+    color: var(--fg);
+    margin: 0;
+    padding-right: 3rem;
+}
+.ks-tv-card-category {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 500;
+}
+.ks-tv-card-price {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 800;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+.ks-tv-card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: .75rem;
+}
+
+/* ─── Hide chips when nutrition toggle is off (Display/phone-menu) ──────── */
+body.hide-nutrition .ks-chip.chip-kcal,
+body.hide-nutrition .ks-chip.chip-allergy { display: none; }
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .ks-pill .ks-dot,
+    .ks-state.is-loading .ks-state-icon i,
+    .ks-kds-card.is-critical { animation: none !important; }
+    .ks-bigtap, .ks-kds-card { transition: none !important; }
+}

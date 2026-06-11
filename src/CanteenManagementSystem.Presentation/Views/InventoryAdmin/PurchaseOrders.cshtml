@@ -1,0 +1,104 @@
+@*
+    /admin/inventory/pos — purchase order list.
+*@
+@using CanteenManagementSystem.Application.Inventory
+@using CanteenManagementSystem.Domain.Inventory
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<PoSummary>
+@{
+    ViewData["Title"] = "Purchase orders";
+    var status = ViewBag.Status as PurchaseOrderStatus?;
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Purchase orders",
+        Subtitle = "Inbound stock from suppliers — receipt bumps today's DailyMenu quantities.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/inventory/pos/new'><i class='fa-solid fa-plus me-1'></i> New PO</a>")
+    };
+    var tabs = new UiTabsOptions
+    {
+        Tabs = new []
+        {
+            new UiTab("All",       "/admin/inventory/pos",                   isActive: status is null),
+            new UiTab("Submitted", "/admin/inventory/pos?status=Submitted",  isActive: status == PurchaseOrderStatus.Submitted),
+            new UiTab("Received",  "/admin/inventory/pos?status=Received",   isActive: status == PurchaseOrderStatus.Received),
+            new UiTab("Cancelled", "/admin/inventory/pos?status=Cancelled",  isActive: status == PurchaseOrderStatus.Cancelled)
+        }
+    };
+    UiBadgeVariant Variant(PurchaseOrderStatus s) => s switch
+    {
+        PurchaseOrderStatus.Draft     => UiBadgeVariant.Secondary,
+        PurchaseOrderStatus.Submitted => UiBadgeVariant.Info,
+        PurchaseOrderStatus.Received  => UiBadgeVariant.Success,
+        PurchaseOrderStatus.Cancelled => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Secondary
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+    <partial name="_UiTabs" model="tabs" />
+    <div style="margin-top: 1.25rem"></div>
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions { Icon = "fa-truck-fast", Title = "No purchase orders", Description = "Create your first PO to start tracking stock arrivals.", CtaLabel = "New PO", CtaUrl = "/admin/inventory/pos/new", CtaIcon = "fa-plus" };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>PO #</th>
+                        <th>Supplier</th>
+                        <th class="text-end">Lines</th>
+                        <th class="text-end">Total ৳</th>
+                        <th>Status</th>
+                        <th class="text-end">Ordered</th>
+                        <th class="text-end" style="width:1%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var po in Model)
+                {
+                    var b = new UiBadgeOptions { Text = po.Status.ToString(), Variant = Variant(po.Status), WithDot = true };
+                    <tr>
+                        <td class="ui-mono ui-text-strong">@po.PoNumber</td>
+                        <td>@po.SupplierName</td>
+                        <td class="text-end ui-tabular">@po.LineCount</td>
+                        <td class="text-end ui-tabular ui-text-strong">৳ @po.Total.ToString("N0")</td>
+                        <td><partial name="_UiBadge" model="b" /></td>
+                        <td class="text-end ui-muted ui-tabular">@po.OrderedAtUtc.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">
+                            @if (po.Status == PurchaseOrderStatus.Submitted)
+                            {
+                                <div class="ui-row" style="gap:.25rem; justify-content:flex-end">
+                                    <form method="post" action="/admin/inventory/pos/@po.PurchaseOrderId/receive" class="d-inline"
+                                          data-cl-confirm="Mark @po.PoNumber received? This will bump today\'s menu quantities." data-cl-confirm-variant="warning">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-success btn-sm" type="submit">
+                                            <i class="fa-solid fa-truck-ramp-box me-1"></i> Receive
+                                        </button>
+                                    </form>
+                                    <form method="post" action="/admin/inventory/pos/@po.PurchaseOrderId/cancel" class="d-inline"
+                                          data-cl-confirm="Cancel @po.PoNumber?" data-cl-confirm-variant="warning">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-ghost btn-sm" type="submit">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <span class="ui-muted">—</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

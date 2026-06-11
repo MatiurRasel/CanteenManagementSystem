@@ -1,0 +1,31 @@
+@*
+    _Spinner.cshtml — accessible inline spinner.
+
+    USAGE
+        <partial name="_Spinner" model="@new SpinnerOptions { Size = SpinnerSize.Small, Text = "Saving…", Inline = true }" />
+
+    For BUTTON loading state use the data-loading attribute pattern instead —
+    see /wwwroot/css/canteen-loading.css for the cl-btn-spinner contract,
+    or call CanteenLoading.button(btn, asyncFn) from JS.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model SpinnerOptions
+@{
+    var opts = Model ?? new SpinnerOptions();
+    var sizeClass = opts.Size switch
+    {
+        SpinnerSize.Small => "cl-spinner-sm",
+        SpinnerSize.Large => "cl-spinner-lg",
+        _ => ""
+    };
+    var wrapClass = opts.Inline ? "d-inline-flex" : "d-flex";
+}
+
+<span class="@wrapClass align-items-center gap-2" role="status"
+      aria-live="polite" aria-label="@(opts.AriaLabel ?? opts.Text ?? "Loading")">
+    <span class="cl-spinner @sizeClass" aria-hidden="true"></span>
+    @if (!string.IsNullOrWhiteSpace(opts.Text))
+    {
+        <span>@opts.Text</span>
+    }
+</span>

@@ -1,0 +1,112 @@
+@*
+    /admin/notification-templates/{key} — single-template editor.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.NotificationTemplatesController.EditForm
+@{
+    var friendly = ViewBag.FriendlyName as string ?? Model.Key;
+    ViewData["Title"] = $"Template · {friendly}";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = friendly,
+        Subtitle = Model.Key,
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/notification-templates'><i class='fa-solid fa-arrow-left me-1'></i> All templates</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <form method="post" asp-action="Edit" asp-route-key="@Model.Key">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Key" />
+
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Email subject</div></div>
+                    <div class="ui-card-body">
+                        <label class="ui-label" asp-for="Subject">Subject (email channel only)</label>
+                        <input asp-for="Subject" class="ui-input form-control"
+                               placeholder="(blank = platform default)"
+                               data-bs-toggle="tooltip" title="Used as the email subject line. Ignored for SMS." />
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header"><div class="ui-card-title">Message body</div></div>
+                    <div class="ui-card-body">
+                        <textarea asp-for="Body" class="ui-input form-control ui-mono" rows="10"
+                                  data-bs-toggle="tooltip"
+                                  title="Tokens like {customer.name} are filled at send time. Keep SMS bodies short."
+                                  placeholder="Hi {customer.name}, your order #{order.number} of ৳{order.total} is ready."></textarea>
+                        <div class="ui-help-text">SMS messages are billed per 160-char segment; keep bodies short for cost.</div>
+                    </div>
+                    <div class="ui-card-footer d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+            @* Test-send sits OUTSIDE the edit form so they don't share a submit *@
+            <form method="post" asp-action="TestSend" asp-route-key="@Model.Key" class="ui-card mt-3">
+                @Html.AntiForgeryToken()
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title">Send a test message</div>
+                        <div class="ui-card-muted-body">
+                            Renders the currently-saved template with sample token values and dispatches
+                            it through the configured channel — confirms gateway plumbing end-to-end.
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="ui-label">Channel</label>
+                            <select name="Channel" class="form-select ui-select">
+                                <option value="Sms">SMS</option>
+                                <option value="Email">Email</option>
+                            </select>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="ui-label">Recipient</label>
+                            <input name="Recipient" class="ui-input form-control"
+                                   placeholder="01700000001 (SMS) or admin@school.edu (Email)" required />
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fa-solid fa-paper-plane me-1"></i> Send test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="ui-card sticky-top" style="top:5rem">
+                <div class="ui-card-header"><div class="ui-card-title">Available tokens</div></div>
+                <div class="ui-card-body">
+                    <ul class="small mb-3 ui-stack-sm" style="list-style:none;padding-left:0">
+                        <li><code>{customer.name}</code></li>
+                        <li><code>{customer.phone}</code></li>
+                        <li><code>{order.number}</code></li>
+                        <li><code>{order.total}</code></li>
+                        <li><code>{order.status}</code></li>
+                        <li><code>{wallet.balance}</code></li>
+                        <li><code>{wallet.amount}</code> <span class="ui-muted">(recharge events)</span></li>
+                        <li><code>{tenant.name}</code></li>
+                    </ul>
+                    <p class="ui-muted small mb-0">
+                        Leave fields blank to fall back to the platform default in
+                        <code>NotificationTemplates</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

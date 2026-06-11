@@ -1,0 +1,172 @@
+@*
+    /admin/branding — tenant default brand (name + accent + logo).
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.BrandingAdminController.BrandingForm
+@{
+    ViewData["Title"] = "Branding";
+    var swatches = new[] { "#4F46E5", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B", "#EF4444", "#0EA5E9", "#14B8A6", "#0F172A" };
+    string resetForm = @"
+        <form action='/admin/branding/Reset' method='post' class='d-inline'
+              onsubmit=""return confirm('Reset all branding to platform defaults?');"">
+            <input type='hidden' name='__RequestVerificationToken' value='" + Html.AntiForgeryToken().ToString().Replace("'", "&#39;") + @"' />
+            <button type='submit' class='btn btn-outline-secondary btn-sm'>
+                <i class='fa-solid fa-rotate-left me-1'></i> Reset to platform default
+            </button>
+        </form>";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Branding",
+        Subtitle = "Set the default look every user in this tenant sees. Users can personalise further via the customizer.",
+        Actions  = Html.Raw(resetForm)
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <div class="ui-card">
+                <div class="ui-card-body">
+                    <form method="post" asp-action="Save">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3"></div>
+
+                        <div class="mb-3">
+                            <label class="ui-label" asp-for="AppName">App name</label>
+                            <input asp-for="AppName" class="ui-input form-control" placeholder="e.g. Acme School Canteen" maxlength="120" />
+                            <div class="ui-help-text">Shown in the topbar + window title.</div>
+                            <span asp-validation-for="AppName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="ui-label" asp-for="AppSubtitle">Subtitle</label>
+                            <input asp-for="AppSubtitle" class="ui-input form-control" placeholder="e.g. Lunchroom operations" maxlength="160" />
+                            <span asp-validation-for="AppSubtitle" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="ui-label" asp-for="AccentColor">Accent color</label>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <input type="color" id="accentPick" value="@Model.AccentColor" class="form-control form-control-color" style="width:60px;height:40px" />
+                                <input asp-for="AccentColor" id="accentHex" class="ui-input form-control ui-mono" placeholder="#4F46E5" maxlength="20" style="max-width:180px" />
+                                <span class="ui-badge variant-primary" id="accentSwatch" style="background:@Model.AccentColor;color:#fff;border-color:transparent">@Model.AccentColor</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var c in swatches)
+                                {
+                                    <button type="button" class="brand-swatch" data-color="@c" style="--bs:@c"
+                                            title="@c" aria-label="Use @c"></button>
+                                }
+                            </div>
+                            <div class="ui-help-text">Drives every primary button, badge, focus ring &amp; KPI accent across the app.</div>
+                            <span asp-validation-for="AccentColor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="ui-label" asp-for="LogoUrl">Logo URL (optional)</label>
+                            <input asp-for="LogoUrl" class="ui-input form-control" placeholder="https://your-cdn/logo.png" maxlength="500" />
+                            <div class="ui-help-text">Square or wide — sidebar will scale it. Leave empty for the default icon.</div>
+                            <span asp-validation-for="LogoUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-check me-1"></i> Save tenant branding
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title"><i class="fa-solid fa-eye me-1"></i> Live preview</div></div>
+                <div class="ui-card-body">
+                    <p class="ui-muted small mb-3">Preview updates as you pick a colour. Save to apply for every user in this tenant.</p>
+
+                    <div class="preview-card" id="previewBox">
+                        <div class="preview-bar"></div>
+                        <h6 class="preview-title" id="previewTitle">@Model.AppName</h6>
+                        <p class="preview-sub ui-muted small" id="previewSub">@Model.AppSubtitle</p>
+                        <button class="btn btn-sm" id="previewBtn" style="background:@Model.AccentColor;color:#fff;border:0">
+                            <i class="fa-solid fa-check me-1"></i> Primary action
+                        </button>
+                        <span class="ui-badge ms-2" id="previewBadge" style="background:rgba(79,70,229,.12);color:@Model.AccentColor;border-color:transparent">Badge</span>
+                    </div>
+                </div>
+            </div>
+
+            @{
+                var note = new UiAlertOptions
+                {
+                    Variant = UiAlertVariant.Info,
+                    Body    = "Users can override your tenant default via the floating gear icon bottom-right. Hit 'Reset to defaults' in the customizer to fall back to your tenant brand."
+                };
+            }
+            <div class="mt-3">
+                <partial name="_UiAlert" model="note" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .brand-swatch {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--bs); border: 2px solid transparent;
+            cursor: pointer; transition: transform .12s ease, border-color .15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,.10);
+        }
+        .brand-swatch:hover { transform: scale(1.12); }
+        .brand-swatch.selected { border-color: var(--fg); box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--bs); }
+        .preview-card { border:1px solid var(--border); border-radius: var(--rad-lg); padding: 20px; overflow: hidden; position: relative; background: var(--surface); }
+        .preview-bar { position: absolute; top:0; left:0; right:0; height:4px; background: linear-gradient(90deg, rgba(79,70,229,.35), #4F46E5, rgba(79,70,229,.35)); }
+        .preview-title { font-weight: 700; letter-spacing: -.01em; margin: 8px 0 4px; }
+        .preview-sub { margin: 0 0 14px; }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        (function () {
+            var pick    = document.getElementById('accentPick');
+            var hex     = document.getElementById('accentHex');
+            var swatch  = document.getElementById('accentSwatch');
+            var bar     = document.querySelector('.preview-bar');
+            var btn     = document.getElementById('previewBtn');
+            var badge   = document.getElementById('previewBadge');
+            var title   = document.getElementById('previewTitle');
+            var sub     = document.getElementById('previewSub');
+            var appNameInput = document.getElementById('AppName');
+            var subInput     = document.getElementById('AppSubtitle');
+
+            function hexToRgb(h) {
+                h = (h || '').replace('#','');
+                if (h.length === 3) h = h.split('').map(c=>c+c).join('');
+                if (h.length !== 6) return '79,70,229';
+                return parseInt(h.slice(0,2),16) + ',' + parseInt(h.slice(2,4),16) + ',' + parseInt(h.slice(4,6),16);
+            }
+            function apply(color) {
+                hex.value = color; pick.value = color;
+                swatch.style.background = color; swatch.textContent = color;
+                btn.style.background = color;
+                var rgb = hexToRgb(color);
+                badge.style.background = 'rgba(' + rgb + ',.12)';
+                badge.style.color = color;
+                bar.style.background = 'linear-gradient(90deg, rgba(' + rgb + ',.35), ' + color + ', rgba(' + rgb + ',.35))';
+                document.querySelectorAll('.brand-swatch').forEach(s =>
+                    s.classList.toggle('selected', s.dataset.color.toLowerCase() === color.toLowerCase()));
+            }
+            pick && pick.addEventListener('input',  e => apply(e.target.value));
+            hex  && hex.addEventListener('input',   e => { if (/^#?[0-9a-fA-F]{6}$/.test(e.target.value.replace('#',''))) apply(e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value); });
+            document.querySelectorAll('.brand-swatch').forEach(s => s.addEventListener('click', () => apply(s.dataset.color)));
+            appNameInput && appNameInput.addEventListener('input', e => title.textContent = e.target.value || 'App name');
+            subInput     && subInput.addEventListener('input',     e => sub.textContent   = e.target.value || 'Subtitle');
+            apply(hex.value || '#4F46E5');
+        })();
+    </script>
+}

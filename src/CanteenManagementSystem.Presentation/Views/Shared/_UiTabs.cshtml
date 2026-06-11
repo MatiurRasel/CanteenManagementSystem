@@ -1,0 +1,29 @@
+@*
+    _UiTabs — horizontal tab navigation with active highlight.
+
+    USAGE
+        <partial name="_UiTabs" model="@new UiTabsOptions {
+            Tabs = new [] {
+                new UiTab("All",      "/admin/orders",         active),
+                new UiTab("Pending",  "/admin/orders?s=pending"),
+                new UiTab("Delivered","/admin/orders?s=delivered")
+            }
+        }" />
+*@
+@model CanteenManagementSystem.Presentation.Models.UiTabsOptions
+@{ var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiTabsOptions(); }
+
+<nav class="ui-tabs" role="tablist" aria-label="@opts.AriaLabel">
+    @foreach (var tab in opts.Tabs)
+    {
+        <a href="@tab.Url" class="ui-tab @(tab.IsActive ? "active" : "")"
+           role="tab" aria-selected="@(tab.IsActive.ToString().ToLowerInvariant())">
+            @if (!string.IsNullOrWhiteSpace(tab.Icon)) { <i class="fa-solid @tab.Icon me-1"></i> }
+            @tab.Label
+            @if (tab.BadgeCount > 0)
+            {
+                <span class="ui-badge variant-secondary ms-1">@tab.BadgeCount</span>
+            }
+        </a>
+    }
+</nav>

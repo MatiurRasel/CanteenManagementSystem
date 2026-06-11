@@ -1,0 +1,96 @@
+@*
+    /admin/users — Tenant-admin user list.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.UsersAdminController.UserRow>
+@{
+    ViewData["Title"] = "Users";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Users",
+        Subtitle = "Operator / admin accounts for this tenant.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/users/bulk-import'><i class='fa-solid fa-file-import me-1'></i> Bulk import</a> <a class='btn btn-sm btn-primary ms-2' href='/admin/users/invite'><i class='fa-solid fa-user-plus me-1'></i> Invite user</a>")
+    };
+    var kpiTotal  = new UiKpiOptions { Label = "Total", Value = Model.Count.ToString("N0"), Icon = "fa-users" };
+    var kpiActive = new UiKpiOptions { Label = "Active", Value = Model.Count(u => u.IsActive).ToString("N0"), Icon = "fa-circle-check" };
+    var kpiLocked = new UiKpiOptions { Label = "Locked", Value = Model.Count(u => !u.IsActive).ToString("N0"), Icon = "fa-lock" };
+    var kpiRecent = new UiKpiOptions { Label = "Logged in 30d", Value = Model.Count(u => u.LastLoginAtUtc.HasValue && u.LastLoginAtUtc > DateTime.UtcNow.AddDays(-30)).ToString("N0"), Icon = "fa-clock-rotate-left" };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiTotal"  /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiActive" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiLocked" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRecent" /></div>
+    </div>
+
+    <div class="ui-table-wrap">
+        <table class="table table-hover mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Display name</th>
+                    <th>Email</th>
+                    <th>Kind</th>
+                    <th>Roles</th>
+                    <th>Status</th>
+                    <th class="text-end">Last login</th>
+                    <th class="text-end" style="width:1%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr><td colspan="8" class="text-center py-5 ui-muted">No users yet — click <strong>Invite user</strong>.</td></tr>
+                }
+                @foreach (var u in Model)
+                {
+                    var statusBadge = new UiBadgeOptions
+                    {
+                        Text    = u.IsActive ? "Active" : "Locked",
+                        Variant = u.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    <tr>
+                        <td class="ui-mono ui-text-strong">@u.UserName</td>
+                        <td>@u.DisplayName</td>
+                        <td class="ui-muted" style="font-size:13px">@(u.Email ?? "—")</td>
+                        <td>@u.UserKind</td>
+                        <td class="ui-muted" style="font-size:13px">@u.Roles</td>
+                        <td><partial name="_UiBadge" model="statusBadge" /></td>
+                        <td class="text-end ui-muted ui-tabular" style="font-size:12px">@(u.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "never")</td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="Actions">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        @{ var toggleVerb = u.IsActive ? "Lock" : "Activate"; }
+                                        <form method="post" action="/admin/users/@u.UserId/toggle" class="m-0" data-cl-confirm="@toggleVerb @u.UserName?" data-cl-confirm-variant="warning">
+                                            @Html.AntiForgeryToken()
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="fa-solid @(u.IsActive ? "fa-lock" : "fa-lock-open") me-2"></i> @(u.IsActive ? "Lock" : "Activate")
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="post" action="/admin/users/@u.UserId/reset-password" class="m-0" data-cl-confirm="Reset password for @u.UserName? They will get a temporary password." data-cl-confirm-variant="warning">
+                                            @Html.AntiForgeryToken()
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="fa-solid fa-key me-2"></i> Reset password
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

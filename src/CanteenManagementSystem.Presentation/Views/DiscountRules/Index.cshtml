@@ -1,0 +1,72 @@
+@*
+    /admin/discount-rules — discount rule list.
+*@
+@using Platform.Domain.Pricing
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<DiscountRule>
+@{
+    ViewData["Title"] = "Discount rules";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Discount rules",
+        Subtitle = "JSON-driven rules — day-of-week role discounts, combo pricing, happy hour windows.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/discount-rules/new'><i class='bx bx-plus me-1'></i> Add rule</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions
+        {
+            Icon = "fa-percent",
+            Title = "No discount rules yet",
+            Description = "Add a Tuesday-teacher discount, a combo, or a happy-hour window."
+        };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Display name</th>
+                        <th class="text-end">Priority</th>
+                        <th>Valid window</th>
+                        <th>Status</th>
+                        <th class="text-end" style="width:1%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model)
+                {
+                    var b = new UiBadgeOptions
+                    {
+                        Text = r.IsActive ? "Active" : "Disabled",
+                        Variant = r.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    <tr>
+                        <td class="ui-mono ui-text-strong">@r.RuleCode</td>
+                        <td>@r.DisplayName</td>
+                        <td class="text-end ui-tabular">@r.Priority</td>
+                        <td class="ui-muted ui-tabular" style="font-size:12px">
+                            @(r.ValidFromUtc?.ToString("yyyy-MM-dd") ?? "—") → @(r.ValidUntilUtc?.ToString("yyyy-MM-dd") ?? "—")
+                        </td>
+                        <td><partial name="_UiBadge" model="b" /></td>
+                        <td class="text-end">
+                            <a class="btn btn-ghost btn-sm" href="/admin/discount-rules/@r.RuleId">
+                                <i class="bx bx-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

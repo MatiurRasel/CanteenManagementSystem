@@ -1,0 +1,176 @@
+@*
+    /admin/dashboard — Tenant-admin landing dashboard.
+    Reference page demonstrating the shadcn-style design system on a KPI-heavy admin screen.
+*@
+@using CanteenManagementSystem.Application.Dashboards
+@using CanteenManagementSystem.Presentation.Models
+@model AdminDashboardSnapshot
+@{
+    ViewData["Title"] = "Dashboard";
+
+    var deltaPct = Model.RevenueYesterday > 0
+        ? ((Model.RevenueToday - Model.RevenueYesterday) / Model.RevenueYesterday) * 100m
+        : 0m;
+    var deltaTrend = deltaPct >= 0 ? UiKpiTrend.Up : UiKpiTrend.Down;
+    var deltaText = Model.RevenueYesterday > 0
+        ? $"{deltaPct:+0.0;-0.0;0}% vs yesterday"
+        : "no data yesterday";
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Today",
+        Subtitle = "Snapshot of canteen activity, popular items, and operational health.",
+        Actions  = Html.Raw(
+            "<a class='btn btn-sm btn-ghost' href='/admin/reports-catalog'><i class='fa-solid fa-chart-line me-1'></i> Reports</a>" +
+            "<a class='btn btn-sm btn-primary ms-2' href='/Menu/Manage'><i class='fa-solid fa-plus me-1'></i> Manage menu</a>"
+        )
+    };
+
+    var kpiRevenue = new UiKpiOptions { Label = "Revenue today",  Value = $"৳ {Model.RevenueToday:N0}", Delta = deltaText, Trend = deltaTrend, Icon = "fa-coins" };
+    var kpiOrders  = new UiKpiOptions { Label = "Orders today",    Value = Model.OrdersToday.ToString("N0"),   Delta = $"{Model.OrdersDelivered} delivered", Icon = "fa-receipt" };
+    var kpiPending = new UiKpiOptions { Label = "Pending now",     Value = Model.OrdersPending.ToString("N0"), Delta = Model.OrdersPending == 0 ? "all clear" : "needs attention", Trend = Model.OrdersPending > 5 ? UiKpiTrend.Down : UiKpiTrend.None, Icon = "fa-hourglass-half" };
+    var kpiLow     = new UiKpiOptions { Label = "Low-stock items", Value = Model.LowStockCount.ToString("N0"), Delta = Model.LowStockCount == 0 ? "fully stocked" : "restock today", Trend = Model.LowStockCount > 0 ? UiKpiTrend.Down : UiKpiTrend.None, Icon = "fa-triangle-exclamation" };
+
+    UiBadgeVariant OrderBadge(string s) => s switch
+    {
+        "Delivered" => UiBadgeVariant.Success,
+        "Cancelled" => UiBadgeVariant.Secondary,
+        "Refunded"  => UiBadgeVariant.Warning,
+        "Ready"     => UiBadgeVariant.Primary,
+        _ => UiBadgeVariant.Info
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @* KPI strip *@
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRevenue" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOrders"  /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiPending" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiLow"     /></div>
+    </div>
+
+    <div class="row g-4">
+        @* Recent activity *@
+        <div class="col-12 col-lg-8">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title">Recent orders</div>
+                        <div class="ui-card-muted-body">Latest placements across counter, kiosk, and table flows.</div>
+                    </div>
+                    <a class="btn btn-sm btn-ghost" href="/admin/receipts/search">
+                        Search all <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div class="ui-card-body p-0">
+                    <table class="table table-hover mb-0 ui-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>User</th>
+                                <th class="text-end">Total</th>
+                                <th>Status</th>
+                                <th class="text-end">When</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.RecentOrders.Count == 0)
+                        {
+                            <tr><td colspan="5" class="text-center py-5 ui-muted">No orders yet today.</td></tr>
+                        }
+                        @foreach (var r in Model.RecentOrders)
+                        {
+                            var b = new UiBadgeOptions { Text = r.Status, Variant = OrderBadge(r.Status), WithDot = true };
+                            <tr>
+                                <td class="ui-mono" style="font-size:13px">@r.OrderNumber</td>
+                                <td class="ui-text-strong">@r.UserId</td>
+                                <td class="text-end ui-tabular">৳ @r.TotalAmount.ToString("N0")</td>
+                                <td><partial name="_UiBadge" model="b" /></td>
+                                <td class="text-end ui-muted ui-tabular">@r.OrderDate.ToString("HH:mm")</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @* Sidebar — popular items + directory totals + quick links *@
+        <div class="col-12 col-lg-4">
+            <div class="ui-stack">
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Popular this week</div>
+                    </div>
+                    <div class="ui-card-body">
+                        @if (Model.PopularItems.Count == 0)
+                        {
+                            <div class="ui-muted" style="font-size:13px">No data yet.</div>
+                        }
+                        else
+                        {
+                            <div class="ui-stack-sm">
+                                @{ var maxCount = Math.Max(1, Model.PopularItems.Max(p => p.OrderCount)); }
+                                @foreach (var p in Model.PopularItems)
+                                {
+                                    var pct = (p.OrderCount * 100) / maxCount;
+                                    <div>
+                                        <div class="ui-row-between" style="font-size:13px">
+                                            <span class="ui-text-strong">@p.ItemName</span>
+                                            <span class="ui-muted ui-tabular">@p.OrderCount</span>
+                                        </div>
+                                        <div style="height:6px;background:var(--surface-sunken);border-radius:var(--rad-pill);overflow:hidden;margin-top:6px">
+                                            <div style="height:100%;width:@(pct)%;background:var(--accent);border-radius:var(--rad-pill)"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Directory</div>
+                        <a class="btn btn-sm btn-ghost" href="/admin/directory">Open</a>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="ui-kpi-label">Students</div>
+                                <div class="ui-kpi-value">@Model.ActiveStudents.ToString("N0")</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="ui-kpi-label">Employees</div>
+                                <div class="ui-kpi-value">@Model.ActiveEmployees.ToString("N0")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Quick actions</div>
+                    </div>
+                    <div class="ui-card-body ui-stack-sm">
+                        <a class="btn btn-outline-secondary btn-sm w-100" href="/admin/inventory/stock-takes">
+                            <i class="fa-solid fa-clipboard-check me-1"></i> Begin stock take
+                        </a>
+                        <a class="btn btn-outline-secondary btn-sm w-100" href="/admin/inventory/pos/new">
+                            <i class="fa-solid fa-truck me-1"></i> New purchase order
+                        </a>
+                        <a class="btn btn-outline-secondary btn-sm w-100" href="/admin/combos">
+                            <i class="fa-solid fa-shapes me-1"></i> Combos &amp; quick buttons
+                        </a>
+                        <a class="btn btn-outline-secondary btn-sm w-100" href="/admin/notification-templates">
+                            <i class="fa-solid fa-envelope-open-text me-1"></i> Notification templates
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

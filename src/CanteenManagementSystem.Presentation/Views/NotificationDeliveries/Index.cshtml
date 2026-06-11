@@ -1,0 +1,121 @@
+@*
+    /admin/notifications/deliveries — per-message history.
+*@
+@using Platform.Domain.Notifications
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.NotificationDeliveriesController.DeliveryPageVm
+@{
+    ViewData["Title"] = "Notification deliveries";
+    UiBadgeVariant V(NotificationStatus s) => s switch
+    {
+        NotificationStatus.Sent    => UiBadgeVariant.Success,
+        NotificationStatus.Failed  => UiBadgeVariant.Danger,
+        NotificationStatus.Sending => UiBadgeVariant.Info,
+        NotificationStatus.Skipped => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Secondary
+    };
+    var f = Model.Filter;
+    var exportUrl = $"/admin/notifications/deliveries/export.csv?from={f.From?.ToString("yyyy-MM-dd")}&to={f.To?.ToString("yyyy-MM-dd")}&channel={f.Channel}&status={f.Status}&templateKey={f.TemplateKey}&recipient={f.Recipient}";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Notification deliveries",
+        Subtitle = $"{Model.TotalCount:N0} message(s) match the current filter.",
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-outline-primary' href='{exportUrl}'><i class='fa-solid fa-file-csv me-1'></i> Export CSV</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="get" class="ui-card mb-4">
+        <div class="ui-card-body">
+            <div class="row g-3">
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">From</label>
+                    <input class="ui-input form-control" type="date" name="from" value="@f.From?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">To</label>
+                    <input class="ui-input form-control" type="date" name="to" value="@f.To?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">Channel</label>
+                    <select class="form-select ui-select" name="channel">
+                        <option value="">Any</option>
+                        @foreach (var c in Enum.GetValues<NotificationChannel>())
+                        {
+                            <option value="@c" selected="@(f.Channel == c)">@c</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="ui-label">Status</label>
+                    <select class="form-select ui-select" name="status">
+                        <option value="">Any</option>
+                        @foreach (var s in Enum.GetValues<NotificationStatus>())
+                        {
+                            <option value="@s" selected="@(f.Status == s)">@s</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-2">
+                    <label class="ui-label">Template</label>
+                    <input class="ui-input form-control" name="templateKey" value="@f.TemplateKey" placeholder="order.placed" />
+                </div>
+                <div class="col-12 col-md-2">
+                    <label class="ui-label">Recipient contains</label>
+                    <input class="ui-input form-control" name="recipient" value="@f.Recipient" placeholder="018…" />
+                </div>
+            </div>
+            <div class="ui-row" style="justify-content:flex-end; margin-top: .75rem">
+                <button class="btn btn-primary btn-sm" type="submit">Apply</button>
+                <a class="btn btn-ghost btn-sm" href="/admin/notifications/deliveries">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="ui-table-wrap">
+        <table class="table table-hover mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>When</th>
+                    <th>Template</th>
+                    <th>Channel</th>
+                    <th>Recipient</th>
+                    <th>Status</th>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (Model.Rows.Count == 0)
+            {
+                <tr><td colspan="6" class="text-center py-5 ui-muted">No deliveries match this filter.</td></tr>
+            }
+            @foreach (var n in Model.Rows)
+            {
+                var b = new UiBadgeOptions { Text = n.Status.ToString(), Variant = V(n.Status), WithDot = true };
+                <tr>
+                    <td class="ui-muted ui-tabular" style="font-size:12px">@n.OccurredAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="ui-mono" style="font-size:12px">@n.TemplateKey</td>
+                    <td>@n.Channel</td>
+                    <td class="ui-mono" style="font-size:13px">@n.Recipient</td>
+                    <td><partial name="_UiBadge" model="b" /></td>
+                    <td class="ui-muted" style="font-size:13px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@n.Subject</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="mt-4" aria-label="deliveries-pagination">
+            <ul class="pagination justify-content-center">
+                @for (var p = 1; p <= Math.Min(15, Model.TotalPages); p++)
+                {
+                    <li class="page-item @(p == f.Page ? "active" : "")"><a class="page-link" href="?page=@p&from=@f.From?.ToString("yyyy-MM-dd")&to=@f.To?.ToString("yyyy-MM-dd")&channel=@f.Channel&status=@f.Status&templateKey=@f.TemplateKey&recipient=@f.Recipient">@p</a></li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

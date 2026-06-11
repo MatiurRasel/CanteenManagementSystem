@@ -1,0 +1,101 @@
+/* =============================================================================
+   app-mobile.css — narrow-viewport behaviours
+   -----------------------------------------------------------------------------
+   Covers:
+     * Sidebar mobile collapse  (off-canvas slide-in from the left)
+     * High-contrast accessibility mode (WCAG AA)
+     * Topbar safe-area handling on phones with notches
+     * Print suppression of the chrome (defer to /css/receipt-print.css)
+
+   The sidebar is opened/closed by the [data-toggle="sidebar"] button in the
+   topbar — see /js/sidebar-mobile.js for the JS hook.
+============================================================================= */
+
+/* ─── Sidebar off-canvas at narrow widths ───────────────────────────────── */
+@media (max-width: 991.98px) {
+    .app-shell-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 16rem;
+        max-width: 80vw;
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .app-shell-sidebar[data-mobile-open="true"] {
+        transform: translateX(0);
+    }
+    .app-shell-sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1040;
+    }
+    .app-shell-sidebar[data-mobile-open="true"] + .app-shell-sidebar-backdrop {
+        display: block;
+    }
+
+    /* The hamburger toggle button surfaces only at narrow widths. */
+    [data-toggle="sidebar"] { display: inline-flex !important; }
+
+    /* The main content area no longer reserves the sidebar's gutter. */
+    .app-shell-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 992px) {
+    [data-toggle="sidebar"] { display: none !important; }
+    .app-shell-sidebar-backdrop { display: none !important; }
+}
+
+/* ─── High-contrast accessibility mode (WCAG AA) ─────────────────────────
+   Activated by adding `data-contrast="high"` on <html>. The toggle button
+   in the topbar customizer flips the attribute + persists to localStorage.
+   Overrides every CSS variable to maximise foreground/background contrast.
+============================================================================ */
+:root[data-contrast="high"] {
+    --bs-body-bg:           #000;
+    --bs-body-color:        #fff;
+    --bs-card-bg:           #0d0d0d;
+    --bs-border-color:      #fff;
+    --bs-secondary-color:   #f0f0f0;
+    --bs-tertiary-bg:       #1a1a1a;
+    --bs-link-color:        #ffd400;
+    --bs-link-hover-color:  #ffea7c;
+    --app-accent:           #ffd400;
+    --cl-skeleton-base:     #1a1a1a;
+    --cl-skeleton-shine:    #2a2a2a;
+}
+:root[data-contrast="high"] *,
+:root[data-contrast="high"] *::before,
+:root[data-contrast="high"] *::after {
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+:root[data-contrast="high"] button,
+:root[data-contrast="high"] .btn {
+    border: 2px solid currentColor !important;
+}
+:root[data-contrast="high"] a:focus,
+:root[data-contrast="high"] button:focus,
+:root[data-contrast="high"] input:focus,
+:root[data-contrast="high"] select:focus,
+:root[data-contrast="high"] textarea:focus {
+    outline: 3px solid var(--app-accent) !important;
+    outline-offset: 2px !important;
+}
+
+/* ─── Safe-area gutter for notched phones ───────────────────────────────── */
+.app-shell-topbar {
+    padding-top: max(0px, env(safe-area-inset-top));
+}
+.app-shell-main {
+    padding-left:  max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+}

@@ -1,0 +1,245 @@
+@*
+    /design-system — the shadcn-flavoured component catalogue.
+    Designed to compress every token + component into a single scrollable page
+    so the UX reviewer can scan, copy, and steal across.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@{
+    ViewData["Title"] = "Design system";
+    Layout = "_Layout";
+}
+
+@{
+    var pageHeader = new UiPageHeaderOptions
+    {
+        Title    = "Design system",
+        Subtitle = "Tokens · components · usage reference. Steal from here.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='https://ui.shadcn.com' target='_blank' rel='noopener'>shadcn-ui reference ↗</a>")
+    };
+}
+<partial name="_UiPageHeader" model="pageHeader" />
+
+@* ─────────────────────────────────────────────────────────── Tokens ── *@
+<div class="ui-section-label">Colour</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-body">
+        <div class="row g-3">
+            @{
+                var scale = new (string Var, string Label)[] {
+                    ("--zinc-50",  "zinc-50"),  ("--zinc-100","zinc-100"), ("--zinc-200","zinc-200"),
+                    ("--zinc-300","zinc-300"),  ("--zinc-400","zinc-400"), ("--zinc-500","zinc-500"),
+                    ("--zinc-600","zinc-600"),  ("--zinc-700","zinc-700"), ("--zinc-800","zinc-800"),
+                    ("--zinc-900","zinc-900"),  ("--zinc-950","zinc-950"),
+                    ("--accent",  "accent")
+                };
+            }
+            @foreach (var s in scale)
+            {
+                <div class="col-6 col-md-3 col-xl-2">
+                    <div class="ui-card surface-raised" style="overflow:hidden">
+                        <div style="height:48px; background: var(@s.Var);"></div>
+                        <div class="ui-card-body" style="padding:.5rem .75rem">
+                            <div class="ui-mono" style="font-size:11px">@s.Var</div>
+                            <div class="ui-muted" style="font-size:11px">@s.Label</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="ui-section-label">Status</div>
+<div class="row g-3 mb-4">
+    @foreach (var v in new[] { (UiAlertVariant.Info,"Heads up","Reminder copy here."),
+                                (UiAlertVariant.Success,"Looking good","Successful sync completed."),
+                                (UiAlertVariant.Warning,"Check this","Three callbacks need attention."),
+                                (UiAlertVariant.Danger,"Action needed","Recovery codes expire in 24h.") })
+    {
+        <div class="col-12 col-lg-6">
+            <partial name="_UiAlert" model="@(new UiAlertOptions { Variant = v.Item1, Heading = v.Item2, Body = v.Item3 })" />
+        </div>
+    }
+</div>
+
+@* ─────────────────────────────────────────────────────────── KPI tiles ── *@
+<div class="ui-section-label">KPI tiles</div>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Orders today", Value = "1,248", Delta = "+12% vs yesterday", Trend = UiKpiTrend.Up, Icon = "fa-receipt" })" />
+    </div>
+    <div class="col-6 col-md-3">
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Revenue ৳", Value = "৳ 84,540", Delta = "+৳ 12,300 vs last week", Trend = UiKpiTrend.Up, Icon = "fa-coins" })" />
+    </div>
+    <div class="col-6 col-md-3">
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Refund rate", Value = "1.8%", Delta = "-0.3 pp", Trend = UiKpiTrend.Down, Icon = "fa-rotate-left" })" />
+    </div>
+    <div class="col-6 col-md-3">
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Avg prep time", Value = "4m 12s", Delta = "steady", Icon = "fa-clock" })" />
+    </div>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Buttons ── *@
+<div class="ui-section-label">Buttons</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-body">
+        <div class="ui-stack">
+            <div class="ui-row">
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Primary",   Variant = UiButtonVariant.Primary })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Secondary", Variant = UiButtonVariant.Secondary })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Outline",   Variant = UiButtonVariant.OutlinePrimary })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Ghost",     Variant = UiButtonVariant.Ghost })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Success",   Variant = UiButtonVariant.Success, Icon = "fa-check" })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Danger",    Variant = UiButtonVariant.Danger,  Icon = "fa-trash" })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Disabled",  Variant = UiButtonVariant.Primary, Disabled = true })" />
+            </div>
+            <div class="ui-row">
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Small",  Variant = UiButtonVariant.Primary, Size = UiButtonSize.Small })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Default",Variant = UiButtonVariant.Primary })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Large",  Variant = UiButtonVariant.Primary, Size = UiButtonSize.Large })" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Badges ── *@
+<div class="ui-section-label">Badges</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-body">
+        <div class="ui-row">
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Primary",   Variant = UiBadgeVariant.Primary })" />
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Secondary", Variant = UiBadgeVariant.Secondary })" />
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Success",   Variant = UiBadgeVariant.Success, WithDot = true })" />
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Warning",   Variant = UiBadgeVariant.Warning, WithDot = true })" />
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Danger",    Variant = UiBadgeVariant.Danger, WithDot = true })" />
+            <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = "Info",      Variant = UiBadgeVariant.Info })" />
+        </div>
+    </div>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Tabs ── *@
+<div class="ui-section-label">Tabs</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-body">
+@{
+    var tabsModel = new UiTabsOptions
+    {
+        AriaLabel = "Demo tabs",
+        Tabs = new []
+        {
+            new UiTab("All",       "#", isActive: true,  badgeCount: 24),
+            new UiTab("Pending",   "#", isActive: false, badgeCount: 5),
+            new UiTab("Delivered", "#", isActive: false, badgeCount: 18),
+            new UiTab("Refunded",  "#", isActive: false, badgeCount: 1)
+        }
+    };
+}
+        <partial name="_UiTabs" model="tabsModel" />
+        <div class="ui-help-text mt-3">Use the same component on any list page that has status filters.</div>
+    </div>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Form ── *@
+<div class="ui-section-label">Form</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-header">
+        <div>
+            <div class="ui-card-title">Add a discount rule</div>
+            <div class="ui-card-muted-body">All fields are required unless marked optional.</div>
+        </div>
+    </div>
+    <div class="ui-card-body">
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <partial name="_UiInput" model="@(new UiInputOptions {
+                    Name = "code", Label = "Rule code", Placeholder = "TEACHER-TUESDAY", Required = true,
+                    HelpText = "Short alphanumeric identifier — shown in audit log."
+                })" />
+            </div>
+            <div class="col-12 col-md-6">
+                <partial name="_UiInput" model="@(new UiInputOptions {
+                    Name = "name", Label = "Display name", Placeholder = "Tuesday teacher discount",
+                    Required = true
+                })" />
+            </div>
+            <div class="col-12 col-md-4">
+                <partial name="_UiInput" model="@(new UiInputOptions {
+                    Name = "amount", Label = "Discount", InputType = "number",
+                    Value = "10", Required = true,
+                    ErrorMessage = "Must be 1 – 50."
+                })" />
+            </div>
+            <div class="col-12 col-md-8">
+                <partial name="_UiInput" model="@(new UiInputOptions {
+                    Name = "note", Label = "Note (optional)", Placeholder = "Why this rule exists — e.g. weekday lunch promo"
+                })" />
+            </div>
+        </div>
+    </div>
+    <div class="ui-card-footer">
+        <div class="ui-row-between">
+            <span class="ui-muted">Changes are reviewable in the audit log.</span>
+            <div class="ui-row">
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Cancel", Variant = UiButtonVariant.Ghost })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Save rule", Variant = UiButtonVariant.Primary, Icon = "fa-floppy-disk", Type = "submit" })" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Table ── *@
+<div class="ui-section-label">Table</div>
+<div class="ui-table-wrap mb-4">
+    <table class="table ui-table">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th class="text-end">Total ৳</th>
+                <th>Status</th>
+                <th class="text-end">Placed</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var row in new[] {
+            ("ORD-260605-001", "Anik Hossain",    3, 240m, UiBadgeVariant.Success, "Delivered"),
+            ("ORD-260605-002", "Tanjim Hasan",    2, 120m, UiBadgeVariant.Warning, "Preparing"),
+            ("ORD-260605-003", "Mehnaz Akter",    1,  60m, UiBadgeVariant.Info,    "Pending"),
+            ("ORD-260605-004", "Md. Rahman",      4, 380m, UiBadgeVariant.Danger,  "Cancelled")
+        })
+        {
+            <tr>
+                <td class="ui-mono">@row.Item1</td>
+                <td>@row.Item2</td>
+                <td>@row.Item3</td>
+                <td class="text-end ui-tabular">@row.Item4.ToString("N0")</td>
+                <td>
+                    <partial name="_UiBadge" model="@(new UiBadgeOptions { Text = row.Item6, Variant = row.Item5, WithDot = true })" />
+                </td>
+                <td class="text-end ui-tabular ui-muted">2 min ago</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@* ─────────────────────────────────────────────────────────── Typography ── *@
+<div class="ui-section-label">Typography</div>
+<div class="ui-card mb-4">
+    <div class="ui-card-body ui-stack">
+        <h1>H1 — Big page title</h1>
+        <h2>H2 — Section heading</h2>
+        <h3>H3 — Subsection</h3>
+        <p>Body — 14px, line-height 1.5, zinc-700 on light / zinc-300 on dark.</p>
+        <p class="ui-muted">Muted body — 14px, zinc-500 on light / zinc-400 on dark.</p>
+        <p><code class="ui-mono">var token = 'value';</code> mono uses JetBrains Mono → falls back to system mono.</p>
+        <p class="ui-section-label">Section label — 12px, uppercase, letter-spaced</p>
+    </div>
+</div>
+
+<div class="ui-divider"></div>
+<p class="ui-muted ui-row-between" style="font-size:12px">
+    <span>v1 · @DateTime.UtcNow.ToString("yyyy-MM-dd")</span>
+    <span>Token source: <a href="/css/shadcn.css">/css/shadcn.css</a> · partials in <span class="ui-mono">Views/Shared/_Ui*.cshtml</span></span>
+</p>

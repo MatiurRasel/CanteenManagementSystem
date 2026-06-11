@@ -1,0 +1,201 @@
+@using CanteenManagementSystem
+@inject IStringLocalizer<SharedResource> L
+
+@{
+    var currentController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty).ToLowerInvariant();
+    string IsActive(string c) =>
+        string.Equals(currentController, c, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+}
+
+<nav class="menu-inner" role="navigation" aria-label="@L["QuickActions"]">
+    <div class="menu-heading">@L["QuickActions"]</div>
+
+    <a asp-controller="Operator" asp-action="Dashboard" class="menu-link @IsActive("Operator")">
+        <i class="menu-icon bx bx-line-chart"></i>
+        <span>@L["Dashboard"]</span>
+    </a>
+
+    <a asp-controller="Verification" asp-action="Index" class="menu-link @IsActive("Verification")">
+        <i class="menu-icon bx bx-id-card"></i>
+        <span>@L["Verification"]</span>
+    </a>
+
+    <a asp-controller="Kiosk" asp-action="Index" class="menu-link @IsActive("Kiosk")"
+       data-bs-toggle="tooltip" title="Self-service tablet view — auto-resets to scan after 30 s of inactivity.">
+        <i class="menu-icon bx bx-tab"></i>
+        <span>Self-service kiosk</span>
+    </a>
+
+    <a asp-controller="Menu" asp-action="Manage" class="menu-link @IsActive("Menu")">
+        <i class="menu-icon bx bx-restaurant"></i>
+        <span>@L["Menu"]</span>
+    </a>
+
+    <a asp-controller="Display" asp-action="Menu" class="menu-link @IsActive("Display")">
+        <i class="menu-icon bx bx-tv"></i>
+        <span>@L["Display"]</span>
+    </a>
+
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <div class="menu-heading mt-3">Administration</div>
+
+        @if (User.IsInRole("SystemAdmin"))
+        {
+            <a asp-controller="PlatformDashboard" asp-action="Index" class="menu-link @IsActive("PlatformDashboard")">
+                <i class="menu-icon bx bx-globe"></i>
+                <span>Platform overview</span>
+            </a>
+            <a asp-controller="TenantsAdmin" asp-action="Index" class="menu-link @IsActive("TenantsAdmin")">
+                <i class="menu-icon bx bx-buildings"></i>
+                <span>Tenants</span>
+            </a>
+        }
+
+        @if (User.IsInRole("SystemAdmin") || User.IsInRole("TenantAdmin"))
+        {
+            <a asp-controller="AdminDashboard" asp-action="Index" class="menu-link @IsActive("AdminDashboard")">
+                <i class="menu-icon bx bx-tachometer"></i>
+                <span>Dashboard</span>
+            </a>
+            <a asp-controller="ExportsAdmin" asp-action="Index" class="menu-link @IsActive("ExportsAdmin")">
+                <i class="menu-icon bx bx-export"></i>
+                <span>Exports</span>
+            </a>
+            <a asp-controller="InventoryAdmin" asp-action="NearExpiry" class="menu-link">
+                <i class="menu-icon bx bx-time-five"></i>
+                <span>Near-expiry items</span>
+            </a>
+            <a asp-controller="DirectoryAdminUi" asp-action="Index" class="menu-link @IsActive("DirectoryAdminUi")">
+                <i class="menu-icon bx bx-book-content"></i>
+                <span>Directory</span>
+            </a>
+            <a asp-controller="UsersAdmin" asp-action="Index" class="menu-link @IsActive("UsersAdmin")">
+                <i class="menu-icon bx bx-group"></i>
+                <span>Users</span>
+            </a>
+            <a asp-controller="GatewaysAdmin" asp-action="Index" class="menu-link @IsActive("GatewaysAdmin")">
+                <i class="menu-icon bx bx-credit-card"></i>
+                <span>@L["Gateways"]</span>
+            </a>
+            <a asp-controller="PrinterAdmin" asp-action="Index" class="menu-link @IsActive("PrinterAdmin")">
+                <i class="menu-icon bx bx-printer"></i>
+                <span>@L["Printer"]</span>
+            </a>
+            <a asp-controller="NotificationTemplates" asp-action="Index" class="menu-link @IsActive("NotificationTemplates")">
+                <i class="menu-icon bx bx-envelope-open"></i>
+                <span>@L["NotificationTemplates"]</span>
+            </a>
+            <a asp-controller="NotificationDeliveries" asp-action="Index" class="menu-link @IsActive("NotificationDeliveries")">
+                <i class="menu-icon bx bx-paper-plane"></i>
+                <span>Delivery log</span>
+            </a>
+            <a asp-controller="DiscountRules" asp-action="Index" class="menu-link @IsActive("DiscountRules")">
+                <i class="menu-icon bx bx-purchase-tag"></i>
+                <span>Discount rules</span>
+            </a>
+            <a asp-controller="CombosAdmin" asp-action="Index" class="menu-link @IsActive("CombosAdmin")">
+                <i class="menu-icon bx bx-shape-square"></i>
+                <span>Combo buttons</span>
+            </a>
+            <a asp-controller="InventoryAdmin" asp-action="Suppliers" class="menu-link @IsActive("InventoryAdmin")">
+                <i class="menu-icon bx bx-package"></i>
+                <span>Inventory</span>
+            </a>
+            <a asp-controller="WebhooksAdmin" asp-action="Index" class="menu-link @IsActive("WebhooksAdmin")">
+                <i class="menu-icon bx bx-bolt-circle"></i>
+                <span>Webhooks</span>
+            </a>
+            <a asp-controller="ReceiptSearch" asp-action="Search" class="menu-link @IsActive("ReceiptSearch")">
+                <i class="menu-icon bx bx-search-alt"></i>
+                <span>Find receipts</span>
+            </a>
+            <a asp-controller="FeatureFlagsAdmin" asp-action="Index" class="menu-link @IsActive("FeatureFlagsAdmin")">
+                <i class="menu-icon bx bx-flag"></i>
+                <span>Feature flags</span>
+            </a>
+            <a asp-controller="BillingAdmin" asp-action="Index" class="menu-link @IsActive("BillingAdmin")">
+                <i class="menu-icon bx bx-receipt"></i>
+                <span>Billing</span>
+            </a>
+            <a asp-controller="ReportSchedules" asp-action="Index" class="menu-link @IsActive("ReportSchedules")">
+                <i class="menu-icon bx bx-calendar-event"></i>
+                <span>Scheduled reports</span>
+            </a>
+            <a asp-controller="DesignSystem" asp-action="Index" class="menu-link @IsActive("DesignSystem")">
+                <i class="menu-icon bx bx-palette"></i>
+                <span>Design system</span>
+            </a>
+        }
+
+        @if (User.IsInRole("SystemAdmin") || User.IsInRole("TenantAdmin") || User.IsInRole("Auditor"))
+        {
+            <a asp-controller="ReportsAdmin" asp-action="Index" class="menu-link @IsActive("ReportsAdmin")">
+                <i class="menu-icon bx bx-bar-chart-alt-2"></i>
+                <span>Reports</span>
+            </a>
+            <a asp-controller="AuditAdmin" asp-action="Index" class="menu-link @IsActive("AuditAdmin")">
+                <i class="menu-icon bx bx-clipboard"></i>
+                <span>Audit log</span>
+            </a>
+        }
+
+        @if (User.IsInRole("SystemAdmin") || User.IsInRole("TenantAdmin") || User.IsInRole("Operator") || User.IsInRole("Cashier"))
+        {
+            <a asp-controller="Kitchen" asp-action="Index" class="menu-link @IsActive("Kitchen")">
+                <i class="menu-icon bx bx-restaurant"></i>
+                <span>Kitchen Display</span>
+            </a>
+            <a asp-controller="CardsAdmin" asp-action="Index" class="menu-link @IsActive("CardsAdmin")">
+                <i class="menu-icon bx bx-id-card"></i>
+                <span>NFC cards</span>
+            </a>
+            <a asp-controller="KiosksAdmin" asp-action="Index" class="menu-link @IsActive("KiosksAdmin")">
+                <i class="menu-icon bx bx-tab"></i>
+                <span>Kiosk tablets</span>
+            </a>
+            <a asp-controller="BrandingAdmin" asp-action="Index" class="menu-link @IsActive("BrandingAdmin")">
+                <i class="menu-icon bx bx-palette"></i>
+                <span>Branding</span>
+            </a>
+        }
+
+        <div class="menu-heading mt-3">My account</div>
+        <a asp-controller="Me" asp-action="Orders" class="menu-link @IsActive("Me")">
+            <i class="menu-icon bx bx-receipt"></i>
+            <span>@L["MyOrders"]</span>
+        </a>
+        <a asp-controller="Favorites" asp-action="Index" class="menu-link @IsActive("Favorites")">
+            <i class="menu-icon bx bx-heart"></i>
+            <span>Favourites</span>
+        </a>
+        <a asp-controller="Parent" asp-action="Index" class="menu-link @IsActive("Parent")">
+            <i class="menu-icon bx bx-user-pin"></i>
+            <span>@L["ParentPortal"]</span>
+        </a>
+        <a asp-controller="PreOrder" asp-action="Index" class="menu-link @IsActive("PreOrder")">
+            <i class="menu-icon bx bx-calendar-plus"></i>
+            <span>@L["PreOrders"]</span>
+        </a>
+        <a asp-controller="WhatsNew" asp-action="Index" class="menu-link @IsActive("WhatsNew")">
+            <i class="menu-icon bx bx-bell"></i>
+            <span>What's new</span>
+        </a>
+    }
+
+    <div class="menu-heading mt-3">@L["Localization"]</div>
+
+    <a asp-controller="Culture" asp-action="Set" asp-route-culture="bn-BD" asp-route-returnUrl="@returnUrl"
+       class="menu-link @(currentCulture == "bn-BD" ? "active" : "")">
+        <i class="menu-icon bx bx-text"></i>
+        <span>@L["LanguageBangla"]</span>
+    </a>
+    <a asp-controller="Culture" asp-action="Set" asp-route-culture="en-US" asp-route-returnUrl="@returnUrl"
+       class="menu-link @(currentCulture == "en-US" ? "active" : "")">
+        <i class="menu-icon bx bx-world"></i>
+        <span>@L["LanguageEnglish"]</span>
+    </a>
+</nav>

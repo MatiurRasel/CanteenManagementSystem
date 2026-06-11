@@ -1,0 +1,87 @@
+﻿*** You MUST ACT & BEHAVE LIKE A PRINCIPAL SOLUTION/SOFTWARE ARCHITECT
+
+1.	Read & Understand the Existing Codebase
+2.	Read & Understand the Sneat Paid Theme: M:\GITHUB\CanteenManagementSystem\source-of-truth\themes\seant\
+3.	Want to Implement the Best Architectural Pattern(Clear Architecture With SoC, UOW,GenericRepositoryPattern) & For Ui Side (Reusable Industry Standard Components With Mostly SSR)js,jquery is minimal & css is minimal, need to use Sneat 100% properly.Localization From Back & Front & UI with all(tags,success,error,warning message)& Branding ANcent COlor(Green,Pink etc) & Branding Color Change on Runtime For Menubar & TopBar Or Sidebar & Upgrade into .net 10
+
+
+Current findings:
+•	Solution: CanteenManagementSystem.sln
+•	Target framework: net8.0
+•	App style: MVC controllers + views, not Razor Pages yet
+•	Data access: controllers use ApplicationDbContext directly
+•	UI: current layout is custom Tailwind/Font Awesome, not Sneat yet
+•	Localization: not wired in
+•	Theme source: source-of-truth\themes\seant\ is present and includes the full Sneat vertical-menu template, core CSS, page CSS, JS helpers, and layout patterns for dashboards and admin screens
+•	.NET 10 is available for upgrade in this workspace
+What the codebase currently looks like:
+•	Program.cs is simple and monolithic
+•	_Layout.cshtml is a basic custom shell with Bengali text and inline styles
+•	Controllers like OrderController and OperatorController contain business logic, DB queries, and UI-facing JSON responses together
+•	appsettings.json already holds operational settings, but the architecture is still single-project and tightly coupled
+What should be done next to match your goal:
+1.	Move toward Clean Architecture
+•	split into Domain, Application, Infrastructure/Persistence, Presentation
+•	controllers should call services, not DbContext
+•	add UnitOfWork + GenericRepository
+2.	Rebuild UI on Sneat properly
+•	use Sneat vertical layout as the base shell
+•	convert repeated UI into partials/components
+•	keep JS/JQuery minimal
+•	keep CSS minimal and theme-driven
+3.	Add localization end-to-end
+•	backend resources
+•	front-end labels/messages
+•	success/error/warning/tag messages
+4.	Add runtime branding
+•	tenant-based accent colors
+•	apply dynamically to sidebar/topbar/menu
+•	keep it configurable from backend
+5.	Upgrade to net10.0
+•	target framework is supported
+•	should be done after project structure decisions
+If you want, I can next do one of these:
+•	produce a concrete migration plan,
+•	map current files to the new architecture,
+•	or start implementing the Sneat layout + localization foundation first.
+
+
+Concrete migration plan
+1.	Stabilize presentation foundation
+•	Adopt Sneat vertical shell.
+•	Centralize layout, sidebar, topbar, flash messages.
+•	Keep JS/JQuery minimal and CSS theme-driven.
+2.	Introduce localization end-to-end
+•	Shared resources for backend/UI strings.
+•	Culture switching via cookie/query-string.
+•	Localized success/error/warning/tag messages.
+3.	Prepare Clean Architecture split
+•	Domain
+•	Application
+•	Infrastructure/Persistence
+•	Presentation
+•	Move DB logic out of controllers.
+4.	Add repository/UoW layer
+•	GenericRepository<T>
+•	IUnitOfWork
+•	Services call repositories, controllers call services.
+5.	Add runtime branding
+•	Backend-configurable accent/sidebar/topbar colors.
+•	Apply via CSS variables at runtime.
+6.	Upgrade to net10.0
+•	Do after the project split and UI foundation are in place.
+---
+Current file-to-architecture mapping
+•	ApplicationDbContext.cs → Infrastructure/Persistence
+•	Controllers/*.cs → Presentation/Controllers
+•	Services/*.cs → Application/Services or Infrastructure/Services depending on responsibility
+•	Models/*:
+•	entity/domain models → Domain
+•	view models → Presentation/ViewModels
+•	config models → Application/Options or Infrastructure/Options
+•	Views/* → Presentation/Views
+•	source-of-truth/themes/seant/* → Sneat reference source for Presentation/wwwroot and shared UI partials
+
+Current rule applied
+•	DTOs = request/response contracts for controllers/services
+•	ViewModels = UI-facing models for Razor views

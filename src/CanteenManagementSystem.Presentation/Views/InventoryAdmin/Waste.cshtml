@@ -1,0 +1,100 @@
+@*
+    /admin/inventory/waste — waste log with recent entries + add form.
+*@
+@using CanteenManagementSystem.Application.Inventory
+@using CanteenManagementSystem.Domain.Inventory
+@using CanteenManagementSystem.Domain.Menu
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<WasteLogRow>
+@{
+    ViewData["Title"] = "Waste log";
+    var foods = (List<FoodItem>)(ViewBag.FoodItems ?? new List<FoodItem>());
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Waste log",
+        Subtitle = "Disposed / expired / dropped items. Auto-decrements today's DailyMenu quantity."
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Record waste</div></div>
+                <div class="ui-card-body">
+                    <form method="post" action="/admin/inventory/waste/record" class="ui-stack" data-cl-form>
+                        @Html.AntiForgeryToken()
+                        <div>
+                            <label class="ui-label">Item <span class="ui-muted">*</span></label>
+                            <select name="foodItemId" class="form-select ui-select" required>
+                                <option value="" disabled selected>Pick…</option>
+                                @foreach (var f in foods) { <option value="@f.FoodItemID">@f.ItemName</option> }
+                            </select>
+                        </div>
+                        <div>
+                            <label class="ui-label">Quantity <span class="ui-muted">*</span></label>
+                            <input class="ui-input form-control" name="quantity" type="number" min="1" step="1" required />
+                        </div>
+                        <div>
+                            <label class="ui-label">Reason</label>
+                            <select name="reason" class="form-select ui-select">
+                                <option value="Spoilage">Spoilage</option>
+                                <option value="Expired">Expired</option>
+                                <option value="Dropped">Dropped</option>
+                                <option value="Contamination">Contamination</option>
+                                <option value="PrepError">Prep error</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="ui-label">Notes</label>
+                            <input class="ui-input form-control" name="notes" maxlength="500" />
+                        </div>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa-solid fa-trash-can me-1"></i> Record
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="ui-card">
+                <div class="ui-card-header"><div class="ui-card-title">Recent entries</div></div>
+                <div class="ui-card-body p-0">
+                    @if (Model.Count == 0)
+                    {
+                        <div class="text-center py-5 ui-muted">No waste recorded — that's a good day.</div>
+                    }
+                    else
+                    {
+                        <table class="table ui-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>When</th>
+                                    <th>Item</th>
+                                    <th class="text-end">Qty</th>
+                                    <th>Reason</th>
+                                    <th>By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var w in Model)
+                            {
+                                <tr>
+                                    <td class="ui-muted ui-tabular">@w.OccurredAtUtc.ToString("MM-dd HH:mm")</td>
+                                    <td>@w.ItemName</td>
+                                    <td class="text-end ui-tabular ui-text-strong">@w.Quantity</td>
+                                    <td>@w.Reason</td>
+                                    <td class="ui-muted">@(w.PerformedBy ?? "—")</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

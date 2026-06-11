@@ -1,0 +1,13 @@
+{
+  "name": "Canteen Management System",
+  "short_name": "Canteen",
+  "description": "Multi-tenant canteen platform with offline-first counter ordering.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#10B981",
+  "lang": "bn-BD",
+  "categories": ["business", "food"]
+}

@@ -1,0 +1,81 @@
+@*
+    /directory-admin/students — paginated student roster.
+*@
+@using CanteenManagementSystem.Domain.Users
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.DirectoryAdminUiController.RosterPage<Student>
+@{
+    ViewData["Title"] = "Directory · Students";
+    var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+    var searchForm = $@"
+        <form method='get' action='/directory-admin/Students' class='d-flex gap-2'>
+            <input type='text' name='q' value='{System.Net.WebUtility.HtmlEncode(Model.Q ?? "")}'
+                   class='ui-input form-control form-control-sm' placeholder='Search name / card / ID' style='min-width:240px' />
+            <button type='submit' class='btn btn-outline-primary btn-sm'>
+                <i class='fa-solid fa-magnifying-glass me-1'></i> Search
+            </button>
+        </form>";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Students",
+        Subtitle = $"{Model.TotalCount:N0} record(s)",
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm me-2' href='/directory-admin'><i class='fa-solid fa-arrow-left me-1'></i> Directory</a>{searchForm}")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="ui-table-wrap">
+        <table class="table table-hover mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>External ID</th>
+                    <th>Card</th>
+                    <th>Name</th>
+                    <th>Program / Class</th>
+                    <th>Session</th>
+                    <th>Contact</th>
+                    <th>Synced</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var s in Model.Items)
+            {
+                <tr>
+                    <td><code class="small">@s.ExternalId</code></td>
+                    <td><code class="small">@(s.CardIdentifier ?? "—")</code></td>
+                    <td class="ui-text-strong">@s.Name</td>
+                    <td class="small">@(s.Program ?? "—") @(string.IsNullOrEmpty(s.Class) ? "" : "/ " + s.Class)</td>
+                    <td class="small">@(s.Session ?? "—")</td>
+                    <td class="small">@(s.ContactNo ?? "—")</td>
+                    <td class="ui-muted small">@s.SyncedAtUtc.ToString("MM-dd HH:mm")</td>
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="7" class="ui-muted text-center py-4">No students yet — upload a CSV or run a sync.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    @if (totalPages > 1)
+    {
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <small class="ui-muted">Page @Model.Page of @totalPages</small>
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    @if (Model.Page > 1)
+                    {
+                        <li class="page-item"><a class="page-link" asp-action="Students" asp-route-page="@(Model.Page-1)" asp-route-q="@Model.Q">Prev</a></li>
+                    }
+                    @if (Model.Page < totalPages)
+                    {
+                        <li class="page-item"><a class="page-link" asp-action="Students" asp-route-page="@(Model.Page+1)" asp-route-q="@Model.Q">Next</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

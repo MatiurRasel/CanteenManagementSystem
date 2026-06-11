@@ -1,0 +1,41 @@
+@*
+    _UiKpi — single statistic tile. Place inside a Bootstrap col- to lay out
+    a 4-up KPI strip:
+
+        <div class="row g-3">
+          <div class="col-6 col-md-3"><partial name="_UiKpi" model="@new UiKpiOptions { Label = "Orders", Value = "1,248", Delta = "+12% vs yesterday", Trend = UiKpiTrend.Up }" /></div>
+          …
+        </div>
+*@
+@model CanteenManagementSystem.Presentation.Models.UiKpiOptions
+@{
+    var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiKpiOptions();
+    var trendClass = opts.Trend switch
+    {
+        CanteenManagementSystem.Presentation.Models.UiKpiTrend.Up   => "positive",
+        CanteenManagementSystem.Presentation.Models.UiKpiTrend.Down => "negative",
+        _ => ""
+    };
+}
+<div class="ui-kpi">
+    <div class="ui-row-between">
+        <div class="ui-kpi-label">@opts.Label</div>
+        @if (!string.IsNullOrWhiteSpace(opts.Icon))
+        {
+            <i class="fa-solid @opts.Icon ui-muted"></i>
+        }
+    </div>
+    <div class="ui-kpi-value">@opts.Value</div>
+    @if (!string.IsNullOrWhiteSpace(opts.Delta))
+    {
+        <div class="ui-kpi-delta @trendClass">
+            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Up)   { <i class="fa-solid fa-arrow-up"></i> }
+            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Down) { <i class="fa-solid fa-arrow-down"></i> }
+            <span>@opts.Delta</span>
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(opts.Hint))
+    {
+        <div class="ui-kpi-hint ui-muted">@opts.Hint</div>
+    }
+</div>

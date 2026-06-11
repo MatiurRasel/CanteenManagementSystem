@@ -1,0 +1,175 @@
+@*
+    /admin/discount-rules/{id} — single-rule editor.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.DiscountRulesController.RuleForm
+@{
+    var isNew = Model.RuleId == 0;
+    ViewData["Title"] = isNew ? "New discount rule" : Model.DisplayName;
+    var header = new UiPageHeaderOptions
+    {
+        Title    = isNew ? "New rule" : Model.DisplayName,
+        Subtitle = isNew ? "Define a condition + an effect. Higher priority wins." : "Edit existing rule.",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/discount-rules'><i class='fa-solid fa-arrow-left me-1'></i> All rules</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" asp-action="Save">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="RuleId" />
+
+        <div class="row g-3">
+            <div class="col-lg-7">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Identity</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-5">
+                                <label class="ui-label" asp-for="RuleCode">Code</label>
+                                <input asp-for="RuleCode" class="ui-input form-control" placeholder="tuesday-teacher" autocomplete="off" />
+                            </div>
+                            <div class="col-md-7">
+                                <label class="ui-label" asp-for="DisplayName">Display name</label>
+                                <input asp-for="DisplayName" class="ui-input form-control" placeholder="Tuesday teacher discount" />
+                            </div>
+                            <div class="col-12">
+                                <label class="ui-label" asp-for="Description">Description</label>
+                                <input asp-for="Description" class="ui-input form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="ui-label" asp-for="Priority">Priority</label>
+                                <input asp-for="Priority" type="number" class="ui-input form-control" />
+                                <div class="ui-help-text">Higher wins.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="ui-label" asp-for="ValidFromUtc">Valid from</label>
+                                <input asp-for="ValidFromUtc" type="date" class="ui-input form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="ui-label" asp-for="ValidUntilUtc">Valid until</label>
+                                <input asp-for="ValidUntilUtc" type="date" class="ui-input form-control" />
+                            </div>
+                            <div class="col-md-1 d-flex align-items-center">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                                    <label class="form-check-label small" asp-for="IsActive">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header"><div class="ui-card-title">Condition</div></div>
+                    <div class="ui-card-body">
+                        <select asp-for="ConditionTemplate" class="form-select ui-select mb-3" id="conditionTpl">
+                            <option value="DayOfWeekRole">Day of week + roles (e.g. Tuesday TEACHER)</option>
+                            <option value="ComboItems">Combo of food items</option>
+                            <option value="Raw">Raw JSON</option>
+                        </select>
+                        <div data-cond="DayOfWeekRole" class="row g-3">
+                            <div class="col-md-4">
+                                <label class="ui-label">Day of week</label>
+                                <select asp-for="Day" class="form-select ui-select">
+                                    @foreach (var d in Enum.GetValues<DayOfWeek>())
+                                    {
+                                        <option value="@d">@d</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="ui-label">Roles (CSV)</label>
+                                <input asp-for="Roles" class="ui-input form-control" placeholder="TEACHER, STAFF" />
+                                <div class="ui-help-text">Matched against User.UserKind / Employee.EmployeeType (case-insensitive).</div>
+                            </div>
+                        </div>
+                        <div data-cond="ComboItems">
+                            <label class="ui-label">FoodItem IDs (CSV)</label>
+                            <input asp-for="ComboFoodItemIds" class="ui-input form-control" placeholder="12, 15, 18" />
+                        </div>
+                        <div data-cond="Raw">
+                            <label class="ui-label">Condition JSON</label>
+                            <textarea asp-for="ConditionJson" class="ui-input form-control ui-mono" rows="3">@Model.ConditionJson</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header"><div class="ui-card-title">Effect</div></div>
+                    <div class="ui-card-body">
+                        <select asp-for="EffectTemplate" class="form-select ui-select mb-3" id="effectTpl">
+                            <option value="Percent">Percent off (e.g. 10% off subtotal)</option>
+                            <option value="Flat">Flat amount off (e.g. ৳20 off)</option>
+                            <option value="Raw">Raw JSON</option>
+                        </select>
+                        <div data-eff="Percent" class="row g-3">
+                            <div class="col-md-4">
+                                <label class="ui-label">% amount</label>
+                                <div class="input-group">
+                                    <input asp-for="EffectAmount" type="number" step="0.01" min="0" max="100" class="ui-input form-control" />
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-eff="Flat" class="row g-3">
+                            <div class="col-md-4">
+                                <label class="ui-label">Flat amount (৳)</label>
+                                <input asp-for="EffectAmount" type="number" step="0.01" min="0" class="ui-input form-control" />
+                            </div>
+                        </div>
+                        <div data-eff="Raw">
+                            <label class="ui-label">Effect JSON</label>
+                            <textarea asp-for="EffectJson" class="ui-input form-control ui-mono" rows="3">@Model.EffectJson</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="ui-card sticky-top" style="top:5rem">
+                    <div class="ui-card-header"><div class="ui-card-title">How rules apply</div></div>
+                    <div class="ui-card-body">
+                        <ul class="small ui-stack-sm mb-3" style="padding-left:1.2rem">
+                            <li>Rules with the highest <strong>priority</strong> are evaluated first; only the first match fires.</li>
+                            <li>Conditions outside their <strong>valid range</strong> are skipped.</li>
+                            <li>An order receives at most ONE discount today; stacking can be added later via priority bands.</li>
+                            <li>Choose <strong>Raw JSON</strong> for advanced conditions/effects beyond the templates.</li>
+                        </ul>
+                        <p class="ui-muted small mb-0">
+                            The engine ships with two condition types and two effect types — extend in
+                            <code>DiscountEngine</code> by adding switch cases.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            function applyVis(group, attr, current) {
+                document.querySelectorAll(`[${attr}]`).forEach(el => {
+                    el.style.display = el.getAttribute(attr) === current ? '' : 'none';
+                });
+            }
+            const c = document.getElementById('conditionTpl');
+            const e = document.getElementById('effectTpl');
+            c.addEventListener('change', () => applyVis('Cond', 'data-cond', c.value));
+            e.addEventListener('change', () => applyVis('Effect', 'data-eff', e.value));
+            applyVis('Cond', 'data-cond', c.value);
+            applyVis('Effect', 'data-eff', e.value);
+        })();
+    </script>
+}

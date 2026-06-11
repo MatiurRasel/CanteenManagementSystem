@@ -1,0 +1,49 @@
+@*
+    Reusable empty-state partial. Show when a query returns zero rows so the
+    page never feels broken. Includes an optional primary call-to-action so
+    the user can take the next sensible step.
+
+    Usage:
+        <partial name="_EmptyState" model="@new EmptyStateOptions {
+            Icon         = "fa-utensils",
+            Title        = "No menu items yet",
+            Description  = "Add your first item to get started.",
+            CtaLabel     = "Add menu item",
+            CtaUrl       = Url.Action("Create", "Menu")
+        }" />
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model EmptyStateOptions
+@{ var opts = Model ?? new EmptyStateOptions(); }
+
+<div class="text-center py-5 px-3 canteen-empty">
+    <div class="empty-icon mb-3">
+        <i class="fa-solid @opts.Icon"></i>
+    </div>
+    <h6 class="fw-semibold mb-1">@opts.Title</h6>
+    @if (!string.IsNullOrWhiteSpace(opts.Description))
+    {
+        <p class="text-muted mb-3">@opts.Description</p>
+    }
+    @if (!string.IsNullOrWhiteSpace(opts.CtaUrl) && !string.IsNullOrWhiteSpace(opts.CtaLabel))
+    {
+        <a href="@opts.CtaUrl" class="btn btn-primary">
+            @if (!string.IsNullOrWhiteSpace(opts.CtaIcon))
+            {
+                <i class="fa-solid @opts.CtaIcon me-1"></i>
+            }
+            @opts.CtaLabel
+        </a>
+    }
+</div>
+
+<style>
+    .canteen-empty .empty-icon {
+        width: 5rem; height: 5rem; line-height: 5rem;
+        margin: 0 auto;
+        border-radius: 50%;
+        background: var(--bs-tertiary-bg, #f4f5f7);
+        color: var(--bs-secondary-color, #8e8e9b);
+        font-size: 2rem;
+    }
+</style>

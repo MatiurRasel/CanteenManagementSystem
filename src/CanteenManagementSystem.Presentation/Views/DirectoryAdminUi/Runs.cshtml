@@ -1,0 +1,68 @@
+@*
+    /directory-admin/runs — full sync-run history.
+*@
+@using Platform.Domain.Directory
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<DirectorySyncRun>
+@{
+    ViewData["Title"] = "Directory · Sync runs";
+    UiBadgeVariant V(string s) => s switch
+    {
+        "Success" => UiBadgeVariant.Success,
+        "Failed"  => UiBadgeVariant.Danger,
+        "Running" => UiBadgeVariant.Warning,
+        _ => UiBadgeVariant.Secondary
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Sync runs",
+        Subtitle = $"{Model.Count} run(s) shown · most recent first",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='fa-solid fa-arrow-left me-1'></i> Directory</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="ui-table-wrap">
+        <table class="table mb-0 ui-table">
+            <thead>
+                <tr>
+                    <th>Started</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                    <th>Students Δ</th>
+                    <th>Employees Δ</th>
+                    <th>Duration</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var r in Model)
+            {
+                var b = new UiBadgeOptions { Text = r.Status, Variant = V(r.Status), WithDot = true };
+                <tr>
+                    <td class="ui-mono small">@r.StartedAtUtc.ToString("u")</td>
+                    <td><code class="small">@r.Source</code></td>
+                    <td><partial name="_UiBadge" model="b" /></td>
+                    <td class="ui-muted small">+@r.StudentsAdded / ~@r.StudentsUpdated / -@r.StudentsDisabled</td>
+                    <td class="ui-muted small">+@r.EmployeesAdded / ~@r.EmployeesUpdated / -@r.EmployeesDisabled</td>
+                    <td class="ui-tabular small">@(r.Duration?.ToString(@"mm\:ss") ?? "—")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(r.ErrorMessage))
+                        {
+                            <span class="text-danger small" title="@r.ErrorMessage">
+                                @(r.ErrorMessage.Length > 80 ? r.ErrorMessage[..80] + "…" : r.ErrorMessage)
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (Model.Count == 0)
+            {
+                <tr><td colspan="7" class="ui-muted text-center py-4">No sync runs yet.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

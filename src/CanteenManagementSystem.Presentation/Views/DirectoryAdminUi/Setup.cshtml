@@ -1,0 +1,160 @@
+@*
+    /directory-admin/setup — pick source (Manual / Database / API / Disabled)
+    and supply credentials.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.DirectoryAdminUiController.SetupForm
+@{
+    ViewData["Title"] = "Directory · Setup";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Directory source",
+        Subtitle = "Pick how this tenant's student / employee directory feeds in.",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='fa-solid fa-arrow-left me-1'></i> Directory</a>")
+    };
+}
+
+<partial name="_FlashMessages" />
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" asp-action="Setup">
+        @Html.AntiForgeryToken()
+
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Source type</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="Source">Source</label>
+                                <select asp-for="Source" class="form-select ui-select" id="sourceSelect">
+                                    <option value="Manual">Manual (upload CSV)</option>
+                                    <option value="Database">School DB (read-only views)</option>
+                                    <option value="Api">School portal API</option>
+                                    <option value="Disabled">Disabled (no sync)</option>
+                                </select>
+                                <span asp-validation-for="Source" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="ui-label" asp-for="SyncIntervalMinutes">Interval (min)</label>
+                                <input asp-for="SyncIntervalMinutes" class="ui-input form-control" type="number" min="5" max="1440" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="ui-label" asp-for="SnapshotMode">Snapshot mode</label>
+                                <select asp-for="SnapshotMode" class="form-select ui-select">
+                                    <option value="PerSync">Per sync (full snapshot)</option>
+                                    <option value="Daily">Daily (incremental otherwise)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3" data-source-panel="Database">
+                    <div class="ui-card-header"><div class="ui-card-title">School DB credentials</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="ui-label" asp-for="DatabaseConnectionString">Connection string</label>
+                                <input asp-for="DatabaseConnectionString" class="ui-input form-control" autocomplete="off"
+                                       placeholder='@(Model.HasDbConnectionStored ? "(stored — paste to replace)" : "Server=...;Database=...;User ID=...;Password=...;TrustServerCertificate=True")' />
+                                <div class="ui-help-text">Encrypted at rest. Leave blank to keep the existing value.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="DatabaseStudentsView">Students view</label>
+                                <input asp-for="DatabaseStudentsView" class="ui-input form-control" placeholder="vw_StudentInfo_Canteen" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="DatabaseEmployeesView">Employees view</label>
+                                <input asp-for="DatabaseEmployeesView" class="ui-input form-control" placeholder="vw_EmployeeInfo_Canteen" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3" data-source-panel="Api">
+                    <div class="ui-card-header"><div class="ui-card-title">School portal API</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="ui-label" asp-for="ApiBaseUrl">Base URL</label>
+                                <input asp-for="ApiBaseUrl" class="ui-input form-control" placeholder="https://portal.acme.edu/api/v1/directory" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="ApiKey">App Key</label>
+                                <input asp-for="ApiKey" class="ui-input form-control" autocomplete="off"
+                                       placeholder='@(Model.HasApiKeyStored ? "(stored — paste to replace)" : "live_...")' />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="ApiSecret">HMAC secret</label>
+                                <input asp-for="ApiSecret" class="ui-input form-control" autocomplete="off"
+                                       placeholder='@(Model.HasApiSecretStored ? "(stored — paste to replace)" : "32 random bytes, base64-encoded")' />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="ui-label" asp-for="ApiPageSize">Page size</label>
+                                <input asp-for="ApiPageSize" class="ui-input form-control" type="number" min="50" max="5000" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header"><div class="ui-card-title">Failure alerts</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="ui-label" asp-for="MaxFailuresBeforeAlert">Threshold</label>
+                                <input asp-for="MaxFailuresBeforeAlert" class="ui-input form-control" type="number" min="1" max="20" />
+                                <div class="ui-help-text">Consecutive failures before alerting.</div>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="ui-label" asp-for="AlertEmail">Alert email</label>
+                                <input asp-for="AlertEmail" class="ui-input form-control" type="email" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="ui-label" asp-for="AlertPhone">Alert phone</label>
+                                <input asp-for="AlertPhone" class="ui-input form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="ui-card sticky-top" style="top:5rem">
+                    <div class="ui-card-header"><div class="ui-card-title">Save changes</div></div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted small mb-3">
+                            Credentials are encrypted before storage. Leaving a secret field blank keeps the existing value.
+                        </p>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var sel = document.getElementById('sourceSelect');
+            function refresh() {
+                document.querySelectorAll('[data-source-panel]').forEach(function (el) {
+                    el.style.display = (el.getAttribute('data-source-panel') === sel.value) ? '' : 'none';
+                });
+            }
+            sel.addEventListener('change', refresh);
+            refresh();
+        })();
+    </script>
+}

@@ -1,0 +1,104 @@
+@*
+    /gateways-admin — list payment gateway configurations.
+*@
+@using Platform.Domain.Payments
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<PaymentGatewayConfig>
+@{
+    ViewData["Title"] = "Payment gateways";
+    var sandboxCount = Model.Count(g => g.IsSandbox);
+    var liveCount    = Model.Count(g => !g.IsSandbox);
+    var enabledCount = Model.Count(g => g.IsEnabled);
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Payment gateways",
+        Subtitle = "Live + sandbox credentials per gateway. Toggle IsSandbox on each row to flip environments."
+    };
+
+    var kpiTotal   = new UiKpiOptions { Label = "Total",    Value = Model.Count.ToString(),  Icon = "fa-credit-card" };
+    var kpiLive    = new UiKpiOptions { Label = "Live",     Value = liveCount.ToString(),    Icon = "fa-bolt", Trend = UiKpiTrend.Up };
+    var kpiSandbox = new UiKpiOptions { Label = "Sandbox",  Value = sandboxCount.ToString(), Icon = "fa-flask" };
+    var kpiOn      = new UiKpiOptions { Label = "Enabled",  Value = enabledCount.ToString(), Icon = "fa-toggle-on" };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiTotal"   /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiLive"    /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiSandbox" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOn"      /></div>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        var info = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Warning,
+            Heading = "No gateways configured",
+            Body    = "The seed should have inserted defaults. Run the seeder or add a gateway manually."
+        };
+        <partial name="_UiAlert" model="info" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Method</th>
+                        <th>Group</th>
+                        <th class="text-end">Channels</th>
+                        <th>Env</th>
+                        <th>Enabled</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var g in Model)
+                {
+                    var envBadge = new UiBadgeOptions
+                    {
+                        Text    = g.IsSandbox ? "Sandbox" : "Live",
+                        Variant = g.IsSandbox ? UiBadgeVariant.Warning : UiBadgeVariant.Success,
+                        WithDot = true
+                    };
+                    var enBadge = new UiBadgeOptions
+                    {
+                        Text    = g.IsEnabled ? "On" : "Off",
+                        Variant = g.IsEnabled ? UiBadgeVariant.Primary : UiBadgeVariant.Secondary
+                    };
+                    <tr>
+                        <td><span class="ui-mono">@g.GatewayCode</span></td>
+                        <td class="ui-text-strong">@g.Name</td>
+                        <td class="ui-muted" style="font-size:13px">@g.Method</td>
+                        <td class="ui-muted" style="font-size:13px">@g.GatewayGroup</td>
+                        <td class="text-end ui-tabular">@g.Channels.Count</td>
+                        <td><partial name="_UiBadge" model="envBadge" /></td>
+                        <td><partial name="_UiBadge" model="enBadge" /></td>
+                        <td class="ui-muted" style="font-size:13px">@g.Status</td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Edit" asp-route-id="@g.GatewayConfigId" class="btn btn-outline-primary" title="Edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form asp-action="Toggle" asp-route-id="@g.GatewayConfigId" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-@(g.IsEnabled ? "warning" : "success")"
+                                            title="@(g.IsEnabled ? "Disable" : "Enable")">
+                                        <i class="fa-solid @(g.IsEnabled ? "fa-toggle-off" : "fa-toggle-on")"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

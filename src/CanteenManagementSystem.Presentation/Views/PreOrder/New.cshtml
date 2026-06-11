@@ -1,0 +1,93 @@
+@*
+    /pre-orders/new — pick a future date + quantities.
+*@
+@using CanteenManagementSystem.Domain.Menu
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.PreOrderController.NewForm
+@{
+    ViewData["Title"] = "Pre-order";
+    var target = (DateTime)(ViewBag.Target ?? DateTime.Today.AddDays(1));
+    var menu = (List<DailyMenu>)(ViewBag.Menu ?? new List<DailyMenu>());
+
+    var dateForm = $@"
+        <form method='get' class='d-flex gap-2 align-items-end'>
+            <div>
+                <label class='ui-label mb-1'>Pickup date</label>
+                <input type='date' name='date' value='{target:yyyy-MM-dd}' class='ui-input form-control form-control-sm'
+                       min='{DateTime.UtcNow.Date:yyyy-MM-dd}'
+                       max='{DateTime.UtcNow.Date.AddDays(14):yyyy-MM-dd}' />
+            </div>
+            <button class='btn btn-outline-primary btn-sm' type='submit'>Refresh menu</button>
+        </form>";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = $"Pre-order for {target:dddd, dd MMM yyyy}",
+        Subtitle = "Pick quantities, then confirm. Your wallet is checked at submission, not now.",
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm me-2' href='/pre-orders'><i class='fa-solid fa-arrow-left me-1'></i> Pre-orders</a>{dateForm}")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (menu.Count == 0)
+    {
+        var info = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Info,
+            Heading = "No menu yet",
+            Body    = $"No menu has been published for {target:dd MMM yyyy}. Ask the admin to schedule the day's menu first, or pick another date."
+        };
+        <partial name="_UiAlert" model="info" />
+    }
+    else
+    {
+        <form method="post" asp-action="New">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="PickupDate" value="@target.ToString("yyyy-MM-dd")" />
+
+            <div class="ui-card">
+                <div class="ui-table-wrap">
+                    <table class="table mb-0 ui-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Dietary</th>
+                                <th class="text-end">Price</th>
+                                <th style="width:140px" class="text-end">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var dm in menu)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="SelectedDailyMenuIds" value="@dm.DailyMenuID" />
+                                    <div class="ui-text-strong">@dm.FoodItem.ItemName</div>
+                                    @if (!string.IsNullOrEmpty(dm.FoodItem.Description))
+                                    {
+                                        <div class="ui-muted small">@dm.FoodItem.Description</div>
+                                    }
+                                </td>
+                                <td><partial name="_DietaryChips" model="dm.FoodItem" /></td>
+                                <td class="text-end ui-tabular">৳ @dm.FoodItem.Price.ToString("N0")</td>
+                                <td class="text-end">
+                                    <input type="number" name="Quantities" min="0" max="@dm.AvailableQuantity" value="0"
+                                           class="ui-input form-control form-control-sm text-end ui-tabular" />
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-calendar-check me-1"></i> Confirm pre-order
+                </button>
+            </div>
+        </form>
+    }
+</div>

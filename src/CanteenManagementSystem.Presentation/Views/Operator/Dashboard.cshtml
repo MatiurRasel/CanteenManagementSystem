@@ -1,0 +1,103 @@
+@*
+    /Operator/Dashboard — operator daily summary + live-orders panel.
+*@
+@using System.Globalization
+@using CanteenManagementSystem
+@using CanteenManagementSystem.Application.Orders.Dtos
+@using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
+
+@{
+    ViewData["Title"] = L["Dashboard"].Value;
+    var stats = ViewBag.Stats as OperatorDashboardStatsDto ?? new OperatorDashboardStatsDto();
+    var selectedDate = (DateTime)(ViewBag.SelectedDate ?? DateTime.Today);
+    var bn = CultureInfo.CreateSpecificCulture("bn-BD");
+
+    // Header actions need a real <form>+AntiForgery so we render the filter
+    // below the header as a separate strip — `Html.AntiForgeryToken()` returns
+    // `IHtmlContent` which can't be turned into a string and inlined.
+    var header = new UiPageHeaderOptions
+    {
+        Title    = L["Dashboard"].Value,
+        Subtitle = selectedDate.ToString("dddd, dd MMMM yyyy", bn)
+    };
+
+    var kpiOrders    = new UiKpiOptions { Label = L["StatsTodayOrders"].Value, Value = stats.TodayOrders.ToString("N0", bn),    Icon = "fa-cart-shopping" };
+    var kpiPending   = new UiKpiOptions { Label = L["StatsPending"].Value,     Value = stats.PendingOrders.ToString("N0", bn),  Icon = "fa-hourglass-half", Trend = stats.PendingOrders > 5 ? UiKpiTrend.Down : UiKpiTrend.None };
+    var kpiDelivered = new UiKpiOptions { Label = L["StatsDelivered"].Value,   Value = stats.DeliveredOrders.ToString("N0", bn), Icon = "fa-circle-check", Trend = UiKpiTrend.Up };
+    var kpiRevenue   = new UiKpiOptions { Label = L["StatsRevenue"].Value,     Value = "৳ " + stats.TodayRevenue.ToString("N0", bn), Icon = "fa-coins" };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" asp-action="Dashboard" class="d-flex align-items-end gap-2 mb-3 flex-wrap">
+        @Html.AntiForgeryToken()
+        <div>
+            <label class="ui-label mb-1" for="dash-date">@L["Date"]</label>
+            <input id="dash-date" type="date" name="selectedDate"
+                   value="@selectedDate.ToString("yyyy-MM-dd")"
+                   class="ui-input form-control form-control-sm" style="max-width:180px" required />
+        </div>
+        <button type="submit" class="btn btn-outline-primary btn-sm">
+            <i class="bx bx-filter me-1"></i> Filter
+        </button>
+    </form>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiOrders"    /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiPending"   /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiDelivered" /></div>
+        <div class="col-6 col-md-3"><partial name="_UiKpi" model="kpiRevenue"   /></div>
+    </div>
+
+    <div class="row g-4">
+        @* Live orders feed *@
+        <div class="col-12 col-xl-8">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title">@L["LiveOrders"]</div>
+                        <div class="ui-card-muted-body">Refreshes every 5 seconds.</div>
+                    </div>
+                    <span class="ui-badge variant-info">
+                        <span class="ui-dot"></span> Live
+                    </span>
+                </div>
+                <div class="ui-card-body">
+                    <div id="live-orders" class="ui-stack-sm">
+                        <div class="ui-muted text-center py-4">Loading pending orders…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Quick actions *@
+        <div class="col-12 col-xl-4">
+            <div class="ui-card" style="height:100%">
+                <div class="ui-card-header"><div class="ui-card-title">Quick links</div></div>
+                <div class="ui-card-body ui-stack-sm">
+                    <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Verification" asp-action="Index">
+                        <i class="fa-solid fa-id-card-clip me-2"></i> @L["Verification"]
+                    </a>
+                    <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Menu" asp-action="Manage">
+                        <i class="fa-solid fa-utensils me-2"></i> @L["Menu"]
+                    </a>
+                    <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Display" asp-action="Menu">
+                        <i class="fa-solid fa-tv me-2"></i> @L["Display"]
+                    </a>
+                    <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Kitchen" asp-action="Index">
+                        <i class="fa-solid fa-fire-burner me-2"></i> Kitchen display
+                    </a>
+                    <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Kiosk" asp-action="Index">
+                        <i class="fa-solid fa-tablet-screen-button me-2"></i> Self-service kiosk
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/operator-live-orders.js" asp-append-version="true" defer></script>
+}

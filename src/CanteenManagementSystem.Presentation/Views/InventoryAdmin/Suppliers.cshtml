@@ -1,0 +1,69 @@
+@*
+    /admin/inventory/suppliers — supplier list.
+*@
+@using CanteenManagementSystem.Domain.Inventory
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<Supplier>
+@{
+    ViewData["Title"] = "Suppliers";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Suppliers",
+        Subtitle = "Vendors you raise purchase orders against.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/inventory/suppliers/edit'><i class='fa-solid fa-plus me-1'></i> Add supplier</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var empty = new EmptyStateOptions { Icon = "fa-truck-field", Title = "No suppliers yet", Description = "Add the vendor you order raw stock from.", CtaLabel = "Add supplier", CtaUrl = "/admin/inventory/suppliers/edit", CtaIcon = "fa-plus" };
+        <partial name="_EmptyState" model="empty" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th class="text-end" style="width:1%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var s in Model)
+                {
+                    var badge = new UiBadgeOptions
+                    {
+                        Text = s.IsActive ? "Active" : "Disabled",
+                        Variant = s.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    <tr>
+                        <td>
+                            <div class="ui-text-strong">@s.Name</div>
+                            @if (!string.IsNullOrEmpty(s.ContactName))
+                            {
+                                <div class="ui-muted" style="font-size:12px">@s.ContactName</div>
+                            }
+                        </td>
+                        <td class="ui-muted">@(s.ContactNo ?? "—")</td>
+                        <td class="ui-mono" style="font-size:13px">@(s.Email ?? "—")</td>
+                        <td><partial name="_UiBadge" model="badge" /></td>
+                        <td class="text-end">
+                            <a class="btn btn-ghost btn-sm" href="/admin/inventory/suppliers/edit/@s.SupplierId">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

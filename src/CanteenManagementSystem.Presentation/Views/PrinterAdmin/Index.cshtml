@@ -1,0 +1,100 @@
+@*
+    /admin/printer — TCP/ESC-POS receipt printer config + test buttons.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.PrinterAdminController.PrinterForm
+@{
+    ViewData["Title"] = "Receipt printer";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Receipt printer",
+        Subtitle = "Per-tenant thermal printer (TCP / ESC-POS). Most Epson, Xprinter, Citizen, Aclas units accept text on port 9100."
+    };
+    var hasConfig = !string.IsNullOrWhiteSpace(Model.Host);
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (!hasConfig)
+    {
+        var alert = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Info,
+            Heading = "No printer configured",
+            Body    = "Enter the printer's IP + port below, save, then click Test print to confirm."
+        };
+        <partial name="_UiAlert" model="alert" />
+        <div style="height:1rem"></div>
+    }
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-7">
+            <form method="post" class="ui-card" data-cl-form>
+                @Html.AntiForgeryToken()
+                <div class="ui-card-header"><div class="ui-card-title">Configuration</div></div>
+                <div class="ui-card-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-7">
+                            <label class="ui-label">Host (IP or DNS)</label>
+                            <input class="ui-input form-control ui-mono" name="Host" value="@Model.Host" placeholder="192.168.1.45" />
+                            <div class="ui-help-text">Most thermal printers expose a raw socket on port 9100.</div>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="ui-label">Port</label>
+                            <input class="ui-input form-control" type="number" min="1" max="65535" name="Port" value="@Model.Port" />
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label class="ui-label">Timeout (ms)</label>
+                            <input class="ui-input form-control" type="number" min="500" max="60000" name="TimeoutMs" value="@Model.TimeoutMs" />
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label class="ui-label">Line width</label>
+                            <select name="LineWidth" class="form-select ui-select">
+                                <option value="32" selected="@(Model.LineWidth == 32)">32 (58 mm paper)</option>
+                                <option value="48" selected="@(Model.LineWidth == 48)">48 (80 mm paper)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-card-footer">
+                    <div class="ui-row-between">
+                        <span class="ui-muted" style="font-size:13px">Changes apply on next print — no restart.</span>
+                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk me-1"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="ui-stack">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Test print</div></div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted" style="font-size:13px">Sends a single sheet with brand + timestamp. Verifies network reach + paper.</p>
+                        <form method="post" action="/admin/printer/test" data-cl-form>
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-outline-primary w-100" type="submit">
+                                <i class="fa-solid fa-paper-plane me-1"></i> Print test sheet
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Cash drawer</div></div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted" style="font-size:13px">Triggers the drawer attached to the printer's RJ11 port. Every kick is audited.</p>
+                        <form method="post" action="/admin/printer/kick-drawer" data-cl-form>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="reason" value="Manual test from admin" />
+                            <button class="btn btn-outline-secondary w-100" type="submit">
+                                <i class="fa-solid fa-cash-register me-1"></i> Open drawer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+@model CanteenManagementSystem.Presentation.Controllers.AccountController.MagicLinkForm
+@{
+    ViewData["Title"] = "Email sign-in link";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in via email · SmartCanteen</title>
+    <partial name="_AuthChrome" />
+</head>
+<body>
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-icon-plate" style="background:rgba(59,130,246,.10);color:#3b82f6">
+            <i class="fa-regular fa-envelope"></i>
+        </div>
+        <h2 class="auth-title">Sign in with an email link</h2>
+        <p class="auth-sub">
+            No password needed. We'll send a one-time sign-in link that's valid for 15 minutes.
+        </p>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mb-3"></div>
+
+            <label class="ui-label" asp-for="Email">Email</label>
+            <input asp-for="Email" class="ui-input form-control" placeholder="you@example.com"
+                   autocomplete="email" required autofocus />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+
+            <button type="submit" class="btn btn-primary w-100 mt-4">
+                <i class="fa-solid fa-paper-plane me-2"></i>Send sign-in link
+            </button>
+        </form>
+
+        <div class="text-center mt-3 small">
+            <a asp-action="Login" class="auth-link">← Back to sign in</a>
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial" />
+</body>
+</html>

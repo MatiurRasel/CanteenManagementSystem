@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Access denied";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access denied · SmartCanteen</title>
+    <partial name="_AuthChrome" />
+</head>
+<body>
+<div class="auth-shell">
+    <div class="auth-card text-center">
+        <div class="auth-icon-plate" style="background:rgba(239,68,68,.10);color:#ef4444;margin:0 auto 1rem">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 class="auth-title">Access denied</h2>
+        <p class="auth-sub">Your account doesn't have permission to view this page.</p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a href="/" class="btn btn-primary">
+                <i class="fa-solid fa-house me-1"></i> Back to home
+            </a>
+            <a asp-action="Login" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-right-from-bracket me-1"></i> Sign in as another user
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

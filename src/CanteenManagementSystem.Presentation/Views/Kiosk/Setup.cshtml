@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Kiosk setup";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiosk setup · SmartCanteen</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Inter', system-ui, sans-serif;
+            padding: 1.5rem;
+        }
+        .pair-card { max-width: 560px; width: 100%; }
+        .pair-icon-plate {
+            width: 72px; height: 72px;
+            border-radius: var(--rad-lg);
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="ui-card pair-card surface-raised">
+        <div class="ui-card-body text-center">
+            <div class="pair-icon-plate"><i class="fa-solid fa-tablet-screen-button"></i></div>
+            <h2 class="ui-text-strong mb-2" style="font-weight:700;letter-spacing:-.02em">This tablet isn't paired yet</h2>
+            <p class="ui-muted mb-4">
+                A tenant admin needs to issue a pairing token from
+                <code>/admin/kiosks</code> and open the pairing URL on this tablet once.
+            </p>
+
+            @if (TempData["Flash.Error"] is string err)
+            {
+                <div class="alert alert-danger small mb-3">@err</div>
+            }
+
+            <ol class="text-start ui-muted small ui-stack-sm mb-4" style="padding-left:1.25rem">
+                <li>An admin signs in on a separate device.</li>
+                <li>Opens <strong>/admin/kiosks</strong> and clicks <em>Pair new tablet</em>.</li>
+                <li>Names the tablet (e.g. "Counter A tablet"), clicks <em>Issue pairing token</em>.</li>
+                <li>Scans the QR code with this tablet's camera, OR copies the pair URL to this tablet.</li>
+                <li>This page reloads as the live kiosk for the next 30 days.</li>
+            </ol>
+
+            <hr style="border-color:var(--border)" />
+            <div class="ui-muted small">
+                Or sign in as an operator instead:
+                <a href="/Account/Login" style="color:var(--accent)">/Account/Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

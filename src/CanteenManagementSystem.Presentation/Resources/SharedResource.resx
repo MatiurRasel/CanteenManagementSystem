@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="AppName" xml:space="preserve"><value>Canteen Management System</value></data>
+  <data name="AppSubtitle" xml:space="preserve"><value>Smart canteen operations</value></data>
+  <data name="TenantBranding" xml:space="preserve"><value>Tenant</value></data>
+
+  <data name="QuickActions" xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Menu" xml:space="preserve"><value>Menu</value></data>
+  <data name="Display" xml:space="preserve"><value>Display Board</value></data>
+  <data name="Verification" xml:space="preserve"><value>Verification</value></data>
+  <data name="Operators" xml:space="preserve"><value>Operators</value></data>
+  <data name="Reports" xml:space="preserve"><value>Reports</value></data>
+
+  <!-- P1 + P2 personas -->
+  <data name="MyOrders"     xml:space="preserve"><value>My orders</value></data>
+  <data name="ParentPortal" xml:space="preserve"><value>Parent portal</value></data>
+  <data name="PreOrders"    xml:space="preserve"><value>Pre-orders</value></data>
+  <data name="Cards"        xml:space="preserve"><value>NFC cards</value></data>
+  <data name="Kitchen"      xml:space="preserve"><value>Kitchen Display</value></data>
+  <data name="Tenants"      xml:space="preserve"><value>Tenants</value></data>
+  <data name="Users"        xml:space="preserve"><value>Users</value></data>
+  <data name="Gateways"     xml:space="preserve"><value>Gateways</value></data>
+  <data name="Directory"    xml:space="preserve"><value>Directory</value></data>
+  <data name="AuditLog"     xml:space="preserve"><value>Audit log</value></data>
+  <data name="Printer"      xml:space="preserve"><value>Printer</value></data>
+  <data name="NotificationTemplates" xml:space="preserve"><value>Notification templates</value></data>
+  <data name="ScheduledReports"      xml:space="preserve"><value>Scheduled reports</value></data>
+  <data name="ReportsCatalog"        xml:space="preserve"><value>Reports catalog</value></data>
+  <data name="SelfServiceKiosk"      xml:space="preserve"><value>Self-service kiosk</value></data>
+  <data name="Administration"        xml:space="preserve"><value>Administration</value></data>
+
+  <data name="Localization" xml:space="preserve"><value>Localization</value></data>
+  <data name="LanguageBangla" xml:space="preserve"><value>Bangla</value></data>
+  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
+
+  <data name="ToggleTheme" xml:space="preserve"><value>Toggle theme</value></data>
+  <data name="ToggleMenu" xml:space="preserve"><value>Toggle menu</value></data>
+  <data name="SignOut" xml:space="preserve"><value>Sign out</value></data>
+
+  <data name="VerifyHeading" xml:space="preserve"><value>Canteen Verification</value></data>
+  <data name="VerifySubtitle" xml:space="preserve"><value>Identify a user in seconds via card, ID, QR, or NFC.</value></data>
+  <data name="VerifyInputLabel" xml:space="preserve"><value>ID / Card / QR</value></data>
+  <data name="VerifyInputPlaceholder" xml:space="preserve"><value>Student or employee ID</value></data>
+  <data name="VerifyButton" xml:space="preserve"><value>Verify</value></data>
+  <data name="ResetButton" xml:space="preserve"><value>Reset</value></data>
+  <data name="VerifyHint" xml:space="preserve"><value>Tip: use this page on a kiosk or operator counter.</value></data>
+  <data name="ResultsTitle" xml:space="preserve"><value>Result</value></data>
+  <data name="ResultsEmptyTitle" xml:space="preserve"><value>No user verified yet</value></data>
+  <data name="ResultsEmptyHint" xml:space="preserve"><value>Enter an ID above to begin.</value></data>
+
+  <data name="AvailableBalance" xml:space="preserve"><value>Available balance</value></data>
+  <data name="TotalBalance" xml:space="preserve"><value>Total balance</value></data>
+  <data name="UsedBalance" xml:space="preserve"><value>Used balance</value></data>
+  <data name="TodayMenu" xml:space="preserve"><value>Today's menu</value></data>
+
+  <data name="StatsTodayOrders" xml:space="preserve"><value>Today's orders</value></data>
+  <data name="StatsPending" xml:space="preserve"><value>Pending</value></data>
+  <data name="StatsDelivered" xml:space="preserve"><value>Delivered</value></data>
+  <data name="StatsRevenue" xml:space="preserve"><value>Revenue</value></data>
+  <data name="LiveOrders" xml:space="preserve"><value>Live orders</value></data>
+  <data name="ViewAll" xml:space="preserve"><value>View all</value></data>
+</root>

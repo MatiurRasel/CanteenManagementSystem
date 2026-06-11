@@ -1,0 +1,25 @@
+@{
+    ViewData["Code"]           = "503";
+    ViewData["Tone"]           = "warning";
+    ViewData["Icon"]           = "fa-screwdriver-wrench";
+    ViewData["Title"]          = "Service unavailable";
+    ViewData["Description"]    = "We're either down for maintenance or under heavy load. We'll be back online shortly — refresh the page in a couple of minutes.";
+    ViewData["CtaUrl"]         = "javascript:location.reload()";
+    ViewData["CtaLabel"]       = "Refresh";
+    ViewData["CtaIcon"]        = "fa-rotate-right";
+    ViewData["SecondaryUrl"]   = "/health/live";
+    ViewData["SecondaryLabel"] = "Status page";
+    ViewData["SecondaryIcon"]  = "fa-heart-pulse";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service unavailable · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

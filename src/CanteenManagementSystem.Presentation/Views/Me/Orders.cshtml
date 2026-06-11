@@ -1,0 +1,110 @@
+@*
+    /me/orders — Eater self-serve order history.
+    Reference page demonstrating shadcn-style design system on a customer screen.
+*@
+@using CanteenManagementSystem.Domain.Enums
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.MeController.OrderHistoryVm
+@{
+    ViewData["Title"] = "My orders";
+    var totalPages = Math.Max(1, (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize));
+
+    UiBadgeVariant BadgeVariant(CanteenOrderStatus s) => s switch
+    {
+        CanteenOrderStatus.Delivered => UiBadgeVariant.Success,
+        CanteenOrderStatus.Cancelled => UiBadgeVariant.Secondary,
+        CanteenOrderStatus.Refunded  => UiBadgeVariant.Warning,
+        CanteenOrderStatus.Ready     => UiBadgeVariant.Primary,
+        _ => UiBadgeVariant.Info
+    };
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "My orders",
+        Subtitle = "Your full order history, wallet balance, and monthly spend.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-outline-primary' href='/me/orders.csv'><i class='fa-solid fa-file-csv me-1'></i> Orders CSV</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/export' title='GDPR Article 20 — every row of your data, in one ZIP'><i class='fa-solid fa-download me-1'></i> Download my data</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/favorites'><i class='fa-solid fa-heart me-1'></i> Favourites</a>")
+    };
+
+    var notLinkedAlert = new UiAlertOptions
+    {
+        Variant = UiAlertVariant.Info,
+        Heading = "Profile not linked",
+        Body    = "Your account isn't linked to a student / employee record yet, so there are no orders to show. Ask your tenant admin to set the LinkedPersonId on your user profile."
+    };
+
+    var balKpi   = new UiKpiOptions { Label = "Wallet balance",   Value = $"৳ {(Model.CurrentBalance ?? 0):N0}", Icon = "fa-wallet" };
+    var spendKpi = new UiKpiOptions { Label = "Spent this month", Value = $"৳ {Model.SpentThisMonth:N0}",       Icon = "fa-receipt" };
+    var countKpi = new UiKpiOptions { Label = "Total orders",     Value = Model.TotalCount.ToString("N0"),       Icon = "fa-cart-shopping" };
+    var avgKpi   = new UiKpiOptions
+    {
+        Label = "Avg order",
+        Value = Model.TotalCount > 0 ? $"৳ {Model.SpentThisMonth / Math.Max(1, Model.TotalCount):N0}" : "—",
+        Icon  = "fa-chart-line"
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (string.IsNullOrEmpty(Model.LinkedPersonId))
+    {
+        <partial name="_UiAlert" model="notLinkedAlert" />
+    }
+    else
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3"><partial name="_UiKpi" model="balKpi"   /></div>
+            <div class="col-6 col-md-3"><partial name="_UiKpi" model="spendKpi" /></div>
+            <div class="col-6 col-md-3"><partial name="_UiKpi" model="countKpi" /></div>
+            <div class="col-6 col-md-3"><partial name="_UiKpi" model="avgKpi"   /></div>
+        </div>
+
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>When</th>
+                        <th>Items</th>
+                        <th class="text-end">Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Items.Count == 0)
+                    {
+                        <tr><td colspan="5" class="text-center py-5 ui-muted">No orders yet — head to a kiosk or counter to place your first.</td></tr>
+                    }
+                    @foreach (var o in Model.Items)
+                    {
+                        var statusBadge = new UiBadgeOptions { Text = o.Status.ToString(), Variant = BadgeVariant(o.Status), WithDot = true };
+                        var itemCount   = o.OrderItems?.Count ?? 0;
+                        var itemSummary = o.OrderItems is null ? "" : string.Join(", ", o.OrderItems.Select(oi => $"{oi.Quantity}× {oi.FoodItem?.ItemName ?? "Item"}"));
+                        <tr>
+                            <td class="ui-mono">@o.OrderNumber</td>
+                            <td class="ui-muted ui-tabular">@o.OrderDate.ToString("yyyy-MM-dd · HH:mm")</td>
+                            <td>
+                                <div class="ui-text-strong" style="font-size:13px">@itemSummary</div>
+                                <div class="ui-muted" style="font-size:12px">@itemCount item(s)</div>
+                            </td>
+                            <td class="text-end ui-tabular ui-text-strong">৳ @o.TotalAmount.ToString("N0")</td>
+                            <td><partial name="_UiBadge" model="statusBadge" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (totalPages > 1)
+        {
+            <nav class="mt-4" aria-label="orders-pagination">
+                <ul class="pagination justify-content-center">
+                    @for (var p = 1; p <= totalPages; p++)
+                    {
+                        <li class="page-item @(p == Model.Page ? "active" : "")"><a class="page-link" href="?page=@p">@p</a></li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+</div>

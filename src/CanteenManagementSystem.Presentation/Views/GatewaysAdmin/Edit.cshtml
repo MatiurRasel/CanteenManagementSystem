@@ -1,0 +1,134 @@
+@*
+    /admin/gateways/{id}/edit — Identity + Live + Sandbox credentials.
+*@
+@using Platform.Domain.Payments
+@using CanteenManagementSystem.Presentation.Models
+@model PaymentGatewayConfig
+@{
+    ViewData["Title"] = $"Edit · {Model.GatewayCode}";
+    const string Mask = "***";
+    string masked(string? v) => string.IsNullOrEmpty(v) ? string.Empty : Mask;
+
+    var header = new UiPageHeaderOptions
+    {
+        Title    = Model.Name,
+        Subtitle = Model.GatewayCode,
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/gateways'><i class='fa-solid fa-arrow-left me-1'></i> All gateways</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" asp-action="Edit" asp-route-id="@Model.GatewayConfigId">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="GatewayCode" value="@Model.GatewayCode" />
+        <input type="hidden" name="Method"      value="@Model.Method" />
+        <input type="hidden" name="Status"      value="@Model.Status" />
+        <input type="hidden" name="CreatedAtUtc" value="@Model.CreatedAtUtc.ToString("o")" />
+
+        <div class="row g-3">
+            <div class="col-lg-7">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Identity &amp; environment</div></div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="ui-label">Display name</label>
+                                <input name="Name" value="@Model.Name" class="ui-input form-control" /></div>
+                            <div class="col-md-6"><label class="ui-label">Subtitle</label>
+                                <input name="SubTitle" value="@Model.SubTitle" class="ui-input form-control" /></div>
+                            <div class="col-md-4"><label class="ui-label">Group</label>
+                                <select name="GatewayGroup" class="form-select ui-select">
+                                    @foreach (var grp in new[] { "agg", "mfs", "cards", "ibank", "cash" })
+                                    {
+                                        <option value="@grp" selected="@(Model.GatewayGroup == grp)">@grp</option>
+                                    }
+                                </select></div>
+                            <div class="col-md-4"><label class="ui-label">Currency</label>
+                                <input name="Currency" value="@Model.Currency" class="ui-input form-control" /></div>
+                            <div class="col-md-4"><label class="ui-label">Sort order</label>
+                                <input name="SortOrder" type="number" value="@Model.SortOrder" class="ui-input form-control" /></div>
+                            <div class="col-md-12"><label class="ui-label">Logo URL</label>
+                                <input name="LogoUrl" value="@Model.LogoUrl" class="ui-input form-control" /></div>
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" name="IsEnabled" value="true" @(Model.IsEnabled ? "checked" : "") />
+                                    <input type="hidden" name="IsEnabled" value="false" />
+                                    <label class="form-check-label">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" name="IsSandbox" value="true" @(Model.IsSandbox ? "checked" : "") />
+                                    <input type="hidden" name="IsSandbox" value="false" />
+                                    <label class="form-check-label">Sandbox</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Live credentials</div>
+                        <span class="ui-badge variant-success"><span class="ui-dot"></span> Production</span>
+                    </div>
+                    <div class="ui-card-body">
+                        @await Html.PartialAsync("_GatewayCredsFields", new ViewDataDictionary(ViewData) {
+                            { "Prefix",  "Live" },
+                            { "BaseUrl", Model.LiveBaseUrl }, { "Username", masked(Model.LiveUsername) }, { "Password", masked(Model.LivePassword) },
+                            { "AppKey",  masked(Model.LiveAppKey) }, { "AppSecret", masked(Model.LiveAppSecret) },
+                            { "MerchantId", masked(Model.LiveMerchantId) }, { "MerchantNumber", masked(Model.LiveMerchantNumber) },
+                            { "Callback", Model.LiveCallbackUrl }, { "Webhook", Model.LiveWebhookUrl },
+                            { "Ipn", Model.LiveIpnUrl }, { "Fail", Model.LiveFailCallbackUrl }
+                        })
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">Sandbox credentials</div>
+                        <span class="ui-badge variant-warning"><span class="ui-dot"></span> Test</span>
+                    </div>
+                    <div class="ui-card-body">
+                        @await Html.PartialAsync("_GatewayCredsFields", new ViewDataDictionary(ViewData) {
+                            { "Prefix",  "Sandbox" },
+                            { "BaseUrl", Model.SandboxBaseUrl }, { "Username", masked(Model.SandboxUsername) }, { "Password", masked(Model.SandboxPassword) },
+                            { "AppKey",  masked(Model.SandboxAppKey) }, { "AppSecret", masked(Model.SandboxAppSecret) },
+                            { "MerchantId", masked(Model.SandboxMerchantId) }, { "MerchantNumber", masked(Model.SandboxMerchantNumber) },
+                            { "Callback", Model.SandboxCallbackUrl }, { "Webhook", Model.SandboxWebhookUrl },
+                            { "Ipn", Model.SandboxIpnUrl }, { "Fail", Model.SandboxFailCallbackUrl }
+                        })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="ui-card sticky-top" style="top:5rem">
+                    <div class="ui-card-header"><div class="ui-card-title">Notifications &amp; save</div></div>
+                    <div class="ui-card-body">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnSuccess" value="true" @(Model.NotifyOnSuccess ? "checked" : "") /><input type="hidden" name="NotifyOnSuccess" value="false" /><label class="form-check-label small">Email on success</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnFailure" value="true" @(Model.NotifyOnFailure ? "checked" : "") /><input type="hidden" name="NotifyOnFailure" value="false" /><label class="form-check-label small">Email on failure</label></div>
+                        <div class="form-check mb-3"><input class="form-check-input" type="checkbox" name="NotifyOnRefund" value="true" @(Model.NotifyOnRefund ? "checked" : "") /><input type="hidden" name="NotifyOnRefund" value="false" /><label class="form-check-label small">Email on refund</label></div>
+
+                        @{
+                            var note = new UiAlertOptions
+                            {
+                                Variant = UiAlertVariant.Info,
+                                Body    = "Secret fields show *** when a value is already stored. Leave them blank to keep existing — only fields you actively type into get overwritten."
+                            };
+                        }
+                        <partial name="_UiAlert" model="note" />
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

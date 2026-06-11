@@ -1,0 +1,151 @@
+@*
+    /sysadmin/tenants/new — onboard a new tenant + bootstrap admin.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@model CanteenManagementSystem.Presentation.Controllers.TenantsAdminController.NewTenantForm
+@{
+    ViewData["Title"] = "Add tenant";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Add a new tenant",
+        Subtitle = "Identity + directory source + bootstrap admin — created atomically.",
+        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/sysadmin/tenants'><i class='fa-solid fa-arrow-left me-1'></i> All tenants</a>")
+    };
+    string StepBadge(int n) => $"<span class='ui-badge variant-primary' style='min-width:22px;text-align:center'>{n}</span>";
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <form method="post" asp-action="New">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3" role="alert"></div>
+
+        <div class="row g-3">
+            <div class="col-lg-7">
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">@Html.Raw(StepBadge(1)) Identity</div>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="ClientCode">Tenant code (URL slug)</label>
+                                <input asp-for="ClientCode" class="ui-input form-control" placeholder="acme" autocomplete="off" />
+                                <div class="ui-help-text">Used in subdomains and tokens. Lower-case letters / digits only.</div>
+                                <span asp-validation-for="ClientCode" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="ClientName">Display name</label>
+                                <input asp-for="ClientName" class="ui-input form-control" placeholder="Acme Polytechnic" />
+                                <span asp-validation-for="ClientName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="ShortName">Short name</label>
+                                <input asp-for="ShortName" class="ui-input form-control" placeholder="Acme" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="WebsiteUrl">Website</label>
+                                <input asp-for="WebsiteUrl" class="ui-input form-control" placeholder="https://acme.edu" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="Email">Contact email</label>
+                                <input asp-for="Email" class="ui-input form-control" type="email" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="PhoneNumber">Contact phone</label>
+                                <input asp-for="PhoneNumber" class="ui-input form-control" />
+                            </div>
+                            <div class="col-12">
+                                <label class="ui-label" asp-for="Address">Address</label>
+                                <input asp-for="Address" class="ui-input form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">@Html.Raw(StepBadge(2)) Directory source</div>
+                        <div class="ui-card-muted-body">Pick how this tenant's student / employee directory feeds in. Changeable later in Directory admin.</div>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="DirectorySource">Source type</label>
+                                <select asp-for="DirectorySource" class="form-select ui-select">
+                                    <option value="Manual">Manual (upload CSV)</option>
+                                    <option value="Database">School DB (read-only views)</option>
+                                    <option value="Api">School portal API</option>
+                                    <option value="Disabled">Disabled (no sync)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="SyncIntervalMinutes">Sync interval (min)</label>
+                                <input asp-for="SyncIntervalMinutes" class="ui-input form-control" type="number" min="5" max="1440" />
+                            </div>
+                        </div>
+                        @{
+                            var dirInfo = new UiAlertOptions
+                            {
+                                Variant = UiAlertVariant.Info,
+                                Body    = "Credentials (connection string / API key) are configured per-tenant in Directory → Setup after the tenant is created."
+                            };
+                        }
+                        <div class="mt-3">
+                            <partial name="_UiAlert" model="dirInfo" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-card mt-3">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">@Html.Raw(StepBadge(3)) Bootstrap admin</div>
+                        <div class="ui-card-muted-body">A TenantAdmin user is created automatically. They'll receive a one-time password and must change it on first login.</div>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="AdminDisplayName">Admin name</label>
+                                <input asp-for="AdminDisplayName" class="ui-input form-control" placeholder="Imran Ahmed" />
+                                <span asp-validation-for="AdminDisplayName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="ui-label" asp-for="AdminEmail">Admin email</label>
+                                <input asp-for="AdminEmail" class="ui-input form-control" type="email" placeholder="imran@acme.edu" />
+                                <span asp-validation-for="AdminEmail" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="ui-card sticky-top" style="top:5rem">
+                    <div class="ui-card-header">
+                        <div class="ui-card-title">@Html.Raw(StepBadge(4)) Confirm</div>
+                    </div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted small mb-2">Clicking <strong>Create tenant</strong> will:</p>
+                        <ul class="small ui-stack-sm mb-3" style="padding-left:1.2rem">
+                            <li>Insert a row in <code>Clients</code></li>
+                            <li>Create a TenantAdmin <code>AppUsers</code> entry</li>
+                            <li>Issue a one-time password (shown after submit)</li>
+                            <li>Stage the directory <code>Source</code> setting</li>
+                        </ul>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-check me-1"></i> Create tenant
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

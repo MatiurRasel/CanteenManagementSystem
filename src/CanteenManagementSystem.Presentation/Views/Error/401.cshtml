@@ -1,0 +1,26 @@
+@{
+    var returnUrl = ViewData["OriginalPath"] as string ?? "/";
+    ViewData["Code"]            = "401";
+    ViewData["Tone"]            = "info";
+    ViewData["Icon"]            = "fa-arrow-right-to-bracket";
+    ViewData["Title"]           = "Sign in to continue";
+    ViewData["Description"]     = "You need to be signed in to view this page. If you were signed in already, your session may have expired — sign in again to continue.";
+    ViewData["CtaUrl"]          = $"/Account/Login?returnUrl={Uri.EscapeDataString(returnUrl)}";
+    ViewData["CtaLabel"]        = "Sign in";
+    ViewData["CtaIcon"]         = "fa-arrow-right-to-bracket";
+    ViewData["SecondaryUrl"]    = "/";
+    ViewData["SecondaryLabel"]  = "Home";
+    ViewData["SecondaryIcon"]   = "fa-house";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in · SmartCanteen</title>
+    <partial name="_ErrorChrome" />
+</head>
+<body>
+    <partial name="_ErrorPage" />
+</body>
+</html>

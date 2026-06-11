@@ -1,0 +1,27 @@
+@*
+    _KioskShell — shared <head> + body styles for standalone kiosk surfaces
+    (/kiosk, /Display/Menu, /Kitchen). Each calling view should:
+
+        Layout = null;
+        <html class="ks-html" data-bs-theme="dark"> (or "light")
+        <head>
+            <meta charset="utf-8" />
+            <title>...</title>
+            <partial name="_KioskShell" />
+        </head>
+        <body class="ks-body">
+
+    Drops in the fonts, shadcn tokens, kiosk-surfaces.css, and the standard
+    no-zoom/touch viewport meta so every standalone surface boots identically.
+*@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="theme-color" content="#4f46e5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700;800&display=swap" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/kiosk-surfaces.css" asp-append-version="true" />
+<link rel="icon" href="~/favicon.ico" />

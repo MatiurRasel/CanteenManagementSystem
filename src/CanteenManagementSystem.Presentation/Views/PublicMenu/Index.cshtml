@@ -1,0 +1,223 @@
+@*
+    /menu — phone-friendly anonymous preview of today's menu.
+    Single-column scroll, sticky date header, dietary chips per item.
+*@
+@using CanteenManagementSystem.Application.Menus
+@model IReadOnlyList<PublicMenuItem>
+@{
+    var target = ViewBag.TargetDate as DateTime? ?? DateTime.Today;
+    ViewData["Title"] = $"Menu · {target:ddd, dd MMM}";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>@ViewData["Title"] · SmartCanteen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'Inter', 'Hind Siliguri', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            padding: 0;
+        }
+        .menu-wrap { max-width: 560px; margin: 0 auto; padding: 0 0 5rem; }
+        .menu-hero {
+            position: sticky; top: 0; z-index: 10;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: var(--accent-fg);
+            padding: 1.25rem 1.25rem 1rem;
+            text-align: center;
+            box-shadow: var(--sh-1);
+        }
+        .menu-hero h1 { font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; margin: 0 0 .15rem; }
+        .menu-hero p  { font-size: .85rem; opacity: .9; margin: 0; }
+        .menu-toggle-row {
+            display: flex; align-items: center; justify-content: center; gap: .5rem;
+            padding: .65rem .75rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            font-size: .85rem;
+        }
+        .menu-toggle-row label { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); cursor: pointer; }
+        .item-list { padding: 0 .85rem; }
+        .item-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--rad-lg);
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+            box-shadow: var(--sh-1);
+        }
+        .item-img {
+            width: 88px; height: 88px;
+            border-radius: var(--rad);
+            background: var(--surface-2);
+            object-fit: cover;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted);
+            font-size: 2rem;
+        }
+        .item-img img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--rad); }
+        .item-meta { flex: 1 1 auto; min-width: 0; }
+        .item-name {
+            font-weight: 700; font-size: 1.05rem;
+            color: var(--fg);
+            margin: 0 0 .15rem;
+            line-height: 1.2;
+        }
+        .item-desc { font-size: .8rem; color: var(--muted); margin: 0 0 .5rem; }
+        .item-row  { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
+        .item-price { font-weight: 700; color: var(--accent); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+        .item-stock {
+            font-size: .72rem; color: var(--muted);
+            font-weight: 500;
+        }
+        .item-stock.is-low  { color: var(--warning, #b97500); }
+        .item-stock.is-out  { color: var(--danger,  #c82a11); }
+        .chip-row { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .5rem; }
+        .chip { display: inline-flex; align-items: center; gap: .25rem; font-size: .68rem; font-weight: 600; padding: .15rem .5rem; border-radius: var(--rad-pill); }
+        .chip-veg     { background: rgba(16,185,129,.14); color: #047857; }
+        .chip-halal   { background: rgba(59,130,246,.14); color: #1d4ed8; }
+        .chip-kcal    { background: rgba(245,158,11,.14); color: #b45309; }
+        .chip-allergy { background: rgba(239,68,68,.14);  color: #b91c1c; }
+        [data-bs-theme="dark"] .chip-veg     { color: #6ee7b7; }
+        [data-bs-theme="dark"] .chip-halal   { color: #93c5fd; }
+        [data-bs-theme="dark"] .chip-kcal    { color: #fcd34d; }
+        [data-bs-theme="dark"] .chip-allergy { color: #fca5a5; }
+        body.hide-nutrition .chip-kcal,
+        body.hide-nutrition .chip-allergy { display: none; }
+        .empty-state {
+            text-align: center; padding: 3rem 1.5rem; color: var(--muted);
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; color: var(--accent); opacity: .5; }
+        .footer-cta {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: .65rem 1rem;
+            text-align: center;
+            box-shadow: var(--sh-pop);
+        }
+        .footer-cta a { color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="menu-wrap">
+        <header class="menu-hero">
+            <h1><i class="fa-solid fa-utensils me-2"></i>Today's menu</h1>
+            <p>@target.ToString("dddd, dd MMM yyyy")</p>
+        </header>
+
+        <div class="menu-toggle-row">
+            <label>
+                <input type="checkbox" id="nutrition-toggle" checked />
+                Show nutrition &amp; allergen info
+            </label>
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fa-solid fa-utensils-slash"></i>
+                <div class="ui-text-strong" style="color:var(--fg)">No menu yet</div>
+                <div class="small mt-2">Nothing has been published for @target.ToString("dd MMM"). Check back closer to mealtime.</div>
+            </div>
+        }
+        else
+        {
+            <div class="item-list">
+                @foreach (var item in Model)
+                {
+                    var stockClass = item.AvailableQuantity == 0 ? "is-out"
+                                   : item.AvailableQuantity <= 5 ? "is-low" : "";
+                    var stockText  = item.AvailableQuantity == 0 ? "Sold out"
+                                   : item.AvailableQuantity <= 5 ? $"Only {item.AvailableQuantity} left" : "";
+                    <div class="item-card">
+                        <div class="item-img">
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" alt="@item.ItemName" loading="lazy" />
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-bowl-food"></i>
+                            }
+                        </div>
+                        <div class="item-meta">
+                            <div class="item-name">@item.ItemName</div>
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <div class="item-desc">@item.Description</div>
+                            }
+                            <div class="item-row">
+                                <div class="item-price">৳ @item.Price.ToString("N0")</div>
+                                @if (!string.IsNullOrEmpty(stockText))
+                                {
+                                    <div class="item-stock @stockClass">@stockText</div>
+                                }
+                            </div>
+                            <div class="chip-row">
+                                @if (item.IsVegetarian)
+                                {
+                                    <span class="chip chip-veg"><i class="fa-solid fa-leaf"></i> Veg</span>
+                                }
+                                @if (item.IsHalal)
+                                {
+                                    <span class="chip chip-halal"><i class="fa-solid fa-circle-check"></i> Halal</span>
+                                }
+                                @if (item.KCalories.HasValue && item.KCalories.Value > 0)
+                                {
+                                    <span class="chip chip-kcal"><i class="fa-solid fa-fire"></i> @item.KCalories.Value kcal</span>
+                                }
+                                @if (!string.IsNullOrEmpty(item.Allergens))
+                                {
+                                    foreach (var a in item.Allergens.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                                    {
+                                        <span class="chip chip-allergy"><i class="fa-solid fa-triangle-exclamation"></i> @a</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="footer-cta">
+            <a href="/Verification">
+                <i class="fa-solid fa-id-card-clip me-1"></i> Have a card? Tap to scan at the counter
+            </a>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var KEY = 'cms-menu-nutrition';
+            var toggle = document.getElementById('nutrition-toggle');
+            try {
+                var saved = localStorage.getItem(KEY);
+                if (saved === '0') {
+                    toggle.checked = false;
+                    document.body.classList.add('hide-nutrition');
+                }
+            } catch (e) {}
+            toggle.addEventListener('change', function () {
+                document.body.classList.toggle('hide-nutrition', !toggle.checked);
+                try { localStorage.setItem(KEY, toggle.checked ? '1' : '0'); } catch (e) {}
+            });
+        })();
+    </script>
+</body>
+</html>

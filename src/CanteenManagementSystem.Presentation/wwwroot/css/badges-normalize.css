@@ -1,0 +1,36 @@
+/* =============================================================================
+   badges-normalize.css — unify the Sneat `bg-label-*` and Bootstrap `bg-*`
+                          badge palettes so both render with the same
+                          contrast + radius across the app.
+
+   The Sneat-style `bg-label-success` (tinted background + saturated text) is
+   the AA-friendly version. This file maps Bootstrap's `bg-success` to the
+   same tinted treatment when used inside a `.badge`, and adds a default
+   border-radius + padding so the two look identical.
+============================================================================= */
+
+.badge {
+    --bs-badge-padding-x: 0.55em;
+    --bs-badge-padding-y: 0.4em;
+    border-radius: 0.4em;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+/* Bootstrap solid badges → match the Sneat label tone. */
+.badge.bg-success, .badge.bg-label-success { background: rgba(40, 167, 69, .15) !important; color: #1b8138 !important; }
+.badge.bg-danger,  .badge.bg-label-danger  { background: rgba(220, 53, 69, .15) !important; color: #b02736 !important; }
+.badge.bg-warning, .badge.bg-label-warning { background: rgba(255, 193, 7,  .18) !important; color: #8c6500 !important; }
+.badge.bg-info,    .badge.bg-label-info    { background: rgba(13, 202, 240, .15) !important; color: #0a6c81 !important; }
+.badge.bg-primary, .badge.bg-label-primary { background: rgba(105, 108, 255, .18) !important; color: #4f52d6 !important; }
+.badge.bg-secondary, .badge.bg-label-secondary { background: rgba(108, 117, 125, .15) !important; color: #4a5057 !important; }
+.badge.bg-dark,    .badge.bg-label-dark    { background: rgba(0, 0, 0, .15) !important; color: #1a1a1a !important; }
+.badge.bg-light,   .badge.bg-label-light   { background: #f5f5f9 !important; color: #4a5057 !important; }
+
+/* Dark-mode overrides keep contrast WCAG AA. */
+[data-bs-theme="dark"] .badge.bg-success, [data-bs-theme="dark"] .badge.bg-label-success { color: #6cf08a !important; background: rgba(40, 167, 69, .22) !important; }
+[data-bs-theme="dark"] .badge.bg-danger,  [data-bs-theme="dark"] .badge.bg-label-danger  { color: #ff8b96 !important; background: rgba(220, 53, 69, .22) !important; }
+[data-bs-theme="dark"] .badge.bg-warning, [data-bs-theme="dark"] .badge.bg-label-warning { color: #ffd766 !important; background: rgba(255, 193, 7,  .22) !important; }
+[data-bs-theme="dark"] .badge.bg-info,    [data-bs-theme="dark"] .badge.bg-label-info    { color: #76e0f6 !important; background: rgba(13, 202, 240, .22) !important; }
+[data-bs-theme="dark"] .badge.bg-primary, [data-bs-theme="dark"] .badge.bg-label-primary { color: #b4b6ff !important; background: rgba(105, 108, 255, .25) !important; }
+[data-bs-theme="dark"] .badge.bg-secondary, [data-bs-theme="dark"] .badge.bg-label-secondary { color: #c2c8cf !important; background: rgba(108, 117, 125, .25) !important; }

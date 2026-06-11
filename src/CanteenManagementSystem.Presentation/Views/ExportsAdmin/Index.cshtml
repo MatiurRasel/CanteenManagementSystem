@@ -1,0 +1,102 @@
+@*
+    /admin/exports — tenant-scoped CSV exports for finance / audit.
+*@
+@using CanteenManagementSystem.Presentation.Models
+@{
+    ViewData["Title"] = "Exports";
+    var today = DateTime.UtcNow.Date;
+    var defaultFrom = today.AddDays(-6).ToString("yyyy-MM-dd");
+    var defaultTo   = today.ToString("yyyy-MM-dd");
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Exports",
+        Subtitle = "Tenant-scoped CSVs for finance + audit. UTF-8 BOM (opens correctly in Excel)."
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <form method="get" asp-action="Orders" class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title"><i class="fa-solid fa-cart-shopping me-2" style="color:var(--accent)"></i>Orders CSV</div>
+                        <div class="ui-card-muted-body">Every order in the selected window, with item summary inline.</div>
+                    </div>
+                </div>
+                <div class="ui-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="ui-label">From</label>
+                            <input type="date" name="from" value="@defaultFrom" class="ui-input form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="ui-label">To</label>
+                            <input type="date" name="to" value="@defaultTo" class="ui-input form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="ui-label">Status (optional)</label>
+                            <select name="status" class="form-select ui-select">
+                                <option value="">All statuses</option>
+                                @foreach (var s in Enum.GetValues<CanteenManagementSystem.Domain.Enums.CanteenOrderStatus>())
+                                {
+                                    <option value="@((int)s)">@s</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-card-footer">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa-solid fa-download me-1"></i> Download orders.csv
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-6">
+            <form method="get" asp-action="Wallet" class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <div class="ui-card-title"><i class="fa-solid fa-wallet me-2" style="color:var(--accent)"></i>Wallet ledger CSV</div>
+                        <div class="ui-card-muted-body">Every wallet entry in the window — recharge / block / deduct / refund.</div>
+                    </div>
+                </div>
+                <div class="ui-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="ui-label">From</label>
+                            <input type="date" name="from" value="@defaultFrom" class="ui-input form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="ui-label">To</label>
+                            <input type="date" name="to" value="@defaultTo" class="ui-input form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="ui-label">User ID (optional)</label>
+                            <input type="text" name="userId" placeholder="STD-2026-001" class="ui-input form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-card-footer">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa-solid fa-download me-1"></i> Download wallet.csv
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @{
+        var tip = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Info,
+            Body    = "Exports are capped at 100,000 rows per request. Need more? Filter by a tighter date range or hand-write a SQL query against the read replica."
+        };
+    }
+    <div class="mt-4">
+        <partial name="_UiAlert" model="tip" />
+    </div>
+</div>

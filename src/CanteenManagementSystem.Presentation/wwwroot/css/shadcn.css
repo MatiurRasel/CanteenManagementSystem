@@ -1,0 +1,836 @@
+/* =============================================================================
+   shadcn.css — the design system
+   -----------------------------------------------------------------------------
+   Single source of truth for tokens (palette, radii, spacing, shadows) AND
+   the component overrides that make Bootstrap controls read as one design
+   language. Loaded after site.css / app-shell.css / customizer.css so the
+   tokens win the cascade.
+
+   PALETTE
+     * Zinc scale for neutrals (clean, no warm muddy greys).
+     * Indigo `#4f46e5` as the default accent — overridden per-tenant via
+       `Branding.AccentColor` (Razor injects the value into --accent at the
+       top of <body>).
+
+   RADII
+     --rad-sm 6px · --rad 10px · --rad-lg 14px · --rad-xl 18px · --rad-pill 999px
+
+   SHADOWS
+     One soft +1px hairline border + multi-layer drop. Dark mode uses the
+     hairline border only (drop shadows look murky on dark backgrounds).
+
+   TYPOGRAPHY SCALE
+     12 · 13 · 14 · 16 · 18 · 20 · 24 · 30 · 36 · 48
+     Headings: 600 weight, -0.01em letter spacing.
+     Body: 14/1.5, 500 buttons / labels / small caps.
+
+   DARK MODE
+     Deep zinc surfaces (zinc-950 page, zinc-900 cards, zinc-800 controls).
+     Hairlines at zinc-700. Body text zinc-100. Muted text zinc-400.
+     Crisp focus ring stays the accent colour.
+============================================================================= */
+
+:root {
+    /* ───── Indigo accent (default) — overridden by tenant branding ──── */
+    --accent:        #4f46e5;
+    --accent-hover:  #4338ca;
+    --accent-active: #3730a3;
+    --accent-soft:   #eef2ff;
+    --accent-fg:     #ffffff;
+    --accent-ring:   rgba(79, 70, 229, .35);
+
+    /* ───── Zinc scale (shadcn-aligned) ──────────────────────────────── */
+    --zinc-50:  #fafafa;
+    --zinc-100: #f4f4f5;
+    --zinc-200: #e4e4e7;
+    --zinc-300: #d4d4d8;
+    --zinc-400: #a1a1aa;
+    --zinc-500: #71717a;
+    --zinc-600: #52525b;
+    --zinc-700: #3f3f46;
+    --zinc-800: #27272a;
+    --zinc-900: #18181b;
+    --zinc-950: #09090b;
+
+    /* ───── Semantic palette (light defaults) ────────────────────────── */
+    --surface-page:    var(--zinc-50);
+    --surface-card:    #ffffff;
+    --surface-raised:  #ffffff;
+    --surface-sunken:  var(--zinc-100);
+    --surface-input:   #ffffff;
+    --surface-overlay: rgba(255, 255, 255, .85);
+
+    --text-strong: var(--zinc-900);
+    --text-body:   var(--zinc-700);
+    --text-muted:  var(--zinc-500);
+    --text-inverse:#ffffff;
+
+    --border-soft:   var(--zinc-200);
+    --border-medium: var(--zinc-300);
+    --border-strong: var(--zinc-400);
+    --divider:       var(--zinc-200);
+
+    /* Status colours — saturated for light, used at .15 alpha for soft pills. */
+    --success:  #16a34a;  --success-soft:  rgba( 22, 163,  74, .15);  --success-fg:  #15803d;
+    --warning:  #d97706;  --warning-soft:  rgba(217, 119,   6, .15);  --warning-fg:  #b45309;
+    --danger:   #dc2626;  --danger-soft:   rgba(220,  38,  38, .15);  --danger-fg:   #b91c1c;
+    --info:     #0891b2;  --info-soft:     rgba(  8, 145, 178, .15);  --info-fg:     #0e7490;
+
+    /* Radii */
+    --rad-sm:   6px;
+    --rad:     10px;
+    --rad-lg:  14px;
+    --rad-xl:  18px;
+    --rad-pill: 999px;
+
+    /* Spacing rhythm (4-pt grid). Used by .ui-stack and .ui-grid helpers below. */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    /* Shadows — light mode: hairline + soft drop. Dark mode rebound below. */
+    --sh-hair:   0 0 0 1px rgba(15, 23, 42, .06);
+    --sh-1:      0 0 0 1px rgba(15, 23, 42, .06), 0 1px 2px rgba(15, 23, 42, .04);
+    --sh-2:      0 0 0 1px rgba(15, 23, 42, .06), 0 4px 12px rgba(15, 23, 42, .06);
+    --sh-3:      0 0 0 1px rgba(15, 23, 42, .06), 0 12px 28px rgba(15, 23, 42, .10);
+    --sh-pop:    0 0 0 1px rgba(15, 23, 42, .08), 0 18px 40px rgba(15, 23, 42, .14);
+
+    /* Focus ring */
+    --ring:        0 0 0 3px var(--accent-ring);
+
+    /* Motion */
+    --tt-fast: 120ms cubic-bezier(.4, 0, .2, 1);
+    --tt:      180ms cubic-bezier(.4, 0, .2, 1);
+
+    /* Body font + numerics */
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-bn:   'Hind Siliguri', system-ui, sans-serif;
+
+    color-scheme: light dark;
+
+    /* ───── Alias tokens used by standalone-layout pages (auth chrome,
+       error pages, kiosk, customer display, etc.). They MUST resolve at
+       :root so a Layout=null view can pull just shadcn.css and get a
+       working palette without depending on Bootstrap classes. */
+    --bg:        var(--surface-page);
+    --fg:        var(--text-strong);
+    --surface:   var(--surface-card);
+    --surface-2: var(--surface-sunken);
+    --muted:     var(--text-muted);
+    --border:    var(--border-soft);
+
+    /* Bootstrap text-* token map — anchored to OUR semantic tokens so
+       .text-muted / .text-body / .text-secondary all flip correctly in
+       dark mode. Without this Bootstrap's defaults (#6c757d etc.) render
+       against zinc-900 and become near-invisible (~3:1 contrast). */
+    --bs-body-color:           var(--text-body);
+    --bs-body-bg:              var(--surface-page);
+    --bs-emphasis-color:       var(--text-strong);
+    --bs-secondary-color:      var(--text-muted);
+    --bs-secondary-bg:         var(--surface-sunken);
+    --bs-tertiary-color:       var(--text-muted);
+    --bs-tertiary-bg:          var(--surface-sunken);
+    --bs-border-color:         var(--border-soft);
+    --bs-link-color:           var(--accent);
+    --bs-link-hover-color:     var(--accent-hover);
+    --bs-heading-color:        var(--text-strong);
+}
+
+/* ───── Dark mode — deep zinc, crisp ────────────────────────────────── */
+[data-bs-theme="dark"] {
+    --surface-page:    var(--zinc-950);
+    --surface-card:    var(--zinc-900);
+    --surface-raised:  var(--zinc-800);
+    --surface-sunken:  #0e0e10;
+    --surface-input:   var(--zinc-900);
+    --surface-overlay: rgba(9, 9, 11, .85);
+
+    --text-strong: #fafafa;
+    --text-body:   var(--zinc-300);
+    --text-muted:  var(--zinc-400);
+
+    --border-soft:   var(--zinc-800);
+    --border-medium: var(--zinc-700);
+    --border-strong: var(--zinc-600);
+    --divider:       var(--zinc-800);
+
+    --success-soft: rgba( 34, 197,  94, .18);  --success-fg: #4ade80;
+    --warning-soft: rgba(245, 158,  11, .18);  --warning-fg: #fbbf24;
+    --danger-soft:  rgba(248, 113, 113, .18);  --danger-fg:  #f87171;
+    --info-soft:    rgba( 56, 189, 248, .18);  --info-fg:    #67e8f9;
+
+    --accent-soft:  rgba(99, 102, 241, .15);
+    --accent-ring:  rgba(99, 102, 241, .42);
+
+    /* Refresh the Bootstrap text-* map so .text-muted / .text-body / heading
+       defaults flip with the theme — Bootstrap caches these on :root so we
+       must re-declare them inside [data-bs-theme="dark"]. */
+    --bs-body-color:      var(--text-body);
+    --bs-body-bg:         var(--surface-page);
+    --bs-emphasis-color:  var(--text-strong);
+    --bs-secondary-color: var(--text-muted);
+    --bs-secondary-bg:    var(--surface-sunken);
+    --bs-tertiary-color:  var(--text-muted);
+    --bs-tertiary-bg:     var(--surface-sunken);
+    --bs-border-color:    var(--border-soft);
+    --bs-heading-color:   var(--text-strong);
+    --bs-link-color:      #818cf8;        /* Indigo-400 — a touch lighter so links sit above body text in dark */
+    --bs-link-hover-color:#a5b4fc;        /* Indigo-300 hover */
+
+    /* Bootstrap's default `bg-light` on dark gets locked at zinc-100, which
+       looks like a bright white slab on dark surfaces. Repoint it. */
+    --bs-light:           var(--surface-raised);
+    --bs-light-rgb:       39, 39, 42;
+
+    /* On dark, drop shadows tend to muddy. Hairline does the layer separation. */
+    --sh-hair: 0 0 0 1px rgba(255, 255, 255, .06);
+    --sh-1:    0 0 0 1px rgba(255, 255, 255, .06);
+    --sh-2:    0 0 0 1px rgba(255, 255, 255, .08), 0 6px 16px rgba(0, 0, 0, .45);
+    --sh-3:    0 0 0 1px rgba(255, 255, 255, .08), 0 18px 40px rgba(0, 0, 0, .55);
+    --sh-pop:  0 0 0 1px rgba(255, 255, 255, .10), 0 24px 56px rgba(0, 0, 0, .70);
+}
+
+/* ───── Dark-mode explicit fallbacks for legacy Bootstrap utility classes ─
+   Many views use .text-muted / .small / .text-body inherited from Bootstrap;
+   without these overrides Bootstrap can win with its baked-in light-mode
+   colour (#6c757d) which falls below WCAG AA on a dark surface. */
+[data-bs-theme="dark"] .text-muted,
+[data-bs-theme="dark"] .text-secondary { color: var(--text-muted) !important; }
+[data-bs-theme="dark"] .text-body,
+[data-bs-theme="dark"] .text-body-secondary { color: var(--text-body) !important; }
+[data-bs-theme="dark"] .text-dark { color: var(--text-strong) !important; }
+[data-bs-theme="dark"] small,
+[data-bs-theme="dark"] .small { color: var(--text-muted); }
+[data-bs-theme="dark"] code { color: #e4e4e7; background: rgba(255,255,255,.06); padding: 1px 5px; border-radius: 4px; }
+[data-bs-theme="dark"] pre { color: var(--text-body); }
+[data-bs-theme="dark"] hr { border-color: var(--border-soft); opacity: .6; }
+[data-bs-theme="dark"] .bg-light,
+[data-bs-theme="dark"] .bg-body-tertiary { background-color: var(--surface-sunken) !important; color: var(--text-body) !important; }
+[data-bs-theme="dark"] .alert-info { background: var(--info-soft); color: var(--info-fg); border-color: rgba(56,189,248,.25); }
+[data-bs-theme="dark"] .alert-success { background: var(--success-soft); color: var(--success-fg); border-color: rgba(34,197,94,.25); }
+[data-bs-theme="dark"] .alert-warning { background: var(--warning-soft); color: var(--warning-fg); border-color: rgba(245,158,11,.25); }
+[data-bs-theme="dark"] .alert-danger  { background: var(--danger-soft);  color: var(--danger-fg);  border-color: rgba(248,113,113,.25); }
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select,
+[data-bs-theme="dark"] .ui-input {
+    background: var(--surface-input);
+    color: var(--text-strong);
+    border-color: var(--border-medium);
+}
+[data-bs-theme="dark"] .form-control::placeholder { color: var(--text-muted); opacity: .7; }
+[data-bs-theme="dark"] .table { color: var(--text-body); }
+[data-bs-theme="dark"] .table > :not(caption) > * > * { background-color: transparent; color: inherit; border-color: var(--border-soft); }
+[data-bs-theme="dark"] .table-hover > tbody > tr:hover > * { background-color: rgba(255,255,255,.04); color: var(--text-strong); }
+[data-bs-theme="dark"] .table thead th { color: var(--text-strong); border-color: var(--border-medium); }
+[data-bs-theme="dark"] .dropdown-menu { background: var(--surface-card); border-color: var(--border-soft); color: var(--text-body); }
+[data-bs-theme="dark"] .dropdown-item { color: var(--text-body); }
+[data-bs-theme="dark"] .dropdown-item:hover,
+[data-bs-theme="dark"] .dropdown-item:focus { background: var(--surface-sunken); color: var(--text-strong); }
+[data-bs-theme="dark"] .dropdown-item.text-danger { color: var(--danger-fg) !important; }
+[data-bs-theme="dark"] .dropdown-header,
+[data-bs-theme="dark"] .dropdown-divider { color: var(--text-muted); border-color: var(--border-soft); }
+[data-bs-theme="dark"] .modal-content,
+[data-bs-theme="dark"] .modal-header,
+[data-bs-theme="dark"] .modal-footer { background: var(--surface-card); border-color: var(--border-soft); color: var(--text-body); }
+[data-bs-theme="dark"] .list-group-item { background: var(--surface-card); color: var(--text-body); border-color: var(--border-soft); }
+[data-bs-theme="dark"] .nav-link { color: var(--text-body); }
+[data-bs-theme="dark"] .nav-link:hover,
+[data-bs-theme="dark"] .nav-link:focus { color: var(--accent); }
+[data-bs-theme="dark"] .nav-pills .nav-link.active { background: var(--accent); color: var(--accent-fg); }
+[data-bs-theme="dark"] .input-group-text { background: var(--surface-sunken); border-color: var(--border-medium); color: var(--text-muted); }
+[data-bs-theme="dark"] .form-check-input { background-color: var(--surface-input); border-color: var(--border-medium); }
+[data-bs-theme="dark"] .form-check-input:checked { background-color: var(--accent); border-color: var(--accent); }
+[data-bs-theme="dark"] .badge.bg-secondary { background-color: var(--surface-raised) !important; color: var(--text-body); }
+[data-bs-theme="dark"] .btn-close { filter: invert(1) grayscale(.8); }
+[data-bs-theme="dark"] .pagination .page-link { background: var(--surface-card); border-color: var(--border-soft); color: var(--text-body); }
+[data-bs-theme="dark"] .pagination .page-link:hover { background: var(--surface-sunken); color: var(--text-strong); }
+[data-bs-theme="dark"] .pagination .page-item.active .page-link { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+
+/* ───── Reset / base ─────────────────────────────────────────────────── */
+html, body {
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-body);
+    background: var(--surface-page);
+}
+body {
+    background: var(--surface-page) !important;
+    color: var(--text-body) !important;
+    font-size: 14px;
+    line-height: 1.5;
+}
+:lang(bn), :lang(bn-BD), .lang-bn {
+    font-family: var(--font-bn), var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-strong);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5 { font-size: 16px; }
+h6 { font-size: 14px; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--rad-sm); }
+
+hr, .divider {
+    border: 0; border-top: 1px solid var(--divider); margin: var(--space-4) 0;
+}
+
+::selection { background: var(--accent-soft); color: var(--text-strong); }
+
+/* ───── Card ─────────────────────────────────────────────────────────── */
+.card, .ui-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-lg);
+    box-shadow: none;
+    color: var(--text-body);
+}
+.card-header, .ui-card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--divider);
+    padding: var(--space-4) var(--space-5);
+    color: var(--text-strong);
+    font-weight: 600;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+}
+.card-body, .ui-card-body { padding: var(--space-5); }
+.card-footer, .ui-card-footer {
+    background: transparent;
+    border-top: 1px solid var(--divider);
+    padding: var(--space-4) var(--space-5);
+}
+.ui-card-muted-body { color: var(--text-muted); font-size: 13px; }
+
+.ui-card.surface-raised {
+    background: var(--surface-raised);
+    box-shadow: var(--sh-1);
+}
+
+.ui-stat-card .ui-stat-value {
+    font-size: 30px; font-weight: 600; color: var(--text-strong); letter-spacing: -0.02em;
+}
+.ui-stat-card .ui-stat-label {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+    margin-bottom: var(--space-2);
+}
+.ui-stat-card .ui-stat-delta {
+    font-size: 13px; color: var(--text-muted);
+}
+
+/* ───── Buttons ──────────────────────────────────────────────────────── */
+.btn {
+    --btn-bg: transparent;
+    --btn-fg: var(--text-strong);
+    --btn-bd: var(--border-medium);
+    border-radius: var(--rad);
+    border: 1px solid var(--btn-bd);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    padding: 8px 14px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.25;
+    transition: background var(--tt), color var(--tt), border-color var(--tt), box-shadow var(--tt-fast);
+}
+.btn:focus-visible { outline: none; box-shadow: var(--ring); }
+.btn:active { transform: translateY(0); }
+.btn:disabled, .btn.disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-primary {
+    --btn-bg: var(--accent);
+    --btn-fg: var(--accent-fg);
+    --btn-bd: var(--accent);
+}
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-fg); }
+.btn-primary:active { background: var(--accent-active); border-color: var(--accent-active); }
+
+.btn-outline-primary {
+    --btn-bg: transparent; --btn-fg: var(--accent); --btn-bd: var(--accent);
+}
+.btn-outline-primary:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+
+.btn-secondary, .btn-light {
+    --btn-bg: var(--surface-raised); --btn-fg: var(--text-strong); --btn-bd: var(--border-medium);
+}
+.btn-secondary:hover, .btn-light:hover { background: var(--surface-sunken); }
+
+.btn-outline-secondary {
+    --btn-bg: transparent; --btn-fg: var(--text-strong); --btn-bd: var(--border-medium);
+}
+.btn-outline-secondary:hover { background: var(--surface-sunken); }
+
+.btn-success { --btn-bg: var(--success); --btn-fg: #fff; --btn-bd: var(--success); }
+.btn-success:hover { filter: brightness(0.93); }
+.btn-warning { --btn-bg: var(--warning); --btn-fg: #fff; --btn-bd: var(--warning); }
+.btn-warning:hover { filter: brightness(0.93); }
+.btn-danger  { --btn-bg: var(--danger);  --btn-fg: #fff; --btn-bd: var(--danger);  }
+.btn-danger:hover { filter: brightness(0.93); }
+.btn-info    { --btn-bg: var(--info);    --btn-fg: #fff; --btn-bd: var(--info);    }
+
+.btn-ghost {
+    --btn-bg: transparent; --btn-fg: var(--text-body); --btn-bd: transparent;
+}
+.btn-ghost:hover { background: var(--surface-sunken); color: var(--text-strong); }
+
+.btn-sm { padding: 5px 10px; font-size: 13px; border-radius: var(--rad-sm); }
+.btn-lg { padding: 11px 18px; font-size: 15px; border-radius: var(--rad-lg); }
+.btn-icon {
+    padding: 6px;
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* Button groups */
+.btn-group .btn { border-radius: 0; }
+.btn-group .btn:first-child { border-top-left-radius: var(--rad); border-bottom-left-radius: var(--rad); }
+.btn-group .btn:last-child  { border-top-right-radius: var(--rad); border-bottom-right-radius: var(--rad); }
+
+/* ───── Inputs ───────────────────────────────────────────────────────── */
+.form-control, .form-select, .ui-input, .ui-select {
+    background: var(--surface-input);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--rad);
+    color: var(--text-strong);
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color var(--tt-fast), box-shadow var(--tt-fast);
+}
+.form-control:focus, .form-select:focus, .ui-input:focus, .ui-select:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: var(--ring);
+}
+.form-control::placeholder { color: var(--text-muted); }
+.form-control:disabled, .ui-input:disabled { background: var(--surface-sunken); color: var(--text-muted); cursor: not-allowed; }
+.form-label, .ui-label {
+    font-size: 13px;
+    color: var(--text-strong);
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.form-text, .ui-help-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+.invalid-feedback, .ui-error {
+    color: var(--danger-fg);
+    font-size: 12px;
+    margin-top: 4px;
+}
+.form-control.is-invalid { border-color: var(--danger); }
+.form-control.is-invalid:focus { box-shadow: 0 0 0 3px var(--danger-soft); }
+
+.input-group .form-control { box-shadow: none; }
+.input-group-text {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-medium);
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ───── Tables ───────────────────────────────────────────────────────── */
+.table, .ui-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-body);
+    color: var(--text-body);
+    border-color: var(--divider);
+    margin-bottom: 0;
+}
+.table > :not(caption) > * > * { background: transparent; padding: 12px 14px; }
+.table > thead, .ui-table > thead {
+    background: var(--surface-sunken);
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.table > thead > tr > th, .ui-table > thead > tr > th {
+    font-weight: 600; border-bottom: 1px solid var(--divider);
+}
+.table > tbody > tr, .ui-table > tbody > tr {
+    border-bottom: 1px solid var(--divider);
+}
+.table-hover > tbody > tr:hover > * {
+    background: var(--surface-sunken);
+}
+.table tabular-nums, .ui-table .tabular { font-variant-numeric: tabular-nums; }
+
+.ui-table-wrap {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-lg);
+    overflow: hidden;
+    background: var(--surface-card);
+}
+.ui-table-wrap .table { margin: 0; }
+
+/* ───── Badges ───────────────────────────────────────────────────────── */
+.badge, .ui-badge {
+    --bg: var(--surface-sunken);
+    --fg: var(--text-strong);
+    background: var(--bg);
+    color: var(--fg);
+    border-radius: var(--rad-sm);
+    padding: 3px 8px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    border: none;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.badge.bg-primary, .badge.bg-label-primary, .ui-badge.variant-primary {
+    --bg: var(--accent-soft); --fg: var(--accent);
+}
+.badge.bg-success, .badge.bg-label-success, .ui-badge.variant-success {
+    --bg: var(--success-soft); --fg: var(--success-fg);
+}
+.badge.bg-warning, .badge.bg-label-warning, .ui-badge.variant-warning {
+    --bg: var(--warning-soft); --fg: var(--warning-fg);
+}
+.badge.bg-danger,  .badge.bg-label-danger,  .ui-badge.variant-danger  {
+    --bg: var(--danger-soft);  --fg: var(--danger-fg);
+}
+.badge.bg-info,    .badge.bg-label-info,    .ui-badge.variant-info    {
+    --bg: var(--info-soft);    --fg: var(--info-fg);
+}
+.badge.bg-secondary, .ui-badge.variant-secondary {
+    --bg: var(--surface-sunken); --fg: var(--text-muted);
+}
+.badge.bg-dark, .ui-badge.variant-dark { --bg: var(--zinc-200); --fg: var(--zinc-900); }
+[data-bs-theme="dark"] .badge.bg-dark, [data-bs-theme="dark"] .ui-badge.variant-dark { --bg: var(--zinc-800); --fg: var(--zinc-100); }
+
+.ui-dot {
+    width: 6px; height: 6px; border-radius: 50%; display: inline-block; background: currentColor;
+}
+
+/* ───── Alerts ───────────────────────────────────────────────────────── */
+.alert, .ui-alert {
+    --alert-bg: var(--surface-sunken);
+    --alert-fg: var(--text-body);
+    --alert-bd: var(--border-soft);
+    background: var(--alert-bg);
+    color: var(--alert-fg);
+    border: 1px solid var(--alert-bd);
+    border-radius: var(--rad);
+    padding: var(--space-3) var(--space-4);
+    font-size: 14px;
+    display: flex; align-items: flex-start; gap: var(--space-3);
+}
+.alert .alert-heading, .ui-alert .ui-alert-heading {
+    color: var(--text-strong); font-weight: 600; margin-bottom: 4px;
+}
+.alert-success, .ui-alert.variant-success { --alert-bg: var(--success-soft); --alert-fg: var(--success-fg); --alert-bd: transparent; }
+.alert-warning, .ui-alert.variant-warning { --alert-bg: var(--warning-soft); --alert-fg: var(--warning-fg); --alert-bd: transparent; }
+.alert-danger,  .ui-alert.variant-danger  { --alert-bg: var(--danger-soft);  --alert-fg: var(--danger-fg);  --alert-bd: transparent; }
+.alert-info,    .ui-alert.variant-info    { --alert-bg: var(--info-soft);    --alert-fg: var(--info-fg);    --alert-bd: transparent; }
+.alert-primary, .ui-alert.variant-primary { --alert-bg: var(--accent-soft);  --alert-fg: var(--accent);     --alert-bd: transparent; }
+
+/* ───── Modal ────────────────────────────────────────────────────────── */
+.modal-content {
+    background: var(--surface-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-xl);
+    box-shadow: var(--sh-pop);
+}
+.modal-header { border-bottom: 1px solid var(--divider); padding: var(--space-5); }
+.modal-title  { color: var(--text-strong); font-size: 18px; font-weight: 600; }
+.modal-body   { padding: var(--space-5); }
+.modal-footer { border-top: 1px solid var(--divider); padding: var(--space-4) var(--space-5); }
+.modal-backdrop.show { opacity: 0.55; }
+
+/* ───── Tabs ─────────────────────────────────────────────────────────── */
+.nav-tabs, .ui-tabs {
+    border-bottom: 1px solid var(--divider);
+    gap: var(--space-1);
+}
+.nav-tabs .nav-link, .ui-tabs .ui-tab {
+    background: transparent;
+    border: 0;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+    font-weight: 500;
+    transition: color var(--tt-fast), border-color var(--tt-fast);
+}
+.nav-tabs .nav-link:hover, .ui-tabs .ui-tab:hover { color: var(--text-strong); }
+.nav-tabs .nav-link.active, .ui-tabs .ui-tab.active {
+    color: var(--text-strong);
+    border-bottom-color: var(--accent);
+    background: transparent;
+}
+
+/* ───── Page header ──────────────────────────────────────────────────── */
+.ui-page-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: var(--space-5); margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4); border-bottom: 1px solid var(--divider);
+}
+.ui-page-header .ui-page-title {
+    font-size: 24px; font-weight: 600; color: var(--text-strong); letter-spacing: -0.01em; margin: 0;
+}
+.ui-page-header .ui-page-subtitle {
+    font-size: 14px; color: var(--text-muted); margin-top: 4px;
+}
+.ui-page-header .ui-page-actions { display: flex; gap: var(--space-2); }
+
+/* ───── Sidebar + topbar polish (override Sneat / app-shell) ─────────── */
+.app-shell-sidebar, .layout-menu, .sidebar {
+    background: var(--surface-card) !important;
+    border-right: 1px solid var(--border-soft) !important;
+}
+.app-shell-sidebar a, .layout-menu a, .menu-link {
+    color: var(--text-body) !important;
+    border-radius: var(--rad-sm);
+    padding: 8px 12px;
+    transition: background var(--tt-fast), color var(--tt-fast);
+}
+.app-shell-sidebar a:hover, .layout-menu a:hover, .menu-link:hover {
+    background: var(--surface-sunken) !important;
+    color: var(--text-strong) !important;
+}
+.app-shell-sidebar a.active, .layout-menu a.active, .menu-link.active {
+    background: var(--accent-soft) !important;
+    color: var(--accent) !important;
+    font-weight: 500;
+}
+
+.app-shell-topbar, .layout-navbar, .navbar.layout-navbar {
+    background: var(--surface-card) !important;
+    border-bottom: 1px solid var(--border-soft) !important;
+    box-shadow: none !important;
+}
+
+/* ───── KPI tile (used on dashboards) ────────────────────────────────── */
+.ui-kpi {
+    background: var(--surface-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-lg);
+    padding: var(--space-5);
+    transition: border-color var(--tt-fast), box-shadow var(--tt-fast);
+}
+.ui-kpi:hover { border-color: var(--border-medium); box-shadow: var(--sh-1); }
+.ui-kpi .ui-kpi-label  {
+    font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600;
+}
+.ui-kpi .ui-kpi-value {
+    font-size: 30px; font-weight: 600; color: var(--text-strong); letter-spacing: -0.02em;
+    margin: var(--space-2) 0;
+    font-variant-numeric: tabular-nums;
+}
+.ui-kpi .ui-kpi-delta {
+    font-size: 12px; color: var(--text-muted);
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.ui-kpi .ui-kpi-delta.positive { color: var(--success-fg); }
+.ui-kpi .ui-kpi-delta.negative { color: var(--danger-fg); }
+.ui-kpi .ui-kpi-hint  { font-size: 12px; color: var(--text-muted); }
+
+/* ───── Toast / flash ────────────────────────────────────────────────── */
+.toast {
+    background: var(--surface-card);
+    color: var(--text-body);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-lg);
+    box-shadow: var(--sh-pop);
+}
+.toast-header {
+    background: transparent;
+    color: var(--text-strong);
+    border-bottom: 1px solid var(--divider);
+    font-weight: 600;
+}
+
+/* ───── Dropdown / popover ───────────────────────────────────────────── */
+.dropdown-menu {
+    background: var(--surface-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--rad-lg);
+    box-shadow: var(--sh-pop);
+    padding: 6px;
+    min-width: 200px;
+}
+.dropdown-item {
+    border-radius: var(--rad-sm);
+    padding: 7px 10px;
+    color: var(--text-body);
+    font-size: 14px;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    background: var(--surface-sunken);
+    color: var(--text-strong);
+}
+.dropdown-item.active, .dropdown-item:active {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+.dropdown-divider { border-color: var(--divider); }
+
+/* ───── Pagination ───────────────────────────────────────────────────── */
+.pagination .page-link {
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--text-body);
+    border-radius: var(--rad-sm) !important;
+    margin: 0 2px;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+.pagination .page-link:hover { background: var(--surface-sunken); color: var(--text-strong); }
+.pagination .page-item.active .page-link {
+    background: var(--accent); border-color: var(--accent); color: var(--accent-fg);
+}
+.pagination .page-item.disabled .page-link { color: var(--text-muted); opacity: 0.5; }
+
+/* ───── Utilities ────────────────────────────────────────────────────── */
+.ui-stack         { display: flex; flex-direction: column; gap: var(--space-3); }
+.ui-stack-sm      { gap: var(--space-2); }
+.ui-stack-lg      { gap: var(--space-5); }
+.ui-row           { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.ui-row-between   { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.ui-muted         { color: var(--text-muted); }
+.ui-mono          { font-family: var(--font-mono); }
+.ui-tabular       { font-variant-numeric: tabular-nums; }
+.ui-text-strong   { color: var(--text-strong); }
+.ui-section-label {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+    font-weight: 600; margin-bottom: var(--space-3);
+}
+.ui-divider       { border-top: 1px solid var(--divider); margin: var(--space-4) 0; }
+
+/* Animations */
+@keyframes ui-fade-in  { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: none;} }
+.ui-anim-in { animation: ui-fade-in var(--tt) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .ui-anim-in, .btn, .card, .form-control { transition: none !important; animation: none !important; }
+}
+
+/* ───── Bootstrap colour-utility overrides (so bg-/text- read consistently) ── */
+.bg-light  { background: var(--surface-sunken) !important; }
+.bg-white  { background: var(--surface-card) !important; }
+.bg-body   { background: var(--surface-page) !important; }
+.text-body { color: var(--text-body) !important; }
+.text-muted { color: var(--text-muted) !important; }
+.text-dark { color: var(--text-strong) !important; }
+.border    { border-color: var(--border-soft) !important; }
+.shadow-sm { box-shadow: var(--sh-1) !important; }
+.shadow    { box-shadow: var(--sh-2) !important; }
+.shadow-lg { box-shadow: var(--sh-3) !important; }
+
+/* =============================================================================
+   Design polish — Boxicons baseline, focus rings, transition curve
+   ─────────────────────────────────────────────────────────────────────────────
+   Boxicons render with `vertical-align: bottom` by default which looks low next
+   to text. Lift them 1-2 px so they sit on the body baseline. Size them 1.05em
+   so they read at the same optical weight as Font Awesome icons that live next
+   to them during the gradual sweep.
+============================================================================= */
+.bx, [class^="bx-"], [class*=" bx-"] {
+    vertical-align: -2px;
+    font-size: 1.05em;
+    line-height: 1;
+}
+/* Buttons and pill chrome: snap to centre, slightly tighter. */
+.btn .bx, .topbar-action .bx, .topbar-pill .bx,
+.menu-link .bx, .ui-badge .bx, .dropdown-item .bx {
+    vertical-align: middle;
+    font-size: 1.1em;
+}
+/* The sidebar uses a fixed 22-px icon column; force any bx-* into it. */
+.menu-icon.bx { width: 22px; text-align: center; font-size: 1.15rem; }
+
+/* Topbar avatar text inside the gradient circle — fix bsline so the initials
+   sit dead-centre regardless of font. */
+.topbar-avatar { line-height: 36px; }
+.topbar-avatar-lg { line-height: 48px; }
+
+/* ───── Focus ring — accent-tinted, 3 px halo, never inset.
+   Applies AFTER Bootstrap's own focus styles since we set !important. */
+:where(.btn, .form-control, .form-select, .ui-input, a, button, [tabindex]):focus-visible {
+    outline: 3px solid var(--accent-ring) !important;
+    outline-offset: 2px !important;
+    border-radius: var(--rad-sm);
+}
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus,
+[data-bs-theme="dark"] .ui-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    background: var(--surface-input);
+    color: var(--text-strong);
+}
+
+/* ───── Brand-block polish — better optical centring + matching radius. */
+.app-brand-logo {
+    width: 36px; height: 36px;
+    border-radius: var(--rad-lg);
+    background: var(--accent);
+    color: var(--accent-fg);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    box-shadow: 0 6px 16px -4px rgba(79, 70, 229, .45);
+    flex-shrink: 0;
+}
+
+/* ───── Smoother transitions on interactive elements. */
+.btn, .topbar-action, .topbar-pill, .topbar-avatar-btn,
+.menu-link, .dropdown-item, .ui-card-interactive, .form-control, .form-select, .ui-input {
+    transition:
+        background-color 120ms cubic-bezier(.4,0,.2,1),
+        color            120ms cubic-bezier(.4,0,.2,1),
+        border-color     120ms cubic-bezier(.4,0,.2,1),
+        box-shadow       160ms cubic-bezier(.4,0,.2,1),
+        transform        160ms cubic-bezier(.4,0,.2,1);
+}
+.btn:active, .topbar-action:active, .topbar-pill:active { transform: translateY(1px) scale(.98); }
+
+/* ───── Card hover lift — gentle, only when explicitly interactive. */
+.ui-card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-2);
+    border-color: var(--accent-soft);
+}
+
+/* ───── Scrollbar polish — slim, theme-aware. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: 999px;
+    border: 2px solid var(--surface-page);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ───── Reduced-motion guard. */
+@media (prefers-reduced-motion: reduce) {
+    .btn, .topbar-action, .topbar-pill, .menu-link, .dropdown-item,
+    .ui-card-interactive, .form-control, .form-select, .ui-input,
+    .bx, [class^="bx-"], [class*=" bx-"] {
+        transition: none !important;
+        animation: none !important;
+    }
+    .btn:active, .topbar-action:active { transform: none !important; }
+}

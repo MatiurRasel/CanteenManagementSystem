@@ -1,0 +1,16 @@
+{{- if .Values.dataProtection.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "canteen.fullname" . }}-dp
+  labels:
+    {{- include "canteen.labels" . | nindent 4 }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: {{ .Values.dataProtection.size }}
+  {{- if .Values.dataProtection.storageClass }}
+  storageClassName: {{ .Values.dataProtection.storageClass }}
+  {{- end }}
+{{- end }}

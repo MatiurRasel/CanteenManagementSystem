@@ -1,0 +1,131 @@
+@*
+    /admin/billing — current plan + lifecycle controls.
+    Works equally with StubBillingService, SandboxBillingService, or a future
+    StripeBillingService — IBillingService is the only contract.
+*@
+@using Platform.Application.Abstractions.Billing
+@using CanteenManagementSystem.Presentation.Models
+@model BillingStatus
+@{
+    ViewData["Title"] = "Billing";
+    UiBadgeVariant V(SubscriptionState s) => s switch
+    {
+        SubscriptionState.Active    => UiBadgeVariant.Success,
+        SubscriptionState.Trialing  => UiBadgeVariant.Info,
+        SubscriptionState.PastDue   => UiBadgeVariant.Warning,
+        SubscriptionState.Cancelled => UiBadgeVariant.Secondary,
+        _ => UiBadgeVariant.Secondary
+    };
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Billing",
+        Subtitle = "Subscription, plan, and invoices."
+    };
+    var stateBadge = new UiBadgeOptions { Text = Model.State.ToString(), Variant = V(Model.State), WithDot = true };
+    var isSandbox = Context.RequestServices.GetService(typeof(IBillingService)) is Platform.Infrastructure.Billing.SandboxBillingService;
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (isSandbox)
+    {
+        var alert = new UiAlertOptions
+        {
+            Variant = UiAlertVariant.Info,
+            Heading = "Sandbox billing",
+            Body    = "This tenant is on the sandbox billing provider. Plan + invoice data are synthetic. Switch to live by flipping the DI line to StripeBillingService and setting Billing.Stripe.ApiKey."
+        };
+        <partial name="_UiAlert" model="alert" />
+        <div style="height: 1rem"></div>
+    }
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-7">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div class="ui-card-title">Current plan</div>
+                    <partial name="_UiBadge" model="stateBadge" />
+                </div>
+                <div class="ui-card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="ui-kpi-label">Plan</div>
+                            <div class="ui-kpi-value" style="font-size:24px">@(Model.PlanName ?? "—")</div>
+                            <div class="ui-muted" style="font-size:13px">code: @(Model.PlanCode ?? "—")</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="ui-kpi-label">Per cycle</div>
+                            <div class="ui-kpi-value" style="font-size:24px">
+                                @(Model.AmountPerCycle.HasValue ? $"{Model.Currency ?? "USD"} {Model.AmountPerCycle:N0}" : "—")
+                            </div>
+                            <div class="ui-muted" style="font-size:13px">
+                                period ends @(Model.CurrentPeriodEndUtc?.ToString("yyyy-MM-dd") ?? "—")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-divider"></div>
+
+                    <div class="ui-row" style="gap:.5rem">
+                        @if (Model.State == SubscriptionState.Inactive || Model.State == SubscriptionState.Cancelled)
+                        {
+                            <form method="post" action="/admin/billing/checkout/pro" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa-solid fa-credit-card me-1"></i> Subscribe — Pro
+                                </button>
+                            </form>
+                            <form method="post" action="/admin/billing/checkout/starter" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-outline-secondary" type="submit">Starter</button>
+                            </form>
+                            <form method="post" action="/admin/billing/checkout/enterprise" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-outline-secondary" type="submit">Enterprise</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" action="/admin/billing/cancel" data-cl-confirm="Cancel at the end of the current period?" data-cl-confirm-variant="warning" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="fa-solid fa-pause me-1"></i> Cancel at period end
+                                </button>
+                            </form>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LastInvoiceUrl))
+                        {
+                            <a class="btn btn-ghost" href="@Model.LastInvoiceUrl" target="_blank" rel="noopener">
+                                <i class="fa-solid fa-file-invoice me-1"></i> Last invoice
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (isSandbox)
+        {
+            <div class="col-12 col-lg-5">
+                <div class="ui-card">
+                    <div class="ui-card-header"><div class="ui-card-title">Sandbox state simulator</div></div>
+                    <div class="ui-card-body">
+                        <p class="ui-muted" style="font-size:13px">Force the subscription into a state for UI demo purposes.</p>
+                        <div class="ui-stack-sm">
+                            @foreach (var s in new[] { "Trialing", "Active", "PastDue", "Cancelled", "Inactive" })
+                            {
+                                <form method="post" action="/admin/billing/sandbox/simulate/@s" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-outline-secondary btn-sm w-100" type="submit">
+                                        Simulate → @s
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,85 @@
+@*
+    /admin/combos — counter quick-button list + create CTA.
+*@
+@using CanteenManagementSystem.Application.Menus
+@using CanteenManagementSystem.Presentation.Models
+@model IReadOnlyList<ComboButtonListItem>
+@{
+    ViewData["Title"] = "Combos";
+    var header = new UiPageHeaderOptions
+    {
+        Title    = "Counter combos",
+        Subtitle = "One-tap buttons the cashier hits instead of typing 3-digit codes.",
+        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/combos/edit'><i class='fa-solid fa-plus me-1'></i> Add combo</a>")
+    };
+}
+
+<div class="container-fluid py-4">
+    <partial name="_UiPageHeader" model="header" />
+
+    @if (Model.Count == 0)
+    {
+        var emptyOpts = new EmptyStateOptions
+        {
+            Icon  = "fa-shapes",
+            Title = "No combos yet",
+            Description = "Add a lunch combo or breakfast deal — they appear on the counter as colour-coded one-tap buttons.",
+            CtaLabel = "Add your first combo",
+            CtaUrl   = "/admin/combos/edit",
+            CtaIcon  = "fa-plus"
+        };
+        <partial name="_EmptyState" model="emptyOpts" />
+    }
+    else
+    {
+        <div class="ui-table-wrap">
+            <table class="table table-hover mb-0 ui-table">
+                <thead>
+                    <tr>
+                        <th style="width:1%">Color</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th class="text-end">Items</th>
+                        <th class="text-end">Order</th>
+                        <th>Status</th>
+                        <th class="text-end" style="width:1%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var c in Model)
+                {
+                    var color = string.IsNullOrEmpty(c.Color) ? "var(--accent)" : c.Color;
+                    var statusBadge = new UiBadgeOptions
+                    {
+                        Text    = c.IsActive ? "Active" : "Disabled",
+                        Variant = c.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
+                        WithDot = true
+                    };
+                    <tr>
+                        <td><span style="display:inline-block;width:18px;height:18px;border-radius:var(--rad-sm);background:@color"></span></td>
+                        <td class="ui-mono ui-text-strong">@c.Code</td>
+                        <td>@c.DisplayName</td>
+                        <td class="text-end ui-tabular">@c.ItemCount</td>
+                        <td class="text-end ui-tabular ui-muted">@c.SortOrder</td>
+                        <td><partial name="_UiBadge" model="statusBadge" /></td>
+                        <td class="text-end">
+                            <div class="ui-row" style="gap: .25rem; justify-content:flex-end">
+                                <a class="btn btn-ghost btn-sm" href="/admin/combos/edit/@c.ComboButtonId" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form method="post" action="/admin/combos/delete/@c.ComboButtonId" class="d-inline"
+                                      data-cl-confirm="Delete combo @c.Code?" data-cl-confirm-variant="warning">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-ghost btn-sm" type="submit" title="Delete">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
