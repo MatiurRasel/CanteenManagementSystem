@@ -3,21 +3,22 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.BrandingAdminController.BrandingForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Branding";
+    ViewData["Title"] = L["TenantBranding"].Value;
     var swatches = new[] { "#4F46E5", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B", "#EF4444", "#0EA5E9", "#14B8A6", "#0F172A" };
     string resetForm = @"
         <form action='/admin/branding/Reset' method='post' class='d-inline'
-              onsubmit=""return confirm('Reset all branding to platform defaults?');"">
+              onsubmit=""return confirm('" + L["BrandingAdmin.Index.ConfirmReset"].Value + @"');"">
             <input type='hidden' name='__RequestVerificationToken' value='" + Html.AntiForgeryToken().ToString().Replace("'", "&#39;") + @"' />
             <button type='submit' class='btn btn-outline-secondary btn-sm'>
-                <i class='fa-solid fa-rotate-left me-1'></i> Reset to platform default
+                <i class='bx bx-rotate-left me-1'></i> " + L["BrandingAdmin.Index.ResetToDefault"].Value + @"
             </button>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = "Branding",
-        Subtitle = "Set the default look every user in this tenant sees. Users can personalise further via the customizer.",
+        Title    = L["TenantBranding"].Value,
+        Subtitle = L["BrandingAdmin.Index.Subtitle"].Value,
         Actions  = Html.Raw(resetForm)
     };
 }
@@ -34,20 +35,20 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3"></div>
 
                         <div class="mb-3">
-                            <label class="ui-label" asp-for="AppName">App name</label>
-                            <input asp-for="AppName" class="ui-input form-control" placeholder="e.g. Acme School Canteen" maxlength="120" />
-                            <div class="ui-help-text">Shown in the topbar + window title.</div>
+                            <label class="ui-label" asp-for="AppName">@L["BrandingAdmin.Index.AppNameLabel"]</label>
+                            <input asp-for="AppName" class="ui-input form-control" placeholder="@L["BrandingAdmin.Index.AppNamePlaceholder"]" maxlength="120" />
+                            <div class="ui-help-text">@L["BrandingAdmin.Index.AppNameHelp"]</div>
                             <span asp-validation-for="AppName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="ui-label" asp-for="AppSubtitle">Subtitle</label>
-                            <input asp-for="AppSubtitle" class="ui-input form-control" placeholder="e.g. Lunchroom operations" maxlength="160" />
+                            <label class="ui-label" asp-for="AppSubtitle">@L["BrandingAdmin.Index.SubtitleLabel"]</label>
+                            <input asp-for="AppSubtitle" class="ui-input form-control" placeholder="@L["BrandingAdmin.Index.SubtitlePlaceholder"]" maxlength="160" />
                             <span asp-validation-for="AppSubtitle" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="ui-label" asp-for="AccentColor">Accent color</label>
+                            <label class="ui-label" asp-for="AccentColor">@L["BrandingAdmin.Index.AccentColorLabel"]</label>
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <input type="color" id="accentPick" value="@Model.AccentColor" class="form-control form-control-color" style="width:60px;height:40px" />
                                 <input asp-for="AccentColor" id="accentHex" class="ui-input form-control ui-mono" placeholder="#4F46E5" maxlength="20" style="max-width:180px" />
@@ -57,23 +58,23 @@
                                 @foreach (var c in swatches)
                                 {
                                     <button type="button" class="brand-swatch" data-color="@c" style="--bs:@c"
-                                            title="@c" aria-label="Use @c"></button>
+                                            title="@c" aria-label="@L["BrandingAdmin.Index.UseColor", c]"></button>
                                 }
                             </div>
-                            <div class="ui-help-text">Drives every primary button, badge, focus ring &amp; KPI accent across the app.</div>
+                            <div class="ui-help-text">@L["BrandingAdmin.Index.AccentHelp"]</div>
                             <span asp-validation-for="AccentColor" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="ui-label" asp-for="LogoUrl">Logo URL (optional)</label>
+                            <label class="ui-label" asp-for="LogoUrl">@L["BrandingAdmin.Index.LogoUrlLabel"]</label>
                             <input asp-for="LogoUrl" class="ui-input form-control" placeholder="https://your-cdn/logo.png" maxlength="500" />
-                            <div class="ui-help-text">Square or wide — sidebar will scale it. Leave empty for the default icon.</div>
+                            <div class="ui-help-text">@L["BrandingAdmin.Index.LogoUrlHelp"]</div>
                             <span asp-validation-for="LogoUrl" class="text-danger small"></span>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-check me-1"></i> Save tenant branding
+                                <i class="bx bx-check me-1"></i> @L["BrandingAdmin.Index.SaveButton"]
                             </button>
                         </div>
                     </form>
@@ -83,18 +84,18 @@
 
         <div class="col-lg-5">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title"><i class="fa-solid fa-eye me-1"></i> Live preview</div></div>
+                <div class="ui-card-header"><div class="ui-card-title"><i class="bx bx-show me-1"></i> @L["BrandingAdmin.Index.LivePreview"]</div></div>
                 <div class="ui-card-body">
-                    <p class="ui-muted small mb-3">Preview updates as you pick a colour. Save to apply for every user in this tenant.</p>
+                    <p class="ui-muted small mb-3">@L["BrandingAdmin.Index.PreviewHint"]</p>
 
                     <div class="preview-card" id="previewBox">
                         <div class="preview-bar"></div>
                         <h6 class="preview-title" id="previewTitle">@Model.AppName</h6>
                         <p class="preview-sub ui-muted small" id="previewSub">@Model.AppSubtitle</p>
                         <button class="btn btn-sm" id="previewBtn" style="background:@Model.AccentColor;color:#fff;border:0">
-                            <i class="fa-solid fa-check me-1"></i> Primary action
+                            <i class="bx bx-check me-1"></i> @L["BrandingAdmin.Index.PreviewPrimaryAction"]
                         </button>
-                        <span class="ui-badge ms-2" id="previewBadge" style="background:rgba(79,70,229,.12);color:@Model.AccentColor;border-color:transparent">Badge</span>
+                        <span class="ui-badge ms-2" id="previewBadge" style="background:rgba(79,70,229,.12);color:@Model.AccentColor;border-color:transparent">@L["BrandingAdmin.Index.PreviewBadge"]</span>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,7 @@
                 var note = new UiAlertOptions
                 {
                     Variant = UiAlertVariant.Info,
-                    Body    = "Users can override your tenant default via the floating gear icon bottom-right. Hit 'Reset to defaults' in the customizer to fall back to your tenant brand."
+                    Body    = L["BrandingAdmin.Index.CustomizerNote"].Value
                 };
             }
             <div class="mt-3">
@@ -133,6 +134,7 @@
 @section Scripts {
     <script>
         (function () {
+            const T = { appName: '@L["BrandingAdmin.Index.AppNameLabel"]', subtitle: '@L["BrandingAdmin.Index.SubtitleLabel"]' };
             var pick    = document.getElementById('accentPick');
             var hex     = document.getElementById('accentHex');
             var swatch  = document.getElementById('accentSwatch');
@@ -164,8 +166,8 @@
             pick && pick.addEventListener('input',  e => apply(e.target.value));
             hex  && hex.addEventListener('input',   e => { if (/^#?[0-9a-fA-F]{6}$/.test(e.target.value.replace('#',''))) apply(e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value); });
             document.querySelectorAll('.brand-swatch').forEach(s => s.addEventListener('click', () => apply(s.dataset.color)));
-            appNameInput && appNameInput.addEventListener('input', e => title.textContent = e.target.value || 'App name');
-            subInput     && subInput.addEventListener('input',     e => sub.textContent   = e.target.value || 'Subtitle');
+            appNameInput && appNameInput.addEventListener('input', e => title.textContent = e.target.value || T.appName);
+            subInput     && subInput.addEventListener('input',     e => sub.textContent   = e.target.value || T.subtitle);
             apply(hex.value || '#4F46E5');
         })();
     </script>

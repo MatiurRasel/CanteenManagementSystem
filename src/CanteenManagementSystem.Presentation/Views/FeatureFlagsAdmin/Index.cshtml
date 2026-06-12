@@ -3,12 +3,13 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.FeatureFlagsAdminController.FeatureFlagsVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Feature flags";
+    ViewData["Title"] = L["FeatureFlagsAdmin.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Feature flags",
-        Subtitle = "Per-tenant gates. Backed by TenantSetting + L1 cache — toggling is instant."
+        Title    = L["FeatureFlagsAdmin.Index.Title"].Value,
+        Subtitle = L["FeatureFlagsAdmin.Index.Subtitle"].Value
     };
 }
 
@@ -20,9 +21,9 @@
             <table class="table mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Flag</th>
-                        <th>Key</th>
-                        <th class="text-end" style="width:1%">State</th>
+                        <th>@L["FeatureFlagsAdmin.Index.ColFlag"]</th>
+                        <th>@L["FeatureFlagsAdmin.Index.ColKey"]</th>
+                        <th class="text-end" style="width:1%">@L["FeatureFlagsAdmin.Index.ColState"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,7 @@
                     var on = f.Enabled;
                     var stateBadge = new UiBadgeOptions
                     {
-                        Text = on ? "On" : "Off",
+                        Text = on ? L["FeatureFlagsAdmin.Index.On"].Value : L["FeatureFlagsAdmin.Index.Off"].Value,
                         Variant = on ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };
@@ -45,8 +46,8 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="key" value="@f.Key" />
                                     <input type="hidden" name="enabled" value="@((!on).ToString().ToLowerInvariant())" />
-                                    <button class="btn btn-ghost btn-sm" type="submit" title="Toggle">
-                                        <i class="fa-solid @(on ? "fa-toggle-on" : "fa-toggle-off")" style="font-size:18px"></i>
+                                    <button class="btn btn-ghost btn-sm" type="submit" title="@L["FeatureFlagsAdmin.Index.Toggle"]">
+                                        <i class="bx @(on ? "bx-toggle-right" : "bx-toggle-left")" style="font-size:18px"></i>
                                     </button>
                                 </form>
                             </div>

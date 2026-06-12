@@ -4,17 +4,18 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<Platform.Domain.Tenancy.Client>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Tenants";
+    ViewData["Title"] = L["Tenants"].Value;
     var freshCode  = TempData["NewTenant.Code"] as string;
     var freshLogin = TempData["NewTenant.AdminLogin"] as string;
     var freshPwd   = TempData["NewTenant.BootstrapPassword"] as string;
 
-    var addActions = Html.Raw("<a class='btn btn-primary' href='/sysadmin/tenants/new'><i class='fa-solid fa-plus me-1'></i> Add tenant</a>");
+    var addActions = Html.Raw($"<a class='btn btn-primary' href='/sysadmin/tenants/new'><i class='bx bx-plus me-1'></i> {L["TenantsAdmin.Index.AddTenant"].Value}</a>");
     var header = new UiPageHeaderOptions
     {
-        Title    = "Tenants",
-        Subtitle = "Every institute on the SaaS — one row per Clients table entry.",
+        Title    = L["Tenants"].Value,
+        Subtitle = L["TenantsAdmin.Index.Subtitle"].Value,
         Actions  = addActions
     };
 
@@ -30,14 +31,14 @@
     @if (!string.IsNullOrEmpty(freshCode))
     {
         <div class="ui-alert variant-success ui-anim-in mb-4" role="alert">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="bx bx-check-circle"></i>
             <div class="flex-grow-1">
-                <div class="ui-alert-heading">Tenant @freshCode created</div>
+                <div class="ui-alert-heading">@L["TenantsAdmin.Index.CreatedHeading", freshCode]</div>
                 <div class="ui-row ui-mono" style="font-size:13px; gap:1rem">
-                    <span>login: <strong>@freshLogin</strong></span>
-                    <span>password: <strong>@freshPwd</strong></span>
+                    <span>@L["TenantsAdmin.Index.Login"]: <strong>@freshLogin</strong></span>
+                    <span>@L["TenantsAdmin.Index.Password"]: <strong>@freshPwd</strong></span>
                 </div>
-                <div class="ui-help-text mt-1">Share securely — admin must change on first login.</div>
+                <div class="ui-help-text mt-1">@L["TenantsAdmin.Index.ShareSecurely"]</div>
             </div>
         </div>
     }
@@ -45,16 +46,16 @@
     @* KPI strip *@
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Total", Value = totalCount.ToString("N0"), Icon = "fa-building" })" />
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = L["Common.Total"].Value, Value = totalCount.ToString("N0"), Icon = "bx bx-buildings" })" />
         </div>
         <div class="col-6 col-md-3">
-            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Active", Value = activeCount.ToString("N0"), Icon = "fa-circle-check" })" />
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = L["Common.Active"].Value, Value = activeCount.ToString("N0"), Icon = "bx bx-check-circle" })" />
         </div>
         <div class="col-6 col-md-3">
-            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Deleted (in hold)", Value = deletedCount.ToString("N0"), Icon = "fa-trash-can" })" />
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = L["TenantsAdmin.Index.KpiDeletedInHold"].Value, Value = deletedCount.ToString("N0"), Icon = "bx bx-trash" })" />
         </div>
         <div class="col-6 col-md-3">
-            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "This month", Value = Model.Count(c => c.CreatedAtUtc >= DateTime.UtcNow.AddDays(-30)).ToString("N0"), Delta = "new tenants", Icon = "fa-arrow-trend-up" })" />
+            <partial name="_UiKpi" model="@(new UiKpiOptions { Label = L["TenantsAdmin.Index.KpiThisMonth"].Value, Value = Model.Count(c => c.CreatedAtUtc >= DateTime.UtcNow.AddDays(-30)).ToString("N0"), Delta = L["TenantsAdmin.Index.KpiNewTenants"].Value, Icon = "bx bx-trending-up" })" />
         </div>
     </div>
 
@@ -63,19 +64,19 @@
         <table class="table table-hover mb-0 ui-table">
             <thead>
                 <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Status</th>
-                    <th class="text-end">Created</th>
-                    <th class="text-end" style="width: 1%">Actions</th>
+                    <th>@L["TenantsAdmin.Index.ColCode"]</th>
+                    <th>@L["Common.Name"]</th>
+                    <th>@L["TenantsAdmin.Index.ColContact"]</th>
+                    <th>@L["Common.Status"]</th>
+                    <th class="text-end">@L["TenantsAdmin.Index.ColCreated"]</th>
+                    <th class="text-end" style="width: 1%">@L["Common.Actions"]</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.Count == 0)
                 {
-                    <tr><td colspan="6" class="text-center py-5 ui-muted">
-                        No tenants yet — click <strong>Add tenant</strong> above to onboard one.
+                    <tr><td colspan="6" class="p-0">
+                        <partial name="_EmptyState" model="@(new EmptyStateOptions { Icon = "bx-buildings", Title = L["TenantsAdmin.Index.Empty.Title"].Value, Description = L["TenantsAdmin.Index.Empty.Description"].Value, CtaLabel = L["TenantsAdmin.Index.AddTenant"].Value, CtaUrl = "/sysadmin/tenants/new" })" />
                     </td></tr>
                 }
                 @foreach (var c in Model)
@@ -83,9 +84,9 @@
                     var variant = c.DeletedAtUtc != null ? UiBadgeVariant.Warning
                                 : c.IsActive    ? UiBadgeVariant.Success
                                 : UiBadgeVariant.Secondary;
-                    var label   = c.DeletedAtUtc != null ? $"In hold (until {c.HoldUntilUtc?.ToString("yyyy-MM-dd")})"
-                                : c.IsActive    ? "Active"
-                                : "Disabled";
+                    var label   = c.DeletedAtUtc != null ? L["TenantsAdmin.Index.StatusInHold", c.HoldUntilUtc?.ToString("yyyy-MM-dd") ?? ""].Value
+                                : c.IsActive    ? L["Common.Active"].Value
+                                : L["Common.Disabled"].Value;
                     <tr>
                         <td class="ui-mono ui-text-strong">@c.ClientCode</td>
                         <td>
@@ -105,8 +106,8 @@
                         <td class="text-end ui-muted ui-tabular">@c.CreatedAtUtc.ToString("yyyy-MM-dd")</td>
                         <td class="text-end">
                             <div class="dropdown">
-                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="Actions">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="@L["Common.Actions"]">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     @if (c.DeletedAtUtc != null)
@@ -115,7 +116,7 @@
                                             <form method="post" action="/sysadmin/tenants/@c.ClientId/restore" class="m-0">
                                                 @Html.AntiForgeryToken()
                                                 <button class="dropdown-item" type="submit">
-                                                    <i class="fa-solid fa-arrow-rotate-left me-2"></i> Restore
+                                                    <i class="bx bx-rotate-left me-2"></i> @L["TenantsAdmin.Index.Restore"]
                                                 </button>
                                             </form>
                                         </li>
@@ -124,11 +125,11 @@
                                     {
                                         <li>
                                             <form method="post" action="/sysadmin/tenants/@c.ClientId/soft-delete" class="m-0"
-                                                  data-cl-confirm="Soft-delete @c.ClientCode? Hard-delete will run after the hold window." data-cl-confirm-variant="warning">
+                                                  data-cl-confirm="@L["TenantsAdmin.Index.ConfirmSoftDelete", c.ClientCode]" data-cl-confirm-variant="warning">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="reason" value="Manual soft-delete from console" />
                                                 <button class="dropdown-item" type="submit">
-                                                    <i class="fa-solid fa-trash me-2"></i> Soft delete
+                                                    <i class="bx bx-trash me-2"></i> @L["TenantsAdmin.Index.SoftDelete"]
                                                 </button>
                                             </form>
                                         </li>

@@ -3,13 +3,14 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.TenantsAdminController.NewTenantForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Add tenant";
+    ViewData["Title"] = L["TenantsAdmin.New.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Add a new tenant",
-        Subtitle = "Identity + directory source + bootstrap admin — created atomically.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/sysadmin/tenants'><i class='fa-solid fa-arrow-left me-1'></i> All tenants</a>")
+        Title    = L["TenantsAdmin.New.Heading"].Value,
+        Subtitle = L["TenantsAdmin.New.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/sysadmin/tenants'><i class='bx bx-arrow-back me-1'></i> {L["TenantsAdmin.New.AllTenants"].Value}</a>")
     };
     string StepBadge(int n) => $"<span class='ui-badge variant-primary' style='min-width:22px;text-align:center'>{n}</span>";
 }
@@ -25,39 +26,39 @@
             <div class="col-lg-7">
                 <div class="ui-card">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">@Html.Raw(StepBadge(1)) Identity</div>
+                        <div class="ui-card-title">@Html.Raw(StepBadge(1)) @L["TenantsAdmin.New.Step1Title"]</div>
                     </div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="ClientCode">Tenant code (URL slug)</label>
+                                <label class="ui-label" asp-for="ClientCode">@L["TenantsAdmin.New.ClientCodeLabel"]</label>
                                 <input asp-for="ClientCode" class="ui-input form-control" placeholder="acme" autocomplete="off" />
-                                <div class="ui-help-text">Used in subdomains and tokens. Lower-case letters / digits only.</div>
+                                <div class="ui-help-text">@L["TenantsAdmin.New.ClientCodeHelp"]</div>
                                 <span asp-validation-for="ClientCode" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="ClientName">Display name</label>
-                                <input asp-for="ClientName" class="ui-input form-control" placeholder="Acme Polytechnic" />
+                                <label class="ui-label" asp-for="ClientName">@L["TenantsAdmin.New.ClientNameLabel"]</label>
+                                <input asp-for="ClientName" class="ui-input form-control" placeholder="@L["TenantsAdmin.New.ClientNamePlaceholder"]" />
                                 <span asp-validation-for="ClientName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="ShortName">Short name</label>
-                                <input asp-for="ShortName" class="ui-input form-control" placeholder="Acme" />
+                                <label class="ui-label" asp-for="ShortName">@L["TenantsAdmin.New.ShortNameLabel"]</label>
+                                <input asp-for="ShortName" class="ui-input form-control" placeholder="@L["TenantsAdmin.New.ShortNamePlaceholder"]" />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="WebsiteUrl">Website</label>
+                                <label class="ui-label" asp-for="WebsiteUrl">@L["TenantsAdmin.New.WebsiteLabel"]</label>
                                 <input asp-for="WebsiteUrl" class="ui-input form-control" placeholder="https://acme.edu" />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="Email">Contact email</label>
+                                <label class="ui-label" asp-for="Email">@L["TenantsAdmin.New.EmailLabel"]</label>
                                 <input asp-for="Email" class="ui-input form-control" type="email" />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="PhoneNumber">Contact phone</label>
+                                <label class="ui-label" asp-for="PhoneNumber">@L["TenantsAdmin.New.PhoneLabel"]</label>
                                 <input asp-for="PhoneNumber" class="ui-input form-control" />
                             </div>
                             <div class="col-12">
-                                <label class="ui-label" asp-for="Address">Address</label>
+                                <label class="ui-label" asp-for="Address">@L["TenantsAdmin.New.AddressLabel"]</label>
                                 <input asp-for="Address" class="ui-input form-control" />
                             </div>
                         </div>
@@ -66,22 +67,22 @@
 
                 <div class="ui-card mt-3">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">@Html.Raw(StepBadge(2)) Directory source</div>
-                        <div class="ui-card-muted-body">Pick how this tenant's student / employee directory feeds in. Changeable later in Directory admin.</div>
+                        <div class="ui-card-title">@Html.Raw(StepBadge(2)) @L["TenantsAdmin.New.Step2Title"]</div>
+                        <div class="ui-card-muted-body">@L["TenantsAdmin.New.DirectoryHint"]</div>
                     </div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="DirectorySource">Source type</label>
+                                <label class="ui-label" asp-for="DirectorySource">@L["TenantsAdmin.New.SourceTypeLabel"]</label>
                                 <select asp-for="DirectorySource" class="form-select ui-select">
-                                    <option value="Manual">Manual (upload CSV)</option>
-                                    <option value="Database">School DB (read-only views)</option>
-                                    <option value="Api">School portal API</option>
-                                    <option value="Disabled">Disabled (no sync)</option>
+                                    <option value="Manual">@L["TenantsAdmin.New.SourceManual"]</option>
+                                    <option value="Database">@L["TenantsAdmin.New.SourceDatabase"]</option>
+                                    <option value="Api">@L["TenantsAdmin.New.SourceApi"]</option>
+                                    <option value="Disabled">@L["TenantsAdmin.New.SourceDisabled"]</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="SyncIntervalMinutes">Sync interval (min)</label>
+                                <label class="ui-label" asp-for="SyncIntervalMinutes">@L["TenantsAdmin.New.SyncIntervalLabel"]</label>
                                 <input asp-for="SyncIntervalMinutes" class="ui-input form-control" type="number" min="5" max="1440" />
                             </div>
                         </div>
@@ -89,7 +90,7 @@
                             var dirInfo = new UiAlertOptions
                             {
                                 Variant = UiAlertVariant.Info,
-                                Body    = "Credentials (connection string / API key) are configured per-tenant in Directory → Setup after the tenant is created."
+                                Body    = L["TenantsAdmin.New.DirectoryCredsNote"].Value
                             };
                         }
                         <div class="mt-3">
@@ -100,18 +101,18 @@
 
                 <div class="ui-card mt-3">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">@Html.Raw(StepBadge(3)) Bootstrap admin</div>
-                        <div class="ui-card-muted-body">A TenantAdmin user is created automatically. They'll receive a one-time password and must change it on first login.</div>
+                        <div class="ui-card-title">@Html.Raw(StepBadge(3)) @L["TenantsAdmin.New.Step3Title"]</div>
+                        <div class="ui-card-muted-body">@L["TenantsAdmin.New.AdminHint"]</div>
                     </div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="AdminDisplayName">Admin name</label>
-                                <input asp-for="AdminDisplayName" class="ui-input form-control" placeholder="Imran Ahmed" />
+                                <label class="ui-label" asp-for="AdminDisplayName">@L["TenantsAdmin.New.AdminNameLabel"]</label>
+                                <input asp-for="AdminDisplayName" class="ui-input form-control" placeholder="@L["TenantsAdmin.New.AdminNamePlaceholder"]" />
                                 <span asp-validation-for="AdminDisplayName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="AdminEmail">Admin email</label>
+                                <label class="ui-label" asp-for="AdminEmail">@L["TenantsAdmin.New.AdminEmailLabel"]</label>
                                 <input asp-for="AdminEmail" class="ui-input form-control" type="email" placeholder="imran@acme.edu" />
                                 <span asp-validation-for="AdminEmail" class="text-danger small"></span>
                             </div>
@@ -123,21 +124,21 @@
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">@Html.Raw(StepBadge(4)) Confirm</div>
+                        <div class="ui-card-title">@Html.Raw(StepBadge(4)) @L["TenantsAdmin.New.Step4Title"]</div>
                     </div>
                     <div class="ui-card-body">
-                        <p class="ui-muted small mb-2">Clicking <strong>Create tenant</strong> will:</p>
+                        <p class="ui-muted small mb-2">@L["TenantsAdmin.New.ConfirmIntro"]</p>
                         <ul class="small ui-stack-sm mb-3" style="padding-left:1.2rem">
-                            <li>Insert a row in <code>Clients</code></li>
-                            <li>Create a TenantAdmin <code>AppUsers</code> entry</li>
-                            <li>Issue a one-time password (shown after submit)</li>
-                            <li>Stage the directory <code>Source</code> setting</li>
+                            <li>@L["TenantsAdmin.New.ConfirmInsertClient"]</li>
+                            <li>@L["TenantsAdmin.New.ConfirmCreateAdmin"]</li>
+                            <li>@L["TenantsAdmin.New.ConfirmIssuePassword"]</li>
+                            <li>@L["TenantsAdmin.New.ConfirmStageDirectory"]</li>
                         </ul>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-check me-1"></i> Create tenant
+                                <i class="bx bx-check me-1"></i> @L["TenantsAdmin.New.CreateTenant"]
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                         </div>
                     </div>
                 </div>

@@ -2692,4 +2692,379 @@
   <data name="ExportsAdmin.Index.RowCapNote" xml:space="preserve">
     <value>Exports are capped at 100,000 rows per request. Need more? Filter by a tighter date range or hand-write a SQL query against the read replica.</value>
   </data>
+  <data name="AuditAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Every sensitive action — login, recharge, refund, gateway change, role change.</value>
+  </data>
+  <data name="AuditAdmin.Index.Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="AuditAdmin.Index.Any" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="AuditAdmin.Index.EntityType" xml:space="preserve">
+    <value>Entity type</value>
+  </data>
+  <data name="AuditAdmin.Index.EntityTypePlaceholder" xml:space="preserve">
+    <value>User, Order…</value>
+  </data>
+  <data name="AuditAdmin.Index.SearchPlaceholder" xml:space="preserve">
+    <value>user / id</value>
+  </data>
+  <data name="AuditAdmin.Index.ColWhen" xml:space="preserve">
+    <value>When (UTC)</value>
+  </data>
+  <data name="AuditAdmin.Index.ColEntity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="AuditAdmin.Index.ColBy" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="AuditAdmin.Index.ColIp" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="AuditAdmin.Index.ColCorrelation" xml:space="preserve">
+    <value>Correlation</value>
+  </data>
+  <data name="AuditAdmin.Index.ColPayload" xml:space="preserve">
+    <value>Payload</value>
+  </data>
+  <data name="AuditAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No audit entries</value>
+  </data>
+  <data name="AuditAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>No audit entries match your filter.</value>
+  </data>
+  <data name="AuditAdmin.Index.PageInfo" xml:space="preserve">
+    <value>Page {0} of {1} · {2} entries</value>
+  </data>
+  <data name="BillingAdmin.Index.Title" xml:space="preserve">
+    <value>Billing</value>
+  </data>
+  <data name="BillingAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Subscription, plan, and invoices.</value>
+  </data>
+  <data name="BillingAdmin.State.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="BillingAdmin.State.Trialing" xml:space="preserve">
+    <value>Trialing</value>
+  </data>
+  <data name="BillingAdmin.State.PastDue" xml:space="preserve">
+    <value>Past due</value>
+  </data>
+  <data name="BillingAdmin.State.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="BillingAdmin.State.Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="BillingAdmin.Index.SandboxHeading" xml:space="preserve">
+    <value>Sandbox billing</value>
+  </data>
+  <data name="BillingAdmin.Index.SandboxBody" xml:space="preserve">
+    <value>This tenant is on the sandbox billing provider. Plan + invoice data are synthetic. Switch to live by flipping the DI line to StripeBillingService and setting Billing.Stripe.ApiKey.</value>
+  </data>
+  <data name="BillingAdmin.Index.CurrentPlan" xml:space="preserve">
+    <value>Current plan</value>
+  </data>
+  <data name="BillingAdmin.Index.PlanLabel" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="BillingAdmin.Index.PlanCode" xml:space="preserve">
+    <value>code: {0}</value>
+  </data>
+  <data name="BillingAdmin.Index.PerCycle" xml:space="preserve">
+    <value>Per cycle</value>
+  </data>
+  <data name="BillingAdmin.Index.PeriodEnds" xml:space="preserve">
+    <value>period ends {0}</value>
+  </data>
+  <data name="BillingAdmin.Index.SubscribePro" xml:space="preserve">
+    <value>Subscribe — Pro</value>
+  </data>
+  <data name="BillingAdmin.Index.PlanStarter" xml:space="preserve">
+    <value>Starter</value>
+  </data>
+  <data name="BillingAdmin.Index.PlanEnterprise" xml:space="preserve">
+    <value>Enterprise</value>
+  </data>
+  <data name="BillingAdmin.Index.ConfirmCancel" xml:space="preserve">
+    <value>Cancel at the end of the current period?</value>
+  </data>
+  <data name="BillingAdmin.Index.CancelAtPeriodEnd" xml:space="preserve">
+    <value>Cancel at period end</value>
+  </data>
+  <data name="BillingAdmin.Index.LastInvoice" xml:space="preserve">
+    <value>Last invoice</value>
+  </data>
+  <data name="BillingAdmin.Index.SimulatorTitle" xml:space="preserve">
+    <value>Sandbox state simulator</value>
+  </data>
+  <data name="BillingAdmin.Index.SimulatorHint" xml:space="preserve">
+    <value>Force the subscription into a state for UI demo purposes.</value>
+  </data>
+  <data name="BillingAdmin.Index.SimulateAction" xml:space="preserve">
+    <value>Simulate → {0}</value>
+  </data>
+  <data name="BrandingAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Set the default look every user in this tenant sees. Users can personalise further via the customizer.</value>
+  </data>
+  <data name="BrandingAdmin.Index.ConfirmReset" xml:space="preserve">
+    <value>Reset all branding to platform defaults?</value>
+  </data>
+  <data name="BrandingAdmin.Index.ResetToDefault" xml:space="preserve">
+    <value>Reset to platform default</value>
+  </data>
+  <data name="BrandingAdmin.Index.AppNameLabel" xml:space="preserve">
+    <value>App name</value>
+  </data>
+  <data name="BrandingAdmin.Index.AppNamePlaceholder" xml:space="preserve">
+    <value>e.g. Acme School Canteen</value>
+  </data>
+  <data name="BrandingAdmin.Index.AppNameHelp" xml:space="preserve">
+    <value>Shown in the topbar + window title.</value>
+  </data>
+  <data name="BrandingAdmin.Index.SubtitleLabel" xml:space="preserve">
+    <value>Subtitle</value>
+  </data>
+  <data name="BrandingAdmin.Index.SubtitlePlaceholder" xml:space="preserve">
+    <value>e.g. Lunchroom operations</value>
+  </data>
+  <data name="BrandingAdmin.Index.AccentColorLabel" xml:space="preserve">
+    <value>Accent color</value>
+  </data>
+  <data name="BrandingAdmin.Index.UseColor" xml:space="preserve">
+    <value>Use {0}</value>
+  </data>
+  <data name="BrandingAdmin.Index.AccentHelp" xml:space="preserve">
+    <value>Drives every primary button, badge, focus ring &amp; KPI accent across the app.</value>
+  </data>
+  <data name="BrandingAdmin.Index.LogoUrlLabel" xml:space="preserve">
+    <value>Logo URL (optional)</value>
+  </data>
+  <data name="BrandingAdmin.Index.LogoUrlHelp" xml:space="preserve">
+    <value>Square or wide — sidebar will scale it. Leave empty for the default icon.</value>
+  </data>
+  <data name="BrandingAdmin.Index.SaveButton" xml:space="preserve">
+    <value>Save tenant branding</value>
+  </data>
+  <data name="BrandingAdmin.Index.LivePreview" xml:space="preserve">
+    <value>Live preview</value>
+  </data>
+  <data name="BrandingAdmin.Index.PreviewHint" xml:space="preserve">
+    <value>Preview updates as you pick a colour. Save to apply for every user in this tenant.</value>
+  </data>
+  <data name="BrandingAdmin.Index.PreviewPrimaryAction" xml:space="preserve">
+    <value>Primary action</value>
+  </data>
+  <data name="BrandingAdmin.Index.PreviewBadge" xml:space="preserve">
+    <value>Badge</value>
+  </data>
+  <data name="BrandingAdmin.Index.CustomizerNote" xml:space="preserve">
+    <value>Users can override your tenant default via the floating gear icon bottom-right. Hit 'Reset to defaults' in the customizer to fall back to your tenant brand.</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.Title" xml:space="preserve">
+    <value>Feature flags</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Per-tenant gates. Backed by TenantSetting + L1 cache — toggling is instant.</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.ColFlag" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.ColKey" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.ColState" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="FeatureFlagsAdmin.Index.Toggle" xml:space="preserve">
+    <value>Toggle</value>
+  </data>
+  <data name="TenantsAdmin.Index.AddTenant" xml:space="preserve">
+    <value>Add tenant</value>
+  </data>
+  <data name="TenantsAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Every institute on the SaaS — one row per Clients table entry.</value>
+  </data>
+  <data name="TenantsAdmin.Index.CreatedHeading" xml:space="preserve">
+    <value>Tenant {0} created</value>
+  </data>
+  <data name="TenantsAdmin.Index.Login" xml:space="preserve">
+    <value>login</value>
+  </data>
+  <data name="TenantsAdmin.Index.Password" xml:space="preserve">
+    <value>password</value>
+  </data>
+  <data name="TenantsAdmin.Index.ShareSecurely" xml:space="preserve">
+    <value>Share securely — admin must change on first login.</value>
+  </data>
+  <data name="TenantsAdmin.Index.KpiDeletedInHold" xml:space="preserve">
+    <value>Deleted (in hold)</value>
+  </data>
+  <data name="TenantsAdmin.Index.KpiThisMonth" xml:space="preserve">
+    <value>This month</value>
+  </data>
+  <data name="TenantsAdmin.Index.KpiNewTenants" xml:space="preserve">
+    <value>new tenants</value>
+  </data>
+  <data name="TenantsAdmin.Index.ColCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="TenantsAdmin.Index.ColContact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="TenantsAdmin.Index.ColCreated" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="TenantsAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No tenants yet</value>
+  </data>
+  <data name="TenantsAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>Click Add tenant to onboard one.</value>
+  </data>
+  <data name="TenantsAdmin.Index.StatusInHold" xml:space="preserve">
+    <value>In hold (until {0})</value>
+  </data>
+  <data name="TenantsAdmin.Index.ConfirmSoftDelete" xml:space="preserve">
+    <value>Soft-delete {0}? Hard-delete will run after the hold window.</value>
+  </data>
+  <data name="TenantsAdmin.Index.Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="TenantsAdmin.Index.SoftDelete" xml:space="preserve">
+    <value>Soft delete</value>
+  </data>
+  <data name="TenantsAdmin.New.Title" xml:space="preserve">
+    <value>Add tenant</value>
+  </data>
+  <data name="TenantsAdmin.New.Heading" xml:space="preserve">
+    <value>Add a new tenant</value>
+  </data>
+  <data name="TenantsAdmin.New.Subtitle" xml:space="preserve">
+    <value>Identity + directory source + bootstrap admin — created atomically.</value>
+  </data>
+  <data name="TenantsAdmin.New.AllTenants" xml:space="preserve">
+    <value>All tenants</value>
+  </data>
+  <data name="TenantsAdmin.New.Step1Title" xml:space="preserve">
+    <value>Identity</value>
+  </data>
+  <data name="TenantsAdmin.New.ClientCodeLabel" xml:space="preserve">
+    <value>Tenant code (URL slug)</value>
+  </data>
+  <data name="TenantsAdmin.New.ClientCodeHelp" xml:space="preserve">
+    <value>Used in subdomains and tokens. Lower-case letters / digits only.</value>
+  </data>
+  <data name="TenantsAdmin.New.ClientNameLabel" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="TenantsAdmin.New.ClientNamePlaceholder" xml:space="preserve">
+    <value>Acme Polytechnic</value>
+  </data>
+  <data name="TenantsAdmin.New.ShortNameLabel" xml:space="preserve">
+    <value>Short name</value>
+  </data>
+  <data name="TenantsAdmin.New.ShortNamePlaceholder" xml:space="preserve">
+    <value>Acme</value>
+  </data>
+  <data name="TenantsAdmin.New.WebsiteLabel" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="TenantsAdmin.New.EmailLabel" xml:space="preserve">
+    <value>Contact email</value>
+  </data>
+  <data name="TenantsAdmin.New.PhoneLabel" xml:space="preserve">
+    <value>Contact phone</value>
+  </data>
+  <data name="TenantsAdmin.New.AddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="TenantsAdmin.New.Step2Title" xml:space="preserve">
+    <value>Directory source</value>
+  </data>
+  <data name="TenantsAdmin.New.DirectoryHint" xml:space="preserve">
+    <value>Pick how this tenant's student / employee directory feeds in. Changeable later in Directory admin.</value>
+  </data>
+  <data name="TenantsAdmin.New.SourceTypeLabel" xml:space="preserve">
+    <value>Source type</value>
+  </data>
+  <data name="TenantsAdmin.New.SourceManual" xml:space="preserve">
+    <value>Manual (upload CSV)</value>
+  </data>
+  <data name="TenantsAdmin.New.SourceDatabase" xml:space="preserve">
+    <value>School DB (read-only views)</value>
+  </data>
+  <data name="TenantsAdmin.New.SourceApi" xml:space="preserve">
+    <value>School portal API</value>
+  </data>
+  <data name="TenantsAdmin.New.SourceDisabled" xml:space="preserve">
+    <value>Disabled (no sync)</value>
+  </data>
+  <data name="TenantsAdmin.New.SyncIntervalLabel" xml:space="preserve">
+    <value>Sync interval (min)</value>
+  </data>
+  <data name="TenantsAdmin.New.DirectoryCredsNote" xml:space="preserve">
+    <value>Credentials (connection string / API key) are configured per-tenant in Directory → Setup after the tenant is created.</value>
+  </data>
+  <data name="TenantsAdmin.New.Step3Title" xml:space="preserve">
+    <value>Bootstrap admin</value>
+  </data>
+  <data name="TenantsAdmin.New.AdminHint" xml:space="preserve">
+    <value>A TenantAdmin user is created automatically. They'll receive a one-time password and must change it on first login.</value>
+  </data>
+  <data name="TenantsAdmin.New.AdminNameLabel" xml:space="preserve">
+    <value>Admin name</value>
+  </data>
+  <data name="TenantsAdmin.New.AdminNamePlaceholder" xml:space="preserve">
+    <value>Imran Ahmed</value>
+  </data>
+  <data name="TenantsAdmin.New.AdminEmailLabel" xml:space="preserve">
+    <value>Admin email</value>
+  </data>
+  <data name="TenantsAdmin.New.Step4Title" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="TenantsAdmin.New.ConfirmIntro" xml:space="preserve">
+    <value>Clicking Create tenant will:</value>
+  </data>
+  <data name="TenantsAdmin.New.ConfirmInsertClient" xml:space="preserve">
+    <value>Insert a row in Clients</value>
+  </data>
+  <data name="TenantsAdmin.New.ConfirmCreateAdmin" xml:space="preserve">
+    <value>Create a TenantAdmin AppUsers entry</value>
+  </data>
+  <data name="TenantsAdmin.New.ConfirmIssuePassword" xml:space="preserve">
+    <value>Issue a one-time password (shown after submit)</value>
+  </data>
+  <data name="TenantsAdmin.New.ConfirmStageDirectory" xml:space="preserve">
+    <value>Stage the directory Source setting</value>
+  </data>
+  <data name="TenantsAdmin.New.CreateTenant" xml:space="preserve">
+    <value>Create tenant</value>
+  </data>
+  <data name="Verification.Index.KeypadMode" xml:space="preserve">
+    <value>Keypad mode</value>
+  </data>
+  <data name="Verification.Index.NfcKeyboard" xml:space="preserve">
+    <value>NFC / keyboard</value>
+  </data>
+  <data name="Verification.Index.ClearTitle" xml:space="preserve">
+    <value>Clear (Esc)</value>
+  </data>
+  <data name="Verification.Index.ShortcutClear" xml:space="preserve">
+    <value>clear</value>
+  </data>
+  <data name="Verification.Index.ShortcutVerify" xml:space="preserve">
+    <value>verify</value>
+  </data>
+  <data name="Verification.Index.TypeScanAnywhere" xml:space="preserve">
+    <value>Type / scan anywhere</value>
+  </data>
 </root>

@@ -6,8 +6,9 @@
 @using Platform.Application.Abstractions.Billing
 @using CanteenManagementSystem.Presentation.Models
 @model BillingStatus
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Billing";
+    ViewData["Title"] = L["BillingAdmin.Index.Title"].Value;
     UiBadgeVariant V(SubscriptionState s) => s switch
     {
         SubscriptionState.Active    => UiBadgeVariant.Success,
@@ -16,12 +17,21 @@
         SubscriptionState.Cancelled => UiBadgeVariant.Secondary,
         _ => UiBadgeVariant.Secondary
     };
+    string SLabel(SubscriptionState s) => s switch
+    {
+        SubscriptionState.Active    => L["BillingAdmin.State.Active"].Value,
+        SubscriptionState.Trialing  => L["BillingAdmin.State.Trialing"].Value,
+        SubscriptionState.PastDue   => L["BillingAdmin.State.PastDue"].Value,
+        SubscriptionState.Cancelled => L["BillingAdmin.State.Cancelled"].Value,
+        SubscriptionState.Inactive  => L["BillingAdmin.State.Inactive"].Value,
+        _ => s.ToString()
+    };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Billing",
-        Subtitle = "Subscription, plan, and invoices."
+        Title    = L["BillingAdmin.Index.Title"].Value,
+        Subtitle = L["BillingAdmin.Index.Subtitle"].Value
     };
-    var stateBadge = new UiBadgeOptions { Text = Model.State.ToString(), Variant = V(Model.State), WithDot = true };
+    var stateBadge = new UiBadgeOptions { Text = SLabel(Model.State), Variant = V(Model.State), WithDot = true };
     var isSandbox = Context.RequestServices.GetService(typeof(IBillingService)) is Platform.Infrastructure.Billing.SandboxBillingService;
 }
 
@@ -33,8 +43,8 @@
         var alert = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "Sandbox billing",
-            Body    = "This tenant is on the sandbox billing provider. Plan + invoice data are synthetic. Switch to live by flipping the DI line to StripeBillingService and setting Billing.Stripe.ApiKey."
+            Heading = L["BillingAdmin.Index.SandboxHeading"].Value,
+            Body    = L["BillingAdmin.Index.SandboxBody"].Value
         };
         <partial name="_UiAlert" model="alert" />
         <div style="height: 1rem"></div>
@@ -44,23 +54,23 @@
         <div class="col-12 col-lg-7">
             <div class="ui-card">
                 <div class="ui-card-header">
-                    <div class="ui-card-title">Current plan</div>
+                    <div class="ui-card-title">@L["BillingAdmin.Index.CurrentPlan"]</div>
                     <partial name="_UiBadge" model="stateBadge" />
                 </div>
                 <div class="ui-card-body">
                     <div class="row g-3">
                         <div class="col-6">
-                            <div class="ui-kpi-label">Plan</div>
+                            <div class="ui-kpi-label">@L["BillingAdmin.Index.PlanLabel"]</div>
                             <div class="ui-kpi-value" style="font-size:24px">@(Model.PlanName ?? "—")</div>
-                            <div class="ui-muted" style="font-size:13px">code: @(Model.PlanCode ?? "—")</div>
+                            <div class="ui-muted" style="font-size:13px">@L["BillingAdmin.Index.PlanCode", Model.PlanCode ?? "—"]</div>
                         </div>
                         <div class="col-6">
-                            <div class="ui-kpi-label">Per cycle</div>
+                            <div class="ui-kpi-label">@L["BillingAdmin.Index.PerCycle"]</div>
                             <div class="ui-kpi-value" style="font-size:24px">
                                 @(Model.AmountPerCycle.HasValue ? $"{Model.Currency ?? "USD"} {Model.AmountPerCycle:N0}" : "—")
                             </div>
                             <div class="ui-muted" style="font-size:13px">
-                                period ends @(Model.CurrentPeriodEndUtc?.ToString("yyyy-MM-dd") ?? "—")
+                                @L["BillingAdmin.Index.PeriodEnds", Model.CurrentPeriodEndUtc?.ToString("yyyy-MM-dd") ?? "—"]
                             </div>
                         </div>
                     </div>
@@ -73,31 +83,31 @@
                             <form method="post" action="/admin/billing/checkout/pro" class="d-inline">
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-primary" type="submit">
-                                    <i class="fa-solid fa-credit-card me-1"></i> Subscribe — Pro
+                                    <i class="bx bx-credit-card me-1"></i> @L["BillingAdmin.Index.SubscribePro"]
                                 </button>
                             </form>
                             <form method="post" action="/admin/billing/checkout/starter" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-outline-secondary" type="submit">Starter</button>
+                                <button class="btn btn-outline-secondary" type="submit">@L["BillingAdmin.Index.PlanStarter"]</button>
                             </form>
                             <form method="post" action="/admin/billing/checkout/enterprise" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-outline-secondary" type="submit">Enterprise</button>
+                                <button class="btn btn-outline-secondary" type="submit">@L["BillingAdmin.Index.PlanEnterprise"]</button>
                             </form>
                         }
                         else
                         {
-                            <form method="post" action="/admin/billing/cancel" data-cl-confirm="Cancel at the end of the current period?" data-cl-confirm-variant="warning" class="d-inline">
+                            <form method="post" action="/admin/billing/cancel" data-cl-confirm="@L["BillingAdmin.Index.ConfirmCancel"]" data-cl-confirm-variant="warning" class="d-inline">
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-outline-secondary" type="submit">
-                                    <i class="fa-solid fa-pause me-1"></i> Cancel at period end
+                                    <i class="bx bx-pause me-1"></i> @L["BillingAdmin.Index.CancelAtPeriodEnd"]
                                 </button>
                             </form>
                         }
                         @if (!string.IsNullOrEmpty(Model.LastInvoiceUrl))
                         {
                             <a class="btn btn-ghost" href="@Model.LastInvoiceUrl" target="_blank" rel="noopener">
-                                <i class="fa-solid fa-file-invoice me-1"></i> Last invoice
+                                <i class="bx bx-receipt me-1"></i> @L["BillingAdmin.Index.LastInvoice"]
                             </a>
                         }
                     </div>
@@ -109,16 +119,16 @@
         {
             <div class="col-12 col-lg-5">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Sandbox state simulator</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["BillingAdmin.Index.SimulatorTitle"]</div></div>
                     <div class="ui-card-body">
-                        <p class="ui-muted" style="font-size:13px">Force the subscription into a state for UI demo purposes.</p>
+                        <p class="ui-muted" style="font-size:13px">@L["BillingAdmin.Index.SimulatorHint"]</p>
                         <div class="ui-stack-sm">
-                            @foreach (var s in new[] { "Trialing", "Active", "PastDue", "Cancelled", "Inactive" })
+                            @foreach (var s in new[] { SubscriptionState.Trialing, SubscriptionState.Active, SubscriptionState.PastDue, SubscriptionState.Cancelled, SubscriptionState.Inactive })
                             {
                                 <form method="post" action="/admin/billing/sandbox/simulate/@s" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <button class="btn btn-outline-secondary btn-sm w-100" type="submit">
-                                        Simulate → @s
+                                        @L["BillingAdmin.Index.SimulateAction", SLabel(s)]
                                     </button>
                                 </form>
                             }
