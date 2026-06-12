@@ -4,16 +4,17 @@
 @using Platform.Application.Abstractions.Reporting
 @using CanteenManagementSystem.Presentation.Models
 @model List<IGrouping<string, IReport>>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Reports catalog";
+    ViewData["Title"] = L["ReportsCatalog"].Value;
     string GroupIcon(string g) => g switch
     {
-        "Sales"      => "fa-cash-register",
-        "Wallet"     => "fa-wallet",
-        "Compliance" => "fa-scale-balanced",
-        "Audit"      => "fa-clipboard-list",
-        "Inventory"  => "fa-boxes-stacked",
-        _ => "fa-chart-pie"
+        "Sales"      => "bx-store-alt",
+        "Wallet"     => "bx-wallet",
+        "Compliance" => "bx-check-shield",
+        "Audit"      => "bx-clipboard",
+        "Inventory"  => "bx-package",
+        _ => "bx-pie-chart-alt-2"
     };
     UiBadgeVariant FormatVariant(string fmt) => fmt.ToLowerInvariant() switch
     {
@@ -26,8 +27,8 @@
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Reports catalog",
-        Subtitle = "All registered reports — PDF, XLSX, CSV, HTML, JSON."
+        Title    = L["ReportsCatalog"].Value,
+        Subtitle = L["ReportsCatalog.Index.Subtitle"].Value
     };
     var reportCount = Model.SelectMany(g => g).Count();
 }
@@ -40,19 +41,19 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "No reports registered",
-            Body    = "Products register reports via services.AddScoped<IReport, MyReport>()."
+            Heading = L["ReportsCatalog.Index.EmptyTitle"].Value,
+            Body    = L["ReportsCatalog.Index.EmptyBody"].Value
         };
         <partial name="_UiAlert" model="info" />
     }
     else
     {
-        <div class="ui-muted mb-3" style="font-size:13px">@reportCount report(s) across @Model.Count group(s).</div>
+        <div class="ui-muted mb-3" style="font-size:13px">@L["ReportsCatalog.Index.CountSummary", reportCount, Model.Count]</div>
 
         @foreach (var group in Model)
         {
             <div class="ui-section-title mt-4 mb-2">
-                <i class="fa-solid @GroupIcon(group.Key) me-2"></i>@group.Key
+                <i class="bx @GroupIcon(group.Key) me-2"></i>@group.Key
                 <span class="ui-muted" style="font-weight:400;font-size:12px;margin-left:.5rem">(@group.Count())</span>
             </div>
             <div class="row g-3">
@@ -69,7 +70,7 @@
                                             <div class="ui-muted mt-1" style="font-size:13px">@r.Description</div>
                                         }
                                     </div>
-                                    <i class="fa-solid fa-arrow-right ui-muted ms-2"></i>
+                                    <i class="bx bx-right-arrow-alt ui-muted ms-2"></i>
                                 </div>
                                 <div class="mt-3 d-flex flex-wrap gap-1">
                                     @foreach (var f in r.SupportedFormats)

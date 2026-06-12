@@ -1,0 +1,1286 @@
+[
+    {
+        "k":  "DirectoryAdminUi.Index.UploadEmployeesCsv",
+        "bn":  "কর্মচারীদের CSV আপলোড করুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.EmployeesCsvHeaders",
+        "bn":  "হেডার: ExternalId, Name (+ ঐচ্ছিক CardIdentifier, Gender, ContactNo, PhotoPath, Designation, EmployeeType)।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.Upload",
+        "bn":  "আপলোড"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.RecentSyncRuns",
+        "bn":  "সাম্প্রতিক সিঙ্ক রান"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.When",
+        "bn":  "কখন"
+    },
+    {
+        "k":  "DirectoryAdminUi.StudentsDelta",
+        "bn":  "শিক্ষার্থী Δ"
+    },
+    {
+        "k":  "DirectoryAdminUi.EmployeesDelta",
+        "bn":  "কর্মচারী Δ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Duration",
+        "bn":  "সময়কাল"
+    },
+    {
+        "k":  "DirectoryAdminUi.NoRuns.Title",
+        "bn":  "এখনও কোনো সিঙ্ক রান নেই"
+    },
+    {
+        "k":  "DirectoryAdminUi.NoRuns.Description",
+        "bn":  "শুরু করতে এখনই সিঙ্ক করুন চাপুন অথবা একটি CSV আপলোড করুন।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.PageTitle",
+        "bn":  "ডিরেক্টরি · সেটআপ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.Heading",
+        "bn":  "ডিরেক্টরি সোর্স"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.Subtitle",
+        "bn":  "এই টেন্যান্টের শিক্ষার্থী / কর্মচারী ডিরেক্টরি কীভাবে আসবে তা নির্বাচন করুন।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SourceType",
+        "bn":  "সোর্সের ধরন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SourceManual",
+        "bn":  "ম্যানুয়াল (CSV আপলোড)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SourceDatabase",
+        "bn":  "স্কুল DB (রিড-অনলি ভিউ)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SourceApi",
+        "bn":  "স্কুল পোর্টাল API"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SourceDisabled",
+        "bn":  "নিষ্ক্রিয় (সিঙ্ক নেই)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.IntervalMinutes",
+        "bn":  "ইন্টারভাল (মিনিট)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SnapshotMode",
+        "bn":  "স্ন্যাপশট মোড"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SnapshotPerSync",
+        "bn":  "প্রতি সিঙ্কে (সম্পূর্ণ স্ন্যাপশট)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SnapshotDaily",
+        "bn":  "দৈনিক (অন্য সময় ইনক্রিমেন্টাল)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.DbCredentials",
+        "bn":  "স্কুল DB ক্রেডেনশিয়াল"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.ConnectionString",
+        "bn":  "কানেকশন স্ট্রিং"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.StoredPlaceholder",
+        "bn":  "(সংরক্ষিত — বদলাতে পেস্ট করুন)"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.ConnectionStringHelp",
+        "bn":  "এনক্রিপ্ট করে সংরক্ষিত। বিদ্যমান মান রাখতে ফাঁকা রাখুন।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.StudentsView",
+        "bn":  "শিক্ষার্থী ভিউ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.EmployeesView",
+        "bn":  "কর্মচারী ভিউ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.BaseUrl",
+        "bn":  "বেস URL"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.AppKey",
+        "bn":  "অ্যাপ কী"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.HmacSecret",
+        "bn":  "HMAC সিক্রেট"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.ApiSecretPlaceholder",
+        "bn":  "৩২টি র‍্যান্ডম বাইট, base64-এনকোডেড"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.PageSize",
+        "bn":  "পেজ সাইজ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.FailureAlerts",
+        "bn":  "ব্যর্থতার অ্যালার্ট"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.Threshold",
+        "bn":  "থ্রেশহোল্ড"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.ThresholdHelp",
+        "bn":  "অ্যালার্ট পাঠানোর আগে পরপর কতগুলো ব্যর্থতা হতে হবে।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.AlertEmail",
+        "bn":  "অ্যালার্ট ইমেইল"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.AlertPhone",
+        "bn":  "অ্যালার্ট ফোন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SaveChanges",
+        "bn":  "পরিবর্তন সংরক্ষণ করুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Setup.SaveHelp",
+        "bn":  "ক্রেডেনশিয়াল এনক্রিপ্ট করে সংরক্ষণ করা হয়। সিক্রেট ঘর ফাঁকা রাখলে বিদ্যমান মানই থাকবে।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Runs.PageTitle",
+        "bn":  "ডিরেক্টরি · সিঙ্ক রান"
+    },
+    {
+        "k":  "DirectoryAdminUi.Runs.Heading",
+        "bn":  "সিঙ্ক রান"
+    },
+    {
+        "k":  "DirectoryAdminUi.Runs.Subtitle",
+        "bn":  "{0}টি রান দেখানো হচ্ছে · সাম্প্রতিকটি আগে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Runs.Started",
+        "bn":  "শুরুর সময়"
+    },
+    {
+        "k":  "DirectoryAdminUi.Students.PageTitle",
+        "bn":  "ডিরেক্টরি · শিক্ষার্থী"
+    },
+    {
+        "k":  "DirectoryAdminUi.SearchPlaceholder",
+        "bn":  "নাম / কার্ড / ID খুঁজুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.RecordCount",
+        "bn":  "{0}টি রেকর্ড"
+    },
+    {
+        "k":  "DirectoryAdminUi.ExternalId",
+        "bn":  "এক্সটার্নাল ID"
+    },
+    {
+        "k":  "DirectoryAdminUi.Card",
+        "bn":  "কার্ড"
+    },
+    {
+        "k":  "DirectoryAdminUi.Students.ProgramClass",
+        "bn":  "প্রোগ্রাম / শ্রেণি"
+    },
+    {
+        "k":  "DirectoryAdminUi.Students.Session",
+        "bn":  "সেশন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Contact",
+        "bn":  "যোগাযোগ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Synced",
+        "bn":  "সিঙ্ক হয়েছে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Students.EmptyTitle",
+        "bn":  "এখনও কোনো শিক্ষার্থী নেই"
+    },
+    {
+        "k":  "DirectoryAdminUi.Roster.EmptyDescription",
+        "bn":  "একটি CSV আপলোড করুন অথবা সিঙ্ক চালান।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Employees.PageTitle",
+        "bn":  "ডিরেক্টরি · কর্মচারী"
+    },
+    {
+        "k":  "DirectoryAdminUi.Employees.Designation",
+        "bn":  "পদবি"
+    },
+    {
+        "k":  "DirectoryAdminUi.Employees.EmptyTitle",
+        "bn":  "এখনও কোনো কর্মচারী নেই"
+    },
+    {
+        "k":  "UsersAdmin.Index.Subtitle",
+        "bn":  "এই টেন্যান্টের অপারেটর / অ্যাডমিন অ্যাকাউন্ট।"
+    },
+    {
+        "k":  "UsersAdmin.Index.BulkImport",
+        "bn":  "বাল্ক ইমপোর্ট"
+    },
+    {
+        "k":  "UsersAdmin.Index.InviteUser",
+        "bn":  "ব্যবহারকারী আমন্ত্রণ"
+    },
+    {
+        "k":  "UsersAdmin.Index.Locked",
+        "bn":  "লক করা"
+    },
+    {
+        "k":  "UsersAdmin.Index.LoggedIn30d",
+        "bn":  "৩০ দিনে লগইন"
+    },
+    {
+        "k":  "UsersAdmin.Index.Username",
+        "bn":  "ইউজারনেম"
+    },
+    {
+        "k":  "UsersAdmin.DisplayName",
+        "bn":  "প্রদর্শিত নাম"
+    },
+    {
+        "k":  "UsersAdmin.Kind",
+        "bn":  "ধরন"
+    },
+    {
+        "k":  "UsersAdmin.Index.Roles",
+        "bn":  "ভূমিকা"
+    },
+    {
+        "k":  "UsersAdmin.Index.LastLogin",
+        "bn":  "সর্বশেষ লগইন"
+    },
+    {
+        "k":  "UsersAdmin.Index.EmptyTitle",
+        "bn":  "এখনও কোনো ব্যবহারকারী নেই"
+    },
+    {
+        "k":  "UsersAdmin.Index.EmptyDescription",
+        "bn":  "শুরু করতে আপনার প্রথম ব্যবহারকারীকে আমন্ত্রণ জানান।"
+    },
+    {
+        "k":  "UsersAdmin.Index.Never",
+        "bn":  "কখনও না"
+    },
+    {
+        "k":  "UsersAdmin.Index.Lock",
+        "bn":  "লক করুন"
+    },
+    {
+        "k":  "UsersAdmin.Index.Activate",
+        "bn":  "সক্রিয় করুন"
+    },
+    {
+        "k":  "UsersAdmin.Index.LockConfirm",
+        "bn":  "{0}-কে লক করবেন?"
+    },
+    {
+        "k":  "UsersAdmin.Index.ActivateConfirm",
+        "bn":  "{0}-কে সক্রিয় করবেন?"
+    },
+    {
+        "k":  "UsersAdmin.Index.ResetPasswordConfirm",
+        "bn":  "{0}-এর পাসওয়ার্ড রিসেট করবেন? তিনি একটি অস্থায়ী পাসওয়ার্ড পাবেন।"
+    },
+    {
+        "k":  "UsersAdmin.Index.ResetPassword",
+        "bn":  "পাসওয়ার্ড রিসেট"
+    },
+    {
+        "k":  "UsersAdmin.Invite.Heading",
+        "bn":  "ব্যবহারকারী আমন্ত্রণ জানান"
+    },
+    {
+        "k":  "UsersAdmin.Invite.Subtitle",
+        "bn":  "অ্যাকাউন্ট তৈরি করুন, ভূমিকা নির্বাচন করুন, ওয়ান-টাইম পাসওয়ার্ড পাঠান।"
+    },
+    {
+        "k":  "UsersAdmin.AllUsers",
+        "bn":  "সব ব্যবহারকারী"
+    },
+    {
+        "k":  "UsersAdmin.Invite.UsernameHelp",
+        "bn":  "সংরক্ষণের সময় ছোট হাতের অক্ষরে রূপান্তরিত হয়। পুরো প্ল্যাটফর্মে অনন্য হতে হবে।"
+    },
+    {
+        "k":  "UsersAdmin.UserKind.Operator",
+        "bn":  "অপারেটর"
+    },
+    {
+        "k":  "UsersAdmin.UserKind.Admin",
+        "bn":  "অ্যাডমিন"
+    },
+    {
+        "k":  "UsersAdmin.UserKind.Cashier",
+        "bn":  "ক্যাশিয়ার"
+    },
+    {
+        "k":  "UsersAdmin.UserKind.Auditor",
+        "bn":  "অডিটর"
+    },
+    {
+        "k":  "UsersAdmin.Invite.InitialRole",
+        "bn":  "প্রাথমিক ভূমিকা"
+    },
+    {
+        "k":  "UsersAdmin.Invite.WhatHappensNext",
+        "bn":  "এরপর কী হবে"
+    },
+    {
+        "k":  "UsersAdmin.Invite.Step1",
+        "bn":  "এই টেন্যান্টের সাথে যুক্ত করে AppUsers-এ ব্যবহারকারী তৈরি হবে"
+    },
+    {
+        "k":  "UsersAdmin.Invite.Step2",
+        "bn":  "পরের পৃষ্ঠায় একটি র‍্যান্ডম ওয়ান-টাইম পাসওয়ার্ড দেখানো হবে"
+    },
+    {
+        "k":  "UsersAdmin.Invite.Step3",
+        "bn":  "প্রথম লগইনে ব্যবহারকারীকে তা পরিবর্তন করতেই হবে"
+    },
+    {
+        "k":  "UsersAdmin.Invite.CreateUser",
+        "bn":  "ব্যবহারকারী তৈরি করুন"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.PageTitle",
+        "bn":  "ব্যবহারকারী বাল্ক ইমপোর্ট"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.Heading",
+        "bn":  "ব্যবহারকারী বাল্ক ইমপোর্ট (CSV)"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.Subtitle",
+        "bn":  "একটি CSV আপলোড করুন — বিদ্যমান ইউজারনেম বাদ যায়, তাই পুনরায় আপলোড করা নিরাপদ।"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.CsvFile",
+        "bn":  "CSV ফাইল"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.CsvHelp",
+        "bn":  "UTF-8 এনকোডেড। প্রথম সারিটি হেডার। একবারে সর্বোচ্চ ~১০ হাজার সারি।"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.Import",
+        "bn":  "ইমপোর্ট"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.ExpectedShape",
+        "bn":  "প্রত্যাশিত CSV কাঠামো"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.Default",
+        "bn":  "ডিফল্ট"
+    },
+    {
+        "k":  "UsersAdmin.BulkImport.ExternalIdHint",
+        "bn":  "সংযুক্ত ব্যক্তির ID, যেমন কর্মচারী নম্বর"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Title",
+        "bn":  "পেমেন্ট গেটওয়ে"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Subtitle",
+        "bn":  "প্রতিটি গেটওয়ের লাইভ + স্যান্ডবক্স ক্রেডেনশিয়াল। এনভায়রনমেন্ট বদলাতে প্রতিটি সারিতে IsSandbox টগল করুন।"
+    },
+    {
+        "k":  "GatewaysAdmin.Env.Live",
+        "bn":  "লাইভ"
+    },
+    {
+        "k":  "GatewaysAdmin.Env.Sandbox",
+        "bn":  "স্যান্ডবক্স"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Empty.Title",
+        "bn":  "কোনো গেটওয়ে কনফিগার করা নেই"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Empty.Description",
+        "bn":  "সীড থেকে ডিফল্ট যুক্ত হওয়ার কথা। সীডার চালান অথবা ম্যানুয়ালি একটি গেটওয়ে যোগ করুন।"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Code",
+        "bn":  "কোড"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Method",
+        "bn":  "পদ্ধতি"
+    },
+    {
+        "k":  "GatewaysAdmin.Group",
+        "bn":  "গ্রুপ"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Channels",
+        "bn":  "চ্যানেল"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Env",
+        "bn":  "এনভায়রনমেন্ট"
+    },
+    {
+        "k":  "GatewaysAdmin.Status.On",
+        "bn":  "চালু"
+    },
+    {
+        "k":  "GatewaysAdmin.Status.Off",
+        "bn":  "বন্ধ"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Disable",
+        "bn":  "নিষ্ক্রিয় করুন"
+    },
+    {
+        "k":  "GatewaysAdmin.Index.Enable",
+        "bn":  "সক্রিয় করুন"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.Title",
+        "bn":  "সম্পাদনা · {0}"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.AllGateways",
+        "bn":  "সব গেটওয়ে"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.IdentityEnvironment",
+        "bn":  "পরিচিতি ও এনভায়রনমেন্ট"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.DisplayName",
+        "bn":  "প্রদর্শিত নাম"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.Subtitle",
+        "bn":  "উপশিরোনাম"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.Currency",
+        "bn":  "মুদ্রা"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.SortOrder",
+        "bn":  "সাজানোর ক্রম"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.LogoUrl",
+        "bn":  "লোগো URL"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.LiveCredentials",
+        "bn":  "লাইভ ক্রেডেনশিয়াল"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.Production",
+        "bn":  "প্রোডাকশন"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.SandboxCredentials",
+        "bn":  "স্যান্ডবক্স ক্রেডেনশিয়াল"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.Test",
+        "bn":  "টেস্ট"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.NotificationsSave",
+        "bn":  "নোটিফিকেশন ও সংরক্ষণ"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.EmailOnSuccess",
+        "bn":  "সফল হলে ইমেইল"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.EmailOnFailure",
+        "bn":  "ব্যর্থ হলে ইমেইল"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.EmailOnRefund",
+        "bn":  "রিফান্ড হলে ইমেইল"
+    },
+    {
+        "k":  "GatewaysAdmin.Edit.SecretsNote",
+        "bn":  "মান সংরক্ষিত থাকলে সিক্রেট ঘরে *** দেখায়। বিদ্যমান মান রাখতে ফাঁকা রাখুন — শুধু যে ঘরে আপনি নতুন করে লিখবেন সেটিই পরিবর্তিত হবে।"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.BaseUrl",
+        "bn":  "বেস URL"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.Username",
+        "bn":  "ইউজারনেম"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.Password",
+        "bn":  "পাসওয়ার্ড"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.AppKey",
+        "bn":  "অ্যাপ কী"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.AppSecret",
+        "bn":  "অ্যাপ সিক্রেট"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.MerchantId",
+        "bn":  "মার্চেন্ট ID"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.MerchantNumber",
+        "bn":  "মার্চেন্ট নম্বর"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.CallbackUrl",
+        "bn":  "সফলতার কলব্যাক URL"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.WebhookUrl",
+        "bn":  "ওয়েবহুক URL"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.IpnUrl",
+        "bn":  "IPN URL"
+    },
+    {
+        "k":  "GatewaysAdmin.Creds.FailCallbackUrl",
+        "bn":  "ব্যর্থতার কলব্যাক URL"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Title",
+        "bn":  "ওয়েবহুক"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Heading",
+        "bn":  "আউটবাউন্ড ওয়েবহুক"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Subtitle",
+        "bn":  "পার্টনার এন্ডপয়েন্টে HMAC-সাইনড কলব্যাক। ব্যর্থ ডেলিভারি এক্সপোনেনশিয়াল ব্যাকঅফসহ পুনরায় চেষ্টা করে; ডিসপ্যাচার Prometheus মেট্রিক্স পাঠায়।"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.AddSubscription",
+        "bn":  "সাবস্ক্রিপশন যোগ করুন"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Empty.Title",
+        "bn":  "এখনও কোনো সাবস্ক্রিপশন নেই"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Empty.Description",
+        "bn":  "HMAC-সাইনড ইভেন্ট কলব্যাক পেতে একটি URL যোগ করুন।"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Url",
+        "bn":  "URL"
+    },
+    {
+        "k":  "WebhooksAdmin.Events",
+        "bn":  "ইভেন্ট"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Failures",
+        "bn":  "ব্যর্থতা"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.LastSuccess",
+        "bn":  "সর্বশেষ সফলতা"
+    },
+    {
+        "k":  "WebhooksAdmin.Status.Paused",
+        "bn":  "স্থগিত"
+    },
+    {
+        "k":  "WebhooksAdmin.Index.Deliveries",
+        "bn":  "ডেলিভারি"
+    },
+    {
+        "k":  "WebhooksAdmin.AllWebhooks",
+        "bn":  "সব ওয়েবহুক"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.NewWebhook",
+        "bn":  "নতুন ওয়েবহুক"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.NewSubscription",
+        "bn":  "নতুন ওয়েবহুক সাবস্ক্রিপশন"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.Subtitle",
+        "bn":  "ক্যান্টিন ইভেন্ট ঘটলে আউটবাউন্ড HTTP POST যায়। HMAC-সাইনড; ডেলিভারি লগ থেকে রিপ্লে করা যায়।"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.DisplayName",
+        "bn":  "প্রদর্শিত নাম"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.DisplayNamePlaceholder",
+        "bn":  "স্কুল পোর্টাল — অর্ডার ওয়েবহুক"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.EndpointUrl",
+        "bn":  "এন্ডপয়েন্ট URL"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.HmacSecret",
+        "bn":  "HMAC সিক্রেট"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.SecretHelp",
+        "bn":  "প্রতিটি আউটবাউন্ড POST সাইন করতে ব্যবহৃত হয়। পার্টনারের সাথে একবারই শেয়ার করুন — তারা আর দেখতে পারবেন না।"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.EventsHelp",
+        "bn":  "এর মধ্য থেকে CSV আকারে:"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.SignatureScheme",
+        "bn":  "সিগনেচার স্কিম"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.OutboundRequestsCarry",
+        "bn":  "আউটবাউন্ড রিকোয়েস্টে থাকে:"
+    },
+    {
+        "k":  "WebhooksAdmin.Edit.SignatureNote",
+        "bn":  "ইনবাউন্ড API-কী ফ্লোর মতো একই ক্যানোনিকাল-স্ট্রিং অ্যালগরিদম — পার্টনার দুই দিকের জন্য একটিই ভেরিফায়ার লিখলেই চলে।"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Title",
+        "bn":  "ডেলিভারি · {0}"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Heading",
+        "bn":  "ওয়েবহুক ডেলিভারি"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Subtitle",
+        "bn":  "ডেলিভারি লগ — {0}টি প্রচেষ্টা দেখানো হচ্ছে"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Empty.Title",
+        "bn":  "এখনও কোনো ডেলিভারি নেই"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Empty.Description",
+        "bn":  "এখানে প্রচেষ্টা দেখতে মিল আছে এমন একটি ইভেন্ট ঘটান (অর্ডার, ওয়ালেট রিচার্জ, …)। ব্যর্থ প্রচেষ্টায় রিপ্লে বোতাম থাকে, যাতে রিসিভার ঠিক করার পর আবার পাঠাতে পারেন।"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.When",
+        "bn":  "কখন"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Event",
+        "bn":  "ইভেন্ট"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Attempt",
+        "bn":  "প্রচেষ্টা"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Http",
+        "bn":  "HTTP"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.NextRetry",
+        "bn":  "পরবর্তী চেষ্টা"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Response",
+        "bn":  "রেসপন্স"
+    },
+    {
+        "k":  "WebhooksAdmin.Deliveries.Replay",
+        "bn":  "রিপ্লে"
+    },
+    {
+        "k":  "WebhooksAdmin.DeliveryStatus.Delivered",
+        "bn":  "ডেলিভার হয়েছে"
+    },
+    {
+        "k":  "WebhooksAdmin.DeliveryStatus.Queued",
+        "bn":  "কিউতে আছে"
+    },
+    {
+        "k":  "WebhooksAdmin.DeliveryStatus.Delivering",
+        "bn":  "ডেলিভার হচ্ছে"
+    },
+    {
+        "k":  "WebhooksAdmin.DeliveryStatus.Failed",
+        "bn":  "ব্যর্থ"
+    },
+    {
+        "k":  "ExportsAdmin.Index.Title",
+        "bn":  "এক্সপোর্ট"
+    },
+    {
+        "k":  "ExportsAdmin.Index.Subtitle",
+        "bn":  "ফাইন্যান্স + অডিটের জন্য টেন্যান্ট-ভিত্তিক CSV। UTF-8 BOM (Excel-এ সঠিকভাবে খোলে)।"
+    },
+    {
+        "k":  "ExportsAdmin.Index.OrdersCsv",
+        "bn":  "অর্ডার CSV"
+    },
+    {
+        "k":  "ExportsAdmin.Index.OrdersDescription",
+        "bn":  "নির্বাচিত সময়সীমার প্রতিটি অর্ডার, সাথে আইটেমের সারসংক্ষেপ।"
+    },
+    {
+        "k":  "ExportsAdmin.Index.StatusOptional",
+        "bn":  "স্ট্যাটাস (ঐচ্ছিক)"
+    },
+    {
+        "k":  "ExportsAdmin.Index.AllStatuses",
+        "bn":  "সব স্ট্যাটাস"
+    },
+    {
+        "k":  "ExportsAdmin.Index.DownloadOrdersCsv",
+        "bn":  "orders.csv ডাউনলোড করুন"
+    },
+    {
+        "k":  "ExportsAdmin.Index.WalletCsv",
+        "bn":  "ওয়ালেট লেজার CSV"
+    },
+    {
+        "k":  "ExportsAdmin.Index.WalletDescription",
+        "bn":  "সময়সীমার প্রতিটি ওয়ালেট এন্ট্রি — রিচার্জ / ব্লক / কর্তন / রিফান্ড।"
+    },
+    {
+        "k":  "ExportsAdmin.Index.UserIdOptional",
+        "bn":  "ব্যবহারকারী ID (ঐচ্ছিক)"
+    },
+    {
+        "k":  "ExportsAdmin.Index.DownloadWalletCsv",
+        "bn":  "wallet.csv ডাউনলোড করুন"
+    },
+    {
+        "k":  "ExportsAdmin.Index.RowCapNote",
+        "bn":  "প্রতি রিকোয়েস্টে এক্সপোর্ট সর্বোচ্চ ১,০০,০০০ সারি। আরও দরকার? তারিখের পরিসর ছোট করে ফিল্টার করুন অথবা রিড রেপ্লিকায় নিজে SQL কোয়েরি লিখুন।"
+    },
+    {
+        "k":  "AuditAdmin.Index.Subtitle",
+        "bn":  "প্রতিটি সংবেদনশীল অ্যাকশন — লগইন, রিচার্জ, রিফান্ড, গেটওয়ে পরিবর্তন, ভূমিকা পরিবর্তন।"
+    },
+    {
+        "k":  "AuditAdmin.Index.Action",
+        "bn":  "অ্যাকশন"
+    },
+    {
+        "k":  "AuditAdmin.Index.Any",
+        "bn":  "যেকোনো"
+    },
+    {
+        "k":  "AuditAdmin.Index.EntityType",
+        "bn":  "এনটিটির ধরন"
+    },
+    {
+        "k":  "AuditAdmin.Index.EntityTypePlaceholder",
+        "bn":  "User, Order…"
+    },
+    {
+        "k":  "AuditAdmin.Index.SearchPlaceholder",
+        "bn":  "ইউজার / ID"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColWhen",
+        "bn":  "কখন (UTC)"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColEntity",
+        "bn":  "এনটিটি"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColBy",
+        "bn":  "করেছেন"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColIp",
+        "bn":  "IP"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColCorrelation",
+        "bn":  "কোরিলেশন"
+    },
+    {
+        "k":  "AuditAdmin.Index.ColPayload",
+        "bn":  "পেলোড"
+    },
+    {
+        "k":  "AuditAdmin.Index.Empty.Title",
+        "bn":  "কোনো অডিট এন্ট্রি নেই"
+    },
+    {
+        "k":  "AuditAdmin.Index.Empty.Description",
+        "bn":  "আপনার ফিল্টারের সাথে মেলে এমন কোনো অডিট এন্ট্রি নেই।"
+    },
+    {
+        "k":  "AuditAdmin.Index.PageInfo",
+        "bn":  "পৃষ্ঠা {0} / {1} · {2}টি এন্ট্রি"
+    },
+    {
+        "k":  "BillingAdmin.Index.Title",
+        "bn":  "বিলিং"
+    },
+    {
+        "k":  "BillingAdmin.Index.Subtitle",
+        "bn":  "সাবস্ক্রিপশন, প্ল্যান ও ইনভয়েস।"
+    },
+    {
+        "k":  "BillingAdmin.State.Active",
+        "bn":  "সক্রিয়"
+    },
+    {
+        "k":  "BillingAdmin.State.Trialing",
+        "bn":  "ট্রায়ালে"
+    },
+    {
+        "k":  "BillingAdmin.State.PastDue",
+        "bn":  "বকেয়া"
+    },
+    {
+        "k":  "BillingAdmin.State.Cancelled",
+        "bn":  "বাতিল"
+    },
+    {
+        "k":  "BillingAdmin.State.Inactive",
+        "bn":  "নিষ্ক্রিয়"
+    },
+    {
+        "k":  "BillingAdmin.Index.SandboxHeading",
+        "bn":  "স্যান্ডবক্স বিলিং"
+    },
+    {
+        "k":  "BillingAdmin.Index.SandboxBody",
+        "bn":  "এই টেন্যান্ট স্যান্ডবক্স বিলিং প্রোভাইডারে আছে। প্ল্যান + ইনভয়েস ডেটা কৃত্রিম। লাইভে যেতে DI লাইনটি StripeBillingService-এ বদলান এবং Billing.Stripe.ApiKey সেট করুন।"
+    },
+    {
+        "k":  "BillingAdmin.Index.CurrentPlan",
+        "bn":  "বর্তমান প্ল্যান"
+    },
+    {
+        "k":  "BillingAdmin.Index.PlanLabel",
+        "bn":  "প্ল্যান"
+    },
+    {
+        "k":  "BillingAdmin.Index.PlanCode",
+        "bn":  "কোড: {0}"
+    },
+    {
+        "k":  "BillingAdmin.Index.PerCycle",
+        "bn":  "প্রতি সাইকেলে"
+    },
+    {
+        "k":  "BillingAdmin.Index.PeriodEnds",
+        "bn":  "মেয়াদ শেষ {0}"
+    },
+    {
+        "k":  "BillingAdmin.Index.SubscribePro",
+        "bn":  "সাবস্ক্রাইব — Pro"
+    },
+    {
+        "k":  "BillingAdmin.Index.PlanStarter",
+        "bn":  "স্টার্টার"
+    },
+    {
+        "k":  "BillingAdmin.Index.PlanEnterprise",
+        "bn":  "এন্টারপ্রাইজ"
+    },
+    {
+        "k":  "BillingAdmin.Index.ConfirmCancel",
+        "bn":  "বর্তমান মেয়াদ শেষে বাতিল করবেন?"
+    },
+    {
+        "k":  "BillingAdmin.Index.CancelAtPeriodEnd",
+        "bn":  "মেয়াদ শেষে বাতিল"
+    },
+    {
+        "k":  "BillingAdmin.Index.LastInvoice",
+        "bn":  "সর্বশেষ ইনভয়েস"
+    },
+    {
+        "k":  "BillingAdmin.Index.SimulatorTitle",
+        "bn":  "স্যান্ডবক্স স্টেট সিমুলেটর"
+    },
+    {
+        "k":  "BillingAdmin.Index.SimulatorHint",
+        "bn":  "UI ডেমোর জন্য সাবস্ক্রিপশনকে জোর করে নির্দিষ্ট অবস্থায় নিন।"
+    },
+    {
+        "k":  "BillingAdmin.Index.SimulateAction",
+        "bn":  "সিমুলেট → {0}"
+    },
+    {
+        "k":  "BrandingAdmin.Index.Subtitle",
+        "bn":  "এই টেন্যান্টের সব ব্যবহারকারী যে ডিফল্ট চেহারা দেখবেন তা ঠিক করুন। ব্যবহারকারীরা কাস্টমাইজার দিয়ে আরও নিজের মতো সাজাতে পারবেন।"
+    },
+    {
+        "k":  "BrandingAdmin.Index.ConfirmReset",
+        "bn":  "সব ব্র্যান্ডিং প্ল্যাটফর্ম ডিফল্টে ফিরিয়ে নেবেন?"
+    },
+    {
+        "k":  "BrandingAdmin.Index.ResetToDefault",
+        "bn":  "প্ল্যাটফর্ম ডিফল্টে ফেরান"
+    },
+    {
+        "k":  "BrandingAdmin.Index.AppNameLabel",
+        "bn":  "অ্যাপের নাম"
+    },
+    {
+        "k":  "BrandingAdmin.Index.AppNamePlaceholder",
+        "bn":  "যেমন Acme School Canteen"
+    },
+    {
+        "k":  "BrandingAdmin.Index.AppNameHelp",
+        "bn":  "টপবার + উইন্ডো টাইটেলে দেখানো হয়।"
+    },
+    {
+        "k":  "BrandingAdmin.Index.SubtitleLabel",
+        "bn":  "উপশিরোনাম"
+    },
+    {
+        "k":  "BrandingAdmin.Index.SubtitlePlaceholder",
+        "bn":  "যেমন লাঞ্চরুম কার্যক্রম"
+    },
+    {
+        "k":  "BrandingAdmin.Index.AccentColorLabel",
+        "bn":  "অ্যাকসেন্ট রং"
+    },
+    {
+        "k":  "BrandingAdmin.Index.UseColor",
+        "bn":  "{0} ব্যবহার করুন"
+    },
+    {
+        "k":  "BrandingAdmin.Index.AccentHelp",
+        "bn":  "অ্যাপজুড়ে প্রতিটি প্রাইমারি বোতাম, ব্যাজ, ফোকাস রিং ও KPI অ্যাকসেন্ট এটিই নিয়ন্ত্রণ করে।"
+    },
+    {
+        "k":  "BrandingAdmin.Index.LogoUrlLabel",
+        "bn":  "লোগো URL (ঐচ্ছিক)"
+    },
+    {
+        "k":  "BrandingAdmin.Index.LogoUrlHelp",
+        "bn":  "বর্গাকার বা চওড়া — সাইডবার নিজেই মাপ ঠিক করে নেবে। ডিফল্ট আইকনের জন্য ফাঁকা রাখুন।"
+    },
+    {
+        "k":  "BrandingAdmin.Index.SaveButton",
+        "bn":  "টেন্যান্ট ব্র্যান্ডিং সংরক্ষণ করুন"
+    },
+    {
+        "k":  "BrandingAdmin.Index.LivePreview",
+        "bn":  "লাইভ প্রিভিউ"
+    },
+    {
+        "k":  "BrandingAdmin.Index.PreviewHint",
+        "bn":  "রং বাছাই করার সাথে সাথে প্রিভিউ আপডেট হয়। এই টেন্যান্টের সব ব্যবহারকারীর জন্য প্রয়োগ করতে সংরক্ষণ করুন।"
+    },
+    {
+        "k":  "BrandingAdmin.Index.PreviewPrimaryAction",
+        "bn":  "প্রাইমারি অ্যাকশন"
+    },
+    {
+        "k":  "BrandingAdmin.Index.PreviewBadge",
+        "bn":  "ব্যাজ"
+    },
+    {
+        "k":  "BrandingAdmin.Index.CustomizerNote",
+        "bn":  "নিচে-ডানের ভাসমান গিয়ার আইকন দিয়ে ব্যবহারকারীরা আপনার টেন্যান্ট ডিফল্ট পাল্টাতে পারেন। টেন্যান্ট ব্র্যান্ডে ফিরতে কাস্টমাইজারে 'ডিফল্টে ফেরান' চাপুন।"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.Title",
+        "bn":  "ফিচার ফ্ল্যাগ"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.Subtitle",
+        "bn":  "টেন্যান্ট-ভিত্তিক গেট। TenantSetting + L1 ক্যাশে চালিত — টগল করলেই সাথে সাথে কার্যকর।"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.ColFlag",
+        "bn":  "ফ্ল্যাগ"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.ColKey",
+        "bn":  "কী"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.ColState",
+        "bn":  "অবস্থা"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.On",
+        "bn":  "চালু"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.Off",
+        "bn":  "বন্ধ"
+    },
+    {
+        "k":  "FeatureFlagsAdmin.Index.Toggle",
+        "bn":  "টগল"
+    },
+    {
+        "k":  "TenantsAdmin.Index.AddTenant",
+        "bn":  "টেন্যান্ট যোগ করুন"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Subtitle",
+        "bn":  "SaaS-এর প্রতিটি প্রতিষ্ঠান — Clients টেবিলের প্রতি এন্ট্রিতে এক সারি।"
+    },
+    {
+        "k":  "TenantsAdmin.Index.CreatedHeading",
+        "bn":  "টেন্যান্ট {0} তৈরি হয়েছে"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Login",
+        "bn":  "লগইন"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Password",
+        "bn":  "পাসওয়ার্ড"
+    },
+    {
+        "k":  "TenantsAdmin.Index.ShareSecurely",
+        "bn":  "নিরাপদে শেয়ার করুন — অ্যাডমিনকে প্রথম লগইনে পরিবর্তন করতে হবে।"
+    },
+    {
+        "k":  "TenantsAdmin.Index.KpiDeletedInHold",
+        "bn":  "মুছে ফেলা (হোল্ডে)"
+    },
+    {
+        "k":  "TenantsAdmin.Index.KpiThisMonth",
+        "bn":  "এই মাসে"
+    },
+    {
+        "k":  "TenantsAdmin.Index.KpiNewTenants",
+        "bn":  "নতুন টেন্যান্ট"
+    },
+    {
+        "k":  "TenantsAdmin.Index.ColCode",
+        "bn":  "কোড"
+    },
+    {
+        "k":  "TenantsAdmin.Index.ColContact",
+        "bn":  "যোগাযোগ"
+    },
+    {
+        "k":  "TenantsAdmin.Index.ColCreated",
+        "bn":  "তৈরির সময়"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Empty.Title",
+        "bn":  "এখনও কোনো টেন্যান্ট নেই"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Empty.Description",
+        "bn":  "নতুন টেন্যান্ট যুক্ত করতে টেন্যান্ট যোগ করুন চাপুন।"
+    },
+    {
+        "k":  "TenantsAdmin.Index.StatusInHold",
+        "bn":  "হোল্ডে ({0} পর্যন্ত)"
+    },
+    {
+        "k":  "TenantsAdmin.Index.ConfirmSoftDelete",
+        "bn":  "{0} সফট-ডিলিট করবেন? হোল্ড মেয়াদ শেষে হার্ড-ডিলিট চলবে।"
+    },
+    {
+        "k":  "TenantsAdmin.Index.Restore",
+        "bn":  "পুনরুদ্ধার"
+    },
+    {
+        "k":  "TenantsAdmin.Index.SoftDelete",
+        "bn":  "সফট ডিলিট"
+    },
+    {
+        "k":  "TenantsAdmin.New.Title",
+        "bn":  "টেন্যান্ট যোগ করুন"
+    },
+    {
+        "k":  "TenantsAdmin.New.Heading",
+        "bn":  "নতুন টেন্যান্ট যোগ করুন"
+    },
+    {
+        "k":  "TenantsAdmin.New.Subtitle",
+        "bn":  "পরিচিতি + ডিরেক্টরি সোর্স + বুটস্ট্র্যাপ অ্যাডমিন — সব একসাথে তৈরি হয়।"
+    },
+    {
+        "k":  "TenantsAdmin.New.AllTenants",
+        "bn":  "সব টেন্যান্ট"
+    },
+    {
+        "k":  "TenantsAdmin.New.Step1Title",
+        "bn":  "পরিচিতি"
+    },
+    {
+        "k":  "TenantsAdmin.New.ClientCodeLabel",
+        "bn":  "টেন্যান্ট কোড (URL স্লাগ)"
+    },
+    {
+        "k":  "TenantsAdmin.New.ClientCodeHelp",
+        "bn":  "সাবডোমেইন ও টোকেনে ব্যবহৃত হয়। শুধু ছোট হাতের অক্ষর / সংখ্যা।"
+    },
+    {
+        "k":  "TenantsAdmin.New.ClientNameLabel",
+        "bn":  "প্রদর্শিত নাম"
+    },
+    {
+        "k":  "TenantsAdmin.New.ClientNamePlaceholder",
+        "bn":  "Acme Polytechnic"
+    },
+    {
+        "k":  "TenantsAdmin.New.ShortNameLabel",
+        "bn":  "সংক্ষিপ্ত নাম"
+    },
+    {
+        "k":  "TenantsAdmin.New.ShortNamePlaceholder",
+        "bn":  "Acme"
+    },
+    {
+        "k":  "TenantsAdmin.New.WebsiteLabel",
+        "bn":  "ওয়েবসাইট"
+    },
+    {
+        "k":  "TenantsAdmin.New.EmailLabel",
+        "bn":  "যোগাযোগের ইমেইল"
+    },
+    {
+        "k":  "TenantsAdmin.New.PhoneLabel",
+        "bn":  "যোগাযোগের ফোন"
+    },
+    {
+        "k":  "TenantsAdmin.New.AddressLabel",
+        "bn":  "ঠিকানা"
+    },
+    {
+        "k":  "TenantsAdmin.New.Step2Title",
+        "bn":  "ডিরেক্টরি সোর্স"
+    },
+    {
+        "k":  "TenantsAdmin.New.DirectoryHint",
+        "bn":  "এই টেন্যান্টের শিক্ষার্থী / কর্মচারী ডিরেক্টরি কীভাবে আসবে তা নির্বাচন করুন। পরে ডিরেক্টরি অ্যাডমিনে পরিবর্তন করা যাবে।"
+    },
+    {
+        "k":  "TenantsAdmin.New.SourceTypeLabel",
+        "bn":  "সোর্সের ধরন"
+    },
+    {
+        "k":  "TenantsAdmin.New.SourceManual",
+        "bn":  "ম্যানুয়াল (CSV আপলোড)"
+    },
+    {
+        "k":  "TenantsAdmin.New.SourceDatabase",
+        "bn":  "স্কুল DB (রিড-অনলি ভিউ)"
+    },
+    {
+        "k":  "TenantsAdmin.New.SourceApi",
+        "bn":  "স্কুল পোর্টাল API"
+    },
+    {
+        "k":  "TenantsAdmin.New.SourceDisabled",
+        "bn":  "নিষ্ক্রিয় (সিঙ্ক নেই)"
+    },
+    {
+        "k":  "TenantsAdmin.New.SyncIntervalLabel",
+        "bn":  "সিঙ্ক ইন্টারভাল (মিনিট)"
+    },
+    {
+        "k":  "TenantsAdmin.New.DirectoryCredsNote",
+        "bn":  "টেন্যান্ট তৈরির পর ডিরেক্টরি → সেটআপে প্রতি টেন্যান্টের ক্রেডেনশিয়াল (কানেকশন স্ট্রিং / API কী) কনফিগার করা হয়।"
+    },
+    {
+        "k":  "TenantsAdmin.New.Step3Title",
+        "bn":  "বুটস্ট্র্যাপ অ্যাডমিন"
+    },
+    {
+        "k":  "TenantsAdmin.New.AdminHint",
+        "bn":  "একজন TenantAdmin ব্যবহারকারী স্বয়ংক্রিয়ভাবে তৈরি হবে। তিনি একটি ওয়ান-টাইম পাসওয়ার্ড পাবেন এবং প্রথম লগইনে তা পরিবর্তন করতে হবে।"
+    },
+    {
+        "k":  "TenantsAdmin.New.AdminNameLabel",
+        "bn":  "অ্যাডমিনের নাম"
+    },
+    {
+        "k":  "TenantsAdmin.New.AdminNamePlaceholder",
+        "bn":  "ইমরান আহমেদ"
+    },
+    {
+        "k":  "TenantsAdmin.New.AdminEmailLabel",
+        "bn":  "অ্যাডমিনের ইমেইল"
+    },
+    {
+        "k":  "TenantsAdmin.New.Step4Title",
+        "bn":  "নিশ্চিত করুন"
+    },
+    {
+        "k":  "TenantsAdmin.New.ConfirmIntro",
+        "bn":  "টেন্যান্ট তৈরি করুন-এ ক্লিক করলে:"
+    },
+    {
+        "k":  "TenantsAdmin.New.ConfirmInsertClient",
+        "bn":  "Clients-এ একটি সারি যুক্ত হবে"
+    },
+    {
+        "k":  "TenantsAdmin.New.ConfirmCreateAdmin",
+        "bn":  "একটি TenantAdmin AppUsers এন্ট্রি তৈরি হবে"
+    },
+    {
+        "k":  "TenantsAdmin.New.ConfirmIssuePassword",
+        "bn":  "একটি ওয়ান-টাইম পাসওয়ার্ড ইস্যু হবে (জমা দেওয়ার পর দেখানো হবে)"
+    },
+    {
+        "k":  "TenantsAdmin.New.ConfirmStageDirectory",
+        "bn":  "ডিরেক্টরি সোর্স সেটিং প্রস্তুত করা হবে"
+    },
+    {
+        "k":  "TenantsAdmin.New.CreateTenant",
+        "bn":  "টেন্যান্ট তৈরি করুন"
+    },
+    {
+        "k":  "Verification.Index.KeypadMode",
+        "bn":  "কীপ্যাড মোড"
+    },
+    {
+        "k":  "Verification.Index.NfcKeyboard",
+        "bn":  "NFC / কীবোর্ড"
+    },
+    {
+        "k":  "Verification.Index.ClearTitle",
+        "bn":  "পরিষ্কার করুন (Esc)"
+    },
+    {
+        "k":  "Verification.Index.ShortcutClear",
+        "bn":  "পরিষ্কার"
+    },
+    {
+        "k":  "Verification.Index.ShortcutVerify",
+        "bn":  "যাচাই"
+    },
+    {
+        "k":  "Verification.Index.TypeScanAnywhere",
+        "bn":  "যেকোনো জায়গায় টাইপ / স্ক্যান করুন"
+    }
+]

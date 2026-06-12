@@ -16,7 +16,7 @@
 //   * UseSerilogRequestLogging  - one log line per request
 //   * UseMiddleware<GlobalExceptionMiddleware>   - RFC 7807 ProblemDetails
 //   * UseHsts in production
-//   * UseResponseCompression / UseHttpsRedirection / UseStaticFiles
+//   * UseResponseCompression / UseHttpsRedirection / MapStaticAssets
 //   * UseOutputCache       - short-circuits matching GETs from cache
 //   * UseRequestLocalization
 //   * UseRouting -> UseMiddleware<TenantContextMiddleware> -> UseSession/Auth
@@ -113,6 +113,18 @@ try
     // Enrichers resolved via DI — Serilog calls them through ReadFrom.Services.
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddSingleton<Serilog.Core.ILogEventEnricher, TenantLogEnricher>();
+
+    // Razor's default HtmlEncoder entity-escapes everything outside Basic Latin,
+    // which corrupts Bengali (bn-BD) strings emitted inside <script> blocks
+    // (HTML entities are NOT decoded in JS string literals). Widen the encoder
+    // so Bengali renders as real characters; HTML-sensitive chars stay escaped.
+    builder.Services.Configure<Microsoft.Extensions.WebEncoders.WebEncoderOptions>(o =>
+        o.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(
+            System.Text.Unicode.UnicodeRanges.BasicLatin,
+            System.Text.Unicode.UnicodeRanges.Latin1Supplement,
+            System.Text.Unicode.UnicodeRanges.GeneralPunctuation,
+            System.Text.Unicode.UnicodeRanges.CurrencySymbols,
+            System.Text.Unicode.UnicodeRanges.Bengali));
 
     builder.Services
         .AddCanteenApplication(builder.Configuration)
@@ -279,7 +291,11 @@ try
 
     app.UseResponseCompression();
     app.UseHttpsRedirection();
-    app.UseStaticFiles();
+    // .NET 10 static asset pipeline: build-time fingerprinting + Brotli/gzip
+    // precompression + immutable caching, replacing classic UseStaticFiles.
+    // No runtime-written files live under wwwroot, so the build manifest
+    // covers every asset the app serves.
+    app.MapStaticAssets();
     app.UseResponseCaching();   // serves [ResponseCache(VaryByQueryKeys=...)] — see AddResponseCaching above
     app.UseOutputCache();
 
@@ -312,7 +328,8 @@ try
     // landing URL (or /Account/Login when anonymous). See HomeController.cs.
     app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}")
+        .WithStaticAssets();
 
     app.MapHub<KitchenDisplayHub>("/hubs/kitchen");
 

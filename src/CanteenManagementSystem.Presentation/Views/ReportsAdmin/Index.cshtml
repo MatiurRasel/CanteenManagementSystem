@@ -3,8 +3,9 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.ReportsAdminController.DashboardVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Reports";
+    ViewData["Title"] = L["Reports"].Value;
     decimal maxDailyRev = Model.Collection.Days.Count == 0 ? 1 : Model.Collection.Days.Max(d => d.Revenue);
     if (maxDailyRev == 0) maxDailyRev = 1;
     int maxPeak = Model.PeakToday.Count == 0 ? 1 : Model.PeakToday.Max(p => p.Orders);
@@ -12,47 +13,47 @@
 
     var filterForm = $@"
         <form method='get' class='d-flex gap-2 align-items-end'>
-            <div><label class='ui-label mb-1'>From</label>
+            <div><label class='ui-label mb-1'>{L["Common.From"].Value}</label>
                 <input type='date' name='from' value='{Model.From:yyyy-MM-dd}' class='ui-input form-control form-control-sm' /></div>
-            <div><label class='ui-label mb-1'>To</label>
+            <div><label class='ui-label mb-1'>{L["Common.To"].Value}</label>
                 <input type='date' name='to' value='{Model.To:yyyy-MM-dd}' class='ui-input form-control form-control-sm' /></div>
-            <button type='submit' class='btn btn-primary btn-sm'>Apply</button>
+            <button type='submit' class='btn btn-primary btn-sm'>{L["ReportsAdmin.Index.Apply"].Value}</button>
             <a class='btn btn-outline-secondary btn-sm' href='/admin/reports/export?from={Model.From:yyyy-MM-dd}&to={Model.To:yyyy-MM-dd}'>
-                <i class='fa-solid fa-file-csv me-1'></i> CSV
+                <i class='bx bx-spreadsheet me-1'></i> CSV
             </a>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = "Reports",
-        Subtitle = "Tenant-scoped analytics — daily revenue, peak hours, top items, department spend. Cached 60s.",
+        Title    = L["Reports"].Value,
+        Subtitle = L["ReportsAdmin.Index.Subtitle"].Value,
         Actions  = Html.Raw(filterForm)
     };
 
     var kpiTotal = new UiKpiOptions
     {
-        Label = "Total revenue",
+        Label = L["ReportsAdmin.Index.KpiTotalRevenue"].Value,
         Value = "৳ " + Model.Collection.Total.ToString("N0"),
-        Hint  = $"{Model.Collection.Days.Count} day(s)",
-        Icon  = "fa-coins"
+        Hint  = L["ReportsAdmin.Index.KpiDays", Model.Collection.Days.Count].Value,
+        Icon  = "bx bx-coin-stack"
     };
     var kpiOrders = new UiKpiOptions
     {
-        Label = "Orders",
+        Label = L["ReportsAdmin.Index.KpiOrders"].Value,
         Value = Model.Collection.OrderCount.ToString("N0"),
-        Hint  = "avg ৳ " + (Model.Collection.OrderCount == 0 ? 0 : Model.Collection.Total / Model.Collection.OrderCount).ToString("N0") + " / order",
-        Icon  = "fa-cart-shopping"
+        Hint  = L["ReportsAdmin.Index.KpiAvgPerOrder", (Model.Collection.OrderCount == 0 ? 0 : Model.Collection.Total / Model.Collection.OrderCount).ToString("N0")].Value,
+        Icon  = "bx bx-cart"
     };
     var kpiRefunded = new UiKpiOptions
     {
-        Label = "Refunded",
+        Label = L["ReportsAdmin.Index.KpiRefunded"].Value,
         Value = "৳ " + Model.Collection.Days.Sum(d => d.Refunded).ToString("N0"),
-        Icon  = "fa-rotate-left"
+        Icon  = "bx bx-rotate-left"
     };
     var kpiDepts = new UiKpiOptions
     {
-        Label = "Departments",
+        Label = L["ReportsAdmin.Index.KpiDepartments"].Value,
         Value = Model.Departments.Count.ToString(),
-        Icon  = "fa-building"
+        Icon  = "bx bx-building"
     };
 }
 
@@ -69,11 +70,11 @@
     <div class="row g-3">
         <div class="col-lg-8">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Daily revenue</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["ReportsAdmin.Index.DailyRevenue"]</div></div>
                 <div class="ui-card-body">
                     @if (Model.Collection.Days.Count == 0)
                     {
-                        <p class="ui-muted text-center py-3">No orders in this range.</p>
+                        <p class="ui-muted text-center py-3">@L["ReportsAdmin.Index.NoOrdersInRange"]</p>
                     }
                     else
                     {
@@ -81,7 +82,7 @@
                             @foreach (var d in Model.Collection.Days)
                             {
                                 var h = (int)Math.Round((double)(d.Revenue / maxDailyRev) * 200);
-                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@d.Revenue.ToString("C0") · @d.Orders order(s)">
+                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@L["ReportsAdmin.Index.DayBarTitle", d.Revenue.ToString("C0"), d.Orders]">
                                     <div class="rounded-top w-100" style="height:@(h)px;min-height:4px;background:var(--accent)"></div>
                                     <small class="ui-muted mt-1">@d.Date.ToString("dd MMM")</small>
                                 </div>
@@ -92,11 +93,11 @@
             </div>
 
             <div class="ui-card mt-3">
-                <div class="ui-card-header"><div class="ui-card-title">Peak hours (today)</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["ReportsAdmin.Index.PeakHoursToday"]</div></div>
                 <div class="ui-card-body">
                     @if (Model.PeakToday.Count == 0)
                     {
-                        <p class="ui-muted text-center py-3">Nothing yet today.</p>
+                        <p class="ui-muted text-center py-3">@L["ReportsAdmin.Index.NothingYetToday"]</p>
                     }
                     else
                     {
@@ -106,7 +107,7 @@
                                 var row    = Model.PeakToday.FirstOrDefault(p => p.Hour == h);
                                 var orders = row?.Orders ?? 0;
                                 var pct    = (int)Math.Round(orders / (double)maxPeak * 120);
-                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@h:00 — @orders order(s)">
+                                <div class="d-flex flex-column align-items-center flex-grow-1" title="@L["ReportsAdmin.Index.HourBarTitle", h, orders]">
                                     <div class="rounded-top w-100" style="height:@(Math.Max(2, pct))px;background:@(orders > 0 ? "var(--success)" : "var(--surface-2)")"></div>
                                     <small class="ui-muted" style="font-size:.65rem">@h.ToString("00")</small>
                                 </div>
@@ -119,34 +120,34 @@
 
         <div class="col-lg-4">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Top items</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["ReportsAdmin.Index.TopItems"]</div></div>
                 <ul class="list-group list-group-flush">
                     @foreach (var p in Model.Popular)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
                             <div>
                                 <div class="ui-text-strong small">@p.ItemName</div>
-                                <div class="ui-muted small">@p.QuantitySold sold</div>
+                                <div class="ui-muted small">@L["ReportsAdmin.Index.SoldCount", p.QuantitySold]</div>
                             </div>
                             <span class="ui-badge variant-primary">৳ @p.Revenue.ToString("N0")</span>
                         </li>
                     }
                     @if (Model.Popular.Count == 0)
                     {
-                        <li class="list-group-item ui-muted text-center py-3" style="background:transparent">No data.</li>
+                        <li class="list-group-item ui-muted text-center py-3" style="background:transparent">@L["ReportsAdmin.Index.NoData"]</li>
                     }
                 </ul>
             </div>
 
             <div class="ui-card mt-3">
-                <div class="ui-card-header"><div class="ui-card-title">Department spend</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["ReportsAdmin.Index.DepartmentSpend"]</div></div>
                 <div class="ui-table-wrap">
                     <table class="table table-sm mb-0 ui-table">
                         <thead>
                             <tr>
-                                <th>Department</th>
-                                <th class="text-end">Users</th>
-                                <th class="text-end">Spend</th>
+                                <th>@L["ReportsAdmin.Index.Department"]</th>
+                                <th class="text-end">@L["Users"]</th>
+                                <th class="text-end">@L["ReportsAdmin.Index.Spend"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,7 +161,7 @@
                         }
                         @if (Model.Departments.Count == 0)
                         {
-                            <tr><td colspan="3" class="ui-muted text-center py-3">No data.</td></tr>
+                            <tr><td colspan="3" class="ui-muted text-center py-3">@L["ReportsAdmin.Index.NoData"]</td></tr>
                         }
                         </tbody>
                     </table>

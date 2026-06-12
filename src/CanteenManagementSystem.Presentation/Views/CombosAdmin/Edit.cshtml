@@ -3,13 +3,14 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.CombosAdminController.ComboFormVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = Model.ComboButtonId is null ? "Add combo" : $"Edit combo {Model.Code}";
+    ViewData["Title"] = Model.ComboButtonId is null ? L["CombosAdmin.Edit.AddTitle"].Value : L["CombosAdmin.Edit.EditTitleFormat", Model.Code].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = Model.ComboButtonId is null ? "Add combo" : "Edit combo",
-        Subtitle = "One-tap counter button — bundles N FoodItems behind a memorable code + colour.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/combos'><i class='fa-solid fa-arrow-left me-1'></i> Back to list</a>")
+        Title    = Model.ComboButtonId is null ? L["CombosAdmin.Edit.AddTitle"].Value : L["CombosAdmin.Edit.EditTitle"].Value,
+        Subtitle = L["CombosAdmin.Edit.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-ghost' href='/admin/combos'><i class='bx bx-arrow-back me-1'></i> {L["CombosAdmin.Edit.BackToList"].Value}</a>")
     };
     var selectedIds = (Model.FoodItemIdsCsv ?? string.Empty)
         .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -30,35 +31,35 @@
             <div class="col-12 col-lg-7">
                 <div class="ui-card">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">Details</div>
+                        <div class="ui-card-title">@L["Common.Details"]</div>
                     </div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-12 col-md-4">
-                                <label class="ui-label">Code <span class="ui-muted">*</span></label>
+                                <label class="ui-label">@L["CombosAdmin.Edit.CodeLabel"] <span class="ui-muted">*</span></label>
                                 <input class="ui-input form-control" name="code" maxlength="20" required
                                        value="@Model.Code" placeholder="LUNCH" style="text-transform:uppercase" />
-                                <div class="ui-help-text">Short alphanumeric ID — shown on the button.</div>
+                                <div class="ui-help-text">@L["CombosAdmin.Edit.CodeHint"]</div>
                             </div>
                             <div class="col-12 col-md-8">
-                                <label class="ui-label">Display name <span class="ui-muted">*</span></label>
+                                <label class="ui-label">@L["CombosAdmin.Edit.DisplayNameLabel"] <span class="ui-muted">*</span></label>
                                 <input class="ui-input form-control" name="displayName" maxlength="80" required
-                                       value="@Model.DisplayName" placeholder="Lunch combo" />
+                                       value="@Model.DisplayName" placeholder="@L["CombosAdmin.Edit.DisplayNamePlaceholder"]" />
                             </div>
                             <div class="col-12 col-md-4">
-                                <label class="ui-label">Color</label>
+                                <label class="ui-label">@L["CombosAdmin.Edit.ColorLabel"]</label>
                                 <input class="ui-input form-control" name="color" type="color"
                                        value="@(string.IsNullOrEmpty(Model.Color) ? "#6f42c1" : Model.Color)" />
                             </div>
                             <div class="col-6 col-md-4">
-                                <label class="ui-label">Sort order</label>
+                                <label class="ui-label">@L["CombosAdmin.Edit.SortOrderLabel"]</label>
                                 <input class="ui-input form-control" name="sortOrder" type="number" min="0" max="999"
                                        value="@Model.SortOrder" />
                             </div>
                             <div class="col-6 col-md-4 d-flex align-items-end">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="isActive" name="isActive" value="true" @(Model.IsActive ? "checked" : "") />
-                                    <label class="form-check-label ui-label mb-0" for="isActive">Active</label>
+                                    <label class="form-check-label ui-label mb-0" for="isActive">@L["Common.Active"]</label>
                                 </div>
                             </div>
                         </div>
@@ -69,8 +70,8 @@
                 <div class="ui-card">
                     <div class="ui-card-header">
                         <div>
-                            <div class="ui-card-title">Items in combo</div>
-                            <div class="ui-card-muted-body">Tick every food item the combo orders.</div>
+                            <div class="ui-card-title">@L["CombosAdmin.Edit.ItemsTitle"]</div>
+                            <div class="ui-card-muted-body">@L["CombosAdmin.Edit.ItemsHint"]</div>
                         </div>
                     </div>
                     <div class="ui-card-body">
@@ -78,7 +79,7 @@
                         <div class="ui-stack-sm" style="max-height: 380px; overflow-y: auto;">
                         @if (Model.AvailableFoodItems.Count == 0)
                         {
-                            <div class="ui-muted" style="font-size:13px">No active food items yet — add some at /Menu/Manage first.</div>
+                            <div class="ui-muted" style="font-size:13px">@L["CombosAdmin.Edit.NoFoodItems"]</div>
                         }
                         @foreach (var f in Model.AvailableFoodItems)
                         {
@@ -95,9 +96,9 @@
         </div>
 
         <div class="ui-row" style="justify-content:flex-end; margin-top: 1.5rem; gap: .5rem">
-            <a class="btn btn-ghost" href="/admin/combos">Cancel</a>
+            <a class="btn btn-ghost" href="/admin/combos">@L["Common.Cancel"]</a>
             <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-floppy-disk me-1"></i> Save combo
+                <i class="bx bx-save me-1"></i> @L["CombosAdmin.Edit.SaveButton"]
             </button>
         </div>
     </form>

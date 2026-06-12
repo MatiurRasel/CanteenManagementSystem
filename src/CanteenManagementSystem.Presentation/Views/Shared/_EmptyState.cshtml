@@ -3,12 +3,12 @@
     page never feels broken. Includes an optional primary call-to-action so
     the user can take the next sensible step.
 
-    Usage:
+    Usage (pass localized .Value strings from the calling view's localizer):
         <partial name="_EmptyState" model="@new EmptyStateOptions {
             Icon         = "bx-restaurant",
-            Title        = L["Menu.Empty.Title"],
-            Description  = L["Menu.Empty.Description"],
-            CtaLabel     = L["Menu.Empty.Cta"],
+            Title        = localizer-resolved title text,
+            Description  = localizer-resolved description text,
+            CtaLabel     = localizer-resolved CTA text,
             CtaUrl       = Url.Action("Create", "Menu")
         }" />
 

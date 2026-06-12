@@ -28,7 +28,7 @@
     {
         Title    = L["VerifyHeading"].Value,
         Subtitle = L["VerifySubtitle"].Value,
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/Verification/KeypadOrder'><i class='bx bx-grid me-1'></i> Keypad mode</a>")
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/Verification/KeypadOrder'><i class='bx bx-grid me-1'></i> {L["Verification.Index.KeypadMode"].Value}</a>")
     };
 }
 
@@ -146,7 +146,7 @@
                             <span id="ver-pill-text">@L["VerifyHint"]</span>
                         </span>
                         <span class="ui-muted small">
-                            <i class="bx bx-id-card me-1"></i>NFC / keyboard
+                            <i class="bx bx-id-card me-1"></i>@L["Verification.Index.NfcKeyboard"]
                         </span>
                     </div>
 
@@ -164,7 +164,7 @@
                             <button type="submit" class="btn btn-primary ks-bigtap flex-grow-1">
                                 <i class="bx bx-search-alt me-1"></i>@L["VerifyButton"]
                             </button>
-                            <button type="reset" class="btn btn-outline-secondary ks-bigtap" title="Clear (Esc)">
+                            <button type="reset" class="btn btn-outline-secondary ks-bigtap" title="@L["Verification.Index.ClearTitle"]">
                                 <i class="bx bx-x"></i>
                             </button>
                         </div>
@@ -172,9 +172,9 @@
 
                     <div class="verify-shortcuts ui-muted small" style="border-top:1px solid var(--border); padding-top:.85rem">
                         <div class="d-flex gap-3 flex-wrap">
-                            <span><kbd>Esc</kbd> clear</span>
-                            <span><kbd>Enter</kbd> verify</span>
-                            <span>Type / scan anywhere</span>
+                            <span><kbd>Esc</kbd> @L["Verification.Index.ShortcutClear"]</span>
+                            <span><kbd>Enter</kbd> @L["Verification.Index.ShortcutVerify"]</span>
+                            <span>@L["Verification.Index.TypeScanAnywhere"]</span>
                         </div>
                     </div>
                 </div>

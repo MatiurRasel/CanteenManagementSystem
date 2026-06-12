@@ -3,12 +3,13 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.NotificationTemplatesController.TemplateRowVm>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Notification templates";
+    ViewData["Title"] = L["NotificationTemplates"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Notification templates",
-        Subtitle = "SMS / Email bodies for order + wallet events. Tokens like {customer.name} render at send-time."
+        Title    = L["NotificationTemplates"].Value,
+        Subtitle = L["NotificationTemplates.Index.Subtitle"].Value
     };
 }
 
@@ -20,8 +21,8 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "No templates discovered",
-            Body    = "Add constants to the Platform.NotificationTemplates class and they will appear here."
+            Heading = L["NotificationTemplates.Index.EmptyTitle"].Value,
+            Body    = L["NotificationTemplates.Index.EmptyBody"].Value
         };
         <partial name="_UiAlert" model="info" />
     }
@@ -42,22 +43,22 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                        <i class="bx bx-save me-1"></i> @L["Common.Save"]
                     </button>
                 </div>
                 <div class="ui-card-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label class="ui-label">Subject (Email only)</label>
+                            <label class="ui-label">@L["NotificationTemplates.Index.SubjectLabel"]</label>
                             <input class="ui-input form-control" name="Subject" value="@t.Subject"
-                                   placeholder="(default subject is used when empty)" />
+                                   placeholder="@L["NotificationTemplates.Index.SubjectPlaceholder"]" />
                         </div>
                         <div class="col-12">
-                            <label class="ui-label">Body</label>
+                            <label class="ui-label">@L["NotificationTemplates.Index.BodyLabel"]</label>
                             <textarea class="ui-input form-control" name="Body" rows="3"
-                                      placeholder="Hello {customer.name} — your order {order.number} is ready.">@t.Body</textarea>
+                                      placeholder="@L["NotificationTemplates.Index.BodyPlaceholder"]">@t.Body</textarea>
                             <div class="ui-help-text">
-                                Tokens: <code>{customer.name}</code>, <code>{customer.phone}</code>,
+                                @L["NotificationTemplates.Index.TokensLabel"] <code>{customer.name}</code>, <code>{customer.phone}</code>,
                                 <code>{order.number}</code>, <code>{order.total}</code>,
                                 <code>{order.status}</code>, <code>{wallet.balance}</code>,
                                 <code>{wallet.amount}</code>, <code>{tenant.name}</code>.
@@ -73,19 +74,19 @@
                 <div class="ui-card-body">
                     <div class="ui-row" style="gap:.5rem; align-items:flex-end; flex-wrap: wrap">
                         <div>
-                            <label class="ui-label">Test channel</label>
+                            <label class="ui-label">@L["NotificationTemplates.Index.TestChannelLabel"]</label>
                             <select name="Channel" class="form-select ui-select" style="max-width:140px">
-                                <option value="Sms">SMS</option>
-                                <option value="Email">Email</option>
+                                <option value="Sms">@L["NotificationTemplates.Channel.Sms"]</option>
+                                <option value="Email">@L["Common.Email"]</option>
                             </select>
                         </div>
                         <div class="flex-grow-1">
-                            <label class="ui-label">Recipient</label>
+                            <label class="ui-label">@L["NotificationTemplates.TestSend.RecipientLabel"]</label>
                             <input type="text" name="Recipient" class="ui-input form-control"
-                                   placeholder="01700000000 (SMS) or email@domain.com" />
+                                   placeholder="@L["NotificationTemplates.Index.RecipientPlaceholder"]" />
                         </div>
                         <button class="btn btn-outline-secondary btn-sm" type="submit">
-                            <i class="fa-solid fa-paper-plane me-1"></i> Send test
+                            <i class="bx bx-send me-1"></i> @L["NotificationTemplates.TestSend.SendButton"]
                         </button>
                     </div>
                 </div>

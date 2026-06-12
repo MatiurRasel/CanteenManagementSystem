@@ -4,6 +4,7 @@
 @using Platform.Application.Abstractions.Reporting
 @using CanteenManagementSystem.Presentation.Models
 @model IReport
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Title"] = Model.DisplayName;
     var defaultFrom = DateTime.UtcNow.Date.AddDays(-6).ToString("yyyy-MM-dd");
@@ -15,7 +16,7 @@
     {
         Title    = Model.DisplayName,
         Subtitle = string.IsNullOrEmpty(Model.Description) ? Model.Group : $"{Model.Description} · {Model.Group}",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/reports-catalog'><i class='fa-solid fa-arrow-left me-1'></i> Catalog</a>")
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/reports-catalog'><i class='bx bx-arrow-back me-1'></i> {L["ReportsCatalog.Run.CatalogLink"].Value}</a>")
     };
 }
 
@@ -26,11 +27,11 @@
         <div class="row g-3">
             <div class="col-lg-7">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Parameters</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["ReportsCatalog.Run.Parameters"]</div></div>
                     <div class="ui-card-body">
                         @if (props.Length == 0)
                         {
-                            <p class="ui-muted small mb-0">This report takes no parameters.</p>
+                            <p class="ui-muted small mb-0">@L["ReportsCatalog.Run.NoParameters"]</p>
                         }
                         else
                         {
@@ -69,7 +70,7 @@
                 </div>
 
                 <div class="ui-card mt-3">
-                    <div class="ui-card-header"><div class="ui-card-title">Format</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["ReportsCatalog.Run.Format"]</div></div>
                     <div class="ui-card-body">
                         <div class="d-flex flex-wrap gap-3">
                             @foreach (var f in Model.SupportedFormats)
@@ -86,20 +87,20 @@
 
                 <div class="mt-3 d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-download me-1"></i> Generate &amp; download
+                        <i class="bx bx-download me-1"></i> @L["ReportsCatalog.Run.GenerateDownload"]
                     </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                 </div>
             </div>
 
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">About this report</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["ReportsCatalog.Run.AboutTitle"]</div></div>
                     <div class="ui-card-body">
-                        <p class="ui-muted small mb-2">Key: <code>@Model.Key</code></p>
-                        <p class="ui-muted small mb-2">Permissions: @string.Join(", ", Model.RequiredPermissions)</p>
+                        <p class="ui-muted small mb-2">@L["FeatureFlagsAdmin.Index.ColKey"]: <code>@Model.Key</code></p>
+                        <p class="ui-muted small mb-2">@L["ReportsCatalog.Run.PermissionsLabel"]: @string.Join(", ", Model.RequiredPermissions)</p>
                         <p class="ui-muted small mb-0">
-                            Renders via the shared platform reporting framework — same definition, multi-format output.
+                            @L["ReportsCatalog.Run.AboutBody"]
                         </p>
                     </div>
                 </div>

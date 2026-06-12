@@ -1,0 +1,1294 @@
+[
+    {
+        "k":  "PreOrder.Queue.PlacedAt",
+        "bn":  "অর্ডারের সময়"
+    },
+    {
+        "k":  "Kiosk.Index.AutoResetIn",
+        "bn":  "অটো-রিসেট হবে"
+    },
+    {
+        "k":  "Kiosk.Index.Heading",
+        "bn":  "সেলফ-সার্ভিস"
+    },
+    {
+        "k":  "Kiosk.Index.Tagline",
+        "bn":  "আজকের মেনু দেখতে আপনার কার্ড স্ক্যান করুন বা ID লিখুন"
+    },
+    {
+        "k":  "Kiosk.Index.Ready",
+        "bn":  "প্রস্তুত"
+    },
+    {
+        "k":  "Kiosk.Index.IdentifierLabel",
+        "bn":  "ID / কার্ড UID"
+    },
+    {
+        "k":  "Kiosk.Index.LookMeUp",
+        "bn":  "আমাকে খুঁজুন"
+    },
+    {
+        "k":  "Kiosk.Index.LookingUp",
+        "bn":  "খোঁজা হচ্ছে…"
+    },
+    {
+        "k":  "Kiosk.Index.OneMoment",
+        "bn":  "একটু অপেক্ষা করুন।"
+    },
+    {
+        "k":  "Kiosk.Index.Done",
+        "bn":  "সম্পন্ন"
+    },
+    {
+        "k":  "Kiosk.Index.LookupFailed",
+        "bn":  "খোঁজা যায়নি। আবার চেষ্টা করুন।"
+    },
+    {
+        "k":  "Kiosk.Index.NotRecognised",
+        "bn":  "কার্ড / ID শনাক্ত করা যায়নি।"
+    },
+    {
+        "k":  "Kiosk.Index.NetworkError",
+        "bn":  "নেটওয়ার্ক ত্রুটি — আবার চেষ্টা করুন।"
+    },
+    {
+        "k":  "Kiosk.Setup.Title",
+        "bn":  "কিয়স্ক সেটআপ"
+    },
+    {
+        "k":  "Kiosk.Setup.NotPaired",
+        "bn":  "এই ট্যাবলেটটি এখনও পেয়ার করা হয়নি"
+    },
+    {
+        "k":  "Kiosk.Setup.PairIntro.Before",
+        "bn":  "একজন টেন্যান্ট অ্যাডমিনকে"
+    },
+    {
+        "k":  "Kiosk.Setup.PairIntro.After",
+        "bn":  "থেকে একটি পেয়ারিং টোকেন ইস্যু করতে হবে এবং এই ট্যাবলেটে একবার পেয়ারিং URL খুলতে হবে।"
+    },
+    {
+        "k":  "Kiosk.Setup.Step1",
+        "bn":  "একজন অ্যাডমিন আলাদা একটি ডিভাইসে সাইন ইন করবেন।"
+    },
+    {
+        "k":  "Kiosk.Setup.Step2",
+        "bn":  "{0} খুলে \"নতুন ট্যাবলেট পেয়ার করুন\"-এ ক্লিক করবেন।"
+    },
+    {
+        "k":  "Kiosk.Setup.Step3",
+        "bn":  "ট্যাবলেটের একটি নাম দেবেন (যেমন \"কাউন্টার A ট্যাবলেট\"), তারপর \"পেয়ারিং টোকেন ইস্যু করুন\"-এ ক্লিক করবেন।"
+    },
+    {
+        "k":  "Kiosk.Setup.Step4",
+        "bn":  "এই ট্যাবলেটের ক্যামেরা দিয়ে QR কোডটি স্ক্যান করবেন, অথবা পেয়ার URL-টি এই ট্যাবলেটে কপি করবেন।"
+    },
+    {
+        "k":  "Kiosk.Setup.Step5",
+        "bn":  "এই পেজটি রিলোড হয়ে পরবর্তী ৩০ দিনের জন্য লাইভ কিয়স্ক হিসেবে চালু থাকবে।"
+    },
+    {
+        "k":  "Kiosk.Setup.OperatorSignIn",
+        "bn":  "অথবা অপারেটর হিসেবে সাইন ইন করুন:"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Title",
+        "bn":  "অর্ডার {0}"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Pending",
+        "bn":  "অপেক্ষমাণ"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Confirmed",
+        "bn":  "নিশ্চিত"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Preparing",
+        "bn":  "প্রস্তুত হচ্ছে"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Ready",
+        "bn":  "প্রস্তুত"
+    },
+    {
+        "k":  "CustomerDisplay.Show.Delivered",
+        "bn":  "ডেলিভারি সম্পন্ন"
+    },
+    {
+        "k":  "CustomerDisplay.Show.PlacedAt",
+        "bn":  "অর্ডার করা হয়েছে {0}"
+    },
+    {
+        "k":  "Display.Menu.LiveMenu",
+        "bn":  "লাইভ মেনু"
+    },
+    {
+        "k":  "Display.Menu.LiveMenuDisplay",
+        "bn":  "লাইভ মেনু ডিসপ্লে"
+    },
+    {
+        "k":  "Display.Menu.Live",
+        "bn":  "লাইভ"
+    },
+    {
+        "k":  "Display.Menu.AutoRefresh",
+        "bn":  "অটো-রিফ্রেশ"
+    },
+    {
+        "k":  "Display.Menu.ItemCountSuffix",
+        "bn":  "টি আইটেম"
+    },
+    {
+        "k":  "Display.Menu.Now",
+        "bn":  "এখন"
+    },
+    {
+        "k":  "Display.Menu.DisplaySettings",
+        "bn":  "ডিসপ্লে সেটিংস"
+    },
+    {
+        "k":  "Display.Menu.Prices",
+        "bn":  "মূল্য"
+    },
+    {
+        "k":  "Display.Menu.Stock",
+        "bn":  "স্টক"
+    },
+    {
+        "k":  "Display.Menu.Nutrition",
+        "bn":  "পুষ্টি"
+    },
+    {
+        "k":  "Display.Menu.On",
+        "bn":  "চালু"
+    },
+    {
+        "k":  "Display.Menu.Off",
+        "bn":  "বন্ধ"
+    },
+    {
+        "k":  "Display.Menu.QuickKeys",
+        "bn":  "শর্টকাট কী"
+    },
+    {
+        "k":  "Display.Menu.ToggleNutrition",
+        "bn":  "পুষ্টি তথ্য টগল"
+    },
+    {
+        "k":  "Display.Menu.Fullscreen",
+        "bn":  "ফুলস্ক্রিন"
+    },
+    {
+        "k":  "Display.Menu.Veg",
+        "bn":  "নিরামিষ"
+    },
+    {
+        "k":  "Display.Menu.Halal",
+        "bn":  "হালাল"
+    },
+    {
+        "k":  "Display.Menu.SoldOut",
+        "bn":  "স্টক শেষ"
+    },
+    {
+        "k":  "Display.Menu.OnlyLeft",
+        "bn":  "মাত্র {0}টি বাকি"
+    },
+    {
+        "k":  "Display.Menu.StockCount",
+        "bn":  "স্টক {0}"
+    },
+    {
+        "k":  "Display.Menu.LoadFailed",
+        "bn":  "মেনু লোড করা যায়নি"
+    },
+    {
+        "k":  "Display.Menu.NoMenu",
+        "bn":  "আজকের জন্য এখনও কোনো মেনু প্রকাশিত হয়নি"
+    },
+    {
+        "k":  "Display.Menu.NetworkRetry",
+        "bn":  "নেটওয়ার্ক ত্রুটি — আবার চেষ্টা করা হচ্ছে…"
+    },
+    {
+        "k":  "Home.Index.DashboardDescription",
+        "bn":  "লাইভ KPI ও অর্ডার কিউ।"
+    },
+    {
+        "k":  "Home.Index.VerificationDescription",
+        "bn":  "ব্যবহারকারী স্ক্যান করুন, ব্যালেন্স ও মেনু দেখুন।"
+    },
+    {
+        "k":  "Home.Index.MenuDescription",
+        "bn":  "আজকের মেনু ও স্টক সাজান।"
+    },
+    {
+        "k":  "Home.Index.DisplayDescription",
+        "bn":  "গ্রাহকদের জন্য ডিসপ্লে বোর্ড।"
+    },
+    {
+        "k":  "Home.Privacy.Title",
+        "bn":  "গোপনীয়তা নীতি"
+    },
+    {
+        "k":  "Home.Privacy.Subtitle",
+        "bn":  "SmartCanteen কীভাবে ব্যক্তিগত তথ্য পরিচালনা করে।"
+    },
+    {
+        "k":  "Home.Privacy.WhatWeCollect",
+        "bn":  "আমরা যা সংগ্রহ করি"
+    },
+    {
+        "k":  "Home.Privacy.WhatWeCollectBody",
+        "bn":  "ব্যবহারকারীর প্রোফাইল (নাম, ইমেইল, ভূমিকা), কার্ড UID, অর্ডারের ইতিহাস, ওয়ালেট লেনদেন, ডিভাইস পেয়ারিং টোকেন এবং ওয়েবহুক ডেলিভারি লগ। সংবেদনশীল তথ্য (পাসওয়ার্ড, গেটওয়ে সিক্রেট) হ্যাশ বা এনক্রিপ্ট করে সংরক্ষিত হয় এবং কখনও ব্রাউজারে ফেরত পাঠানো হয় না।"
+    },
+    {
+        "k":  "Home.Privacy.HowWeUseIt",
+        "bn":  "আমরা কীভাবে ব্যবহার করি"
+    },
+    {
+        "k":  "Home.Privacy.HowWeUseItBody",
+        "bn":  "শুধুমাত্র এই ক্যান্টিন পরিচালনার জন্য — অর্ডার প্রক্রিয়াকরণ, ওয়ালেট ব্যালেন্স নিষ্পত্তি, SMS / ইমেইল নোটিফিকেশন পাঠানো, রিপোর্ট তৈরি এবং লেনদেন নিরীক্ষা। প্রতিটি টেন্যান্টের ডেটা আলাদা রাখা হয়; এক টেন্যান্ট অন্য টেন্যান্টের ডেটা দেখতে পারে না।"
+    },
+    {
+        "k":  "Home.Privacy.Retention",
+        "bn":  "সংরক্ষণকাল"
+    },
+    {
+        "k":  "Home.Privacy.RetentionBody",
+        "bn":  "লেনদেনের ইতিহাস আপনার স্থানীয় কর আইনে নির্ধারিত মেয়াদ পর্যন্ত সংরক্ষিত থাকে (সাধারণত ৫ বছর)। সফট-ডিলিট করা টেন্যান্ট ৩০ দিনের অপেক্ষাকালে রাখা হয়, তারপর একবারেই স্থায়ীভাবে মুছে ফেলা হয়।"
+    },
+    {
+        "k":  "Home.Privacy.YourRights",
+        "bn":  "আপনার অধিকার"
+    },
+    {
+        "k":  "Home.Privacy.YourRightsBody",
+        "bn":  "তথ্যে প্রবেশাধিকার, সংশোধন ও মুছে ফেলার অনুরোধ আপনার টেন্যান্ট অ্যাডমিনিস্ট্রেটরের কাছে জানাতে হবে — আপনার ক্যান্টিনের জন্য ডেটা কন্ট্রোলারের দায়িত্ব তাঁরই।"
+    },
+    {
+        "k":  "Parent.Index.Title",
+        "bn":  "আমার সন্তানেরা"
+    },
+    {
+        "k":  "Parent.Index.Subtitle",
+        "bn":  "ব্যালেন্স, সাম্প্রতিক অর্ডার, টপ-আপ এবং জরুরি কার্ড ফ্রিজ।"
+    },
+    {
+        "k":  "Parent.Index.NoLinkedChildren",
+        "bn":  "কোনো সন্তান যুক্ত নেই"
+    },
+    {
+        "k":  "Parent.Index.NoLinkedChildrenBody",
+        "bn":  "এই অ্যাকাউন্টে এখনও কোনো সন্তান যুক্ত করা হয়নি। আপনার প্রোফাইলে সন্তানদের ID যোগ করতে ক্যান্টিন অ্যাডমিনকে বলুন।"
+    },
+    {
+        "k":  "Parent.Index.SpentThisMonth",
+        "bn":  "এই মাসে ৳ {0} খরচ করেছে"
+    },
+    {
+        "k":  "Parent.Index.TopUp",
+        "bn":  "টপ-আপ"
+    },
+    {
+        "k":  "Parent.Index.TopUpHelp",
+        "bn":  "সরাসরি সন্তানের ওয়ালেটে যোগ হবে।"
+    },
+    {
+        "k":  "Parent.Index.NfcCard",
+        "bn":  "NFC কার্ড"
+    },
+    {
+        "k":  "Parent.Index.NoCardOnFile",
+        "bn":  "এখনও কোনো কার্ড নেই — কাউন্টারে কার্ড ইস্যু করতে বলুন।"
+    },
+    {
+        "k":  "Parent.Index.Unknown",
+        "bn":  "অজানা"
+    },
+    {
+        "k":  "Parent.Index.FreezeConfirm",
+        "bn":  "কার্ড {0} ফ্রিজ করবেন? কাউন্টারে স্ক্যান করলে সাথে সাথেই প্রত্যাখ্যাত হবে।"
+    },
+    {
+        "k":  "Parent.Index.FreezeCard",
+        "bn":  "কার্ড ফ্রিজ করুন"
+    },
+    {
+        "k":  "Parent.Index.RecentOrders",
+        "bn":  "সাম্প্রতিক অর্ডার"
+    },
+    {
+        "k":  "Parent.Index.NoOrdersYet",
+        "bn":  "এখনও কোনো অর্ডার নেই"
+    },
+    {
+        "k":  "Parent.Index.NoOrdersYetDescription",
+        "bn":  "এই সন্তানের করা অর্ডারগুলো এখানে দেখা যাবে।"
+    },
+    {
+        "k":  "Parent.Index.OrderNumber",
+        "bn":  "অর্ডার নং"
+    },
+    {
+        "k":  "Parent.Index.When",
+        "bn":  "কখন"
+    },
+    {
+        "k":  "WhatsNew.Index.Title",
+        "bn":  "নতুন কী আছে"
+    },
+    {
+        "k":  "WhatsNew.Index.Subtitle",
+        "bn":  "রিলিজ হওয়া প্রতিটি ব্যাচ — সাম্প্রতিকটি আগে।"
+    },
+    {
+        "k":  "WhatsNew.Index.EmptyTitle",
+        "bn":  "এখনও কিছু রিলিজ হয়নি"
+    },
+    {
+        "k":  "WhatsNew.Index.EmptyDescription",
+        "bn":  "পরবর্তী রিলিজের পরে আবার দেখুন।"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.Title",
+        "bn":  "সরবরাহকারী"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.Subtitle",
+        "bn":  "যেসব ভেন্ডরের নামে আপনি ক্রয় অর্ডার তৈরি করেন।"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.AddSupplier",
+        "bn":  "সরবরাহকারী যোগ করুন"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.Empty.Title",
+        "bn":  "এখনও কোনো সরবরাহকারী নেই"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.Empty.Description",
+        "bn":  "যে ভেন্ডরের কাছ থেকে কাঁচা স্টক কেনেন, তাকে যোগ করুন।"
+    },
+    {
+        "k":  "InventoryAdmin.Suppliers.Contact",
+        "bn":  "যোগাযোগ"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.Title",
+        "bn":  "সরবরাহকারী সম্পাদনা"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.EditNamed",
+        "bn":  "{0} সম্পাদনা"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.ContactName",
+        "bn":  "যোগাযোগকারীর নাম"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.Address",
+        "bn":  "ঠিকানা"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.Notes",
+        "bn":  "নোট"
+    },
+    {
+        "k":  "InventoryAdmin.EditSupplier.SaveSupplier",
+        "bn":  "সরবরাহকারী সংরক্ষণ করুন"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Title",
+        "bn":  "ক্রয় অর্ডার"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Subtitle",
+        "bn":  "সরবরাহকারীদের কাছ থেকে আগত স্টক — গ্রহণ করলে আজকের DailyMenu-এর পরিমাণ বেড়ে যায়।"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.NewPo",
+        "bn":  "নতুন PO"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Empty.Title",
+        "bn":  "কোনো ক্রয় অর্ডার নেই"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Empty.Description",
+        "bn":  "স্টক আগমন ট্র্যাক করা শুরু করতে আপনার প্রথম PO তৈরি করুন।"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.PoNumber",
+        "bn":  "PO নং"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Supplier",
+        "bn":  "সরবরাহকারী"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Lines",
+        "bn":  "লাইন"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Ordered",
+        "bn":  "অর্ডারকৃত"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.Receive",
+        "bn":  "গ্রহণ করুন"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.ConfirmReceive",
+        "bn":  "{0} গৃহীত হিসেবে চিহ্নিত করবেন? এতে আজকের মেনুর পরিমাণ বেড়ে যাবে।"
+    },
+    {
+        "k":  "InventoryAdmin.PurchaseOrders.ConfirmCancel",
+        "bn":  "{0} বাতিল করবেন?"
+    },
+    {
+        "k":  "InventoryAdmin.PoStatus.Draft",
+        "bn":  "খসড়া"
+    },
+    {
+        "k":  "InventoryAdmin.PoStatus.Submitted",
+        "bn":  "জমাকৃত"
+    },
+    {
+        "k":  "InventoryAdmin.PoStatus.Received",
+        "bn":  "গৃহীত"
+    },
+    {
+        "k":  "InventoryAdmin.PoStatus.Cancelled",
+        "bn":  "বাতিল"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Title",
+        "bn":  "নতুন ক্রয় অর্ডার"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Subtitle",
+        "bn":  "লাইন যোগ করুন; পরে PO গ্রহণ করলে আজকের মেনুর পরিমাণ বেড়ে যাবে।"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Header",
+        "bn":  "হেডার"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.PickOne",
+        "bn":  "একটি বেছে নিন…"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.AddOneFirst",
+        "bn":  "আগে একটি যোগ করুন।"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.PoNumberLabel",
+        "bn":  "PO নম্বর"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.AutoPlaceholder",
+        "bn":  "অটো"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Notes",
+        "bn":  "নোট"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.AddLine",
+        "bn":  "লাইন যোগ করুন"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Item",
+        "bn":  "আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.UnitCost",
+        "bn":  "একক মূল্য"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.LineTotal",
+        "bn":  "লাইনের মোট"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.Pick",
+        "bn":  "বেছে নিন…"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.GrandTotal",
+        "bn":  "সর্বমোট"
+    },
+    {
+        "k":  "InventoryAdmin.NewPurchaseOrder.SubmitPo",
+        "bn":  "PO জমা দিন"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Title",
+        "bn":  "স্টক গণনা"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Subtitle",
+        "bn":  "নিয়মিত বাস্তব-বনাম-সিস্টেম গণনা। শুরু করুন → তাক ধরে গুনুন → জমা দিন → পার্থক্য রেকর্ড হবে।"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.BeginTake",
+        "bn":  "গণনা শুরু করুন"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Empty.Title",
+        "bn":  "এখনও কোনো স্টক গণনা নেই"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Empty.Description",
+        "bn":  "প্রতিটি সক্রিয় আইটেমের প্রত্যাশিত বনাম গণনাকৃত পরিমাণের স্ন্যাপশট নিতে উপরের \"গণনা শুরু করুন\"-এ ক্লিক করুন।"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Started",
+        "bn":  "শুরু"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Completed",
+        "bn":  "সম্পন্ন"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.NetVariance",
+        "bn":  "নিট পার্থক্য"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakes.Open",
+        "bn":  "খুলুন"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeStatus.Draft",
+        "bn":  "খসড়া"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeStatus.Submitted",
+        "bn":  "জমাকৃত"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeStatus.Cancelled",
+        "bn":  "বাতিল"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.Title",
+        "bn":  "স্টক গণনা #{0}"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.StartedByLine",
+        "bn":  "{0} তারিখে {1} শুরু করেছেন"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.AllTakes",
+        "bn":  "সব গণনা"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.ItemsCount",
+        "bn":  "{0}টি আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.Item",
+        "bn":  "আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.Expected",
+        "bn":  "প্রত্যাশিত"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.Counted",
+        "bn":  "গণনাকৃত"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.Variance",
+        "bn":  "পার্থক্য"
+    },
+    {
+        "k":  "InventoryAdmin.StockTakeDetail.SubmitCount",
+        "bn":  "গণনা জমা দিন"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Title",
+        "bn":  "অপচয় লগ"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Subtitle",
+        "bn":  "ফেলে দেওয়া / মেয়াদোত্তীর্ণ / পড়ে যাওয়া আইটেম। আজকের DailyMenu-এর পরিমাণ স্বয়ংক্রিয়ভাবে কমিয়ে দেয়।"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.RecordWaste",
+        "bn":  "অপচয় রেকর্ড করুন"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Item",
+        "bn":  "আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Pick",
+        "bn":  "বেছে নিন…"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Reason",
+        "bn":  "কারণ"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonSpoilage",
+        "bn":  "নষ্ট হওয়া"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonExpired",
+        "bn":  "মেয়াদোত্তীর্ণ"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonDropped",
+        "bn":  "পড়ে যাওয়া"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonContamination",
+        "bn":  "দূষণ"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonPrepError",
+        "bn":  "প্রস্তুতিতে ভুল"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.ReasonOther",
+        "bn":  "অন্যান্য"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Notes",
+        "bn":  "নোট"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Record",
+        "bn":  "রেকর্ড করুন"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.RecentEntries",
+        "bn":  "সাম্প্রতিক এন্ট্রি"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.Empty",
+        "bn":  "কোনো অপচয় রেকর্ড হয়নি — দিনটি ভালোই গেছে।"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.When",
+        "bn":  "কখন"
+    },
+    {
+        "k":  "InventoryAdmin.Waste.By",
+        "bn":  "কর্তৃক"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Title",
+        "bn":  "মেয়াদ শেষের কাছাকাছি আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Subtitle",
+        "bn":  "আজ ও আগামীকালের মেনুর যেসব আইটেমের মেয়াদ {0} ঘণ্টার মধ্যে শেষ হবে। ক্রম: নিকটতমটি আগে।"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.WindowHours",
+        "bn":  "সময়সীমা (ঘণ্টা)"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.NextHours",
+        "bn":  "পরবর্তী {0} ঘণ্টা"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.KpiExpired",
+        "bn":  "ইতিমধ্যে মেয়াদোত্তীর্ণ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.KpiExpiringSoon",
+        "bn":  "শীঘ্রই মেয়াদ শেষ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.WithinHours",
+        "bn":  "{0} ঘণ্টার মধ্যে"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.KpiStockAtRisk",
+        "bn":  "ঝুঁকিতে থাকা স্টক"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.AcrossRows",
+        "bn":  "প্রদর্শিত সব সারি মিলিয়ে"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.KpiValueAtRisk",
+        "bn":  "ঝুঁকিতে থাকা মূল্য"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.NothingExpiring",
+        "bn":  "মেয়াদ শেষ হওয়ার মতো কিছু নেই"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.NothingExpiringBody",
+        "bn":  "আজ বা আগামীকালের মেনুর কোনো আইটেম নির্বাচিত সময়সীমার মধ্যে নেই। হয় শেলফ লাইফ যথেষ্ট দীর্ঘ, মেনু সবেমাত্র প্রকাশিত হয়েছে, অথবা স্টক ইতিমধ্যে শেষের পথে।"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Item",
+        "bn":  "আইটেম"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.MenuDate",
+        "bn":  "মেনুর তারিখ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.ShelfLife",
+        "bn":  "শেলফ লাইফ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.ExpiresUtc",
+        "bn":  "মেয়াদ শেষ (UTC)"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Available",
+        "bn":  "উপলব্ধ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Value",
+        "bn":  "মূল্য"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.Action",
+        "bn":  "অ্যাকশন"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.ExpiredAgo",
+        "bn":  "{0} ঘণ্টা আগে মেয়াদ শেষ"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.InHours",
+        "bn":  "{0} ঘণ্টার মধ্যে"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.HoursAbbrev",
+        "bn":  "{0} ঘণ্টা"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.ConfirmWriteOff",
+        "bn":  "{1}-এর অবশিষ্ট {0}টি ইউনিট মেয়াদোত্তীর্ণ অপচয় হিসেবে বাদ দেবেন?"
+    },
+    {
+        "k":  "InventoryAdmin.NearExpiry.WriteOff",
+        "bn":  "বাদ দিন"
+    },
+    {
+        "k":  "CardsAdmin.Index.Subtitle",
+        "bn":  "কার্ড ইস্যু, ব্লক, পুনঃবরাদ্দ ও পুনঃপ্রিন্ট করুন। প্রতিটি পরিবর্তনে ক্যাশ হালনাগাদ হয়, তাই পরের স্ক্যানেই তা কার্যকর দেখা যায়।"
+    },
+    {
+        "k":  "CardsAdmin.Index.IssueCard",
+        "bn":  "কার্ড ইস্যু করুন"
+    },
+    {
+        "k":  "CardsAdmin.Index.SearchPlaceholder",
+        "bn":  "কার্ড UID বা ব্যবহারকারীর ID…"
+    },
+    {
+        "k":  "CardsAdmin.Index.Uid",
+        "bn":  "UID"
+    },
+    {
+        "k":  "CardsAdmin.Index.Empty.Title",
+        "bn":  "কোনো কার্ড পাওয়া যায়নি"
+    },
+    {
+        "k":  "CardsAdmin.Index.Empty.Description",
+        "bn":  "এই ফিল্টারে কোনো কার্ড মেলেনি।"
+    },
+    {
+        "k":  "CardsAdmin.Issued",
+        "bn":  "ইস্যুকৃত"
+    },
+    {
+        "k":  "CardsAdmin.PrintCard",
+        "bn":  "কার্ড প্রিন্ট করুন"
+    },
+    {
+        "k":  "CardsAdmin.AllCards",
+        "bn":  "সব কার্ড"
+    },
+    {
+        "k":  "CardsAdmin.Status.Issued",
+        "bn":  "ইস্যুকৃত"
+    },
+    {
+        "k":  "CardsAdmin.Status.Active",
+        "bn":  "সক্রিয়"
+    },
+    {
+        "k":  "CardsAdmin.Status.Blocked",
+        "bn":  "ব্লককৃত"
+    },
+    {
+        "k":  "CardsAdmin.Status.Reassigned",
+        "bn":  "পুনঃবরাদ্দকৃত"
+    },
+    {
+        "k":  "CardsAdmin.Status.Retired",
+        "bn":  "স্থায়ীভাবে বন্ধ"
+    },
+    {
+        "k":  "CardsAdmin.Status.Lost",
+        "bn":  "হারানো"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Title",
+        "bn":  "কার্ড · {0}"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Lifecycle",
+        "bn":  "লাইফসাইকেল"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Activate",
+        "bn":  "সক্রিয় করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Block",
+        "bn":  "ব্লক করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.ReportLost",
+        "bn":  "হারানোর রিপোর্ট করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.ConfirmReportLost",
+        "bn":  "কার্ডটি হারানো হিসেবে রিপোর্ট করবেন? সাথে সাথেই এটির স্ক্যান বন্ধ হয়ে যাবে।"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Retire",
+        "bn":  "স্থায়ীভাবে বন্ধ করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.ConfirmRetire",
+        "bn":  "কার্ডটি স্থায়ীভাবে বন্ধ করবেন? এই সিদ্ধান্ত আর বদলানো যাবে না।"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Unblock",
+        "bn":  "আনব্লক করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Reissue.Title",
+        "bn":  "পুনঃইস্যু (হারানো কার্ডের বদলি)"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Reissue.NewUid",
+        "bn":  "নতুন কার্ডের UID"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Reissue.Reason",
+        "bn":  "কারণ"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Reissue.ReasonPlaceholder",
+        "bn":  "হারানো কার্ডের বদলি"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Reissue.Submit",
+        "bn":  "পুনঃইস্যু"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Print.Title",
+        "bn":  "এই কার্ডটি প্রিন্ট করুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Print.Description",
+        "bn":  "ছবি + টেন্যান্ট লোগো + অ্যাকসেন্ট স্ট্রাইপসহ CR80 (৮৬ × ৫৪ মিমি) প্রিন্ট টেমপ্লেট।"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Print.Open",
+        "bn":  "প্রিন্ট প্রিভিউ খুলুন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.Title",
+        "bn":  "ইভেন্ট টাইমলাইন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.When",
+        "bn":  "কখন (UTC)"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.Event",
+        "bn":  "ইভেন্ট"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.UidChange",
+        "bn":  "UID পরিবর্তন"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.By",
+        "bn":  "কর্তৃক"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.Reason",
+        "bn":  "কারণ"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.Empty.Title",
+        "bn":  "কোনো ইভেন্ট রেকর্ড হয়নি"
+    },
+    {
+        "k":  "CardsAdmin.Detail.Timeline.Empty.Description",
+        "bn":  "এই কার্ডের লাইফসাইকেল ইভেন্টগুলো এখানে দেখা যাবে।"
+    },
+    {
+        "k":  "CardsAdmin.Event.Issued",
+        "bn":  "ইস্যুকৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.Activated",
+        "bn":  "সক্রিয়কৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.Blocked",
+        "bn":  "ব্লককৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.Unblocked",
+        "bn":  "আনব্লককৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.Reassigned",
+        "bn":  "পুনঃবরাদ্দকৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.ReportedLost",
+        "bn":  "হারানো হিসেবে রিপোর্টকৃত"
+    },
+    {
+        "k":  "CardsAdmin.Event.Retired",
+        "bn":  "স্থায়ীভাবে বন্ধ"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Title",
+        "bn":  "কার্ড ইস্যু করুন"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Subtitle",
+        "bn":  "ব্যবহারকারীর সাথে একটি NFC UID যুক্ত করুন। সাথে সাথেই স্ক্যান করা যাবে, আলাদা সক্রিয়করণের ধাপ লাগে না।"
+    },
+    {
+        "k":  "CardsAdmin.Issue.CardUid",
+        "bn":  "কার্ড UID"
+    },
+    {
+        "k":  "CardsAdmin.Issue.CardUidHelp",
+        "bn":  "NFC রিডারের সেলফ-টেস্টে দেখা যায় বা কার্ডের গায়ে ছাপানো থাকে। স্বয়ংক্রিয়ভাবে পূরণ করতে পেয়ারকৃত WebHID রিডারে কার্ডটি ধরুন।"
+    },
+    {
+        "k":  "CardsAdmin.Issue.UserType",
+        "bn":  "ব্যবহারকারীর ধরন"
+    },
+    {
+        "k":  "CardsAdmin.Issue.UserId",
+        "bn":  "ব্যবহারকারীর ID"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Notes",
+        "bn":  "নোট"
+    },
+    {
+        "k":  "CardsAdmin.Issue.NotesPlaceholder",
+        "bn":  "ঐচ্ছিক — ব্যাচ / বদলির কারণ"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Submit",
+        "bn":  "ইস্যু করুন"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Reminder.Title",
+        "bn":  "লাইফসাইকেল রিমাইন্ডার"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Reminder.Body1",
+        "bn":  "প্রথম কাউন্টার স্ক্যানে ইস্যুকৃত → সক্রিয় রূপান্তর স্বয়ংক্রিয়ভাবে ঘটে, অথবা কার্ডের বিস্তারিত পেজের \"সক্রিয় করুন\" বোতাম দিয়েও করা যায়।"
+    },
+    {
+        "k":  "CardsAdmin.Issue.Reminder.Body2",
+        "bn":  "কোনো UID অন্য ব্যবহারকারীর নামে সক্রিয় থাকলে ফর্মটি তা গ্রহণ করবে না — আগে পুরনো কার্ডটি ব্লক বা হারানো রিপোর্ট করুন।"
+    },
+    {
+        "k":  "CardsAdmin.UserType.Student",
+        "bn":  "শিক্ষার্থী"
+    },
+    {
+        "k":  "CardsAdmin.UserType.Employee",
+        "bn":  "কর্মচারী"
+    },
+    {
+        "k":  "CardsAdmin.Print.Title",
+        "bn":  "কার্ড {0} প্রিন্ট করুন"
+    },
+    {
+        "k":  "CardsAdmin.Print.Id",
+        "bn":  "ID"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Title",
+        "bn":  "কিয়স্ক ট্যাবলেট"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Subtitle",
+        "bn":  "সেলফ-সার্ভিস ট্যাবলেট পেয়ার করুন — শিক্ষার্থীরা স্টাফ লগইন ছাড়াই স্ক্যান করে অর্ডার দিতে পারবে।"
+    },
+    {
+        "k":  "KiosksAdmin.Index.PairNew",
+        "bn":  "নতুন ট্যাবলেট পেয়ার করুন"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Paired.Title",
+        "bn":  "ট্যাবলেট \"{0}\" পেয়ার করা হয়েছে"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Paired.OpenOnce",
+        "bn":  "ট্যাবলেটের ব্রাউজারে এই URL-টি শুধু একবার খুলুন। এরপর আর কোনো সেটআপ ছাড়াই ট্যাবলেটটি ৩০ দিন পেয়ারড থাকবে।"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Copied",
+        "bn":  "কপি হয়েছে!"
+    },
+    {
+        "k":  "KiosksAdmin.Index.ScanQr",
+        "bn":  "অথবা ট্যাবলেটের ক্যামেরা দিয়ে এই QR-টি স্ক্যান করুন:"
+    },
+    {
+        "k":  "KiosksAdmin.Index.PairQrAlt",
+        "bn":  "পেয়ারিং QR"
+    },
+    {
+        "k":  "KiosksAdmin.Index.RawToken",
+        "bn":  "মূল টোকেন (QR ব্যবহার সম্ভব না হলে একবার লিখে রাখুন):"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Empty.Title",
+        "bn":  "এখনও কোনো কিয়স্ক ট্যাবলেট পেয়ার করা হয়নি"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Empty.Description",
+        "bn":  "এককালীন টোকেন ইস্যু করতে 'নতুন ট্যাবলেট পেয়ার করুন'-এ ক্লিক করুন। শিক্ষার্থীদের কখনও লগইন করতে হবে না।"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Token",
+        "bn":  "টোকেন"
+    },
+    {
+        "k":  "KiosksAdmin.Index.LastSeen",
+        "bn":  "সর্বশেষ দেখা গেছে"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Revoked",
+        "bn":  "প্রত্যাহৃত"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Hidden",
+        "bn":  "(লুকানো)"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Never",
+        "bn":  "কখনও নয়"
+    },
+    {
+        "k":  "KiosksAdmin.Index.ConfirmRevoke",
+        "bn":  "এই ট্যাবলেটের অনুমতি প্রত্যাহার করবেন? পরের পেজ লোডেই এটি সাইন আউট হয়ে যাবে।"
+    },
+    {
+        "k":  "KiosksAdmin.Index.Revoke",
+        "bn":  "প্রত্যাহার করুন"
+    },
+    {
+        "k":  "KiosksAdmin.Modal.Title",
+        "bn":  "নতুন কিয়স্ক ট্যাবলেট পেয়ার করুন"
+    },
+    {
+        "k":  "KiosksAdmin.Modal.Help",
+        "bn":  "ট্যাবলেটটির এমন একটি নাম দিন যা আপনি সহজে চিনবেন। টোকেনটি সাথে সাথেই তৈরি হবে এবং পরের স্ক্রিনে শুধু একবারই দেখানো হবে।"
+    },
+    {
+        "k":  "KiosksAdmin.Modal.Name",
+        "bn":  "ট্যাবলেটের নাম"
+    },
+    {
+        "k":  "KiosksAdmin.Modal.NamePlaceholder",
+        "bn":  "কাউন্টার A ট্যাবলেট"
+    },
+    {
+        "k":  "KiosksAdmin.Modal.Submit",
+        "bn":  "পেয়ারিং টোকেন ইস্যু করুন"
+    },
+    {
+        "k":  "PrinterAdmin.Index.Title",
+        "bn":  "রসিদ প্রিন্টার"
+    },
+    {
+        "k":  "PrinterAdmin.Index.Subtitle",
+        "bn":  "প্রতি টেন্যান্টের জন্য থার্মাল প্রিন্টার (TCP / ESC-POS)। অধিকাংশ Epson, Xprinter, Citizen, Aclas ইউনিট পোর্ট 9100-এ টেক্সট গ্রহণ করে।"
+    },
+    {
+        "k":  "PrinterAdmin.Alert.NotConfigured.Title",
+        "bn":  "কোনো প্রিন্টার কনফিগার করা হয়নি"
+    },
+    {
+        "k":  "PrinterAdmin.Alert.NotConfigured.Body",
+        "bn":  "নিচে প্রিন্টারের IP ও পোর্ট লিখে সংরক্ষণ করুন, তারপর নিশ্চিত হতে \"টেস্ট প্রিন্ট\"-এ ক্লিক করুন।"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Title",
+        "bn":  "কনফিগারেশন"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Host",
+        "bn":  "হোস্ট (IP বা DNS)"
+    },
+    {
+        "k":  "PrinterAdmin.Config.HostHelp",
+        "bn":  "অধিকাংশ থার্মাল প্রিন্টারে পোর্ট 9100-এ সরাসরি (raw) সকেট খোলা থাকে।"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Port",
+        "bn":  "পোর্ট"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Timeout",
+        "bn":  "টাইমআউট (ms)"
+    },
+    {
+        "k":  "PrinterAdmin.Config.LineWidth",
+        "bn":  "লাইনের প্রস্থ"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Width32",
+        "bn":  "৩২ (৫৮ মিমি কাগজ)"
+    },
+    {
+        "k":  "PrinterAdmin.Config.Width48",
+        "bn":  "৪৮ (৮০ মিমি কাগজ)"
+    },
+    {
+        "k":  "PrinterAdmin.Config.ApplyNote",
+        "bn":  "পরের প্রিন্টেই পরিবর্তন কার্যকর হবে — রিস্টার্ট লাগবে না।"
+    },
+    {
+        "k":  "PrinterAdmin.Test.Title",
+        "bn":  "টেস্ট প্রিন্ট"
+    },
+    {
+        "k":  "PrinterAdmin.Test.Description",
+        "bn":  "ব্র্যান্ড ও টাইমস্ট্যাম্পসহ একটি শিট পাঠায়। নেটওয়ার্ক সংযোগ ও কাগজ ঠিক আছে কি না যাচাই করে।"
+    },
+    {
+        "k":  "PrinterAdmin.Test.Submit",
+        "bn":  "টেস্ট শিট প্রিন্ট করুন"
+    },
+    {
+        "k":  "PrinterAdmin.Drawer.Title",
+        "bn":  "ক্যাশ ড্রয়ার"
+    },
+    {
+        "k":  "PrinterAdmin.Drawer.Description",
+        "bn":  "প্রিন্টারের RJ11 পোর্টে যুক্ত ড্রয়ারটি খোলে। প্রতিবার খোলার ঘটনা অডিট লগে রেকর্ড হয়।"
+    },
+    {
+        "k":  "PrinterAdmin.Drawer.Submit",
+        "bn":  "ড্রয়ার খুলুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.Subtitle",
+        "bn":  "এই টেন্যান্টের শিক্ষার্থী / কর্মচারী তালিকা। আপনার কনফিগার করা উৎস থেকে সিঙ্ক হয়।"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.SecondsAgo",
+        "bn":  "{0} সেকেন্ড আগে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.MinutesAgo",
+        "bn":  "{0} মিনিট আগে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.HoursAgo",
+        "bn":  "{0} ঘণ্টা আগে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.DaysAgo",
+        "bn":  "{0} দিন আগে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Health.Healthy",
+        "bn":  "স্বাভাবিক"
+    },
+    {
+        "k":  "DirectoryAdminUi.Health.Failing",
+        "bn":  "ব্যর্থ হচ্ছে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Health.Disabled",
+        "bn":  "নিষ্ক্রিয়"
+    },
+    {
+        "k":  "DirectoryAdminUi.RunStatus.Success",
+        "bn":  "সফল"
+    },
+    {
+        "k":  "DirectoryAdminUi.RunStatus.Failed",
+        "bn":  "ব্যর্থ"
+    },
+    {
+        "k":  "DirectoryAdminUi.RunStatus.Running",
+        "bn":  "চলছে"
+    },
+    {
+        "k":  "DirectoryAdminUi.Students",
+        "bn":  "শিক্ষার্থী"
+    },
+    {
+        "k":  "DirectoryAdminUi.Employees",
+        "bn":  "কর্মচারী"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.SyncNow",
+        "bn":  "এখনই সিঙ্ক করুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.Setup",
+        "bn":  "সেটআপ"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.AllRuns",
+        "bn":  "সব রান"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.Health",
+        "bn":  "স্বাস্থ্য"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.ConsecutiveFailures",
+        "bn":  "পরপর {0}টি ব্যর্থতা"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.NoRecentFailures",
+        "bn":  "সাম্প্রতিক কোনো ব্যর্থতা নেই"
+    },
+    {
+        "k":  "DirectoryAdminUi.Source",
+        "bn":  "উৎস"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.LastSync",
+        "bn":  "সর্বশেষ সিঙ্ক"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.LastSuccessfulSync",
+        "bn":  "সর্বশেষ সফল সিঙ্ক"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.UploadStudentsCsv",
+        "bn":  "শিক্ষার্থীদের CSV আপলোড করুন"
+    },
+    {
+        "k":  "DirectoryAdminUi.Index.StudentsCsvHeaders",
+        "bn":  "হেডার: ExternalId, Name (+ ঐচ্ছিক CardIdentifier, Gender, ContactNo, PhotoPath, Program, Class, Section, Session, Version)।"
+    }
+]

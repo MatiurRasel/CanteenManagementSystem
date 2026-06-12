@@ -1,0 +1,1294 @@
+﻿[
+    {
+        "en":  "Placed at",
+        "k":  "PreOrder.Queue.PlacedAt"
+    },
+    {
+        "en":  "Auto-reset in",
+        "k":  "Kiosk.Index.AutoResetIn"
+    },
+    {
+        "en":  "Self-service",
+        "k":  "Kiosk.Index.Heading"
+    },
+    {
+        "en":  "Scan your card or type your ID to see today\u0027s menu",
+        "k":  "Kiosk.Index.Tagline"
+    },
+    {
+        "en":  "Ready",
+        "k":  "Kiosk.Index.Ready"
+    },
+    {
+        "en":  "ID / Card UID",
+        "k":  "Kiosk.Index.IdentifierLabel"
+    },
+    {
+        "en":  "Look me up",
+        "k":  "Kiosk.Index.LookMeUp"
+    },
+    {
+        "en":  "Looking you up…",
+        "k":  "Kiosk.Index.LookingUp"
+    },
+    {
+        "en":  "One moment.",
+        "k":  "Kiosk.Index.OneMoment"
+    },
+    {
+        "en":  "Done",
+        "k":  "Kiosk.Index.Done"
+    },
+    {
+        "en":  "Lookup failed. Try again.",
+        "k":  "Kiosk.Index.LookupFailed"
+    },
+    {
+        "en":  "Card / ID not recognised.",
+        "k":  "Kiosk.Index.NotRecognised"
+    },
+    {
+        "en":  "Network error - try again.",
+        "k":  "Kiosk.Index.NetworkError"
+    },
+    {
+        "en":  "Kiosk setup",
+        "k":  "Kiosk.Setup.Title"
+    },
+    {
+        "en":  "This tablet isn\u0027t paired yet",
+        "k":  "Kiosk.Setup.NotPaired"
+    },
+    {
+        "en":  "A tenant admin needs to issue a pairing token from",
+        "k":  "Kiosk.Setup.PairIntro.Before"
+    },
+    {
+        "en":  "and open the pairing URL on this tablet once.",
+        "k":  "Kiosk.Setup.PairIntro.After"
+    },
+    {
+        "en":  "An admin signs in on a separate device.",
+        "k":  "Kiosk.Setup.Step1"
+    },
+    {
+        "en":  "Opens {0} and clicks \"Pair new tablet\".",
+        "k":  "Kiosk.Setup.Step2"
+    },
+    {
+        "en":  "Names the tablet (e.g. \"Counter A tablet\"), clicks \"Issue pairing token\".",
+        "k":  "Kiosk.Setup.Step3"
+    },
+    {
+        "en":  "Scans the QR code with this tablet\u0027s camera, OR copies the pair URL to this tablet.",
+        "k":  "Kiosk.Setup.Step4"
+    },
+    {
+        "en":  "This page reloads as the live kiosk for the next 30 days.",
+        "k":  "Kiosk.Setup.Step5"
+    },
+    {
+        "en":  "Or sign in as an operator instead:",
+        "k":  "Kiosk.Setup.OperatorSignIn"
+    },
+    {
+        "en":  "Order {0}",
+        "k":  "CustomerDisplay.Show.Title"
+    },
+    {
+        "en":  "Pending",
+        "k":  "CustomerDisplay.Show.Pending"
+    },
+    {
+        "en":  "Confirmed",
+        "k":  "CustomerDisplay.Show.Confirmed"
+    },
+    {
+        "en":  "Preparing",
+        "k":  "CustomerDisplay.Show.Preparing"
+    },
+    {
+        "en":  "Ready",
+        "k":  "CustomerDisplay.Show.Ready"
+    },
+    {
+        "en":  "Delivered",
+        "k":  "CustomerDisplay.Show.Delivered"
+    },
+    {
+        "en":  "Placed {0}",
+        "k":  "CustomerDisplay.Show.PlacedAt"
+    },
+    {
+        "en":  "Live menu",
+        "k":  "Display.Menu.LiveMenu"
+    },
+    {
+        "en":  "Live menu display",
+        "k":  "Display.Menu.LiveMenuDisplay"
+    },
+    {
+        "en":  "LIVE",
+        "k":  "Display.Menu.Live"
+    },
+    {
+        "en":  "Auto-refresh",
+        "k":  "Display.Menu.AutoRefresh"
+    },
+    {
+        "en":  "item(s)",
+        "k":  "Display.Menu.ItemCountSuffix"
+    },
+    {
+        "en":  "Now",
+        "k":  "Display.Menu.Now"
+    },
+    {
+        "en":  "Display settings",
+        "k":  "Display.Menu.DisplaySettings"
+    },
+    {
+        "en":  "Prices",
+        "k":  "Display.Menu.Prices"
+    },
+    {
+        "en":  "Stock",
+        "k":  "Display.Menu.Stock"
+    },
+    {
+        "en":  "Nutrition",
+        "k":  "Display.Menu.Nutrition"
+    },
+    {
+        "en":  "On",
+        "k":  "Display.Menu.On"
+    },
+    {
+        "en":  "Off",
+        "k":  "Display.Menu.Off"
+    },
+    {
+        "en":  "Quick keys",
+        "k":  "Display.Menu.QuickKeys"
+    },
+    {
+        "en":  "toggle nutrition chips",
+        "k":  "Display.Menu.ToggleNutrition"
+    },
+    {
+        "en":  "fullscreen",
+        "k":  "Display.Menu.Fullscreen"
+    },
+    {
+        "en":  "Veg",
+        "k":  "Display.Menu.Veg"
+    },
+    {
+        "en":  "Halal",
+        "k":  "Display.Menu.Halal"
+    },
+    {
+        "en":  "Sold out",
+        "k":  "Display.Menu.SoldOut"
+    },
+    {
+        "en":  "Only {0} left",
+        "k":  "Display.Menu.OnlyLeft"
+    },
+    {
+        "en":  "Stock {0}",
+        "k":  "Display.Menu.StockCount"
+    },
+    {
+        "en":  "Could not load menu",
+        "k":  "Display.Menu.LoadFailed"
+    },
+    {
+        "en":  "No menu published yet for today",
+        "k":  "Display.Menu.NoMenu"
+    },
+    {
+        "en":  "Network error - retrying...",
+        "k":  "Display.Menu.NetworkRetry"
+    },
+    {
+        "en":  "Live KPIs and order queue.",
+        "k":  "Home.Index.DashboardDescription"
+    },
+    {
+        "en":  "Scan a user, see balance \u0026 menu.",
+        "k":  "Home.Index.VerificationDescription"
+    },
+    {
+        "en":  "Curate today\u0027s menu and stock.",
+        "k":  "Home.Index.MenuDescription"
+    },
+    {
+        "en":  "Customer-facing display board.",
+        "k":  "Home.Index.DisplayDescription"
+    },
+    {
+        "en":  "Privacy policy",
+        "k":  "Home.Privacy.Title"
+    },
+    {
+        "en":  "How SmartCanteen handles personal data.",
+        "k":  "Home.Privacy.Subtitle"
+    },
+    {
+        "en":  "What we collect",
+        "k":  "Home.Privacy.WhatWeCollect"
+    },
+    {
+        "en":  "User profile (name, email, role), card UID, order history, wallet transactions, device pairing tokens, and webhook delivery logs. Sensitive credentials (passwords, gateway secrets) are hashed or encrypted at rest and never returned to the browser.",
+        "k":  "Home.Privacy.WhatWeCollectBody"
+    },
+    {
+        "en":  "How we use it",
+        "k":  "Home.Privacy.HowWeUseIt"
+    },
+    {
+        "en":  "Strictly to operate this canteen — process orders, settle wallet balances, deliver SMS / email notifications, run reports, and audit transactions. Data is segregated per tenant; one tenant cannot see another tenant\u0027s data.",
+        "k":  "Home.Privacy.HowWeUseItBody"
+    },
+    {
+        "en":  "Retention",
+        "k":  "Home.Privacy.Retention"
+    },
+    {
+        "en":  "Transaction history is retained for the duration required by your local tax law (typically 5 years). Soft-deleted tenants are kept on a 30-day cooling-off window before a one-shot hard delete.",
+        "k":  "Home.Privacy.RetentionBody"
+    },
+    {
+        "en":  "Your rights",
+        "k":  "Home.Privacy.YourRights"
+    },
+    {
+        "en":  "Subject access, correction, and erasure requests should be addressed to your tenant administrator — they hold the data controller role for your canteen\u0027s deployment.",
+        "k":  "Home.Privacy.YourRightsBody"
+    },
+    {
+        "en":  "My children",
+        "k":  "Parent.Index.Title"
+    },
+    {
+        "en":  "Balance, recent orders, top-up, and emergency card freeze.",
+        "k":  "Parent.Index.Subtitle"
+    },
+    {
+        "en":  "No linked children",
+        "k":  "Parent.Index.NoLinkedChildren"
+    },
+    {
+        "en":  "No children are linked to this account yet. Ask the canteen admin to add your children\u0027s IDs to your profile.",
+        "k":  "Parent.Index.NoLinkedChildrenBody"
+    },
+    {
+        "en":  "spent ৳ {0} this month",
+        "k":  "Parent.Index.SpentThisMonth"
+    },
+    {
+        "en":  "Top up",
+        "k":  "Parent.Index.TopUp"
+    },
+    {
+        "en":  "Goes straight into the child\u0027s wallet.",
+        "k":  "Parent.Index.TopUpHelp"
+    },
+    {
+        "en":  "NFC card",
+        "k":  "Parent.Index.NfcCard"
+    },
+    {
+        "en":  "No card on file yet — ask the counter to issue one.",
+        "k":  "Parent.Index.NoCardOnFile"
+    },
+    {
+        "en":  "Unknown",
+        "k":  "Parent.Index.Unknown"
+    },
+    {
+        "en":  "Freeze card {0}? Counter scans will reject it immediately.",
+        "k":  "Parent.Index.FreezeConfirm"
+    },
+    {
+        "en":  "Freeze card",
+        "k":  "Parent.Index.FreezeCard"
+    },
+    {
+        "en":  "Recent orders",
+        "k":  "Parent.Index.RecentOrders"
+    },
+    {
+        "en":  "No orders yet",
+        "k":  "Parent.Index.NoOrdersYet"
+    },
+    {
+        "en":  "Orders placed by this child will appear here.",
+        "k":  "Parent.Index.NoOrdersYetDescription"
+    },
+    {
+        "en":  "Order #",
+        "k":  "Parent.Index.OrderNumber"
+    },
+    {
+        "en":  "When",
+        "k":  "Parent.Index.When"
+    },
+    {
+        "en":  "What\u0027s new",
+        "k":  "WhatsNew.Index.Title"
+    },
+    {
+        "en":  "Every shipped batch — most recent first.",
+        "k":  "WhatsNew.Index.Subtitle"
+    },
+    {
+        "en":  "Nothing shipped yet",
+        "k":  "WhatsNew.Index.EmptyTitle"
+    },
+    {
+        "en":  "Check back after the next release.",
+        "k":  "WhatsNew.Index.EmptyDescription"
+    },
+    {
+        "en":  "Suppliers",
+        "k":  "InventoryAdmin.Suppliers.Title"
+    },
+    {
+        "en":  "Vendors you raise purchase orders against.",
+        "k":  "InventoryAdmin.Suppliers.Subtitle"
+    },
+    {
+        "en":  "Add supplier",
+        "k":  "InventoryAdmin.Suppliers.AddSupplier"
+    },
+    {
+        "en":  "No suppliers yet",
+        "k":  "InventoryAdmin.Suppliers.Empty.Title"
+    },
+    {
+        "en":  "Add the vendor you order raw stock from.",
+        "k":  "InventoryAdmin.Suppliers.Empty.Description"
+    },
+    {
+        "en":  "Contact",
+        "k":  "InventoryAdmin.Suppliers.Contact"
+    },
+    {
+        "en":  "Edit supplier",
+        "k":  "InventoryAdmin.EditSupplier.Title"
+    },
+    {
+        "en":  "Edit {0}",
+        "k":  "InventoryAdmin.EditSupplier.EditNamed"
+    },
+    {
+        "en":  "Contact name",
+        "k":  "InventoryAdmin.EditSupplier.ContactName"
+    },
+    {
+        "en":  "Address",
+        "k":  "InventoryAdmin.EditSupplier.Address"
+    },
+    {
+        "en":  "Notes",
+        "k":  "InventoryAdmin.EditSupplier.Notes"
+    },
+    {
+        "en":  "Save supplier",
+        "k":  "InventoryAdmin.EditSupplier.SaveSupplier"
+    },
+    {
+        "en":  "Purchase orders",
+        "k":  "InventoryAdmin.PurchaseOrders.Title"
+    },
+    {
+        "en":  "Inbound stock from suppliers — receipt bumps today\u0027s DailyMenu quantities.",
+        "k":  "InventoryAdmin.PurchaseOrders.Subtitle"
+    },
+    {
+        "en":  "New PO",
+        "k":  "InventoryAdmin.PurchaseOrders.NewPo"
+    },
+    {
+        "en":  "No purchase orders",
+        "k":  "InventoryAdmin.PurchaseOrders.Empty.Title"
+    },
+    {
+        "en":  "Create your first PO to start tracking stock arrivals.",
+        "k":  "InventoryAdmin.PurchaseOrders.Empty.Description"
+    },
+    {
+        "en":  "PO #",
+        "k":  "InventoryAdmin.PurchaseOrders.PoNumber"
+    },
+    {
+        "en":  "Supplier",
+        "k":  "InventoryAdmin.PurchaseOrders.Supplier"
+    },
+    {
+        "en":  "Lines",
+        "k":  "InventoryAdmin.PurchaseOrders.Lines"
+    },
+    {
+        "en":  "Ordered",
+        "k":  "InventoryAdmin.PurchaseOrders.Ordered"
+    },
+    {
+        "en":  "Receive",
+        "k":  "InventoryAdmin.PurchaseOrders.Receive"
+    },
+    {
+        "en":  "Mark {0} received? This will bump today\u0027s menu quantities.",
+        "k":  "InventoryAdmin.PurchaseOrders.ConfirmReceive"
+    },
+    {
+        "en":  "Cancel {0}?",
+        "k":  "InventoryAdmin.PurchaseOrders.ConfirmCancel"
+    },
+    {
+        "en":  "Draft",
+        "k":  "InventoryAdmin.PoStatus.Draft"
+    },
+    {
+        "en":  "Submitted",
+        "k":  "InventoryAdmin.PoStatus.Submitted"
+    },
+    {
+        "en":  "Received",
+        "k":  "InventoryAdmin.PoStatus.Received"
+    },
+    {
+        "en":  "Cancelled",
+        "k":  "InventoryAdmin.PoStatus.Cancelled"
+    },
+    {
+        "en":  "New purchase order",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Title"
+    },
+    {
+        "en":  "Add lines; receiving the PO later will bump today\u0027s menu quantities.",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Subtitle"
+    },
+    {
+        "en":  "Header",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Header"
+    },
+    {
+        "en":  "Pick one…",
+        "k":  "InventoryAdmin.NewPurchaseOrder.PickOne"
+    },
+    {
+        "en":  "add one first.",
+        "k":  "InventoryAdmin.NewPurchaseOrder.AddOneFirst"
+    },
+    {
+        "en":  "PO number",
+        "k":  "InventoryAdmin.NewPurchaseOrder.PoNumberLabel"
+    },
+    {
+        "en":  "auto",
+        "k":  "InventoryAdmin.NewPurchaseOrder.AutoPlaceholder"
+    },
+    {
+        "en":  "Notes",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Notes"
+    },
+    {
+        "en":  "Add line",
+        "k":  "InventoryAdmin.NewPurchaseOrder.AddLine"
+    },
+    {
+        "en":  "Item",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Item"
+    },
+    {
+        "en":  "Unit cost",
+        "k":  "InventoryAdmin.NewPurchaseOrder.UnitCost"
+    },
+    {
+        "en":  "Line total",
+        "k":  "InventoryAdmin.NewPurchaseOrder.LineTotal"
+    },
+    {
+        "en":  "Pick…",
+        "k":  "InventoryAdmin.NewPurchaseOrder.Pick"
+    },
+    {
+        "en":  "Grand total",
+        "k":  "InventoryAdmin.NewPurchaseOrder.GrandTotal"
+    },
+    {
+        "en":  "Submit PO",
+        "k":  "InventoryAdmin.NewPurchaseOrder.SubmitPo"
+    },
+    {
+        "en":  "Stock takes",
+        "k":  "InventoryAdmin.StockTakes.Title"
+    },
+    {
+        "en":  "Periodic physical-vs-system counts. Begin one → walk the shelves → submit → variance recorded.",
+        "k":  "InventoryAdmin.StockTakes.Subtitle"
+    },
+    {
+        "en":  "Begin take",
+        "k":  "InventoryAdmin.StockTakes.BeginTake"
+    },
+    {
+        "en":  "No stock takes yet",
+        "k":  "InventoryAdmin.StockTakes.Empty.Title"
+    },
+    {
+        "en":  "Click Begin take above to snapshot every active item\u0027s expected vs counted quantity.",
+        "k":  "InventoryAdmin.StockTakes.Empty.Description"
+    },
+    {
+        "en":  "Started",
+        "k":  "InventoryAdmin.StockTakes.Started"
+    },
+    {
+        "en":  "Completed",
+        "k":  "InventoryAdmin.StockTakes.Completed"
+    },
+    {
+        "en":  "Net variance",
+        "k":  "InventoryAdmin.StockTakes.NetVariance"
+    },
+    {
+        "en":  "Open",
+        "k":  "InventoryAdmin.StockTakes.Open"
+    },
+    {
+        "en":  "Draft",
+        "k":  "InventoryAdmin.StockTakeStatus.Draft"
+    },
+    {
+        "en":  "Submitted",
+        "k":  "InventoryAdmin.StockTakeStatus.Submitted"
+    },
+    {
+        "en":  "Cancelled",
+        "k":  "InventoryAdmin.StockTakeStatus.Cancelled"
+    },
+    {
+        "en":  "Stock take #{0}",
+        "k":  "InventoryAdmin.StockTakeDetail.Title"
+    },
+    {
+        "en":  "Started {0} by {1}",
+        "k":  "InventoryAdmin.StockTakeDetail.StartedByLine"
+    },
+    {
+        "en":  "All takes",
+        "k":  "InventoryAdmin.StockTakeDetail.AllTakes"
+    },
+    {
+        "en":  "{0} items",
+        "k":  "InventoryAdmin.StockTakeDetail.ItemsCount"
+    },
+    {
+        "en":  "Item",
+        "k":  "InventoryAdmin.StockTakeDetail.Item"
+    },
+    {
+        "en":  "Expected",
+        "k":  "InventoryAdmin.StockTakeDetail.Expected"
+    },
+    {
+        "en":  "Counted",
+        "k":  "InventoryAdmin.StockTakeDetail.Counted"
+    },
+    {
+        "en":  "Variance",
+        "k":  "InventoryAdmin.StockTakeDetail.Variance"
+    },
+    {
+        "en":  "Submit count",
+        "k":  "InventoryAdmin.StockTakeDetail.SubmitCount"
+    },
+    {
+        "en":  "Waste log",
+        "k":  "InventoryAdmin.Waste.Title"
+    },
+    {
+        "en":  "Disposed / expired / dropped items. Auto-decrements today\u0027s DailyMenu quantity.",
+        "k":  "InventoryAdmin.Waste.Subtitle"
+    },
+    {
+        "en":  "Record waste",
+        "k":  "InventoryAdmin.Waste.RecordWaste"
+    },
+    {
+        "en":  "Item",
+        "k":  "InventoryAdmin.Waste.Item"
+    },
+    {
+        "en":  "Pick…",
+        "k":  "InventoryAdmin.Waste.Pick"
+    },
+    {
+        "en":  "Reason",
+        "k":  "InventoryAdmin.Waste.Reason"
+    },
+    {
+        "en":  "Spoilage",
+        "k":  "InventoryAdmin.Waste.ReasonSpoilage"
+    },
+    {
+        "en":  "Expired",
+        "k":  "InventoryAdmin.Waste.ReasonExpired"
+    },
+    {
+        "en":  "Dropped",
+        "k":  "InventoryAdmin.Waste.ReasonDropped"
+    },
+    {
+        "en":  "Contamination",
+        "k":  "InventoryAdmin.Waste.ReasonContamination"
+    },
+    {
+        "en":  "Prep error",
+        "k":  "InventoryAdmin.Waste.ReasonPrepError"
+    },
+    {
+        "en":  "Other",
+        "k":  "InventoryAdmin.Waste.ReasonOther"
+    },
+    {
+        "en":  "Notes",
+        "k":  "InventoryAdmin.Waste.Notes"
+    },
+    {
+        "en":  "Record",
+        "k":  "InventoryAdmin.Waste.Record"
+    },
+    {
+        "en":  "Recent entries",
+        "k":  "InventoryAdmin.Waste.RecentEntries"
+    },
+    {
+        "en":  "No waste recorded — that\u0027s a good day.",
+        "k":  "InventoryAdmin.Waste.Empty"
+    },
+    {
+        "en":  "When",
+        "k":  "InventoryAdmin.Waste.When"
+    },
+    {
+        "en":  "By",
+        "k":  "InventoryAdmin.Waste.By"
+    },
+    {
+        "en":  "Near-expiry items",
+        "k":  "InventoryAdmin.NearExpiry.Title"
+    },
+    {
+        "en":  "Items in today + tomorrow\u0027s menu expiring within {0} hour(s). Sort: nearest first.",
+        "k":  "InventoryAdmin.NearExpiry.Subtitle"
+    },
+    {
+        "en":  "Window (hours)",
+        "k":  "InventoryAdmin.NearExpiry.WindowHours"
+    },
+    {
+        "en":  "next {0} h",
+        "k":  "InventoryAdmin.NearExpiry.NextHours"
+    },
+    {
+        "en":  "Already expired",
+        "k":  "InventoryAdmin.NearExpiry.KpiExpired"
+    },
+    {
+        "en":  "Expiring soon",
+        "k":  "InventoryAdmin.NearExpiry.KpiExpiringSoon"
+    },
+    {
+        "en":  "within {0} h",
+        "k":  "InventoryAdmin.NearExpiry.WithinHours"
+    },
+    {
+        "en":  "Stock at risk",
+        "k":  "InventoryAdmin.NearExpiry.KpiStockAtRisk"
+    },
+    {
+        "en":  "across all rows shown",
+        "k":  "InventoryAdmin.NearExpiry.AcrossRows"
+    },
+    {
+        "en":  "Value at risk",
+        "k":  "InventoryAdmin.NearExpiry.KpiValueAtRisk"
+    },
+    {
+        "en":  "Nothing expiring",
+        "k":  "InventoryAdmin.NearExpiry.NothingExpiring"
+    },
+    {
+        "en":  "No item in today or tomorrow\u0027s menu is within the selected window. Either the shelf-life is generous, the menu was just published, or stock has already run down.",
+        "k":  "InventoryAdmin.NearExpiry.NothingExpiringBody"
+    },
+    {
+        "en":  "Item",
+        "k":  "InventoryAdmin.NearExpiry.Item"
+    },
+    {
+        "en":  "Menu date",
+        "k":  "InventoryAdmin.NearExpiry.MenuDate"
+    },
+    {
+        "en":  "Shelf life",
+        "k":  "InventoryAdmin.NearExpiry.ShelfLife"
+    },
+    {
+        "en":  "Expires (UTC)",
+        "k":  "InventoryAdmin.NearExpiry.ExpiresUtc"
+    },
+    {
+        "en":  "Available",
+        "k":  "InventoryAdmin.NearExpiry.Available"
+    },
+    {
+        "en":  "Value",
+        "k":  "InventoryAdmin.NearExpiry.Value"
+    },
+    {
+        "en":  "Action",
+        "k":  "InventoryAdmin.NearExpiry.Action"
+    },
+    {
+        "en":  "Expired {0}h ago",
+        "k":  "InventoryAdmin.NearExpiry.ExpiredAgo"
+    },
+    {
+        "en":  "In {0}h",
+        "k":  "InventoryAdmin.NearExpiry.InHours"
+    },
+    {
+        "en":  "{0} h",
+        "k":  "InventoryAdmin.NearExpiry.HoursAbbrev"
+    },
+    {
+        "en":  "Write off the remaining {0} unit(s) of {1} as Expired waste?",
+        "k":  "InventoryAdmin.NearExpiry.ConfirmWriteOff"
+    },
+    {
+        "en":  "Write off",
+        "k":  "InventoryAdmin.NearExpiry.WriteOff"
+    },
+    {
+        "en":  "Issue, block, reassign, and re-print cards. Cache-busted on every change so the next swipe reflects it.",
+        "k":  "CardsAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Issue card",
+        "k":  "CardsAdmin.Index.IssueCard"
+    },
+    {
+        "en":  "Card UID or user id…",
+        "k":  "CardsAdmin.Index.SearchPlaceholder"
+    },
+    {
+        "en":  "UID",
+        "k":  "CardsAdmin.Index.Uid"
+    },
+    {
+        "en":  "No cards found",
+        "k":  "CardsAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "No cards match this filter.",
+        "k":  "CardsAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "Issued",
+        "k":  "CardsAdmin.Issued"
+    },
+    {
+        "en":  "Print card",
+        "k":  "CardsAdmin.PrintCard"
+    },
+    {
+        "en":  "All cards",
+        "k":  "CardsAdmin.AllCards"
+    },
+    {
+        "en":  "Issued",
+        "k":  "CardsAdmin.Status.Issued"
+    },
+    {
+        "en":  "Active",
+        "k":  "CardsAdmin.Status.Active"
+    },
+    {
+        "en":  "Blocked",
+        "k":  "CardsAdmin.Status.Blocked"
+    },
+    {
+        "en":  "Reassigned",
+        "k":  "CardsAdmin.Status.Reassigned"
+    },
+    {
+        "en":  "Retired",
+        "k":  "CardsAdmin.Status.Retired"
+    },
+    {
+        "en":  "Lost",
+        "k":  "CardsAdmin.Status.Lost"
+    },
+    {
+        "en":  "Card · {0}",
+        "k":  "CardsAdmin.Detail.Title"
+    },
+    {
+        "en":  "Lifecycle",
+        "k":  "CardsAdmin.Detail.Lifecycle"
+    },
+    {
+        "en":  "Activate",
+        "k":  "CardsAdmin.Detail.Activate"
+    },
+    {
+        "en":  "Block",
+        "k":  "CardsAdmin.Detail.Block"
+    },
+    {
+        "en":  "Report lost",
+        "k":  "CardsAdmin.Detail.ReportLost"
+    },
+    {
+        "en":  "Report this card as lost? It will stop scanning immediately.",
+        "k":  "CardsAdmin.Detail.ConfirmReportLost"
+    },
+    {
+        "en":  "Retire",
+        "k":  "CardsAdmin.Detail.Retire"
+    },
+    {
+        "en":  "Retire this card? Action is permanent.",
+        "k":  "CardsAdmin.Detail.ConfirmRetire"
+    },
+    {
+        "en":  "Unblock",
+        "k":  "CardsAdmin.Detail.Unblock"
+    },
+    {
+        "en":  "Re-issue (replace lost card)",
+        "k":  "CardsAdmin.Detail.Reissue.Title"
+    },
+    {
+        "en":  "New card UID",
+        "k":  "CardsAdmin.Detail.Reissue.NewUid"
+    },
+    {
+        "en":  "Reason",
+        "k":  "CardsAdmin.Detail.Reissue.Reason"
+    },
+    {
+        "en":  "Replacement for lost card",
+        "k":  "CardsAdmin.Detail.Reissue.ReasonPlaceholder"
+    },
+    {
+        "en":  "Re-issue",
+        "k":  "CardsAdmin.Detail.Reissue.Submit"
+    },
+    {
+        "en":  "Print this card",
+        "k":  "CardsAdmin.Detail.Print.Title"
+    },
+    {
+        "en":  "CR80 (86 × 54 mm) print template with photo + tenant logo + accent stripe.",
+        "k":  "CardsAdmin.Detail.Print.Description"
+    },
+    {
+        "en":  "Open print preview",
+        "k":  "CardsAdmin.Detail.Print.Open"
+    },
+    {
+        "en":  "Event timeline",
+        "k":  "CardsAdmin.Detail.Timeline.Title"
+    },
+    {
+        "en":  "When (UTC)",
+        "k":  "CardsAdmin.Detail.Timeline.When"
+    },
+    {
+        "en":  "Event",
+        "k":  "CardsAdmin.Detail.Timeline.Event"
+    },
+    {
+        "en":  "UID change",
+        "k":  "CardsAdmin.Detail.Timeline.UidChange"
+    },
+    {
+        "en":  "By",
+        "k":  "CardsAdmin.Detail.Timeline.By"
+    },
+    {
+        "en":  "Reason",
+        "k":  "CardsAdmin.Detail.Timeline.Reason"
+    },
+    {
+        "en":  "No events recorded",
+        "k":  "CardsAdmin.Detail.Timeline.Empty.Title"
+    },
+    {
+        "en":  "Lifecycle events for this card will appear here.",
+        "k":  "CardsAdmin.Detail.Timeline.Empty.Description"
+    },
+    {
+        "en":  "Issued",
+        "k":  "CardsAdmin.Event.Issued"
+    },
+    {
+        "en":  "Activated",
+        "k":  "CardsAdmin.Event.Activated"
+    },
+    {
+        "en":  "Blocked",
+        "k":  "CardsAdmin.Event.Blocked"
+    },
+    {
+        "en":  "Unblocked",
+        "k":  "CardsAdmin.Event.Unblocked"
+    },
+    {
+        "en":  "Reassigned",
+        "k":  "CardsAdmin.Event.Reassigned"
+    },
+    {
+        "en":  "Reported lost",
+        "k":  "CardsAdmin.Event.ReportedLost"
+    },
+    {
+        "en":  "Retired",
+        "k":  "CardsAdmin.Event.Retired"
+    },
+    {
+        "en":  "Issue a card",
+        "k":  "CardsAdmin.Issue.Title"
+    },
+    {
+        "en":  "Bind an NFC UID to a user. They can scan immediately, no activation step needed.",
+        "k":  "CardsAdmin.Issue.Subtitle"
+    },
+    {
+        "en":  "Card UID",
+        "k":  "CardsAdmin.Issue.CardUid"
+    },
+    {
+        "en":  "Read from the NFC reader self-test or printed on the card. Hold the card to a paired WebHID reader to auto-fill.",
+        "k":  "CardsAdmin.Issue.CardUidHelp"
+    },
+    {
+        "en":  "User type",
+        "k":  "CardsAdmin.Issue.UserType"
+    },
+    {
+        "en":  "User ID",
+        "k":  "CardsAdmin.Issue.UserId"
+    },
+    {
+        "en":  "Notes",
+        "k":  "CardsAdmin.Issue.Notes"
+    },
+    {
+        "en":  "Optional — batch / replacement reason",
+        "k":  "CardsAdmin.Issue.NotesPlaceholder"
+    },
+    {
+        "en":  "Issue",
+        "k":  "CardsAdmin.Issue.Submit"
+    },
+    {
+        "en":  "Lifecycle reminder",
+        "k":  "CardsAdmin.Issue.Reminder.Title"
+    },
+    {
+        "en":  "Issued → Active happens automatically on first counter scan, or via the Activate button on the card detail page.",
+        "k":  "CardsAdmin.Issue.Reminder.Body1"
+    },
+    {
+        "en":  "If a UID is already active on another user, the form rejects — block / report-lost the old card first.",
+        "k":  "CardsAdmin.Issue.Reminder.Body2"
+    },
+    {
+        "en":  "Student",
+        "k":  "CardsAdmin.UserType.Student"
+    },
+    {
+        "en":  "Employee",
+        "k":  "CardsAdmin.UserType.Employee"
+    },
+    {
+        "en":  "Print card {0}",
+        "k":  "CardsAdmin.Print.Title"
+    },
+    {
+        "en":  "ID",
+        "k":  "CardsAdmin.Print.Id"
+    },
+    {
+        "en":  "Kiosk tablets",
+        "k":  "KiosksAdmin.Index.Title"
+    },
+    {
+        "en":  "Pair self-service tablets so students can scan + order with no staff login.",
+        "k":  "KiosksAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Pair new tablet",
+        "k":  "KiosksAdmin.Index.PairNew"
+    },
+    {
+        "en":  "Tablet \"{0}\" is paired",
+        "k":  "KiosksAdmin.Index.Paired.Title"
+    },
+    {
+        "en":  "Open this URL ONCE on the tablet\u0027s browser. The tablet then stays paired for 30 days with no further setup.",
+        "k":  "KiosksAdmin.Index.Paired.OpenOnce"
+    },
+    {
+        "en":  "Copied!",
+        "k":  "KiosksAdmin.Index.Copied"
+    },
+    {
+        "en":  "Or scan this QR with the tablet camera:",
+        "k":  "KiosksAdmin.Index.ScanQr"
+    },
+    {
+        "en":  "Pair QR",
+        "k":  "KiosksAdmin.Index.PairQrAlt"
+    },
+    {
+        "en":  "Raw token (record once if QR is not an option):",
+        "k":  "KiosksAdmin.Index.RawToken"
+    },
+    {
+        "en":  "No kiosk tablets paired yet",
+        "k":  "KiosksAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "Click \u0027Pair new tablet\u0027 to issue a one-time token. Students never need to log in.",
+        "k":  "KiosksAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "Token",
+        "k":  "KiosksAdmin.Index.Token"
+    },
+    {
+        "en":  "Last seen",
+        "k":  "KiosksAdmin.Index.LastSeen"
+    },
+    {
+        "en":  "Revoked",
+        "k":  "KiosksAdmin.Index.Revoked"
+    },
+    {
+        "en":  "(hidden)",
+        "k":  "KiosksAdmin.Index.Hidden"
+    },
+    {
+        "en":  "Never",
+        "k":  "KiosksAdmin.Index.Never"
+    },
+    {
+        "en":  "Revoke this tablet? It will sign out on next page load.",
+        "k":  "KiosksAdmin.Index.ConfirmRevoke"
+    },
+    {
+        "en":  "Revoke",
+        "k":  "KiosksAdmin.Index.Revoke"
+    },
+    {
+        "en":  "Pair a new kiosk tablet",
+        "k":  "KiosksAdmin.Modal.Title"
+    },
+    {
+        "en":  "Give the tablet a name you\u0027ll recognise. The token is generated immediately and shown ONCE on the next screen.",
+        "k":  "KiosksAdmin.Modal.Help"
+    },
+    {
+        "en":  "Tablet name",
+        "k":  "KiosksAdmin.Modal.Name"
+    },
+    {
+        "en":  "Counter A tablet",
+        "k":  "KiosksAdmin.Modal.NamePlaceholder"
+    },
+    {
+        "en":  "Issue pairing token",
+        "k":  "KiosksAdmin.Modal.Submit"
+    },
+    {
+        "en":  "Receipt printer",
+        "k":  "PrinterAdmin.Index.Title"
+    },
+    {
+        "en":  "Per-tenant thermal printer (TCP / ESC-POS). Most Epson, Xprinter, Citizen, Aclas units accept text on port 9100.",
+        "k":  "PrinterAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "No printer configured",
+        "k":  "PrinterAdmin.Alert.NotConfigured.Title"
+    },
+    {
+        "en":  "Enter the printer\u0027s IP + port below, save, then click Test print to confirm.",
+        "k":  "PrinterAdmin.Alert.NotConfigured.Body"
+    },
+    {
+        "en":  "Configuration",
+        "k":  "PrinterAdmin.Config.Title"
+    },
+    {
+        "en":  "Host (IP or DNS)",
+        "k":  "PrinterAdmin.Config.Host"
+    },
+    {
+        "en":  "Most thermal printers expose a raw socket on port 9100.",
+        "k":  "PrinterAdmin.Config.HostHelp"
+    },
+    {
+        "en":  "Port",
+        "k":  "PrinterAdmin.Config.Port"
+    },
+    {
+        "en":  "Timeout (ms)",
+        "k":  "PrinterAdmin.Config.Timeout"
+    },
+    {
+        "en":  "Line width",
+        "k":  "PrinterAdmin.Config.LineWidth"
+    },
+    {
+        "en":  "32 (58 mm paper)",
+        "k":  "PrinterAdmin.Config.Width32"
+    },
+    {
+        "en":  "48 (80 mm paper)",
+        "k":  "PrinterAdmin.Config.Width48"
+    },
+    {
+        "en":  "Changes apply on next print — no restart.",
+        "k":  "PrinterAdmin.Config.ApplyNote"
+    },
+    {
+        "en":  "Test print",
+        "k":  "PrinterAdmin.Test.Title"
+    },
+    {
+        "en":  "Sends a single sheet with brand + timestamp. Verifies network reach + paper.",
+        "k":  "PrinterAdmin.Test.Description"
+    },
+    {
+        "en":  "Print test sheet",
+        "k":  "PrinterAdmin.Test.Submit"
+    },
+    {
+        "en":  "Cash drawer",
+        "k":  "PrinterAdmin.Drawer.Title"
+    },
+    {
+        "en":  "Triggers the drawer attached to the printer\u0027s RJ11 port. Every kick is audited.",
+        "k":  "PrinterAdmin.Drawer.Description"
+    },
+    {
+        "en":  "Open drawer",
+        "k":  "PrinterAdmin.Drawer.Submit"
+    },
+    {
+        "en":  "Student / employee roster for this tenant. Synced from your configured source.",
+        "k":  "DirectoryAdminUi.Index.Subtitle"
+    },
+    {
+        "en":  "{0}s ago",
+        "k":  "DirectoryAdminUi.Index.SecondsAgo"
+    },
+    {
+        "en":  "{0}m ago",
+        "k":  "DirectoryAdminUi.Index.MinutesAgo"
+    },
+    {
+        "en":  "{0}h ago",
+        "k":  "DirectoryAdminUi.Index.HoursAgo"
+    },
+    {
+        "en":  "{0}d ago",
+        "k":  "DirectoryAdminUi.Index.DaysAgo"
+    },
+    {
+        "en":  "Healthy",
+        "k":  "DirectoryAdminUi.Health.Healthy"
+    },
+    {
+        "en":  "Failing",
+        "k":  "DirectoryAdminUi.Health.Failing"
+    },
+    {
+        "en":  "Disabled",
+        "k":  "DirectoryAdminUi.Health.Disabled"
+    },
+    {
+        "en":  "Success",
+        "k":  "DirectoryAdminUi.RunStatus.Success"
+    },
+    {
+        "en":  "Failed",
+        "k":  "DirectoryAdminUi.RunStatus.Failed"
+    },
+    {
+        "en":  "Running",
+        "k":  "DirectoryAdminUi.RunStatus.Running"
+    },
+    {
+        "en":  "Students",
+        "k":  "DirectoryAdminUi.Students"
+    },
+    {
+        "en":  "Employees",
+        "k":  "DirectoryAdminUi.Employees"
+    },
+    {
+        "en":  "Sync now",
+        "k":  "DirectoryAdminUi.Index.SyncNow"
+    },
+    {
+        "en":  "Setup",
+        "k":  "DirectoryAdminUi.Index.Setup"
+    },
+    {
+        "en":  "All runs",
+        "k":  "DirectoryAdminUi.Index.AllRuns"
+    },
+    {
+        "en":  "Health",
+        "k":  "DirectoryAdminUi.Index.Health"
+    },
+    {
+        "en":  "{0} consecutive failure(s)",
+        "k":  "DirectoryAdminUi.Index.ConsecutiveFailures"
+    },
+    {
+        "en":  "No recent failures",
+        "k":  "DirectoryAdminUi.Index.NoRecentFailures"
+    },
+    {
+        "en":  "Source",
+        "k":  "DirectoryAdminUi.Source"
+    },
+    {
+        "en":  "Last sync",
+        "k":  "DirectoryAdminUi.Index.LastSync"
+    },
+    {
+        "en":  "Last successful sync",
+        "k":  "DirectoryAdminUi.Index.LastSuccessfulSync"
+    },
+    {
+        "en":  "Upload students CSV",
+        "k":  "DirectoryAdminUi.Index.UploadStudentsCsv"
+    },
+    {
+        "en":  "Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Program, Class, Section, Session, Version).",
+        "k":  "DirectoryAdminUi.Index.StudentsCsvHeaders"
+    }
+]

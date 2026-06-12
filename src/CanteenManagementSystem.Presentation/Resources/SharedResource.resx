@@ -3067,4 +3067,469 @@
   <data name="Verification.Index.TypeScanAnywhere" xml:space="preserve">
     <value>Type / scan anywhere</value>
   </data>
+  <data name="CombosAdmin.Index.Title" xml:space="preserve">
+    <value>Combos</value>
+  </data>
+  <data name="CombosAdmin.Index.Heading" xml:space="preserve">
+    <value>Counter combos</value>
+  </data>
+  <data name="CombosAdmin.Index.Subtitle" xml:space="preserve">
+    <value>One-tap buttons the cashier hits instead of typing 3-digit codes.</value>
+  </data>
+  <data name="CombosAdmin.Index.AddCombo" xml:space="preserve">
+    <value>Add combo</value>
+  </data>
+  <data name="CombosAdmin.Index.EmptyTitle" xml:space="preserve">
+    <value>No combos yet</value>
+  </data>
+  <data name="CombosAdmin.Index.EmptyDescription" xml:space="preserve">
+    <value>Add a lunch combo or breakfast deal — they appear on the counter as colour-coded one-tap buttons.</value>
+  </data>
+  <data name="CombosAdmin.Index.EmptyCta" xml:space="preserve">
+    <value>Add your first combo</value>
+  </data>
+  <data name="CombosAdmin.Index.ColColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="CombosAdmin.Index.ColCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CombosAdmin.Index.ColOrder" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="CombosAdmin.Index.ConfirmDelete" xml:space="preserve">
+    <value>Delete combo {0}?</value>
+  </data>
+  <data name="CombosAdmin.Edit.AddTitle" xml:space="preserve">
+    <value>Add combo</value>
+  </data>
+  <data name="CombosAdmin.Edit.EditTitleFormat" xml:space="preserve">
+    <value>Edit combo {0}</value>
+  </data>
+  <data name="CombosAdmin.Edit.EditTitle" xml:space="preserve">
+    <value>Edit combo</value>
+  </data>
+  <data name="CombosAdmin.Edit.Subtitle" xml:space="preserve">
+    <value>One-tap counter button — bundles N FoodItems behind a memorable code + colour.</value>
+  </data>
+  <data name="CombosAdmin.Edit.BackToList" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+  <data name="CombosAdmin.Edit.CodeLabel" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CombosAdmin.Edit.CodeHint" xml:space="preserve">
+    <value>Short alphanumeric ID — shown on the button.</value>
+  </data>
+  <data name="CombosAdmin.Edit.DisplayNameLabel" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="CombosAdmin.Edit.DisplayNamePlaceholder" xml:space="preserve">
+    <value>Lunch combo</value>
+  </data>
+  <data name="CombosAdmin.Edit.ColorLabel" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="CombosAdmin.Edit.SortOrderLabel" xml:space="preserve">
+    <value>Sort order</value>
+  </data>
+  <data name="CombosAdmin.Edit.ItemsTitle" xml:space="preserve">
+    <value>Items in combo</value>
+  </data>
+  <data name="CombosAdmin.Edit.ItemsHint" xml:space="preserve">
+    <value>Tick every food item the combo orders.</value>
+  </data>
+  <data name="CombosAdmin.Edit.NoFoodItems" xml:space="preserve">
+    <value>No active food items yet — add some at /Menu/Manage first.</value>
+  </data>
+  <data name="CombosAdmin.Edit.SaveButton" xml:space="preserve">
+    <value>Save combo</value>
+  </data>
+  <data name="DiscountRules.Index.Title" xml:space="preserve">
+    <value>Discount rules</value>
+  </data>
+  <data name="DiscountRules.Index.Subtitle" xml:space="preserve">
+    <value>JSON-driven rules — day-of-week role discounts, combo pricing, happy hour windows.</value>
+  </data>
+  <data name="DiscountRules.Index.AddRule" xml:space="preserve">
+    <value>Add rule</value>
+  </data>
+  <data name="DiscountRules.Index.EmptyTitle" xml:space="preserve">
+    <value>No discount rules yet</value>
+  </data>
+  <data name="DiscountRules.Index.EmptyDescription" xml:space="preserve">
+    <value>Add a Tuesday-teacher discount, a combo, or a happy-hour window.</value>
+  </data>
+  <data name="DiscountRules.Index.ColCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="DiscountRules.Index.ColDisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="DiscountRules.Index.ColPriority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="DiscountRules.Index.ColValidWindow" xml:space="preserve">
+    <value>Valid window</value>
+  </data>
+  <data name="DiscountRules.Edit.NewTitle" xml:space="preserve">
+    <value>New discount rule</value>
+  </data>
+  <data name="DiscountRules.Edit.NewRuleHeading" xml:space="preserve">
+    <value>New rule</value>
+  </data>
+  <data name="DiscountRules.Edit.NewSubtitle" xml:space="preserve">
+    <value>Define a condition + an effect. Higher priority wins.</value>
+  </data>
+  <data name="DiscountRules.Edit.EditSubtitle" xml:space="preserve">
+    <value>Edit existing rule.</value>
+  </data>
+  <data name="DiscountRules.Edit.AllRules" xml:space="preserve">
+    <value>All rules</value>
+  </data>
+  <data name="DiscountRules.Edit.IdentityTitle" xml:space="preserve">
+    <value>Identity</value>
+  </data>
+  <data name="DiscountRules.Edit.CodeLabel" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="DiscountRules.Edit.DisplayNameLabel" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="DiscountRules.Edit.DisplayNamePlaceholder" xml:space="preserve">
+    <value>Tuesday teacher discount</value>
+  </data>
+  <data name="DiscountRules.Edit.PriorityLabel" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="DiscountRules.Edit.PriorityHint" xml:space="preserve">
+    <value>Higher wins.</value>
+  </data>
+  <data name="DiscountRules.Edit.ValidFromLabel" xml:space="preserve">
+    <value>Valid from</value>
+  </data>
+  <data name="DiscountRules.Edit.ValidUntilLabel" xml:space="preserve">
+    <value>Valid until</value>
+  </data>
+  <data name="DiscountRules.Edit.ConditionTitle" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="DiscountRules.Edit.CondDayRole" xml:space="preserve">
+    <value>Day of week + roles (e.g. Tuesday TEACHER)</value>
+  </data>
+  <data name="DiscountRules.Edit.CondCombo" xml:space="preserve">
+    <value>Combo of food items</value>
+  </data>
+  <data name="DiscountRules.Edit.RawJson" xml:space="preserve">
+    <value>Raw JSON</value>
+  </data>
+  <data name="DiscountRules.Edit.DayOfWeekLabel" xml:space="preserve">
+    <value>Day of week</value>
+  </data>
+  <data name="DiscountRules.Edit.RolesLabel" xml:space="preserve">
+    <value>Roles (CSV)</value>
+  </data>
+  <data name="DiscountRules.Edit.RolesHint" xml:space="preserve">
+    <value>Matched against User.UserKind / Employee.EmployeeType (case-insensitive).</value>
+  </data>
+  <data name="DiscountRules.Edit.ComboIdsLabel" xml:space="preserve">
+    <value>FoodItem IDs (CSV)</value>
+  </data>
+  <data name="DiscountRules.Edit.ConditionJsonLabel" xml:space="preserve">
+    <value>Condition JSON</value>
+  </data>
+  <data name="DiscountRules.Edit.EffectTitle" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="DiscountRules.Edit.EffPercent" xml:space="preserve">
+    <value>Percent off (e.g. 10% off subtotal)</value>
+  </data>
+  <data name="DiscountRules.Edit.EffFlat" xml:space="preserve">
+    <value>Flat amount off (e.g. ৳20 off)</value>
+  </data>
+  <data name="DiscountRules.Edit.PercentAmountLabel" xml:space="preserve">
+    <value>% amount</value>
+  </data>
+  <data name="DiscountRules.Edit.FlatAmountLabel" xml:space="preserve">
+    <value>Flat amount (৳)</value>
+  </data>
+  <data name="DiscountRules.Edit.EffectJsonLabel" xml:space="preserve">
+    <value>Effect JSON</value>
+  </data>
+  <data name="DiscountRules.Edit.HowTitle" xml:space="preserve">
+    <value>How rules apply</value>
+  </data>
+  <data name="DiscountRules.Edit.HowItem1" xml:space="preserve">
+    <value>Rules with the highest priority are evaluated first; only the first match fires.</value>
+  </data>
+  <data name="DiscountRules.Edit.HowItem2" xml:space="preserve">
+    <value>Conditions outside their valid range are skipped.</value>
+  </data>
+  <data name="DiscountRules.Edit.HowItem3" xml:space="preserve">
+    <value>An order receives at most ONE discount today; stacking can be added later via priority bands.</value>
+  </data>
+  <data name="DiscountRules.Edit.HowItem4" xml:space="preserve">
+    <value>Choose Raw JSON for advanced conditions/effects beyond the templates.</value>
+  </data>
+  <data name="DiscountRules.Edit.HowFooterPrefix" xml:space="preserve">
+    <value>The engine ships with two condition types and two effect types — extend in</value>
+  </data>
+  <data name="DiscountRules.Edit.HowFooterSuffix" xml:space="preserve">
+    <value>by adding switch cases.</value>
+  </data>
+  <data name="ReportsCatalog.Index.Subtitle" xml:space="preserve">
+    <value>All registered reports — PDF, XLSX, CSV, HTML, JSON.</value>
+  </data>
+  <data name="ReportsCatalog.Index.EmptyTitle" xml:space="preserve">
+    <value>No reports registered</value>
+  </data>
+  <data name="ReportsCatalog.Index.EmptyBody" xml:space="preserve">
+    <value>Products register reports via services.AddScoped&lt;IReport, MyReport&gt;().</value>
+  </data>
+  <data name="ReportsCatalog.Index.CountSummary" xml:space="preserve">
+    <value>{0} report(s) across {1} group(s).</value>
+  </data>
+  <data name="ReportsCatalog.Run.CatalogLink" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="ReportsCatalog.Run.Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="ReportsCatalog.Run.NoParameters" xml:space="preserve">
+    <value>This report takes no parameters.</value>
+  </data>
+  <data name="ReportsCatalog.Run.Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="ReportsCatalog.Run.GenerateDownload" xml:space="preserve">
+    <value>Generate &amp; download</value>
+  </data>
+  <data name="ReportsCatalog.Run.AboutTitle" xml:space="preserve">
+    <value>About this report</value>
+  </data>
+  <data name="ReportsCatalog.Run.PermissionsLabel" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="ReportsCatalog.Run.AboutBody" xml:space="preserve">
+    <value>Renders via the shared platform reporting framework — same definition, multi-format output.</value>
+  </data>
+  <data name="NotificationDeliveries.Index.Title" xml:space="preserve">
+    <value>Notification deliveries</value>
+  </data>
+  <data name="NotificationDeliveries.Status.Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="NotificationDeliveries.Status.Sending" xml:space="preserve">
+    <value>Sending</value>
+  </data>
+  <data name="NotificationDeliveries.Status.Sent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="NotificationDeliveries.Status.Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="NotificationDeliveries.Status.Skipped" xml:space="preserve">
+    <value>Skipped</value>
+  </data>
+  <data name="NotificationDeliveries.Channel.Sms" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="NotificationDeliveries.Channel.WhatsApp" xml:space="preserve">
+    <value>WhatsApp</value>
+  </data>
+  <data name="NotificationDeliveries.Channel.Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="NotificationDeliveries.Channel.InApp" xml:space="preserve">
+    <value>In-app</value>
+  </data>
+  <data name="NotificationDeliveries.Index.Subtitle" xml:space="preserve">
+    <value>{0} message(s) match the current filter.</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ExportCsv" xml:space="preserve">
+    <value>Export CSV</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ChannelLabel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="NotificationDeliveries.Index.AnyOption" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="NotificationDeliveries.Index.TemplateLabel" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="NotificationDeliveries.Index.RecipientContainsLabel" xml:space="preserve">
+    <value>Recipient contains</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ApplyButton" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ClearButton" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ColWhen" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ColRecipient" xml:space="preserve">
+    <value>Recipient</value>
+  </data>
+  <data name="NotificationDeliveries.Index.ColSubject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="NotificationDeliveries.Index.EmptyText" xml:space="preserve">
+    <value>No deliveries match this filter.</value>
+  </data>
+  <data name="NotificationDeliveries.Index.PaginationAria" xml:space="preserve">
+    <value>deliveries-pagination</value>
+  </data>
+  <data name="NotificationTemplates.Edit.TitleFormat" xml:space="preserve">
+    <value>Template · {0}</value>
+  </data>
+  <data name="NotificationTemplates.Edit.AllTemplates" xml:space="preserve">
+    <value>All templates</value>
+  </data>
+  <data name="NotificationTemplates.Edit.EmailSubjectTitle" xml:space="preserve">
+    <value>Email subject</value>
+  </data>
+  <data name="NotificationTemplates.Edit.SubjectLabel" xml:space="preserve">
+    <value>Subject (email channel only)</value>
+  </data>
+  <data name="NotificationTemplates.Edit.SubjectPlaceholder" xml:space="preserve">
+    <value>(blank = platform default)</value>
+  </data>
+  <data name="NotificationTemplates.Edit.SubjectTooltip" xml:space="preserve">
+    <value>Used as the email subject line. Ignored for SMS.</value>
+  </data>
+  <data name="NotificationTemplates.Edit.BodyTitle" xml:space="preserve">
+    <value>Message body</value>
+  </data>
+  <data name="NotificationTemplates.Edit.BodyTooltip" xml:space="preserve">
+    <value>Tokens like {customer.name} are filled at send time. Keep SMS bodies short.</value>
+  </data>
+  <data name="NotificationTemplates.Edit.BodyPlaceholder" xml:space="preserve">
+    <value>Hi {customer.name}, your order #{order.number} of ৳{order.total} is ready.</value>
+  </data>
+  <data name="NotificationTemplates.Edit.SmsCostHint" xml:space="preserve">
+    <value>SMS messages are billed per 160-char segment; keep bodies short for cost.</value>
+  </data>
+  <data name="NotificationTemplates.Edit.TestSendTitle" xml:space="preserve">
+    <value>Send a test message</value>
+  </data>
+  <data name="NotificationTemplates.Edit.TestSendHint" xml:space="preserve">
+    <value>Renders the currently-saved template with sample token values and dispatches it through the configured channel — confirms gateway plumbing end-to-end.</value>
+  </data>
+  <data name="NotificationTemplates.Edit.ChannelLabel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="NotificationTemplates.Channel.Sms" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="NotificationTemplates.TestSend.RecipientLabel" xml:space="preserve">
+    <value>Recipient</value>
+  </data>
+  <data name="NotificationTemplates.Edit.RecipientPlaceholder" xml:space="preserve">
+    <value>01700000001 (SMS) or admin@school.edu (Email)</value>
+  </data>
+  <data name="NotificationTemplates.TestSend.SendButton" xml:space="preserve">
+    <value>Send test</value>
+  </data>
+  <data name="NotificationTemplates.Edit.TokensTitle" xml:space="preserve">
+    <value>Available tokens</value>
+  </data>
+  <data name="NotificationTemplates.Edit.TokenRechargeNote" xml:space="preserve">
+    <value>(recharge events)</value>
+  </data>
+  <data name="NotificationTemplates.Edit.FallbackHint" xml:space="preserve">
+    <value>Leave fields blank to fall back to the platform default in</value>
+  </data>
+  <data name="NotificationTemplates.Index.Subtitle" xml:space="preserve">
+    <value>SMS / Email bodies for order + wallet events. Tokens like {customer.name} render at send-time.</value>
+  </data>
+  <data name="NotificationTemplates.Index.EmptyTitle" xml:space="preserve">
+    <value>No templates discovered</value>
+  </data>
+  <data name="NotificationTemplates.Index.EmptyBody" xml:space="preserve">
+    <value>Add constants to the Platform.NotificationTemplates class and they will appear here.</value>
+  </data>
+  <data name="NotificationTemplates.Index.SubjectLabel" xml:space="preserve">
+    <value>Subject (Email only)</value>
+  </data>
+  <data name="NotificationTemplates.Index.SubjectPlaceholder" xml:space="preserve">
+    <value>(default subject is used when empty)</value>
+  </data>
+  <data name="NotificationTemplates.Index.BodyLabel" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="NotificationTemplates.Index.BodyPlaceholder" xml:space="preserve">
+    <value>Hello {customer.name} — your order {order.number} is ready.</value>
+  </data>
+  <data name="NotificationTemplates.Index.TokensLabel" xml:space="preserve">
+    <value>Tokens:</value>
+  </data>
+  <data name="NotificationTemplates.Index.TestChannelLabel" xml:space="preserve">
+    <value>Test channel</value>
+  </data>
+  <data name="NotificationTemplates.Index.RecipientPlaceholder" xml:space="preserve">
+    <value>01700000000 (SMS) or email@domain.com</value>
+  </data>
+  <data name="ReportsAdmin.Index.Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ReportsAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Tenant-scoped analytics — daily revenue, peak hours, top items, department spend. Cached 60s.</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiTotalRevenue" xml:space="preserve">
+    <value>Total revenue</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiDays" xml:space="preserve">
+    <value>{0} day(s)</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiOrders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiAvgPerOrder" xml:space="preserve">
+    <value>avg ৳ {0} / order</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiRefunded" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="ReportsAdmin.Index.KpiDepartments" xml:space="preserve">
+    <value>Departments</value>
+  </data>
+  <data name="ReportsAdmin.Index.DailyRevenue" xml:space="preserve">
+    <value>Daily revenue</value>
+  </data>
+  <data name="ReportsAdmin.Index.NoOrdersInRange" xml:space="preserve">
+    <value>No orders in this range.</value>
+  </data>
+  <data name="ReportsAdmin.Index.DayBarTitle" xml:space="preserve">
+    <value>{0} · {1} order(s)</value>
+  </data>
+  <data name="ReportsAdmin.Index.PeakHoursToday" xml:space="preserve">
+    <value>Peak hours (today)</value>
+  </data>
+  <data name="ReportsAdmin.Index.NothingYetToday" xml:space="preserve">
+    <value>Nothing yet today.</value>
+  </data>
+  <data name="ReportsAdmin.Index.HourBarTitle" xml:space="preserve">
+    <value>{0}:00 — {1} order(s)</value>
+  </data>
+  <data name="ReportsAdmin.Index.TopItems" xml:space="preserve">
+    <value>Top items</value>
+  </data>
+  <data name="ReportsAdmin.Index.SoldCount" xml:space="preserve">
+    <value>{0} sold</value>
+  </data>
+  <data name="ReportsAdmin.Index.NoData" xml:space="preserve">
+    <value>No data.</value>
+  </data>
+  <data name="ReportsAdmin.Index.DepartmentSpend" xml:space="preserve">
+    <value>Department spend</value>
+  </data>
+  <data name="ReportsAdmin.Index.Department" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="ReportsAdmin.Index.Spend" xml:space="preserve">
+    <value>Spend</value>
+  </data>
 </root>

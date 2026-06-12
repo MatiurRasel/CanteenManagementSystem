@@ -1,0 +1,1286 @@
+﻿[
+    {
+        "en":  "Upload employees CSV",
+        "k":  "DirectoryAdminUi.Index.UploadEmployeesCsv"
+    },
+    {
+        "en":  "Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Designation, EmployeeType).",
+        "k":  "DirectoryAdminUi.Index.EmployeesCsvHeaders"
+    },
+    {
+        "en":  "Upload",
+        "k":  "DirectoryAdminUi.Index.Upload"
+    },
+    {
+        "en":  "Recent sync runs",
+        "k":  "DirectoryAdminUi.Index.RecentSyncRuns"
+    },
+    {
+        "en":  "When",
+        "k":  "DirectoryAdminUi.Index.When"
+    },
+    {
+        "en":  "Students Δ",
+        "k":  "DirectoryAdminUi.StudentsDelta"
+    },
+    {
+        "en":  "Employees Δ",
+        "k":  "DirectoryAdminUi.EmployeesDelta"
+    },
+    {
+        "en":  "Duration",
+        "k":  "DirectoryAdminUi.Duration"
+    },
+    {
+        "en":  "No sync runs yet",
+        "k":  "DirectoryAdminUi.NoRuns.Title"
+    },
+    {
+        "en":  "Press Sync now or upload a CSV to get started.",
+        "k":  "DirectoryAdminUi.NoRuns.Description"
+    },
+    {
+        "en":  "Directory · Setup",
+        "k":  "DirectoryAdminUi.Setup.PageTitle"
+    },
+    {
+        "en":  "Directory source",
+        "k":  "DirectoryAdminUi.Setup.Heading"
+    },
+    {
+        "en":  "Pick how this tenant\u0027s student / employee directory feeds in.",
+        "k":  "DirectoryAdminUi.Setup.Subtitle"
+    },
+    {
+        "en":  "Source type",
+        "k":  "DirectoryAdminUi.Setup.SourceType"
+    },
+    {
+        "en":  "Manual (upload CSV)",
+        "k":  "DirectoryAdminUi.Setup.SourceManual"
+    },
+    {
+        "en":  "School DB (read-only views)",
+        "k":  "DirectoryAdminUi.Setup.SourceDatabase"
+    },
+    {
+        "en":  "School portal API",
+        "k":  "DirectoryAdminUi.Setup.SourceApi"
+    },
+    {
+        "en":  "Disabled (no sync)",
+        "k":  "DirectoryAdminUi.Setup.SourceDisabled"
+    },
+    {
+        "en":  "Interval (min)",
+        "k":  "DirectoryAdminUi.Setup.IntervalMinutes"
+    },
+    {
+        "en":  "Snapshot mode",
+        "k":  "DirectoryAdminUi.Setup.SnapshotMode"
+    },
+    {
+        "en":  "Per sync (full snapshot)",
+        "k":  "DirectoryAdminUi.Setup.SnapshotPerSync"
+    },
+    {
+        "en":  "Daily (incremental otherwise)",
+        "k":  "DirectoryAdminUi.Setup.SnapshotDaily"
+    },
+    {
+        "en":  "School DB credentials",
+        "k":  "DirectoryAdminUi.Setup.DbCredentials"
+    },
+    {
+        "en":  "Connection string",
+        "k":  "DirectoryAdminUi.Setup.ConnectionString"
+    },
+    {
+        "en":  "(stored — paste to replace)",
+        "k":  "DirectoryAdminUi.Setup.StoredPlaceholder"
+    },
+    {
+        "en":  "Encrypted at rest. Leave blank to keep the existing value.",
+        "k":  "DirectoryAdminUi.Setup.ConnectionStringHelp"
+    },
+    {
+        "en":  "Students view",
+        "k":  "DirectoryAdminUi.Setup.StudentsView"
+    },
+    {
+        "en":  "Employees view",
+        "k":  "DirectoryAdminUi.Setup.EmployeesView"
+    },
+    {
+        "en":  "Base URL",
+        "k":  "DirectoryAdminUi.Setup.BaseUrl"
+    },
+    {
+        "en":  "App Key",
+        "k":  "DirectoryAdminUi.Setup.AppKey"
+    },
+    {
+        "en":  "HMAC secret",
+        "k":  "DirectoryAdminUi.Setup.HmacSecret"
+    },
+    {
+        "en":  "32 random bytes, base64-encoded",
+        "k":  "DirectoryAdminUi.Setup.ApiSecretPlaceholder"
+    },
+    {
+        "en":  "Page size",
+        "k":  "DirectoryAdminUi.Setup.PageSize"
+    },
+    {
+        "en":  "Failure alerts",
+        "k":  "DirectoryAdminUi.Setup.FailureAlerts"
+    },
+    {
+        "en":  "Threshold",
+        "k":  "DirectoryAdminUi.Setup.Threshold"
+    },
+    {
+        "en":  "Consecutive failures before alerting.",
+        "k":  "DirectoryAdminUi.Setup.ThresholdHelp"
+    },
+    {
+        "en":  "Alert email",
+        "k":  "DirectoryAdminUi.Setup.AlertEmail"
+    },
+    {
+        "en":  "Alert phone",
+        "k":  "DirectoryAdminUi.Setup.AlertPhone"
+    },
+    {
+        "en":  "Save changes",
+        "k":  "DirectoryAdminUi.Setup.SaveChanges"
+    },
+    {
+        "en":  "Credentials are encrypted before storage. Leaving a secret field blank keeps the existing value.",
+        "k":  "DirectoryAdminUi.Setup.SaveHelp"
+    },
+    {
+        "en":  "Directory · Sync runs",
+        "k":  "DirectoryAdminUi.Runs.PageTitle"
+    },
+    {
+        "en":  "Sync runs",
+        "k":  "DirectoryAdminUi.Runs.Heading"
+    },
+    {
+        "en":  "{0} run(s) shown · most recent first",
+        "k":  "DirectoryAdminUi.Runs.Subtitle"
+    },
+    {
+        "en":  "Started",
+        "k":  "DirectoryAdminUi.Runs.Started"
+    },
+    {
+        "en":  "Directory · Students",
+        "k":  "DirectoryAdminUi.Students.PageTitle"
+    },
+    {
+        "en":  "Search name / card / ID",
+        "k":  "DirectoryAdminUi.SearchPlaceholder"
+    },
+    {
+        "en":  "{0} record(s)",
+        "k":  "DirectoryAdminUi.RecordCount"
+    },
+    {
+        "en":  "External ID",
+        "k":  "DirectoryAdminUi.ExternalId"
+    },
+    {
+        "en":  "Card",
+        "k":  "DirectoryAdminUi.Card"
+    },
+    {
+        "en":  "Program / Class",
+        "k":  "DirectoryAdminUi.Students.ProgramClass"
+    },
+    {
+        "en":  "Session",
+        "k":  "DirectoryAdminUi.Students.Session"
+    },
+    {
+        "en":  "Contact",
+        "k":  "DirectoryAdminUi.Contact"
+    },
+    {
+        "en":  "Synced",
+        "k":  "DirectoryAdminUi.Synced"
+    },
+    {
+        "en":  "No students yet",
+        "k":  "DirectoryAdminUi.Students.EmptyTitle"
+    },
+    {
+        "en":  "Upload a CSV or run a sync.",
+        "k":  "DirectoryAdminUi.Roster.EmptyDescription"
+    },
+    {
+        "en":  "Directory · Employees",
+        "k":  "DirectoryAdminUi.Employees.PageTitle"
+    },
+    {
+        "en":  "Designation",
+        "k":  "DirectoryAdminUi.Employees.Designation"
+    },
+    {
+        "en":  "No employees yet",
+        "k":  "DirectoryAdminUi.Employees.EmptyTitle"
+    },
+    {
+        "en":  "Operator / admin accounts for this tenant.",
+        "k":  "UsersAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Bulk import",
+        "k":  "UsersAdmin.Index.BulkImport"
+    },
+    {
+        "en":  "Invite user",
+        "k":  "UsersAdmin.Index.InviteUser"
+    },
+    {
+        "en":  "Locked",
+        "k":  "UsersAdmin.Index.Locked"
+    },
+    {
+        "en":  "Logged in 30d",
+        "k":  "UsersAdmin.Index.LoggedIn30d"
+    },
+    {
+        "en":  "Username",
+        "k":  "UsersAdmin.Index.Username"
+    },
+    {
+        "en":  "Display name",
+        "k":  "UsersAdmin.DisplayName"
+    },
+    {
+        "en":  "Kind",
+        "k":  "UsersAdmin.Kind"
+    },
+    {
+        "en":  "Roles",
+        "k":  "UsersAdmin.Index.Roles"
+    },
+    {
+        "en":  "Last login",
+        "k":  "UsersAdmin.Index.LastLogin"
+    },
+    {
+        "en":  "No users yet",
+        "k":  "UsersAdmin.Index.EmptyTitle"
+    },
+    {
+        "en":  "Invite your first user to get started.",
+        "k":  "UsersAdmin.Index.EmptyDescription"
+    },
+    {
+        "en":  "never",
+        "k":  "UsersAdmin.Index.Never"
+    },
+    {
+        "en":  "Lock",
+        "k":  "UsersAdmin.Index.Lock"
+    },
+    {
+        "en":  "Activate",
+        "k":  "UsersAdmin.Index.Activate"
+    },
+    {
+        "en":  "Lock {0}?",
+        "k":  "UsersAdmin.Index.LockConfirm"
+    },
+    {
+        "en":  "Activate {0}?",
+        "k":  "UsersAdmin.Index.ActivateConfirm"
+    },
+    {
+        "en":  "Reset password for {0}? They will get a temporary password.",
+        "k":  "UsersAdmin.Index.ResetPasswordConfirm"
+    },
+    {
+        "en":  "Reset password",
+        "k":  "UsersAdmin.Index.ResetPassword"
+    },
+    {
+        "en":  "Invite a user",
+        "k":  "UsersAdmin.Invite.Heading"
+    },
+    {
+        "en":  "Create the account, pick the role, ship a one-time password.",
+        "k":  "UsersAdmin.Invite.Subtitle"
+    },
+    {
+        "en":  "All users",
+        "k":  "UsersAdmin.AllUsers"
+    },
+    {
+        "en":  "Lower-cased on save. Must be unique platform-wide.",
+        "k":  "UsersAdmin.Invite.UsernameHelp"
+    },
+    {
+        "en":  "Operator",
+        "k":  "UsersAdmin.UserKind.Operator"
+    },
+    {
+        "en":  "Admin",
+        "k":  "UsersAdmin.UserKind.Admin"
+    },
+    {
+        "en":  "Cashier",
+        "k":  "UsersAdmin.UserKind.Cashier"
+    },
+    {
+        "en":  "Auditor",
+        "k":  "UsersAdmin.UserKind.Auditor"
+    },
+    {
+        "en":  "Initial role",
+        "k":  "UsersAdmin.Invite.InitialRole"
+    },
+    {
+        "en":  "What happens next",
+        "k":  "UsersAdmin.Invite.WhatHappensNext"
+    },
+    {
+        "en":  "User created in AppUsers bound to this tenant",
+        "k":  "UsersAdmin.Invite.Step1"
+    },
+    {
+        "en":  "Random one-time password is returned on the next page",
+        "k":  "UsersAdmin.Invite.Step2"
+    },
+    {
+        "en":  "User is forced to change it at first login",
+        "k":  "UsersAdmin.Invite.Step3"
+    },
+    {
+        "en":  "Create user",
+        "k":  "UsersAdmin.Invite.CreateUser"
+    },
+    {
+        "en":  "Bulk import users",
+        "k":  "UsersAdmin.BulkImport.PageTitle"
+    },
+    {
+        "en":  "Bulk import users (CSV)",
+        "k":  "UsersAdmin.BulkImport.Heading"
+    },
+    {
+        "en":  "Upload a CSV — existing usernames are skipped, so re-uploading is idempotent.",
+        "k":  "UsersAdmin.BulkImport.Subtitle"
+    },
+    {
+        "en":  "CSV file",
+        "k":  "UsersAdmin.BulkImport.CsvFile"
+    },
+    {
+        "en":  "UTF-8 encoded. First row is the header. Up to ~10k rows in one go.",
+        "k":  "UsersAdmin.BulkImport.CsvHelp"
+    },
+    {
+        "en":  "Import",
+        "k":  "UsersAdmin.BulkImport.Import"
+    },
+    {
+        "en":  "Expected CSV shape",
+        "k":  "UsersAdmin.BulkImport.ExpectedShape"
+    },
+    {
+        "en":  "default",
+        "k":  "UsersAdmin.BulkImport.Default"
+    },
+    {
+        "en":  "linked person id, e.g. employee number",
+        "k":  "UsersAdmin.BulkImport.ExternalIdHint"
+    },
+    {
+        "en":  "Payment gateways",
+        "k":  "GatewaysAdmin.Index.Title"
+    },
+    {
+        "en":  "Live + sandbox credentials per gateway. Toggle IsSandbox on each row to flip environments.",
+        "k":  "GatewaysAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Live",
+        "k":  "GatewaysAdmin.Env.Live"
+    },
+    {
+        "en":  "Sandbox",
+        "k":  "GatewaysAdmin.Env.Sandbox"
+    },
+    {
+        "en":  "No gateways configured",
+        "k":  "GatewaysAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "The seed should have inserted defaults. Run the seeder or add a gateway manually.",
+        "k":  "GatewaysAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "Code",
+        "k":  "GatewaysAdmin.Index.Code"
+    },
+    {
+        "en":  "Method",
+        "k":  "GatewaysAdmin.Index.Method"
+    },
+    {
+        "en":  "Group",
+        "k":  "GatewaysAdmin.Group"
+    },
+    {
+        "en":  "Channels",
+        "k":  "GatewaysAdmin.Index.Channels"
+    },
+    {
+        "en":  "Env",
+        "k":  "GatewaysAdmin.Index.Env"
+    },
+    {
+        "en":  "On",
+        "k":  "GatewaysAdmin.Status.On"
+    },
+    {
+        "en":  "Off",
+        "k":  "GatewaysAdmin.Status.Off"
+    },
+    {
+        "en":  "Disable",
+        "k":  "GatewaysAdmin.Index.Disable"
+    },
+    {
+        "en":  "Enable",
+        "k":  "GatewaysAdmin.Index.Enable"
+    },
+    {
+        "en":  "Edit · {0}",
+        "k":  "GatewaysAdmin.Edit.Title"
+    },
+    {
+        "en":  "All gateways",
+        "k":  "GatewaysAdmin.Edit.AllGateways"
+    },
+    {
+        "en":  "Identity \u0026 environment",
+        "k":  "GatewaysAdmin.Edit.IdentityEnvironment"
+    },
+    {
+        "en":  "Display name",
+        "k":  "GatewaysAdmin.Edit.DisplayName"
+    },
+    {
+        "en":  "Subtitle",
+        "k":  "GatewaysAdmin.Edit.Subtitle"
+    },
+    {
+        "en":  "Currency",
+        "k":  "GatewaysAdmin.Edit.Currency"
+    },
+    {
+        "en":  "Sort order",
+        "k":  "GatewaysAdmin.Edit.SortOrder"
+    },
+    {
+        "en":  "Logo URL",
+        "k":  "GatewaysAdmin.Edit.LogoUrl"
+    },
+    {
+        "en":  "Live credentials",
+        "k":  "GatewaysAdmin.Edit.LiveCredentials"
+    },
+    {
+        "en":  "Production",
+        "k":  "GatewaysAdmin.Edit.Production"
+    },
+    {
+        "en":  "Sandbox credentials",
+        "k":  "GatewaysAdmin.Edit.SandboxCredentials"
+    },
+    {
+        "en":  "Test",
+        "k":  "GatewaysAdmin.Edit.Test"
+    },
+    {
+        "en":  "Notifications \u0026 save",
+        "k":  "GatewaysAdmin.Edit.NotificationsSave"
+    },
+    {
+        "en":  "Email on success",
+        "k":  "GatewaysAdmin.Edit.EmailOnSuccess"
+    },
+    {
+        "en":  "Email on failure",
+        "k":  "GatewaysAdmin.Edit.EmailOnFailure"
+    },
+    {
+        "en":  "Email on refund",
+        "k":  "GatewaysAdmin.Edit.EmailOnRefund"
+    },
+    {
+        "en":  "Secret fields show *** when a value is already stored. Leave them blank to keep existing — only fields you actively type into get overwritten.",
+        "k":  "GatewaysAdmin.Edit.SecretsNote"
+    },
+    {
+        "en":  "Base URL",
+        "k":  "GatewaysAdmin.Creds.BaseUrl"
+    },
+    {
+        "en":  "Username",
+        "k":  "GatewaysAdmin.Creds.Username"
+    },
+    {
+        "en":  "Password",
+        "k":  "GatewaysAdmin.Creds.Password"
+    },
+    {
+        "en":  "App key",
+        "k":  "GatewaysAdmin.Creds.AppKey"
+    },
+    {
+        "en":  "App secret",
+        "k":  "GatewaysAdmin.Creds.AppSecret"
+    },
+    {
+        "en":  "Merchant ID",
+        "k":  "GatewaysAdmin.Creds.MerchantId"
+    },
+    {
+        "en":  "Merchant number",
+        "k":  "GatewaysAdmin.Creds.MerchantNumber"
+    },
+    {
+        "en":  "Success callback URL",
+        "k":  "GatewaysAdmin.Creds.CallbackUrl"
+    },
+    {
+        "en":  "Webhook URL",
+        "k":  "GatewaysAdmin.Creds.WebhookUrl"
+    },
+    {
+        "en":  "IPN URL",
+        "k":  "GatewaysAdmin.Creds.IpnUrl"
+    },
+    {
+        "en":  "Failure callback URL",
+        "k":  "GatewaysAdmin.Creds.FailCallbackUrl"
+    },
+    {
+        "en":  "Webhooks",
+        "k":  "WebhooksAdmin.Index.Title"
+    },
+    {
+        "en":  "Outbound webhooks",
+        "k":  "WebhooksAdmin.Index.Heading"
+    },
+    {
+        "en":  "HMAC-signed callbacks to partner endpoints. Failed deliveries retry with exponential backoff; the dispatcher emits Prometheus metrics.",
+        "k":  "WebhooksAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Add subscription",
+        "k":  "WebhooksAdmin.Index.AddSubscription"
+    },
+    {
+        "en":  "No subscriptions yet",
+        "k":  "WebhooksAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "Add a URL to start receiving HMAC-signed event callbacks.",
+        "k":  "WebhooksAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "URL",
+        "k":  "WebhooksAdmin.Index.Url"
+    },
+    {
+        "en":  "Events",
+        "k":  "WebhooksAdmin.Events"
+    },
+    {
+        "en":  "Failures",
+        "k":  "WebhooksAdmin.Index.Failures"
+    },
+    {
+        "en":  "Last success",
+        "k":  "WebhooksAdmin.Index.LastSuccess"
+    },
+    {
+        "en":  "Paused",
+        "k":  "WebhooksAdmin.Status.Paused"
+    },
+    {
+        "en":  "Deliveries",
+        "k":  "WebhooksAdmin.Index.Deliveries"
+    },
+    {
+        "en":  "All webhooks",
+        "k":  "WebhooksAdmin.AllWebhooks"
+    },
+    {
+        "en":  "New webhook",
+        "k":  "WebhooksAdmin.Edit.NewWebhook"
+    },
+    {
+        "en":  "New webhook subscription",
+        "k":  "WebhooksAdmin.Edit.NewSubscription"
+    },
+    {
+        "en":  "Outbound HTTP POST when canteen events fire. HMAC-signed; replayable from the delivery log.",
+        "k":  "WebhooksAdmin.Edit.Subtitle"
+    },
+    {
+        "en":  "Display name",
+        "k":  "WebhooksAdmin.Edit.DisplayName"
+    },
+    {
+        "en":  "School portal — order webhook",
+        "k":  "WebhooksAdmin.Edit.DisplayNamePlaceholder"
+    },
+    {
+        "en":  "Endpoint URL",
+        "k":  "WebhooksAdmin.Edit.EndpointUrl"
+    },
+    {
+        "en":  "HMAC secret",
+        "k":  "WebhooksAdmin.Edit.HmacSecret"
+    },
+    {
+        "en":  "Used to sign every outbound POST. Share with the partner once — they can\u0027t view it again.",
+        "k":  "WebhooksAdmin.Edit.SecretHelp"
+    },
+    {
+        "en":  "CSV from:",
+        "k":  "WebhooksAdmin.Edit.EventsHelp"
+    },
+    {
+        "en":  "Signature scheme",
+        "k":  "WebhooksAdmin.Edit.SignatureScheme"
+    },
+    {
+        "en":  "Outbound requests carry:",
+        "k":  "WebhooksAdmin.Edit.OutboundRequestsCarry"
+    },
+    {
+        "en":  "Same canonical-string algorithm as the inbound API-key flow — a partner writes one verifier for both directions.",
+        "k":  "WebhooksAdmin.Edit.SignatureNote"
+    },
+    {
+        "en":  "Deliveries · {0}",
+        "k":  "WebhooksAdmin.Deliveries.Title"
+    },
+    {
+        "en":  "Webhook deliveries",
+        "k":  "WebhooksAdmin.Deliveries.Heading"
+    },
+    {
+        "en":  "Delivery log — {0} attempt(s) shown",
+        "k":  "WebhooksAdmin.Deliveries.Subtitle"
+    },
+    {
+        "en":  "No deliveries yet",
+        "k":  "WebhooksAdmin.Deliveries.Empty.Title"
+    },
+    {
+        "en":  "Trigger a matching event (order, wallet recharge, …) to see attempts here. Failed attempts get a Replay button so you can re-fire after fixing the receiver.",
+        "k":  "WebhooksAdmin.Deliveries.Empty.Description"
+    },
+    {
+        "en":  "When",
+        "k":  "WebhooksAdmin.Deliveries.When"
+    },
+    {
+        "en":  "Event",
+        "k":  "WebhooksAdmin.Deliveries.Event"
+    },
+    {
+        "en":  "Attempt",
+        "k":  "WebhooksAdmin.Deliveries.Attempt"
+    },
+    {
+        "en":  "HTTP",
+        "k":  "WebhooksAdmin.Deliveries.Http"
+    },
+    {
+        "en":  "Next retry",
+        "k":  "WebhooksAdmin.Deliveries.NextRetry"
+    },
+    {
+        "en":  "Response",
+        "k":  "WebhooksAdmin.Deliveries.Response"
+    },
+    {
+        "en":  "Replay",
+        "k":  "WebhooksAdmin.Deliveries.Replay"
+    },
+    {
+        "en":  "Delivered",
+        "k":  "WebhooksAdmin.DeliveryStatus.Delivered"
+    },
+    {
+        "en":  "Queued",
+        "k":  "WebhooksAdmin.DeliveryStatus.Queued"
+    },
+    {
+        "en":  "Delivering",
+        "k":  "WebhooksAdmin.DeliveryStatus.Delivering"
+    },
+    {
+        "en":  "Failed",
+        "k":  "WebhooksAdmin.DeliveryStatus.Failed"
+    },
+    {
+        "en":  "Exports",
+        "k":  "ExportsAdmin.Index.Title"
+    },
+    {
+        "en":  "Tenant-scoped CSVs for finance + audit. UTF-8 BOM (opens correctly in Excel).",
+        "k":  "ExportsAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Orders CSV",
+        "k":  "ExportsAdmin.Index.OrdersCsv"
+    },
+    {
+        "en":  "Every order in the selected window, with item summary inline.",
+        "k":  "ExportsAdmin.Index.OrdersDescription"
+    },
+    {
+        "en":  "Status (optional)",
+        "k":  "ExportsAdmin.Index.StatusOptional"
+    },
+    {
+        "en":  "All statuses",
+        "k":  "ExportsAdmin.Index.AllStatuses"
+    },
+    {
+        "en":  "Download orders.csv",
+        "k":  "ExportsAdmin.Index.DownloadOrdersCsv"
+    },
+    {
+        "en":  "Wallet ledger CSV",
+        "k":  "ExportsAdmin.Index.WalletCsv"
+    },
+    {
+        "en":  "Every wallet entry in the window — recharge / block / deduct / refund.",
+        "k":  "ExportsAdmin.Index.WalletDescription"
+    },
+    {
+        "en":  "User ID (optional)",
+        "k":  "ExportsAdmin.Index.UserIdOptional"
+    },
+    {
+        "en":  "Download wallet.csv",
+        "k":  "ExportsAdmin.Index.DownloadWalletCsv"
+    },
+    {
+        "en":  "Exports are capped at 100,000 rows per request. Need more? Filter by a tighter date range or hand-write a SQL query against the read replica.",
+        "k":  "ExportsAdmin.Index.RowCapNote"
+    },
+    {
+        "en":  "Every sensitive action — login, recharge, refund, gateway change, role change.",
+        "k":  "AuditAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Action",
+        "k":  "AuditAdmin.Index.Action"
+    },
+    {
+        "en":  "Any",
+        "k":  "AuditAdmin.Index.Any"
+    },
+    {
+        "en":  "Entity type",
+        "k":  "AuditAdmin.Index.EntityType"
+    },
+    {
+        "en":  "User, Order…",
+        "k":  "AuditAdmin.Index.EntityTypePlaceholder"
+    },
+    {
+        "en":  "user / id",
+        "k":  "AuditAdmin.Index.SearchPlaceholder"
+    },
+    {
+        "en":  "When (UTC)",
+        "k":  "AuditAdmin.Index.ColWhen"
+    },
+    {
+        "en":  "Entity",
+        "k":  "AuditAdmin.Index.ColEntity"
+    },
+    {
+        "en":  "By",
+        "k":  "AuditAdmin.Index.ColBy"
+    },
+    {
+        "en":  "IP",
+        "k":  "AuditAdmin.Index.ColIp"
+    },
+    {
+        "en":  "Correlation",
+        "k":  "AuditAdmin.Index.ColCorrelation"
+    },
+    {
+        "en":  "Payload",
+        "k":  "AuditAdmin.Index.ColPayload"
+    },
+    {
+        "en":  "No audit entries",
+        "k":  "AuditAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "No audit entries match your filter.",
+        "k":  "AuditAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "Page {0} of {1} · {2} entries",
+        "k":  "AuditAdmin.Index.PageInfo"
+    },
+    {
+        "en":  "Billing",
+        "k":  "BillingAdmin.Index.Title"
+    },
+    {
+        "en":  "Subscription, plan, and invoices.",
+        "k":  "BillingAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Active",
+        "k":  "BillingAdmin.State.Active"
+    },
+    {
+        "en":  "Trialing",
+        "k":  "BillingAdmin.State.Trialing"
+    },
+    {
+        "en":  "Past due",
+        "k":  "BillingAdmin.State.PastDue"
+    },
+    {
+        "en":  "Cancelled",
+        "k":  "BillingAdmin.State.Cancelled"
+    },
+    {
+        "en":  "Inactive",
+        "k":  "BillingAdmin.State.Inactive"
+    },
+    {
+        "en":  "Sandbox billing",
+        "k":  "BillingAdmin.Index.SandboxHeading"
+    },
+    {
+        "en":  "This tenant is on the sandbox billing provider. Plan + invoice data are synthetic. Switch to live by flipping the DI line to StripeBillingService and setting Billing.Stripe.ApiKey.",
+        "k":  "BillingAdmin.Index.SandboxBody"
+    },
+    {
+        "en":  "Current plan",
+        "k":  "BillingAdmin.Index.CurrentPlan"
+    },
+    {
+        "en":  "Plan",
+        "k":  "BillingAdmin.Index.PlanLabel"
+    },
+    {
+        "en":  "code: {0}",
+        "k":  "BillingAdmin.Index.PlanCode"
+    },
+    {
+        "en":  "Per cycle",
+        "k":  "BillingAdmin.Index.PerCycle"
+    },
+    {
+        "en":  "period ends {0}",
+        "k":  "BillingAdmin.Index.PeriodEnds"
+    },
+    {
+        "en":  "Subscribe — Pro",
+        "k":  "BillingAdmin.Index.SubscribePro"
+    },
+    {
+        "en":  "Starter",
+        "k":  "BillingAdmin.Index.PlanStarter"
+    },
+    {
+        "en":  "Enterprise",
+        "k":  "BillingAdmin.Index.PlanEnterprise"
+    },
+    {
+        "en":  "Cancel at the end of the current period?",
+        "k":  "BillingAdmin.Index.ConfirmCancel"
+    },
+    {
+        "en":  "Cancel at period end",
+        "k":  "BillingAdmin.Index.CancelAtPeriodEnd"
+    },
+    {
+        "en":  "Last invoice",
+        "k":  "BillingAdmin.Index.LastInvoice"
+    },
+    {
+        "en":  "Sandbox state simulator",
+        "k":  "BillingAdmin.Index.SimulatorTitle"
+    },
+    {
+        "en":  "Force the subscription into a state for UI demo purposes.",
+        "k":  "BillingAdmin.Index.SimulatorHint"
+    },
+    {
+        "en":  "Simulate → {0}",
+        "k":  "BillingAdmin.Index.SimulateAction"
+    },
+    {
+        "en":  "Set the default look every user in this tenant sees. Users can personalise further via the customizer.",
+        "k":  "BrandingAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Reset all branding to platform defaults?",
+        "k":  "BrandingAdmin.Index.ConfirmReset"
+    },
+    {
+        "en":  "Reset to platform default",
+        "k":  "BrandingAdmin.Index.ResetToDefault"
+    },
+    {
+        "en":  "App name",
+        "k":  "BrandingAdmin.Index.AppNameLabel"
+    },
+    {
+        "en":  "e.g. Acme School Canteen",
+        "k":  "BrandingAdmin.Index.AppNamePlaceholder"
+    },
+    {
+        "en":  "Shown in the topbar + window title.",
+        "k":  "BrandingAdmin.Index.AppNameHelp"
+    },
+    {
+        "en":  "Subtitle",
+        "k":  "BrandingAdmin.Index.SubtitleLabel"
+    },
+    {
+        "en":  "e.g. Lunchroom operations",
+        "k":  "BrandingAdmin.Index.SubtitlePlaceholder"
+    },
+    {
+        "en":  "Accent color",
+        "k":  "BrandingAdmin.Index.AccentColorLabel"
+    },
+    {
+        "en":  "Use {0}",
+        "k":  "BrandingAdmin.Index.UseColor"
+    },
+    {
+        "en":  "Drives every primary button, badge, focus ring \u0026 KPI accent across the app.",
+        "k":  "BrandingAdmin.Index.AccentHelp"
+    },
+    {
+        "en":  "Logo URL (optional)",
+        "k":  "BrandingAdmin.Index.LogoUrlLabel"
+    },
+    {
+        "en":  "Square or wide — sidebar will scale it. Leave empty for the default icon.",
+        "k":  "BrandingAdmin.Index.LogoUrlHelp"
+    },
+    {
+        "en":  "Save tenant branding",
+        "k":  "BrandingAdmin.Index.SaveButton"
+    },
+    {
+        "en":  "Live preview",
+        "k":  "BrandingAdmin.Index.LivePreview"
+    },
+    {
+        "en":  "Preview updates as you pick a colour. Save to apply for every user in this tenant.",
+        "k":  "BrandingAdmin.Index.PreviewHint"
+    },
+    {
+        "en":  "Primary action",
+        "k":  "BrandingAdmin.Index.PreviewPrimaryAction"
+    },
+    {
+        "en":  "Badge",
+        "k":  "BrandingAdmin.Index.PreviewBadge"
+    },
+    {
+        "en":  "Users can override your tenant default via the floating gear icon bottom-right. Hit \u0027Reset to defaults\u0027 in the customizer to fall back to your tenant brand.",
+        "k":  "BrandingAdmin.Index.CustomizerNote"
+    },
+    {
+        "en":  "Feature flags",
+        "k":  "FeatureFlagsAdmin.Index.Title"
+    },
+    {
+        "en":  "Per-tenant gates. Backed by TenantSetting + L1 cache — toggling is instant.",
+        "k":  "FeatureFlagsAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Flag",
+        "k":  "FeatureFlagsAdmin.Index.ColFlag"
+    },
+    {
+        "en":  "Key",
+        "k":  "FeatureFlagsAdmin.Index.ColKey"
+    },
+    {
+        "en":  "State",
+        "k":  "FeatureFlagsAdmin.Index.ColState"
+    },
+    {
+        "en":  "On",
+        "k":  "FeatureFlagsAdmin.Index.On"
+    },
+    {
+        "en":  "Off",
+        "k":  "FeatureFlagsAdmin.Index.Off"
+    },
+    {
+        "en":  "Toggle",
+        "k":  "FeatureFlagsAdmin.Index.Toggle"
+    },
+    {
+        "en":  "Add tenant",
+        "k":  "TenantsAdmin.Index.AddTenant"
+    },
+    {
+        "en":  "Every institute on the SaaS — one row per Clients table entry.",
+        "k":  "TenantsAdmin.Index.Subtitle"
+    },
+    {
+        "en":  "Tenant {0} created",
+        "k":  "TenantsAdmin.Index.CreatedHeading"
+    },
+    {
+        "en":  "login",
+        "k":  "TenantsAdmin.Index.Login"
+    },
+    {
+        "en":  "password",
+        "k":  "TenantsAdmin.Index.Password"
+    },
+    {
+        "en":  "Share securely — admin must change on first login.",
+        "k":  "TenantsAdmin.Index.ShareSecurely"
+    },
+    {
+        "en":  "Deleted (in hold)",
+        "k":  "TenantsAdmin.Index.KpiDeletedInHold"
+    },
+    {
+        "en":  "This month",
+        "k":  "TenantsAdmin.Index.KpiThisMonth"
+    },
+    {
+        "en":  "new tenants",
+        "k":  "TenantsAdmin.Index.KpiNewTenants"
+    },
+    {
+        "en":  "Code",
+        "k":  "TenantsAdmin.Index.ColCode"
+    },
+    {
+        "en":  "Contact",
+        "k":  "TenantsAdmin.Index.ColContact"
+    },
+    {
+        "en":  "Created",
+        "k":  "TenantsAdmin.Index.ColCreated"
+    },
+    {
+        "en":  "No tenants yet",
+        "k":  "TenantsAdmin.Index.Empty.Title"
+    },
+    {
+        "en":  "Click Add tenant to onboard one.",
+        "k":  "TenantsAdmin.Index.Empty.Description"
+    },
+    {
+        "en":  "In hold (until {0})",
+        "k":  "TenantsAdmin.Index.StatusInHold"
+    },
+    {
+        "en":  "Soft-delete {0}? Hard-delete will run after the hold window.",
+        "k":  "TenantsAdmin.Index.ConfirmSoftDelete"
+    },
+    {
+        "en":  "Restore",
+        "k":  "TenantsAdmin.Index.Restore"
+    },
+    {
+        "en":  "Soft delete",
+        "k":  "TenantsAdmin.Index.SoftDelete"
+    },
+    {
+        "en":  "Add tenant",
+        "k":  "TenantsAdmin.New.Title"
+    },
+    {
+        "en":  "Add a new tenant",
+        "k":  "TenantsAdmin.New.Heading"
+    },
+    {
+        "en":  "Identity + directory source + bootstrap admin — created atomically.",
+        "k":  "TenantsAdmin.New.Subtitle"
+    },
+    {
+        "en":  "All tenants",
+        "k":  "TenantsAdmin.New.AllTenants"
+    },
+    {
+        "en":  "Identity",
+        "k":  "TenantsAdmin.New.Step1Title"
+    },
+    {
+        "en":  "Tenant code (URL slug)",
+        "k":  "TenantsAdmin.New.ClientCodeLabel"
+    },
+    {
+        "en":  "Used in subdomains and tokens. Lower-case letters / digits only.",
+        "k":  "TenantsAdmin.New.ClientCodeHelp"
+    },
+    {
+        "en":  "Display name",
+        "k":  "TenantsAdmin.New.ClientNameLabel"
+    },
+    {
+        "en":  "Acme Polytechnic",
+        "k":  "TenantsAdmin.New.ClientNamePlaceholder"
+    },
+    {
+        "en":  "Short name",
+        "k":  "TenantsAdmin.New.ShortNameLabel"
+    },
+    {
+        "en":  "Acme",
+        "k":  "TenantsAdmin.New.ShortNamePlaceholder"
+    },
+    {
+        "en":  "Website",
+        "k":  "TenantsAdmin.New.WebsiteLabel"
+    },
+    {
+        "en":  "Contact email",
+        "k":  "TenantsAdmin.New.EmailLabel"
+    },
+    {
+        "en":  "Contact phone",
+        "k":  "TenantsAdmin.New.PhoneLabel"
+    },
+    {
+        "en":  "Address",
+        "k":  "TenantsAdmin.New.AddressLabel"
+    },
+    {
+        "en":  "Directory source",
+        "k":  "TenantsAdmin.New.Step2Title"
+    },
+    {
+        "en":  "Pick how this tenant\u0027s student / employee directory feeds in. Changeable later in Directory admin.",
+        "k":  "TenantsAdmin.New.DirectoryHint"
+    },
+    {
+        "en":  "Source type",
+        "k":  "TenantsAdmin.New.SourceTypeLabel"
+    },
+    {
+        "en":  "Manual (upload CSV)",
+        "k":  "TenantsAdmin.New.SourceManual"
+    },
+    {
+        "en":  "School DB (read-only views)",
+        "k":  "TenantsAdmin.New.SourceDatabase"
+    },
+    {
+        "en":  "School portal API",
+        "k":  "TenantsAdmin.New.SourceApi"
+    },
+    {
+        "en":  "Disabled (no sync)",
+        "k":  "TenantsAdmin.New.SourceDisabled"
+    },
+    {
+        "en":  "Sync interval (min)",
+        "k":  "TenantsAdmin.New.SyncIntervalLabel"
+    },
+    {
+        "en":  "Credentials (connection string / API key) are configured per-tenant in Directory → Setup after the tenant is created.",
+        "k":  "TenantsAdmin.New.DirectoryCredsNote"
+    },
+    {
+        "en":  "Bootstrap admin",
+        "k":  "TenantsAdmin.New.Step3Title"
+    },
+    {
+        "en":  "A TenantAdmin user is created automatically. They\u0027ll receive a one-time password and must change it on first login.",
+        "k":  "TenantsAdmin.New.AdminHint"
+    },
+    {
+        "en":  "Admin name",
+        "k":  "TenantsAdmin.New.AdminNameLabel"
+    },
+    {
+        "en":  "Imran Ahmed",
+        "k":  "TenantsAdmin.New.AdminNamePlaceholder"
+    },
+    {
+        "en":  "Admin email",
+        "k":  "TenantsAdmin.New.AdminEmailLabel"
+    },
+    {
+        "en":  "Confirm",
+        "k":  "TenantsAdmin.New.Step4Title"
+    },
+    {
+        "en":  "Clicking Create tenant will:",
+        "k":  "TenantsAdmin.New.ConfirmIntro"
+    },
+    {
+        "en":  "Insert a row in Clients",
+        "k":  "TenantsAdmin.New.ConfirmInsertClient"
+    },
+    {
+        "en":  "Create a TenantAdmin AppUsers entry",
+        "k":  "TenantsAdmin.New.ConfirmCreateAdmin"
+    },
+    {
+        "en":  "Issue a one-time password (shown after submit)",
+        "k":  "TenantsAdmin.New.ConfirmIssuePassword"
+    },
+    {
+        "en":  "Stage the directory Source setting",
+        "k":  "TenantsAdmin.New.ConfirmStageDirectory"
+    },
+    {
+        "en":  "Create tenant",
+        "k":  "TenantsAdmin.New.CreateTenant"
+    },
+    {
+        "en":  "Keypad mode",
+        "k":  "Verification.Index.KeypadMode"
+    },
+    {
+        "en":  "NFC / keyboard",
+        "k":  "Verification.Index.NfcKeyboard"
+    },
+    {
+        "en":  "Clear (Esc)",
+        "k":  "Verification.Index.ClearTitle"
+    },
+    {
+        "en":  "clear",
+        "k":  "Verification.Index.ShortcutClear"
+    },
+    {
+        "en":  "verify",
+        "k":  "Verification.Index.ShortcutVerify"
+    },
+    {
+        "en":  "Type / scan anywhere",
+        "k":  "Verification.Index.TypeScanAnywhere"
+    }
+]

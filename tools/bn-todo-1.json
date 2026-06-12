@@ -1,0 +1,1294 @@
+﻿[
+    {
+        "en":  "English",
+        "k":  "LanguageEnglish"
+    },
+    {
+        "en":  "Save",
+        "k":  "Common.Save"
+    },
+    {
+        "en":  "Cancel",
+        "k":  "Common.Cancel"
+    },
+    {
+        "en":  "Close",
+        "k":  "Common.Close"
+    },
+    {
+        "en":  "Delete",
+        "k":  "Common.Delete"
+    },
+    {
+        "en":  "Edit",
+        "k":  "Common.Edit"
+    },
+    {
+        "en":  "View",
+        "k":  "Common.View"
+    },
+    {
+        "en":  "Back",
+        "k":  "Common.Back"
+    },
+    {
+        "en":  "Search",
+        "k":  "Common.Search"
+    },
+    {
+        "en":  "Filter",
+        "k":  "Common.Filter"
+    },
+    {
+        "en":  "Reset",
+        "k":  "Common.Reset"
+    },
+    {
+        "en":  "Actions",
+        "k":  "Common.Actions"
+    },
+    {
+        "en":  "Status",
+        "k":  "Common.Status"
+    },
+    {
+        "en":  "Date",
+        "k":  "Common.Date"
+    },
+    {
+        "en":  "Time",
+        "k":  "Common.Time"
+    },
+    {
+        "en":  "Name",
+        "k":  "Common.Name"
+    },
+    {
+        "en":  "Description",
+        "k":  "Common.Description"
+    },
+    {
+        "en":  "Price",
+        "k":  "Common.Price"
+    },
+    {
+        "en":  "Quantity",
+        "k":  "Common.Quantity"
+    },
+    {
+        "en":  "Total",
+        "k":  "Common.Total"
+    },
+    {
+        "en":  "Amount",
+        "k":  "Common.Amount"
+    },
+    {
+        "en":  "Export",
+        "k":  "Common.Export"
+    },
+    {
+        "en":  "Print",
+        "k":  "Common.Print"
+    },
+    {
+        "en":  "Download",
+        "k":  "Common.Download"
+    },
+    {
+        "en":  "Refresh",
+        "k":  "Common.Refresh"
+    },
+    {
+        "en":  "Yes",
+        "k":  "Common.Yes"
+    },
+    {
+        "en":  "No",
+        "k":  "Common.No"
+    },
+    {
+        "en":  "Enabled",
+        "k":  "Common.Enabled"
+    },
+    {
+        "en":  "Disabled",
+        "k":  "Common.Disabled"
+    },
+    {
+        "en":  "Active",
+        "k":  "Common.Active"
+    },
+    {
+        "en":  "Inactive",
+        "k":  "Common.Inactive"
+    },
+    {
+        "en":  "All",
+        "k":  "Common.All"
+    },
+    {
+        "en":  "None",
+        "k":  "Common.None"
+    },
+    {
+        "en":  "New",
+        "k":  "Common.New"
+    },
+    {
+        "en":  "Add",
+        "k":  "Common.Add"
+    },
+    {
+        "en":  "Remove",
+        "k":  "Common.Remove"
+    },
+    {
+        "en":  "Submit",
+        "k":  "Common.Submit"
+    },
+    {
+        "en":  "Confirm",
+        "k":  "Common.Confirm"
+    },
+    {
+        "en":  "Loading…",
+        "k":  "Common.Loading"
+    },
+    {
+        "en":  "Nothing here yet",
+        "k":  "Common.NoData.Title"
+    },
+    {
+        "en":  "There is no data to show for the current filters.",
+        "k":  "Common.NoData.Description"
+    },
+    {
+        "en":  "Required",
+        "k":  "Common.Required"
+    },
+    {
+        "en":  "Optional",
+        "k":  "Common.Optional"
+    },
+    {
+        "en":  "Previous",
+        "k":  "Common.Previous"
+    },
+    {
+        "en":  "Next",
+        "k":  "Common.Next"
+    },
+    {
+        "en":  "Page",
+        "k":  "Common.Page"
+    },
+    {
+        "en":  "of",
+        "k":  "Common.Of"
+    },
+    {
+        "en":  "Items",
+        "k":  "Common.Items"
+    },
+    {
+        "en":  "User",
+        "k":  "Common.User"
+    },
+    {
+        "en":  "Email",
+        "k":  "Common.Email"
+    },
+    {
+        "en":  "Phone",
+        "k":  "Common.Phone"
+    },
+    {
+        "en":  "Today",
+        "k":  "Common.Today"
+    },
+    {
+        "en":  "From",
+        "k":  "Common.From"
+    },
+    {
+        "en":  "To",
+        "k":  "Common.To"
+    },
+    {
+        "en":  "Type",
+        "k":  "Common.Type"
+    },
+    {
+        "en":  "Details",
+        "k":  "Common.Details"
+    },
+    {
+        "en":  "Settings",
+        "k":  "Common.Settings"
+    },
+    {
+        "en":  "Error",
+        "k":  "Common.Error"
+    },
+    {
+        "en":  "Success",
+        "k":  "Common.Success"
+    },
+    {
+        "en":  "Warning",
+        "k":  "Common.Warning"
+    },
+    {
+        "en":  "Copy",
+        "k":  "Common.Copy"
+    },
+    {
+        "en":  "SmartCanteen",
+        "k":  "Account.Common.BrandName"
+    },
+    {
+        "en":  "Back to sign in",
+        "k":  "Account.Common.BackToSignIn"
+    },
+    {
+        "en":  "you@example.com",
+        "k":  "Account.Common.EmailPlaceholder"
+    },
+    {
+        "en":  "New password",
+        "k":  "Account.Common.NewPassword"
+    },
+    {
+        "en":  "Confirm new password",
+        "k":  "Account.Common.ConfirmNewPassword"
+    },
+    {
+        "en":  "Sign in",
+        "k":  "Account.Login.Title"
+    },
+    {
+        "en":  "The canteen, sorted.",
+        "k":  "Account.Login.Tagline"
+    },
+    {
+        "en":  "Multi-tenant SaaS for school \u0026 corporate canteens. Scan, order, pay, report — all in Bangla \u0026 English.",
+        "k":  "Account.Login.TaglineSub"
+    },
+    {
+        "en":  "Card-tap orders in under a second",
+        "k":  "Account.Login.CheckCardTap"
+    },
+    {
+        "en":  "Self-service kiosks, no student login needed",
+        "k":  "Account.Login.CheckKiosk"
+    },
+    {
+        "en":  "Parent portal \u0026 wallet recharges via bKash, Nagad, SSL, Stripe",
+        "k":  "Account.Login.CheckParentPortal"
+    },
+    {
+        "en":  "Realtime kitchen display + SMS / WhatsApp alerts",
+        "k":  "Account.Login.CheckKitchen"
+    },
+    {
+        "en":  "Welcome back",
+        "k":  "Account.Login.WelcomeBack"
+    },
+    {
+        "en":  "Sign in to manage your canteen.",
+        "k":  "Account.Login.Subtitle"
+    },
+    {
+        "en":  "Continue with Google",
+        "k":  "Account.Login.ContinueWithGoogle"
+    },
+    {
+        "en":  "or sign in with email",
+        "k":  "Account.Login.OrSignInWithEmail"
+    },
+    {
+        "en":  "Username or email",
+        "k":  "Account.Login.UserNameLabel"
+    },
+    {
+        "en":  "Password",
+        "k":  "Account.Login.PasswordLabel"
+    },
+    {
+        "en":  "Show password",
+        "k":  "Account.Login.ShowPassword"
+    },
+    {
+        "en":  "Keep me signed in",
+        "k":  "Account.Login.RememberMe"
+    },
+    {
+        "en":  "Forgot password?",
+        "k":  "Account.Login.ForgotPassword"
+    },
+    {
+        "en":  "or use a one-time link",
+        "k":  "Account.Login.OrOneTimeLink"
+    },
+    {
+        "en":  "Email me a sign-in link",
+        "k":  "Account.Login.EmailMeLink"
+    },
+    {
+        "en":  "Default bootstrap:",
+        "k":  "Account.Login.DefaultBootstrap"
+    },
+    {
+        "en":  "You\u0027ll be asked to change the password on first login.",
+        "k":  "Account.Login.FirstLoginNote"
+    },
+    {
+        "en":  "Multi-factor auth",
+        "k":  "Account.Mfa.Title"
+    },
+    {
+        "en":  "Add a time-based one-time-password app to your account.",
+        "k":  "Account.Mfa.Subtitle"
+    },
+    {
+        "en":  "MFA is on for your account",
+        "k":  "Account.Mfa.EnabledHeading"
+    },
+    {
+        "en":  "Sign-in asks for a 6-digit TOTP code. You have {0} recovery code(s) left.",
+        "k":  "Account.Mfa.EnabledBody"
+    },
+    {
+        "en":  "Recovery codes",
+        "k":  "Account.Mfa.RecoveryCodesTitle"
+    },
+    {
+        "en":  "Lost your authenticator? Use a recovery code instead. You can regenerate the set any time — the old codes stop working immediately.",
+        "k":  "Account.Mfa.RecoveryCodesHint"
+    },
+    {
+        "en":  "Generate a fresh set of recovery codes? The current codes will stop working.",
+        "k":  "Account.Mfa.RegenerateConfirm"
+    },
+    {
+        "en":  "Generate new codes",
+        "k":  "Account.Mfa.RegenerateCodes"
+    },
+    {
+        "en":  "Disable MFA",
+        "k":  "Account.Mfa.Disable"
+    },
+    {
+        "en":  "Disable MFA? Your account will rely on password only.",
+        "k":  "Account.Mfa.DisableConfirm"
+    },
+    {
+        "en":  "Add a second factor",
+        "k":  "Account.Mfa.SetupHeading"
+    },
+    {
+        "en":  "Scan the QR code with Authy / Google Authenticator / Microsoft Authenticator, then enter the 6-digit code to confirm.",
+        "k":  "Account.Mfa.SetupBody"
+    },
+    {
+        "en":  "MFA QR code",
+        "k":  "Account.Mfa.QrAlt"
+    },
+    {
+        "en":  "Or paste this secret manually:",
+        "k":  "Account.Mfa.SecretHint"
+    },
+    {
+        "en":  "Verify code",
+        "k":  "Account.Mfa.VerifyCodeTitle"
+    },
+    {
+        "en":  "6-digit code from your authenticator",
+        "k":  "Account.Mfa.CodeLabel"
+    },
+    {
+        "en":  "Enable MFA",
+        "k":  "Account.Mfa.EnableButton"
+    },
+    {
+        "en":  "Your MFA recovery codes",
+        "k":  "Account.RecoveryCodes.Title"
+    },
+    {
+        "en":  "These are shown once. Save them somewhere safe — a password manager or a printed copy in a sealed envelope.",
+        "k":  "Account.RecoveryCodes.Subtitle"
+    },
+    {
+        "en":  "Save these codes NOW",
+        "k":  "Account.RecoveryCodes.WarnHeading"
+    },
+    {
+        "en":  "Each code can be used exactly once if you lose access to your authenticator. We never show them again — generate a fresh set if you need new ones.",
+        "k":  "Account.RecoveryCodes.WarnBody"
+    },
+    {
+        "en":  "{0} codes",
+        "k":  "Account.RecoveryCodes.Count"
+    },
+    {
+        "en":  "Copy all",
+        "k":  "Account.RecoveryCodes.CopyAll"
+    },
+    {
+        "en":  "Download .txt",
+        "k":  "Account.RecoveryCodes.DownloadTxt"
+    },
+    {
+        "en":  "I\u0027ve saved them — done",
+        "k":  "Account.RecoveryCodes.Done"
+    },
+    {
+        "en":  "Codes copied to clipboard.",
+        "k":  "Account.RecoveryCodes.Copied"
+    },
+    {
+        "en":  "Copy failed - select + copy manually.",
+        "k":  "Account.RecoveryCodes.CopyFailed"
+    },
+    {
+        "en":  "Change password",
+        "k":  "Account.ChangePassword.Title"
+    },
+    {
+        "en":  "Update your account password.",
+        "k":  "Account.ChangePassword.Subtitle"
+    },
+    {
+        "en":  "Your administrator requires you to update your password before continuing.",
+        "k":  "Account.ChangePassword.MustChangeSubtitle"
+    },
+    {
+        "en":  "You must change your password before continuing.",
+        "k":  "Account.ChangePassword.MustChangeWarning"
+    },
+    {
+        "en":  "Current password",
+        "k":  "Account.ChangePassword.CurrentPassword"
+    },
+    {
+        "en":  "At least 8 characters.",
+        "k":  "Account.ChangePassword.MinLengthHint"
+    },
+    {
+        "en":  "Update password",
+        "k":  "Account.ChangePassword.Submit"
+    },
+    {
+        "en":  "Two-factor verification",
+        "k":  "Account.VerifyMfa.Title"
+    },
+    {
+        "en":  "Enter the 6-digit code from your authenticator app.",
+        "k":  "Account.VerifyMfa.PromptTotp"
+    },
+    {
+        "en":  "Enter one of your one-time recovery codes.",
+        "k":  "Account.VerifyMfa.PromptRecovery"
+    },
+    {
+        "en":  "Code",
+        "k":  "Account.VerifyMfa.CodeLabel"
+    },
+    {
+        "en":  "Verify",
+        "k":  "Account.VerifyMfa.Verify"
+    },
+    {
+        "en":  "Use a recovery code instead",
+        "k":  "Account.VerifyMfa.UseRecovery"
+    },
+    {
+        "en":  "Use my authenticator app instead",
+        "k":  "Account.VerifyMfa.UseTotp"
+    },
+    {
+        "en":  "e.g. 5F2H7-K9XYM",
+        "k":  "Account.VerifyMfa.RecoveryPlaceholder"
+    },
+    {
+        "en":  "Sign in as a different user",
+        "k":  "Account.VerifyMfa.SignInDifferentUser"
+    },
+    {
+        "en":  "Forgot password",
+        "k":  "Account.ForgotPassword.Title"
+    },
+    {
+        "en":  "Forgot password?",
+        "k":  "Account.ForgotPassword.Heading"
+    },
+    {
+        "en":  "Enter the email on your SmartCanteen account and we\u0027ll send a one-time reset link. The link expires in 30 minutes.",
+        "k":  "Account.ForgotPassword.Subtitle"
+    },
+    {
+        "en":  "Send reset link",
+        "k":  "Account.ForgotPassword.Submit"
+    },
+    {
+        "en":  "Email sign-in link",
+        "k":  "Account.MagicLink.Title"
+    },
+    {
+        "en":  "Sign in via email",
+        "k":  "Account.MagicLink.BrowserTitle"
+    },
+    {
+        "en":  "Sign in with an email link",
+        "k":  "Account.MagicLink.Heading"
+    },
+    {
+        "en":  "No password needed. We\u0027ll send a one-time sign-in link that\u0027s valid for 15 minutes.",
+        "k":  "Account.MagicLink.Subtitle"
+    },
+    {
+        "en":  "Send sign-in link",
+        "k":  "Account.MagicLink.Submit"
+    },
+    {
+        "en":  "Reset password",
+        "k":  "Account.ResetPassword.Title"
+    },
+    {
+        "en":  "Choose a new password",
+        "k":  "Account.ResetPassword.Heading"
+    },
+    {
+        "en":  "Make it at least 8 characters. Mix letters, numbers, and symbols for the strongest result.",
+        "k":  "Account.ResetPassword.Subtitle"
+    },
+    {
+        "en":  "Set new password",
+        "k":  "Account.ResetPassword.Submit"
+    },
+    {
+        "en":  "Access denied",
+        "k":  "Account.AccessDenied.Title"
+    },
+    {
+        "en":  "Your account doesn\u0027t have permission to view this page.",
+        "k":  "Account.AccessDenied.Subtitle"
+    },
+    {
+        "en":  "Back to home",
+        "k":  "Account.AccessDenied.BackHome"
+    },
+    {
+        "en":  "Sign in as another user",
+        "k":  "Account.AccessDenied.SignInAnother"
+    },
+    {
+        "en":  "Back to home",
+        "k":  "Error.Shared.BackHome"
+    },
+    {
+        "en":  "Home",
+        "k":  "Error.Shared.Home"
+    },
+    {
+        "en":  "Try again",
+        "k":  "Error.Shared.TryAgain"
+    },
+    {
+        "en":  "Go back",
+        "k":  "Error.Shared.GoBack"
+    },
+    {
+        "en":  "Server error",
+        "k":  "Error.Shared.ServerError"
+    },
+    {
+        "en":  "Bad request",
+        "k":  "Error.400.Title"
+    },
+    {
+        "en":  "The request was malformed and the server couldn\u0027t make sense of it. If you reached this page from a link, the link may be broken.",
+        "k":  "Error.400.Description"
+    },
+    {
+        "en":  "Sign in to continue",
+        "k":  "Error.401.Title"
+    },
+    {
+        "en":  "You need to be signed in to view this page. If you were signed in already, your session may have expired — sign in again to continue.",
+        "k":  "Error.401.Description"
+    },
+    {
+        "en":  "Sign in",
+        "k":  "Error.401.Cta"
+    },
+    {
+        "en":  "Payment required",
+        "k":  "Error.402.Title"
+    },
+    {
+        "en":  "This tenant\u0027s subscription is past due or the current plan doesn\u0027t include the feature you tried to access. Pay the latest invoice or upgrade your plan to continue.",
+        "k":  "Error.402.Description"
+    },
+    {
+        "en":  "Go to billing",
+        "k":  "Error.402.Cta"
+    },
+    {
+        "en":  "Access denied",
+        "k":  "Error.403.Title"
+    },
+    {
+        "en":  "Your account is signed in, but it doesn\u0027t have permission for this page. Ask a tenant admin to grant you the relevant role, or switch to an account that has access.",
+        "k":  "Error.403.Description"
+    },
+    {
+        "en":  "Sign in as another user",
+        "k":  "Error.403.Secondary"
+    },
+    {
+        "en":  "Page not found",
+        "k":  "Error.404.Title"
+    },
+    {
+        "en":  "We couldn\u0027t find the page you were looking for. It may have moved, or the link you followed could be out of date.",
+        "k":  "Error.404.Description"
+    },
+    {
+        "en":  "We couldn\u0027t find anything at {0}. It may have moved, or the link you followed could be out of date.",
+        "k":  "Error.404.PathInfo"
+    },
+    {
+        "en":  "Method not allowed",
+        "k":  "Error.405.Title"
+    },
+    {
+        "en":  "This endpoint doesn\u0027t accept the HTTP method you used. If you arrived here from a form, the form\u0027s target route may have changed — head back and try again.",
+        "k":  "Error.405.Description"
+    },
+    {
+        "en":  "Request timed out",
+        "k":  "Error.408.Title"
+    },
+    {
+        "en":  "The server didn\u0027t get a complete request in time. This usually means a slow network — wait a moment, then try again.",
+        "k":  "Error.408.Description"
+    },
+    {
+        "en":  "Gone",
+        "k":  "Error.410.Title"
+    },
+    {
+        "en":  "This resource used to be here but has been permanently removed. There\u0027s no forwarding address — try searching from the home page.",
+        "k":  "Error.410.Description"
+    },
+    {
+        "en":  "What\u0027s new",
+        "k":  "Error.410.Secondary"
+    },
+    {
+        "en":  "Couldn\u0027t process that",
+        "k":  "Error.422.Title"
+    },
+    {
+        "en":  "The data you sent was understood, but something didn\u0027t pass validation. Check the fields you submitted and try again.",
+        "k":  "Error.422.Description"
+    },
+    {
+        "en":  "Unprocessable",
+        "k":  "Error.422.PageTitle"
+    },
+    {
+        "en":  "Slow down a moment",
+        "k":  "Error.429.Title"
+    },
+    {
+        "en":  "You\u0027ve made too many requests in a short window. We\u0027ve slowed you down to keep the system fair for everyone — try again in a minute.",
+        "k":  "Error.429.Description"
+    },
+    {
+        "en":  "Too many requests",
+        "k":  "Error.429.PageTitle"
+    },
+    {
+        "en":  "Something broke on our side",
+        "k":  "Error.500.Title"
+    },
+    {
+        "en":  "An unexpected error happened while we tried to serve your request. The site team has been notified — try again, or come back in a few minutes.",
+        "k":  "Error.500.Description"
+    },
+    {
+        "en":  "Bad gateway",
+        "k":  "Error.502.Title"
+    },
+    {
+        "en":  "An upstream service we depend on returned an invalid response. This usually clears itself within a minute or two — try again shortly.",
+        "k":  "Error.502.Description"
+    },
+    {
+        "en":  "Service unavailable",
+        "k":  "Error.503.Title"
+    },
+    {
+        "en":  "We\u0027re either down for maintenance or under heavy load. We\u0027ll be back online shortly — refresh the page in a couple of minutes.",
+        "k":  "Error.503.Description"
+    },
+    {
+        "en":  "Status page",
+        "k":  "Error.503.Secondary"
+    },
+    {
+        "en":  "Gateway timeout",
+        "k":  "Error.504.Title"
+    },
+    {
+        "en":  "An upstream service took too long to respond. The request didn\u0027t reach completion — try again shortly.",
+        "k":  "Error.504.Description"
+    },
+    {
+        "en":  "Request error",
+        "k":  "Error.Generic.RequestError"
+    },
+    {
+        "en":  "Something went wrong on our side. Try again, or come back in a few minutes.",
+        "k":  "Error.Generic.ServerDescription"
+    },
+    {
+        "en":  "The request couldn\u0027t be completed. Check the URL or try again from the home page.",
+        "k":  "Error.Generic.RequestDescription"
+    },
+    {
+        "en":  "Error {0}",
+        "k":  "Error.Generic.PageTitle"
+    },
+    {
+        "en":  "Menu management",
+        "k":  "Menu.Manage.Title"
+    },
+    {
+        "en":  "View the daily menu, weekly templates and food items in one place.",
+        "k":  "Menu.Manage.Subtitle"
+    },
+    {
+        "en":  "Load",
+        "k":  "Menu.Manage.Load"
+    },
+    {
+        "en":  "Daily menu",
+        "k":  "Menu.Manage.DailyTab"
+    },
+    {
+        "en":  "Weekly templates",
+        "k":  "Menu.Manage.WeeklyTab"
+    },
+    {
+        "en":  "Food items",
+        "k":  "Menu.Manage.FoodTab"
+    },
+    {
+        "en":  "{0} items",
+        "k":  "Menu.Manage.ItemsCount"
+    },
+    {
+        "en":  "Item",
+        "k":  "Menu.Manage.Item"
+    },
+    {
+        "en":  "Category",
+        "k":  "Menu.Manage.Category"
+    },
+    {
+        "en":  "Sold",
+        "k":  "Menu.Manage.Sold"
+    },
+    {
+        "en":  "Remaining",
+        "k":  "Menu.Manage.Remaining"
+    },
+    {
+        "en":  "Available",
+        "k":  "Menu.Manage.Available"
+    },
+    {
+        "en":  "Unavailable",
+        "k":  "Menu.Manage.Unavailable"
+    },
+    {
+        "en":  "No menu for this date.",
+        "k":  "Menu.Manage.NoMenuForDate"
+    },
+    {
+        "en":  "{0} templates",
+        "k":  "Menu.Manage.TemplatesCount"
+    },
+    {
+        "en":  "Template",
+        "k":  "Menu.Manage.Template"
+    },
+    {
+        "en":  "Day",
+        "k":  "Menu.Manage.Day"
+    },
+    {
+        "en":  "Meal type",
+        "k":  "Menu.Manage.MealType"
+    },
+    {
+        "en":  "Default qty",
+        "k":  "Menu.Manage.DefaultQty"
+    },
+    {
+        "en":  "No weekly templates.",
+        "k":  "Menu.Manage.NoTemplates"
+    },
+    {
+        "en":  "Manage items",
+        "k":  "Menu.Manage.ManageItems"
+    },
+    {
+        "en":  "No food items found.",
+        "k":  "Menu.Manage.NoFoodItems"
+    },
+    {
+        "en":  "New item",
+        "k":  "Menu.Manage.NewItem"
+    },
+    {
+        "en":  "Go to dashboard",
+        "k":  "Menu.Manage.GoToDashboard"
+    },
+    {
+        "en":  "Copy yesterday",
+        "k":  "Menu.Manage.CopyYesterday"
+    },
+    {
+        "en":  "Load the menu for a specific day and quickly review templates and items.",
+        "k":  "Menu.Manage.FooterHint"
+    },
+    {
+        "en":  "Food items",
+        "k":  "FoodItems"
+    },
+    {
+        "en":  "Catalog of every food item this canteen serves. Activating or deactivating items hides them from the menu without deleting them.",
+        "k":  "Menu.ManageItems.Subtitle"
+    },
+    {
+        "en":  "Add item",
+        "k":  "Menu.ManageItems.AddItem"
+    },
+    {
+        "en":  "Back to menu",
+        "k":  "Menu.ManageItems.BackToMenu"
+    },
+    {
+        "en":  "Total items",
+        "k":  "Menu.ManageItems.TotalItems"
+    },
+    {
+        "en":  "Average price",
+        "k":  "Menu.ManageItems.AveragePrice"
+    },
+    {
+        "en":  "{0} items have a photo",
+        "k":  "Menu.ManageItems.ItemsWithPhoto"
+    },
+    {
+        "en":  "Search by name, description or allergen",
+        "k":  "Menu.ManageItems.SearchPlaceholder"
+    },
+    {
+        "en":  "Active only",
+        "k":  "Menu.ManageItems.ActiveOnly"
+    },
+    {
+        "en":  "Inactive only",
+        "k":  "Menu.ManageItems.InactiveOnly"
+    },
+    {
+        "en":  "{0} item(s)",
+        "k":  "Menu.ManageItems.ItemCount"
+    },
+    {
+        "en":  "No items yet",
+        "k":  "Menu.ManageItems.EmptyTitle"
+    },
+    {
+        "en":  "Add your first dish. It will be available to schedule on the daily menu and weekly templates.",
+        "k":  "Menu.ManageItems.EmptyDescription"
+    },
+    {
+        "en":  "Item",
+        "k":  "Menu.ManageItems.Item"
+    },
+    {
+        "en":  "Category",
+        "k":  "Menu.ManageItems.Category"
+    },
+    {
+        "en":  "Dietary",
+        "k":  "Menu.ManageItems.Dietary"
+    },
+    {
+        "en":  "Veg",
+        "k":  "Menu.ManageItems.Veg"
+    },
+    {
+        "en":  "Halal",
+        "k":  "Menu.ManageItems.Halal"
+    },
+    {
+        "en":  "{0} kcal",
+        "k":  "Menu.ManageItems.Kcal"
+    },
+    {
+        "en":  "Activate",
+        "k":  "Menu.ManageItems.Activate"
+    },
+    {
+        "en":  "Deactivate",
+        "k":  "Menu.ManageItems.Deactivate"
+    },
+    {
+        "en":  "Edit item",
+        "k":  "Menu.ManageItems.EditItem"
+    },
+    {
+        "en":  "Item name",
+        "k":  "Menu.ManageItems.ItemName"
+    },
+    {
+        "en":  "e.g. Veg Biryani",
+        "k":  "Menu.ManageItems.ItemNamePlaceholder"
+    },
+    {
+        "en":  "Price (৳)",
+        "k":  "Menu.ManageItems.PriceLabel"
+    },
+    {
+        "en":  "One short line",
+        "k":  "Menu.ManageItems.DescriptionPlaceholder"
+    },
+    {
+        "en":  "Calories (kcal)",
+        "k":  "Menu.ManageItems.Calories"
+    },
+    {
+        "en":  "Prep time (sec)",
+        "k":  "Menu.ManageItems.PrepTime"
+    },
+    {
+        "en":  "Image URL",
+        "k":  "Menu.ManageItems.ImageUrl"
+    },
+    {
+        "en":  "Allergens (comma-separated)",
+        "k":  "Menu.ManageItems.Allergens"
+    },
+    {
+        "en":  "nuts, dairy",
+        "k":  "Menu.ManageItems.AllergensPlaceholder"
+    },
+    {
+        "en":  "Vegetarian",
+        "k":  "Menu.ManageItems.Vegetarian"
+    },
+    {
+        "en":  "Item not found.",
+        "k":  "Menu.ManageItems.ItemNotFound"
+    },
+    {
+        "en":  "Could not load item.",
+        "k":  "Menu.ManageItems.LoadFailed"
+    },
+    {
+        "en":  "Item updated.",
+        "k":  "Menu.ManageItems.ItemUpdated"
+    },
+    {
+        "en":  "Item created.",
+        "k":  "Menu.ManageItems.ItemCreated"
+    },
+    {
+        "en":  "Save failed.",
+        "k":  "Menu.ManageItems.SaveFailed"
+    },
+    {
+        "en":  "Network error.",
+        "k":  "Menu.ManageItems.NetworkError"
+    },
+    {
+        "en":  "Status updated.",
+        "k":  "Menu.ManageItems.StatusUpdated"
+    },
+    {
+        "en":  "Could not update.",
+        "k":  "Menu.ManageItems.UpdateFailed"
+    },
+    {
+        "en":  "Menu · {0}",
+        "k":  "PublicMenu.Index.Title"
+    },
+    {
+        "en":  "Show nutrition and allergen info",
+        "k":  "PublicMenu.Index.ShowNutrition"
+    },
+    {
+        "en":  "No menu yet",
+        "k":  "PublicMenu.Index.EmptyTitle"
+    },
+    {
+        "en":  "Nothing has been published for {0}. Check back closer to mealtime.",
+        "k":  "PublicMenu.Index.EmptyDescription"
+    },
+    {
+        "en":  "Sold out",
+        "k":  "PublicMenu.Index.SoldOut"
+    },
+    {
+        "en":  "Only {0} left",
+        "k":  "PublicMenu.Index.OnlyLeft"
+    },
+    {
+        "en":  "Veg",
+        "k":  "PublicMenu.Index.Veg"
+    },
+    {
+        "en":  "Halal",
+        "k":  "PublicMenu.Index.Halal"
+    },
+    {
+        "en":  "{0} kcal",
+        "k":  "PublicMenu.Index.Kcal"
+    },
+    {
+        "en":  "Have a card? Tap to scan at the counter",
+        "k":  "PublicMenu.Index.FooterCta"
+    },
+    {
+        "en":  "My favourites",
+        "k":  "Favorites.Index.Title"
+    },
+    {
+        "en":  "Tap a card to re-order an item you have saved.",
+        "k":  "Favorites.Index.Subtitle"
+    },
+    {
+        "en":  "No favourites yet",
+        "k":  "Favorites.Index.EmptyTitle"
+    },
+    {
+        "en":  "Tap the heart icon next to any item on your orders page and it lands here.",
+        "k":  "Favorites.Index.EmptyDescription"
+    },
+    {
+        "en":  "Go to my orders",
+        "k":  "Favorites.Index.GoToOrders"
+    },
+    {
+        "en":  "saved {0}",
+        "k":  "Favorites.Index.SavedOn"
+    },
+    {
+        "en":  "Order now",
+        "k":  "Favorites.Index.OrderNow"
+    },
+    {
+        "en":  "Your full order history, wallet balance, and monthly spend.",
+        "k":  "Me.Orders.Subtitle"
+    },
+    {
+        "en":  "Orders CSV",
+        "k":  "Me.Orders.OrdersCsv"
+    },
+    {
+        "en":  "Download my data",
+        "k":  "Me.Orders.DownloadData"
+    },
+    {
+        "en":  "GDPR Article 20 - every row of your data, in one ZIP",
+        "k":  "Me.Orders.DownloadDataTitle"
+    },
+    {
+        "en":  "Favourites",
+        "k":  "Me.Orders.Favourites"
+    },
+    {
+        "en":  "Profile not linked",
+        "k":  "Me.Orders.NotLinkedHeading"
+    },
+    {
+        "en":  "Your account is not linked to a student or employee record yet, so there are no orders to show. Ask your tenant admin to set the LinkedPersonId on your user profile.",
+        "k":  "Me.Orders.NotLinkedBody"
+    },
+    {
+        "en":  "Wallet balance",
+        "k":  "Me.Orders.WalletBalance"
+    },
+    {
+        "en":  "Spent this month",
+        "k":  "Me.Orders.SpentThisMonth"
+    },
+    {
+        "en":  "Total orders",
+        "k":  "Me.Orders.TotalOrders"
+    },
+    {
+        "en":  "Avg order",
+        "k":  "Me.Orders.AvgOrder"
+    },
+    {
+        "en":  "Order #",
+        "k":  "Me.Orders.OrderNumber"
+    },
+    {
+        "en":  "When",
+        "k":  "Me.Orders.When"
+    },
+    {
+        "en":  "No orders yet. Head to a kiosk or counter to place your first.",
+        "k":  "Me.Orders.EmptyOrders"
+    },
+    {
+        "en":  "Item",
+        "k":  "Me.Orders.ItemFallback"
+    },
+    {
+        "en":  "{0} item(s)",
+        "k":  "Me.Orders.ItemCount"
+    },
+    {
+        "en":  "Orders pagination",
+        "k":  "Me.Orders.PaginationLabel"
+    },
+    {
+        "en":  "Table {0}",
+        "k":  "TableOrder.Index.YourTable"
+    },
+    {
+        "en":  "No menu published for today yet",
+        "k":  "TableOrder.Index.NoMenu.Title"
+    },
+    {
+        "en":  "Check back later or order at the counter.",
+        "k":  "TableOrder.Index.NoMenu.Description"
+    },
+    {
+        "en":  "Veg",
+        "k":  "TableOrder.Index.Veg"
+    },
+    {
+        "en":  "Halal",
+        "k":  "TableOrder.Index.Halal"
+    },
+    {
+        "en":  "Your ID or card UID",
+        "k":  "TableOrder.Index.IdentifierLabel"
+    },
+    {
+        "en":  "STD-2026-001 or card UID",
+        "k":  "TableOrder.Index.IdentifierPlaceholder"
+    },
+    {
+        "en":  "Your wallet pays for this order. You\u0027ll get an SMS when it\u0027s ready.",
+        "k":  "TableOrder.Index.WalletNote"
+    },
+    {
+        "en":  "Place order",
+        "k":  "TableOrder.Index.PlaceOrder"
+    },
+    {
+        "en":  "Order ahead for a specific pickup time — skip the lunch queue.",
+        "k":  "PreOrder.Index.Subtitle"
+    },
+    {
+        "en":  "New pre-order",
+        "k":  "PreOrder.Index.NewPreOrder"
+    },
+    {
+        "en":  "No pre-orders yet",
+        "k":  "PreOrder.Index.Empty.Title"
+    },
+    {
+        "en":  "Place a pre-order for a specific pickup time and skip the rush.",
+        "k":  "PreOrder.Index.Empty.Description"
+    },
+    {
+        "en":  "Create one",
+        "k":  "PreOrder.Index.Empty.Cta"
+    },
+    {
+        "en":  "Order #",
+        "k":  "PreOrder.Index.OrderNo"
+    },
+    {
+        "en":  "Pickup at",
+        "k":  "PreOrder.Index.PickupAt"
+    },
+    {
+        "en":  "+{0} more",
+        "k":  "PreOrder.Index.MoreItems"
+    },
+    {
+        "en":  "Pre-order",
+        "k":  "PreOrder.New.Title"
+    },
+    {
+        "en":  "Pre-order for {0}",
+        "k":  "PreOrder.New.TitleFor"
+    },
+    {
+        "en":  "Pick quantities, then confirm. Your wallet is checked at submission, not now.",
+        "k":  "PreOrder.New.Subtitle"
+    },
+    {
+        "en":  "Pickup date",
+        "k":  "PreOrder.New.PickupDate"
+    },
+    {
+        "en":  "Refresh menu",
+        "k":  "PreOrder.New.RefreshMenu"
+    },
+    {
+        "en":  "No menu yet",
+        "k":  "PreOrder.New.NoMenu.Title"
+    },
+    {
+        "en":  "No menu has been published for {0}. Ask the admin to schedule the day\u0027s menu first, or pick another date.",
+        "k":  "PreOrder.New.NoMenu.Body"
+    },
+    {
+        "en":  "Item",
+        "k":  "PreOrder.New.Item"
+    },
+    {
+        "en":  "Dietary",
+        "k":  "PreOrder.New.Dietary"
+    },
+    {
+        "en":  "Confirm pre-order",
+        "k":  "PreOrder.New.Confirm"
+    },
+    {
+        "en":  "Today\u0027s pre-orders",
+        "k":  "PreOrder.Queue.Title"
+    },
+    {
+        "en":  "Pre-orders due today",
+        "k":  "PreOrder.Queue.Heading"
+    },
+    {
+        "en":  "{0} · {1} order(s)",
+        "k":  "PreOrder.Queue.Subtitle"
+    },
+    {
+        "en":  "No pre-orders due today",
+        "k":  "PreOrder.Queue.Empty.Title"
+    },
+    {
+        "en":  "When customers schedule ahead, their orders appear here at the start of the pickup day.",
+        "k":  "PreOrder.Queue.Empty.Description"
+    }
+]

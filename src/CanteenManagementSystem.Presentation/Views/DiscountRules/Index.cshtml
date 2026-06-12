@@ -4,13 +4,14 @@
 @using Platform.Domain.Pricing
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<DiscountRule>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Discount rules";
+    ViewData["Title"] = L["DiscountRules.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Discount rules",
-        Subtitle = "JSON-driven rules — day-of-week role discounts, combo pricing, happy hour windows.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/discount-rules/new'><i class='bx bx-plus me-1'></i> Add rule</a>")
+        Title    = L["DiscountRules.Index.Title"].Value,
+        Subtitle = L["DiscountRules.Index.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-primary' href='/admin/discount-rules/new'><i class='bx bx-plus me-1'></i> {L["DiscountRules.Index.AddRule"].Value}</a>")
     };
 }
 
@@ -21,9 +22,9 @@
     {
         var empty = new EmptyStateOptions
         {
-            Icon = "fa-percent",
-            Title = "No discount rules yet",
-            Description = "Add a Tuesday-teacher discount, a combo, or a happy-hour window."
+            Icon = "bx-purchase-tag-alt",
+            Title = L["DiscountRules.Index.EmptyTitle"].Value,
+            Description = L["DiscountRules.Index.EmptyDescription"].Value
         };
         <partial name="_EmptyState" model="empty" />
     }
@@ -33,12 +34,12 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Display name</th>
-                        <th class="text-end">Priority</th>
-                        <th>Valid window</th>
-                        <th>Status</th>
-                        <th class="text-end" style="width:1%">Actions</th>
+                        <th>@L["DiscountRules.Index.ColCode"]</th>
+                        <th>@L["DiscountRules.Index.ColDisplayName"]</th>
+                        <th class="text-end">@L["DiscountRules.Index.ColPriority"]</th>
+                        <th>@L["DiscountRules.Index.ColValidWindow"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +47,7 @@
                 {
                     var b = new UiBadgeOptions
                     {
-                        Text = r.IsActive ? "Active" : "Disabled",
+                        Text = r.IsActive ? L["Common.Active"].Value : L["Common.Disabled"].Value,
                         Variant = r.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };

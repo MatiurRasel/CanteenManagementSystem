@@ -1,4 +1,4 @@
-@*
+﻿@*
     /Operator/Dashboard — operator daily summary + live-orders panel.
 *@
 @using System.Globalization
@@ -34,7 +34,7 @@
     <form method="post" asp-action="Dashboard" class="d-flex align-items-end gap-2 mb-3 flex-wrap">
         @Html.AntiForgeryToken()
         <div>
-            <label class="ui-label mb-1" for="dash-date">@L["Date"]</label>
+            <label class="ui-label mb-1" for="dash-date">@L["Common.Date"]</label>
             <input id="dash-date" type="date" name="selectedDate"
                    value="@selectedDate.ToString("yyyy-MM-dd")"
                    class="ui-input form-control form-control-sm" style="max-width:180px" required />
