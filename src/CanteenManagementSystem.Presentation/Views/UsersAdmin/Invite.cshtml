@@ -3,14 +3,15 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.UsersAdminController.InviteForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Invite user";
+    ViewData["Title"] = L["UsersAdmin.Index.InviteUser"].Value;
     var roles = ViewBag.Roles as IList<Platform.Domain.Identity.Role> ?? new List<Platform.Domain.Identity.Role>();
     var header = new UiPageHeaderOptions
     {
-        Title    = "Invite a user",
-        Subtitle = "Create the account, pick the role, ship a one-time password.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/users'><i class='fa-solid fa-arrow-left me-1'></i> All users</a>")
+        Title    = L["UsersAdmin.Invite.Heading"].Value,
+        Subtitle = L["UsersAdmin.Invite.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/users'><i class='bx bx-arrow-back me-1'></i> {L["UsersAdmin.AllUsers"].Value}</a>")
     };
 }
 
@@ -27,32 +28,32 @@
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label asp-for="UserName" class="ui-label">Username</label>
+                                <label asp-for="UserName" class="ui-label">@L["UsersAdmin.Index.Username"]</label>
                                 <input asp-for="UserName" class="ui-input form-control" placeholder="ccpc.operator2" autocomplete="off" />
-                                <div class="ui-help-text">Lower-cased on save. Must be unique platform-wide.</div>
+                                <div class="ui-help-text">@L["UsersAdmin.Invite.UsernameHelp"]</div>
                                 <span asp-validation-for="UserName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="DisplayName" class="ui-label">Display name</label>
+                                <label asp-for="DisplayName" class="ui-label">@L["UsersAdmin.DisplayName"]</label>
                                 <input asp-for="DisplayName" class="ui-input form-control" />
                                 <span asp-validation-for="DisplayName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="Email" class="ui-label">Email</label>
+                                <label asp-for="Email" class="ui-label">@L["Common.Email"]</label>
                                 <input asp-for="Email" class="ui-input form-control" type="email" />
                                 <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="UserKind" class="ui-label">Kind</label>
+                                <label asp-for="UserKind" class="ui-label">@L["UsersAdmin.Kind"]</label>
                                 <select asp-for="UserKind" class="form-select ui-select">
-                                    <option value="Operator">Operator</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Cashier">Cashier</option>
-                                    <option value="Auditor">Auditor</option>
+                                    <option value="Operator">@L["UsersAdmin.UserKind.Operator"]</option>
+                                    <option value="Admin">@L["UsersAdmin.UserKind.Admin"]</option>
+                                    <option value="Cashier">@L["UsersAdmin.UserKind.Cashier"]</option>
+                                    <option value="Auditor">@L["UsersAdmin.UserKind.Auditor"]</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="RoleCode" class="ui-label">Initial role</label>
+                                <label asp-for="RoleCode" class="ui-label">@L["UsersAdmin.Invite.InitialRole"]</label>
                                 <select asp-for="RoleCode" class="form-select ui-select">
                                     @foreach (var r in roles)
                                     {
@@ -66,18 +67,18 @@
             </div>
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">What happens next</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["UsersAdmin.Invite.WhatHappensNext"]</div></div>
                     <div class="ui-card-body">
                         <ul class="small ui-stack-sm mb-3" style="padding-left:1.2rem">
-                            <li>User created in <code>AppUsers</code> bound to this tenant</li>
-                            <li>Random one-time password is returned on the next page</li>
-                            <li>User is forced to change it at first login</li>
+                            <li>@L["UsersAdmin.Invite.Step1"]</li>
+                            <li>@L["UsersAdmin.Invite.Step2"]</li>
+                            <li>@L["UsersAdmin.Invite.Step3"]</li>
                         </ul>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-paper-plane me-1"></i> Create user
+                                <i class="bx bx-send me-1"></i> @L["UsersAdmin.Invite.CreateUser"]
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                         </div>
                     </div>
                 </div>

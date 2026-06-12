@@ -5,17 +5,18 @@
 @using CanteenManagementSystem.Domain.Inventory
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<StockTakeSummary>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Stock takes";
+    ViewData["Title"] = L["InventoryAdmin.StockTakes.Title"].Value;
     var beginAction = $@"
         <form method=""post"" action=""/admin/inventory/stock-takes/begin"" class=""d-inline"">
             {Html.AntiForgeryToken()}
-            <button class=""btn btn-sm btn-primary"" type=""submit""><i class=""fa-solid fa-clipboard-check me-1""></i> Begin take</button>
+            <button class=""btn btn-sm btn-primary"" type=""submit""><i class=""bx bx-clipboard me-1""></i> {L["InventoryAdmin.StockTakes.BeginTake"].Value}</button>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = "Stock takes",
-        Subtitle = "Periodic physical-vs-system counts. Begin one → walk the shelves → submit → variance recorded.",
+        Title    = L["InventoryAdmin.StockTakes.Title"].Value,
+        Subtitle = L["InventoryAdmin.StockTakes.Subtitle"].Value,
         Actions  = Html.Raw(beginAction)
     };
     UiBadgeVariant V(StockTakeStatus s) => s switch
@@ -25,6 +26,13 @@
         StockTakeStatus.Cancelled => UiBadgeVariant.Warning,
         _ => UiBadgeVariant.Secondary
     };
+    string StatusText(StockTakeStatus s) => s switch
+    {
+        StockTakeStatus.Draft     => L["InventoryAdmin.StockTakeStatus.Draft"].Value,
+        StockTakeStatus.Submitted => L["InventoryAdmin.StockTakeStatus.Submitted"].Value,
+        StockTakeStatus.Cancelled => L["InventoryAdmin.StockTakeStatus.Cancelled"].Value,
+        _ => s.ToString()
+    };
 }
 
 <div class="container-fluid py-4">
@@ -32,7 +40,7 @@
 
     @if (Model.Count == 0)
     {
-        var empty = new EmptyStateOptions { Icon = "fa-clipboard-check", Title = "No stock takes yet", Description = "Click Begin take above to snapshot every active item's expected vs counted quantity." };
+        var empty = new EmptyStateOptions { Icon = "bx-clipboard", Title = L["InventoryAdmin.StockTakes.Empty.Title"].Value, Description = L["InventoryAdmin.StockTakes.Empty.Description"].Value };
         <partial name="_EmptyState" model="empty" />
     }
     else
@@ -41,18 +49,18 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Started</th>
-                        <th>Completed</th>
-                        <th class="text-end">Items</th>
-                        <th class="text-end">Net variance</th>
-                        <th>Status</th>
-                        <th class="text-end" style="width:1%">Open</th>
+                        <th>@L["InventoryAdmin.StockTakes.Started"]</th>
+                        <th>@L["InventoryAdmin.StockTakes.Completed"]</th>
+                        <th class="text-end">@L["Common.Items"]</th>
+                        <th class="text-end">@L["InventoryAdmin.StockTakes.NetVariance"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end" style="width:1%">@L["InventoryAdmin.StockTakes.Open"]</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach (var t in Model)
                 {
-                    var b = new UiBadgeOptions { Text = t.Status.ToString(), Variant = V(t.Status), WithDot = true };
+                    var b = new UiBadgeOptions { Text = StatusText(t.Status), Variant = V(t.Status), WithDot = true };
                     <tr>
                         <td class="ui-muted ui-tabular">@t.StartedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
                         <td class="ui-muted ui-tabular">@(t.CompletedAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
@@ -60,8 +68,8 @@
                         <td class="text-end ui-tabular @(t.TotalVariance < 0 ? "text-danger" : t.TotalVariance > 0 ? "text-success" : "ui-muted")">@t.TotalVariance.ToString("+#;-#;0")</td>
                         <td><partial name="_UiBadge" model="b" /></td>
                         <td class="text-end">
-                            <a class="btn btn-ghost btn-sm" href="/admin/inventory/stock-takes/@t.StockTakeId">
-                                <i class="fa-solid fa-arrow-right"></i>
+                            <a class="btn btn-ghost btn-sm" href="/admin/inventory/stock-takes/@t.StockTakeId" title="@L["Common.View"]">
+                                <i class="bx bx-right-arrow-alt"></i>
                             </a>
                         </td>
                     </tr>

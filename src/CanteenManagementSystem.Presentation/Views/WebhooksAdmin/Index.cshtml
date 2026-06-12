@@ -4,13 +4,14 @@
 @using Platform.Domain.Webhooks
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<WebhookSubscription>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Webhooks";
+    ViewData["Title"] = L["WebhooksAdmin.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Outbound webhooks",
-        Subtitle = "HMAC-signed callbacks to partner endpoints. Failed deliveries retry with exponential backoff; the dispatcher emits Prometheus metrics.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/webhooks/new'><i class='bx bx-plus me-1'></i> Add subscription</a>")
+        Title    = L["WebhooksAdmin.Index.Heading"].Value,
+        Subtitle = L["WebhooksAdmin.Index.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-primary' href='/admin/webhooks/new'><i class='bx bx-plus me-1'></i> {L["WebhooksAdmin.Index.AddSubscription"].Value}</a>")
     };
 }
 
@@ -19,7 +20,7 @@
 
     @if (Model.Count == 0)
     {
-        var empty = new EmptyStateOptions { Icon = "fa-bolt", Title = "No subscriptions yet", Description = "Add a URL to start receiving HMAC-signed event callbacks." };
+        var empty = new EmptyStateOptions { Icon = "bx-bolt-circle", Title = L["WebhooksAdmin.Index.Empty.Title"].Value, Description = L["WebhooksAdmin.Index.Empty.Description"].Value };
         <partial name="_EmptyState" model="empty" />
     }
     else
@@ -28,12 +29,12 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>URL</th>
-                        <th>Events</th>
-                        <th>Status</th>
-                        <th class="text-end">Failures</th>
-                        <th class="text-end">Last success</th>
-                        <th class="text-end" style="width:1%">Actions</th>
+                        <th>@L["WebhooksAdmin.Index.Url"]</th>
+                        <th>@L["WebhooksAdmin.Events"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end">@L["WebhooksAdmin.Index.Failures"]</th>
+                        <th class="text-end">@L["WebhooksAdmin.Index.LastSuccess"]</th>
+                        <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +42,7 @@
                 {
                     var b = new UiBadgeOptions
                     {
-                        Text    = w.IsActive ? "Active" : "Paused",
+                        Text    = w.IsActive ? L["Common.Active"].Value : L["WebhooksAdmin.Status.Paused"].Value,
                         Variant = w.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Warning,
                         WithDot = true
                     };
@@ -55,7 +56,7 @@
                             <a class="btn btn-ghost btn-sm" href="/admin/webhooks/@w.SubscriptionId">
                                 <i class="bx bx-edit"></i>
                             </a>
-                            <a class="btn btn-ghost btn-sm" href="/admin/webhooks/@w.SubscriptionId/deliveries" title="Deliveries">
+                            <a class="btn btn-ghost btn-sm" href="/admin/webhooks/@w.SubscriptionId/deliveries" title="@L["WebhooksAdmin.Index.Deliveries"]">
                                 <i class="bx bx-list-ul"></i>
                             </a>
                         </td>

@@ -3,18 +3,19 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.UsersAdminController.UserRow>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = L["Users"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Users",
-        Subtitle = "Operator / admin accounts for this tenant.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/users/bulk-import'><i class='fa-solid fa-file-import me-1'></i> Bulk import</a> <a class='btn btn-sm btn-primary ms-2' href='/admin/users/invite'><i class='fa-solid fa-user-plus me-1'></i> Invite user</a>")
+        Title    = L["Users"].Value,
+        Subtitle = L["UsersAdmin.Index.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-ghost' href='/admin/users/bulk-import'><i class='bx bx-import me-1'></i> {L["UsersAdmin.Index.BulkImport"].Value}</a> <a class='btn btn-sm btn-primary ms-2' href='/admin/users/invite'><i class='bx bx-user-plus me-1'></i> {L["UsersAdmin.Index.InviteUser"].Value}</a>")
     };
-    var kpiTotal  = new UiKpiOptions { Label = "Total", Value = Model.Count.ToString("N0"), Icon = "fa-users" };
-    var kpiActive = new UiKpiOptions { Label = "Active", Value = Model.Count(u => u.IsActive).ToString("N0"), Icon = "fa-circle-check" };
-    var kpiLocked = new UiKpiOptions { Label = "Locked", Value = Model.Count(u => !u.IsActive).ToString("N0"), Icon = "fa-lock" };
-    var kpiRecent = new UiKpiOptions { Label = "Logged in 30d", Value = Model.Count(u => u.LastLoginAtUtc.HasValue && u.LastLoginAtUtc > DateTime.UtcNow.AddDays(-30)).ToString("N0"), Icon = "fa-clock-rotate-left" };
+    var kpiTotal  = new UiKpiOptions { Label = L["Common.Total"].Value, Value = Model.Count.ToString("N0"), Icon = "bx bx-group" };
+    var kpiActive = new UiKpiOptions { Label = L["Common.Active"].Value, Value = Model.Count(u => u.IsActive).ToString("N0"), Icon = "bx bx-check-circle" };
+    var kpiLocked = new UiKpiOptions { Label = L["UsersAdmin.Index.Locked"].Value, Value = Model.Count(u => !u.IsActive).ToString("N0"), Icon = "bx bx-lock-alt" };
+    var kpiRecent = new UiKpiOptions { Label = L["UsersAdmin.Index.LoggedIn30d"].Value, Value = Model.Count(u => u.LastLoginAtUtc.HasValue && u.LastLoginAtUtc > DateTime.UtcNow.AddDays(-30)).ToString("N0"), Icon = "bx bx-history" };
 }
 
 <div class="container-fluid py-4">
@@ -31,26 +32,26 @@
         <table class="table table-hover mb-0 ui-table">
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Display name</th>
-                    <th>Email</th>
-                    <th>Kind</th>
-                    <th>Roles</th>
-                    <th>Status</th>
-                    <th class="text-end">Last login</th>
-                    <th class="text-end" style="width:1%">Actions</th>
+                    <th>@L["UsersAdmin.Index.Username"]</th>
+                    <th>@L["UsersAdmin.DisplayName"]</th>
+                    <th>@L["Common.Email"]</th>
+                    <th>@L["UsersAdmin.Kind"]</th>
+                    <th>@L["UsersAdmin.Index.Roles"]</th>
+                    <th>@L["Common.Status"]</th>
+                    <th class="text-end">@L["UsersAdmin.Index.LastLogin"]</th>
+                    <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.Count == 0)
                 {
-                    <tr><td colspan="8" class="text-center py-5 ui-muted">No users yet — click <strong>Invite user</strong>.</td></tr>
+                    <tr><td colspan="8" class="p-0"><partial name="_EmptyState" model="@(new EmptyStateOptions { Icon = "bx-user-plus", Title = L["UsersAdmin.Index.EmptyTitle"].Value, Description = L["UsersAdmin.Index.EmptyDescription"].Value, CtaLabel = L["UsersAdmin.Index.InviteUser"].Value, CtaUrl = Url.Action("Invite") })" /></td></tr>
                 }
                 @foreach (var u in Model)
                 {
                     var statusBadge = new UiBadgeOptions
                     {
-                        Text    = u.IsActive ? "Active" : "Locked",
+                        Text    = u.IsActive ? L["Common.Active"].Value : L["UsersAdmin.Index.Locked"].Value,
                         Variant = u.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };
@@ -61,27 +62,26 @@
                         <td>@u.UserKind</td>
                         <td class="ui-muted" style="font-size:13px">@u.Roles</td>
                         <td><partial name="_UiBadge" model="statusBadge" /></td>
-                        <td class="text-end ui-muted ui-tabular" style="font-size:12px">@(u.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "never")</td>
+                        <td class="text-end ui-muted ui-tabular" style="font-size:12px">@(u.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? L["UsersAdmin.Index.Never"].Value)</td>
                         <td class="text-end">
                             <div class="dropdown">
-                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="Actions">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="@L["Common.Actions"]">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        @{ var toggleVerb = u.IsActive ? "Lock" : "Activate"; }
-                                        <form method="post" action="/admin/users/@u.UserId/toggle" class="m-0" data-cl-confirm="@toggleVerb @u.UserName?" data-cl-confirm-variant="warning">
+                                        <form method="post" action="/admin/users/@u.UserId/toggle" class="m-0" data-cl-confirm="@(u.IsActive ? L["UsersAdmin.Index.LockConfirm", u.UserName].Value : L["UsersAdmin.Index.ActivateConfirm", u.UserName].Value)" data-cl-confirm-variant="warning">
                                             @Html.AntiForgeryToken()
                                             <button class="dropdown-item" type="submit">
-                                                <i class="fa-solid @(u.IsActive ? "fa-lock" : "fa-lock-open") me-2"></i> @(u.IsActive ? "Lock" : "Activate")
+                                                <i class="bx @(u.IsActive ? "bx-lock-alt" : "bx-lock-open-alt") me-2"></i> @(u.IsActive ? L["UsersAdmin.Index.Lock"] : L["UsersAdmin.Index.Activate"])
                                             </button>
                                         </form>
                                     </li>
                                     <li>
-                                        <form method="post" action="/admin/users/@u.UserId/reset-password" class="m-0" data-cl-confirm="Reset password for @u.UserName? They will get a temporary password." data-cl-confirm-variant="warning">
+                                        <form method="post" action="/admin/users/@u.UserId/reset-password" class="m-0" data-cl-confirm="@L["UsersAdmin.Index.ResetPasswordConfirm", u.UserName]" data-cl-confirm-variant="warning">
                                             @Html.AntiForgeryToken()
                                             <button class="dropdown-item" type="submit">
-                                                <i class="fa-solid fa-key me-2"></i> Reset password
+                                                <i class="bx bx-key me-2"></i> @L["UsersAdmin.Index.ResetPassword"]
                                             </button>
                                         </form>
                                     </li>

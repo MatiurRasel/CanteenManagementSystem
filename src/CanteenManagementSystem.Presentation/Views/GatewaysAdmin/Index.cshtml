@@ -4,21 +4,22 @@
 @using Platform.Domain.Payments
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<PaymentGatewayConfig>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Payment gateways";
+    ViewData["Title"] = L["GatewaysAdmin.Index.Title"].Value;
     var sandboxCount = Model.Count(g => g.IsSandbox);
     var liveCount    = Model.Count(g => !g.IsSandbox);
     var enabledCount = Model.Count(g => g.IsEnabled);
     var header = new UiPageHeaderOptions
     {
-        Title    = "Payment gateways",
-        Subtitle = "Live + sandbox credentials per gateway. Toggle IsSandbox on each row to flip environments."
+        Title    = L["GatewaysAdmin.Index.Title"].Value,
+        Subtitle = L["GatewaysAdmin.Index.Subtitle"].Value
     };
 
-    var kpiTotal   = new UiKpiOptions { Label = "Total",    Value = Model.Count.ToString(),  Icon = "fa-credit-card" };
-    var kpiLive    = new UiKpiOptions { Label = "Live",     Value = liveCount.ToString(),    Icon = "fa-bolt", Trend = UiKpiTrend.Up };
-    var kpiSandbox = new UiKpiOptions { Label = "Sandbox",  Value = sandboxCount.ToString(), Icon = "fa-flask" };
-    var kpiOn      = new UiKpiOptions { Label = "Enabled",  Value = enabledCount.ToString(), Icon = "fa-toggle-on" };
+    var kpiTotal   = new UiKpiOptions { Label = L["Common.Total"].Value,          Value = Model.Count.ToString(),  Icon = "bx bx-credit-card" };
+    var kpiLive    = new UiKpiOptions { Label = L["GatewaysAdmin.Env.Live"].Value,    Value = liveCount.ToString(),    Icon = "bx bx-bolt-circle", Trend = UiKpiTrend.Up };
+    var kpiSandbox = new UiKpiOptions { Label = L["GatewaysAdmin.Env.Sandbox"].Value, Value = sandboxCount.ToString(), Icon = "bx bx-test-tube" };
+    var kpiOn      = new UiKpiOptions { Label = L["Common.Enabled"].Value,        Value = enabledCount.ToString(), Icon = "bx bx-toggle-right" };
 }
 
 <div class="container-fluid py-4">
@@ -36,8 +37,8 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Warning,
-            Heading = "No gateways configured",
-            Body    = "The seed should have inserted defaults. Run the seeder or add a gateway manually."
+            Heading = L["GatewaysAdmin.Index.Empty.Title"].Value,
+            Body    = L["GatewaysAdmin.Index.Empty.Description"].Value
         };
         <partial name="_UiAlert" model="info" />
     }
@@ -47,15 +48,15 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Method</th>
-                        <th>Group</th>
-                        <th class="text-end">Channels</th>
-                        <th>Env</th>
-                        <th>Enabled</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
+                        <th>@L["GatewaysAdmin.Index.Code"]</th>
+                        <th>@L["Common.Name"]</th>
+                        <th>@L["GatewaysAdmin.Index.Method"]</th>
+                        <th>@L["GatewaysAdmin.Group"]</th>
+                        <th class="text-end">@L["GatewaysAdmin.Index.Channels"]</th>
+                        <th>@L["GatewaysAdmin.Index.Env"]</th>
+                        <th>@L["Common.Enabled"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,13 +64,13 @@
                 {
                     var envBadge = new UiBadgeOptions
                     {
-                        Text    = g.IsSandbox ? "Sandbox" : "Live",
+                        Text    = g.IsSandbox ? L["GatewaysAdmin.Env.Sandbox"].Value : L["GatewaysAdmin.Env.Live"].Value,
                         Variant = g.IsSandbox ? UiBadgeVariant.Warning : UiBadgeVariant.Success,
                         WithDot = true
                     };
                     var enBadge = new UiBadgeOptions
                     {
-                        Text    = g.IsEnabled ? "On" : "Off",
+                        Text    = g.IsEnabled ? L["GatewaysAdmin.Status.On"].Value : L["GatewaysAdmin.Status.Off"].Value,
                         Variant = g.IsEnabled ? UiBadgeVariant.Primary : UiBadgeVariant.Secondary
                     };
                     <tr>
@@ -83,14 +84,14 @@
                         <td class="ui-muted" style="font-size:13px">@g.Status</td>
                         <td class="text-end">
                             <div class="btn-group btn-group-sm">
-                                <a asp-action="Edit" asp-route-id="@g.GatewayConfigId" class="btn btn-outline-primary" title="Edit">
-                                    <i class="fa-solid fa-pen-to-square"></i>
+                                <a asp-action="Edit" asp-route-id="@g.GatewayConfigId" class="btn btn-outline-primary" title="@L["Common.Edit"]">
+                                    <i class="bx bx-edit"></i>
                                 </a>
                                 <form asp-action="Toggle" asp-route-id="@g.GatewayConfigId" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-outline-@(g.IsEnabled ? "warning" : "success")"
-                                            title="@(g.IsEnabled ? "Disable" : "Enable")">
-                                        <i class="fa-solid @(g.IsEnabled ? "fa-toggle-off" : "fa-toggle-on")"></i>
+                                            title="@(g.IsEnabled ? L["GatewaysAdmin.Index.Disable"].Value : L["GatewaysAdmin.Index.Enable"].Value)">
+                                        <i class="bx @(g.IsEnabled ? "bx-toggle-left" : "bx-toggle-right")"></i>
                                     </button>
                                 </form>
                             </div>

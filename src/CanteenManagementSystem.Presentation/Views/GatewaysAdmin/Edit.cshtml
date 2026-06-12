@@ -4,8 +4,9 @@
 @using Platform.Domain.Payments
 @using CanteenManagementSystem.Presentation.Models
 @model PaymentGatewayConfig
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = $"Edit · {Model.GatewayCode}";
+    ViewData["Title"] = L["GatewaysAdmin.Edit.Title", Model.GatewayCode].Value;
     const string Mask = "***";
     string masked(string? v) => string.IsNullOrEmpty(v) ? string.Empty : Mask;
 
@@ -13,7 +14,7 @@
     {
         Title    = Model.Name,
         Subtitle = Model.GatewayCode,
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/gateways'><i class='fa-solid fa-arrow-left me-1'></i> All gateways</a>")
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/gateways'><i class='bx bx-arrow-back me-1'></i> {L["GatewaysAdmin.Edit.AllGateways"].Value}</a>")
     };
 }
 
@@ -30,38 +31,38 @@
         <div class="row g-3">
             <div class="col-lg-7">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Identity &amp; environment</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["GatewaysAdmin.Edit.IdentityEnvironment"]</div></div>
                     <div class="ui-card-body">
                         <div class="row g-3">
-                            <div class="col-md-6"><label class="ui-label">Display name</label>
+                            <div class="col-md-6"><label class="ui-label">@L["GatewaysAdmin.Edit.DisplayName"]</label>
                                 <input name="Name" value="@Model.Name" class="ui-input form-control" /></div>
-                            <div class="col-md-6"><label class="ui-label">Subtitle</label>
+                            <div class="col-md-6"><label class="ui-label">@L["GatewaysAdmin.Edit.Subtitle"]</label>
                                 <input name="SubTitle" value="@Model.SubTitle" class="ui-input form-control" /></div>
-                            <div class="col-md-4"><label class="ui-label">Group</label>
+                            <div class="col-md-4"><label class="ui-label">@L["GatewaysAdmin.Group"]</label>
                                 <select name="GatewayGroup" class="form-select ui-select">
                                     @foreach (var grp in new[] { "agg", "mfs", "cards", "ibank", "cash" })
                                     {
                                         <option value="@grp" selected="@(Model.GatewayGroup == grp)">@grp</option>
                                     }
                                 </select></div>
-                            <div class="col-md-4"><label class="ui-label">Currency</label>
+                            <div class="col-md-4"><label class="ui-label">@L["GatewaysAdmin.Edit.Currency"]</label>
                                 <input name="Currency" value="@Model.Currency" class="ui-input form-control" /></div>
-                            <div class="col-md-4"><label class="ui-label">Sort order</label>
+                            <div class="col-md-4"><label class="ui-label">@L["GatewaysAdmin.Edit.SortOrder"]</label>
                                 <input name="SortOrder" type="number" value="@Model.SortOrder" class="ui-input form-control" /></div>
-                            <div class="col-md-12"><label class="ui-label">Logo URL</label>
+                            <div class="col-md-12"><label class="ui-label">@L["GatewaysAdmin.Edit.LogoUrl"]</label>
                                 <input name="LogoUrl" value="@Model.LogoUrl" class="ui-input form-control" /></div>
                             <div class="col-md-3 d-flex align-items-center">
                                 <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" name="IsEnabled" value="true" @(Model.IsEnabled ? "checked" : "") />
                                     <input type="hidden" name="IsEnabled" value="false" />
-                                    <label class="form-check-label">Enabled</label>
+                                    <label class="form-check-label">@L["Common.Enabled"]</label>
                                 </div>
                             </div>
                             <div class="col-md-3 d-flex align-items-center">
                                 <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" name="IsSandbox" value="true" @(Model.IsSandbox ? "checked" : "") />
                                     <input type="hidden" name="IsSandbox" value="false" />
-                                    <label class="form-check-label">Sandbox</label>
+                                    <label class="form-check-label">@L["GatewaysAdmin.Env.Sandbox"]</label>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +71,8 @@
 
                 <div class="ui-card mt-3">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">Live credentials</div>
-                        <span class="ui-badge variant-success"><span class="ui-dot"></span> Production</span>
+                        <div class="ui-card-title">@L["GatewaysAdmin.Edit.LiveCredentials"]</div>
+                        <span class="ui-badge variant-success"><span class="ui-dot"></span> @L["GatewaysAdmin.Edit.Production"]</span>
                     </div>
                     <div class="ui-card-body">
                         @await Html.PartialAsync("_GatewayCredsFields", new ViewDataDictionary(ViewData) {
@@ -87,8 +88,8 @@
 
                 <div class="ui-card mt-3">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">Sandbox credentials</div>
-                        <span class="ui-badge variant-warning"><span class="ui-dot"></span> Test</span>
+                        <div class="ui-card-title">@L["GatewaysAdmin.Edit.SandboxCredentials"]</div>
+                        <span class="ui-badge variant-warning"><span class="ui-dot"></span> @L["GatewaysAdmin.Edit.Test"]</span>
                     </div>
                     <div class="ui-card-body">
                         @await Html.PartialAsync("_GatewayCredsFields", new ViewDataDictionary(ViewData) {
@@ -105,26 +106,26 @@
 
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">Notifications &amp; save</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["GatewaysAdmin.Edit.NotificationsSave"]</div></div>
                     <div class="ui-card-body">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnSuccess" value="true" @(Model.NotifyOnSuccess ? "checked" : "") /><input type="hidden" name="NotifyOnSuccess" value="false" /><label class="form-check-label small">Email on success</label></div>
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnFailure" value="true" @(Model.NotifyOnFailure ? "checked" : "") /><input type="hidden" name="NotifyOnFailure" value="false" /><label class="form-check-label small">Email on failure</label></div>
-                        <div class="form-check mb-3"><input class="form-check-input" type="checkbox" name="NotifyOnRefund" value="true" @(Model.NotifyOnRefund ? "checked" : "") /><input type="hidden" name="NotifyOnRefund" value="false" /><label class="form-check-label small">Email on refund</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnSuccess" value="true" @(Model.NotifyOnSuccess ? "checked" : "") /><input type="hidden" name="NotifyOnSuccess" value="false" /><label class="form-check-label small">@L["GatewaysAdmin.Edit.EmailOnSuccess"]</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="NotifyOnFailure" value="true" @(Model.NotifyOnFailure ? "checked" : "") /><input type="hidden" name="NotifyOnFailure" value="false" /><label class="form-check-label small">@L["GatewaysAdmin.Edit.EmailOnFailure"]</label></div>
+                        <div class="form-check mb-3"><input class="form-check-input" type="checkbox" name="NotifyOnRefund" value="true" @(Model.NotifyOnRefund ? "checked" : "") /><input type="hidden" name="NotifyOnRefund" value="false" /><label class="form-check-label small">@L["GatewaysAdmin.Edit.EmailOnRefund"]</label></div>
 
                         @{
                             var note = new UiAlertOptions
                             {
                                 Variant = UiAlertVariant.Info,
-                                Body    = "Secret fields show *** when a value is already stored. Leave them blank to keep existing — only fields you actively type into get overwritten."
+                                Body    = L["GatewaysAdmin.Edit.SecretsNote"].Value
                             };
                         }
                         <partial name="_UiAlert" model="note" />
 
                         <div class="d-grid gap-2 mt-3">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                                <i class="bx bx-save me-1"></i> @L["Common.Save"]
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                         </div>
                     </div>
                 </div>

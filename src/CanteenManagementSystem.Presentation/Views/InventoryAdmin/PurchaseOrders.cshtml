@@ -5,23 +5,24 @@
 @using CanteenManagementSystem.Domain.Inventory
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<PoSummary>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Purchase orders";
+    ViewData["Title"] = L["InventoryAdmin.PurchaseOrders.Title"].Value;
     var status = ViewBag.Status as PurchaseOrderStatus?;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Purchase orders",
-        Subtitle = "Inbound stock from suppliers — receipt bumps today's DailyMenu quantities.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/inventory/pos/new'><i class='fa-solid fa-plus me-1'></i> New PO</a>")
+        Title    = L["InventoryAdmin.PurchaseOrders.Title"].Value,
+        Subtitle = L["InventoryAdmin.PurchaseOrders.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-primary' href='/admin/inventory/pos/new'><i class='bx bx-plus me-1'></i> {L["InventoryAdmin.PurchaseOrders.NewPo"].Value}</a>")
     };
     var tabs = new UiTabsOptions
     {
         Tabs = new []
         {
-            new UiTab("All",       "/admin/inventory/pos",                   isActive: status is null),
-            new UiTab("Submitted", "/admin/inventory/pos?status=Submitted",  isActive: status == PurchaseOrderStatus.Submitted),
-            new UiTab("Received",  "/admin/inventory/pos?status=Received",   isActive: status == PurchaseOrderStatus.Received),
-            new UiTab("Cancelled", "/admin/inventory/pos?status=Cancelled",  isActive: status == PurchaseOrderStatus.Cancelled)
+            new UiTab(L["Common.All"].Value,                            "/admin/inventory/pos",                   isActive: status is null),
+            new UiTab(L["InventoryAdmin.PoStatus.Submitted"].Value, "/admin/inventory/pos?status=Submitted",  isActive: status == PurchaseOrderStatus.Submitted),
+            new UiTab(L["InventoryAdmin.PoStatus.Received"].Value,  "/admin/inventory/pos?status=Received",   isActive: status == PurchaseOrderStatus.Received),
+            new UiTab(L["InventoryAdmin.PoStatus.Cancelled"].Value, "/admin/inventory/pos?status=Cancelled",  isActive: status == PurchaseOrderStatus.Cancelled)
         }
     };
     UiBadgeVariant Variant(PurchaseOrderStatus s) => s switch
@@ -32,6 +33,14 @@
         PurchaseOrderStatus.Cancelled => UiBadgeVariant.Warning,
         _ => UiBadgeVariant.Secondary
     };
+    string StatusText(PurchaseOrderStatus s) => s switch
+    {
+        PurchaseOrderStatus.Draft     => L["InventoryAdmin.PoStatus.Draft"].Value,
+        PurchaseOrderStatus.Submitted => L["InventoryAdmin.PoStatus.Submitted"].Value,
+        PurchaseOrderStatus.Received  => L["InventoryAdmin.PoStatus.Received"].Value,
+        PurchaseOrderStatus.Cancelled => L["InventoryAdmin.PoStatus.Cancelled"].Value,
+        _ => s.ToString()
+    };
 }
 
 <div class="container-fluid py-4">
@@ -41,7 +50,7 @@
 
     @if (Model.Count == 0)
     {
-        var empty = new EmptyStateOptions { Icon = "fa-truck-fast", Title = "No purchase orders", Description = "Create your first PO to start tracking stock arrivals.", CtaLabel = "New PO", CtaUrl = "/admin/inventory/pos/new", CtaIcon = "fa-plus" };
+        var empty = new EmptyStateOptions { Icon = "bxs-truck", Title = L["InventoryAdmin.PurchaseOrders.Empty.Title"].Value, Description = L["InventoryAdmin.PurchaseOrders.Empty.Description"].Value, CtaLabel = L["InventoryAdmin.PurchaseOrders.NewPo"].Value, CtaUrl = "/admin/inventory/pos/new", CtaIcon = "bx-plus" };
         <partial name="_EmptyState" model="empty" />
     }
     else
@@ -50,19 +59,19 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>PO #</th>
-                        <th>Supplier</th>
-                        <th class="text-end">Lines</th>
-                        <th class="text-end">Total ৳</th>
-                        <th>Status</th>
-                        <th class="text-end">Ordered</th>
-                        <th class="text-end" style="width:1%">Actions</th>
+                        <th>@L["InventoryAdmin.PurchaseOrders.PoNumber"]</th>
+                        <th>@L["InventoryAdmin.PurchaseOrders.Supplier"]</th>
+                        <th class="text-end">@L["InventoryAdmin.PurchaseOrders.Lines"]</th>
+                        <th class="text-end">@L["Common.Total"] ৳</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end">@L["InventoryAdmin.PurchaseOrders.Ordered"]</th>
+                        <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach (var po in Model)
                 {
-                    var b = new UiBadgeOptions { Text = po.Status.ToString(), Variant = Variant(po.Status), WithDot = true };
+                    var b = new UiBadgeOptions { Text = StatusText(po.Status), Variant = Variant(po.Status), WithDot = true };
                     <tr>
                         <td class="ui-mono ui-text-strong">@po.PoNumber</td>
                         <td>@po.SupplierName</td>
@@ -75,17 +84,17 @@
                             {
                                 <div class="ui-row" style="gap:.25rem; justify-content:flex-end">
                                     <form method="post" action="/admin/inventory/pos/@po.PurchaseOrderId/receive" class="d-inline"
-                                          data-cl-confirm="Mark @po.PoNumber received? This will bump today\'s menu quantities." data-cl-confirm-variant="warning">
+                                          data-cl-confirm="@L["InventoryAdmin.PurchaseOrders.ConfirmReceive", po.PoNumber]" data-cl-confirm-variant="warning">
                                         @Html.AntiForgeryToken()
                                         <button class="btn btn-success btn-sm" type="submit">
-                                            <i class="fa-solid fa-truck-ramp-box me-1"></i> Receive
+                                            <i class="bx bxs-truck me-1"></i> @L["InventoryAdmin.PurchaseOrders.Receive"]
                                         </button>
                                     </form>
                                     <form method="post" action="/admin/inventory/pos/@po.PurchaseOrderId/cancel" class="d-inline"
-                                          data-cl-confirm="Cancel @po.PoNumber?" data-cl-confirm-variant="warning">
+                                          data-cl-confirm="@L["InventoryAdmin.PurchaseOrders.ConfirmCancel", po.PoNumber]" data-cl-confirm-variant="warning">
                                         @Html.AntiForgeryToken()
-                                        <button class="btn btn-ghost btn-sm" type="submit">
-                                            <i class="fa-solid fa-xmark"></i>
+                                        <button class="btn btn-ghost btn-sm" type="submit" title="@L["Common.Cancel"]">
+                                            <i class="bx bx-x"></i>
                                         </button>
                                     </form>
                                 </div>

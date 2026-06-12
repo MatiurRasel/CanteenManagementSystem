@@ -1,5 +1,6 @@
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Kiosk setup";
+    ViewData["Title"] = L["Kiosk.Setup.Title"].Value;
     Layout = null;
 }
 <!DOCTYPE html>
@@ -7,9 +8,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kiosk setup · SmartCanteen</title>
+    <title>@L["Kiosk.Setup.Title"] · SmartCanteen</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
     <style>
         html, body { height: 100%; margin: 0; }
@@ -36,11 +38,11 @@
 <body>
     <div class="ui-card pair-card surface-raised">
         <div class="ui-card-body text-center">
-            <div class="pair-icon-plate"><i class="fa-solid fa-tablet-screen-button"></i></div>
-            <h2 class="ui-text-strong mb-2" style="font-weight:700;letter-spacing:-.02em">This tablet isn't paired yet</h2>
+            <div class="pair-icon-plate"><i class="bx bx-tab"></i></div>
+            <h2 class="ui-text-strong mb-2" style="font-weight:700;letter-spacing:-.02em">@L["Kiosk.Setup.NotPaired"]</h2>
             <p class="ui-muted mb-4">
-                A tenant admin needs to issue a pairing token from
-                <code>/admin/kiosks</code> and open the pairing URL on this tablet once.
+                @L["Kiosk.Setup.PairIntro.Before"]
+                <code>/admin/kiosks</code> @L["Kiosk.Setup.PairIntro.After"]
             </p>
 
             @if (TempData["Flash.Error"] is string err)
@@ -49,16 +51,16 @@
             }
 
             <ol class="text-start ui-muted small ui-stack-sm mb-4" style="padding-left:1.25rem">
-                <li>An admin signs in on a separate device.</li>
-                <li>Opens <strong>/admin/kiosks</strong> and clicks <em>Pair new tablet</em>.</li>
-                <li>Names the tablet (e.g. "Counter A tablet"), clicks <em>Issue pairing token</em>.</li>
-                <li>Scans the QR code with this tablet's camera, OR copies the pair URL to this tablet.</li>
-                <li>This page reloads as the live kiosk for the next 30 days.</li>
+                <li>@L["Kiosk.Setup.Step1"]</li>
+                <li>@L["Kiosk.Setup.Step2", "/admin/kiosks"]</li>
+                <li>@L["Kiosk.Setup.Step3"]</li>
+                <li>@L["Kiosk.Setup.Step4"]</li>
+                <li>@L["Kiosk.Setup.Step5"]</li>
             </ol>
 
             <hr style="border-color:var(--border)" />
             <div class="ui-muted small">
-                Or sign in as an operator instead:
+                @L["Kiosk.Setup.OperatorSignIn"]
                 <a href="/Account/Login" style="color:var(--accent)">/Account/Login</a>
             </div>
         </div>

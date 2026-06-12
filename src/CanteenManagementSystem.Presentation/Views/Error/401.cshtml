@@ -1,23 +1,24 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     var returnUrl = ViewData["OriginalPath"] as string ?? "/";
     ViewData["Code"]            = "401";
     ViewData["Tone"]            = "info";
-    ViewData["Icon"]            = "fa-arrow-right-to-bracket";
-    ViewData["Title"]           = "Sign in to continue";
-    ViewData["Description"]     = "You need to be signed in to view this page. If you were signed in already, your session may have expired — sign in again to continue.";
+    ViewData["Icon"]            = "bx bx-log-in";
+    ViewData["Title"]           = L["Error.401.Title"].Value;
+    ViewData["Description"]     = L["Error.401.Description"].Value;
     ViewData["CtaUrl"]          = $"/Account/Login?returnUrl={Uri.EscapeDataString(returnUrl)}";
-    ViewData["CtaLabel"]        = "Sign in";
-    ViewData["CtaIcon"]         = "fa-arrow-right-to-bracket";
+    ViewData["CtaLabel"]        = L["Error.401.Cta"].Value;
+    ViewData["CtaIcon"]         = "bx bx-log-in";
     ViewData["SecondaryUrl"]    = "/";
-    ViewData["SecondaryLabel"]  = "Home";
-    ViewData["SecondaryIcon"]   = "fa-house";
+    ViewData["SecondaryLabel"]  = L["Error.Shared.Home"].Value;
+    ViewData["SecondaryIcon"]   = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign in · SmartCanteen</title>
+    <title>@L["Error.401.Cta"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

@@ -5,8 +5,9 @@
 @using CanteenManagementSystem.Domain.Orders
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<Order>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Today's pre-orders";
+    ViewData["Title"] = L["PreOrder.Queue.Title"].Value;
     UiBadgeVariant V(CanteenOrderStatus s) => s switch
     {
         CanteenOrderStatus.Ready     => UiBadgeVariant.Success,
@@ -16,8 +17,8 @@
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Pre-orders due today",
-        Subtitle = $"{DateTime.UtcNow:dd MMM yyyy} · {Model.Count} order(s)"
+        Title    = L["PreOrder.Queue.Heading"].Value,
+        Subtitle = L["PreOrder.Queue.Subtitle", DateTime.UtcNow.ToString("dd MMM yyyy"), Model.Count].Value
     };
 }
 
@@ -28,9 +29,9 @@
     {
         var empty = new EmptyStateOptions
         {
-            Icon        = "fa-calendar-check",
-            Title       = "No pre-orders due today",
-            Description = "When customers schedule ahead, their orders appear here at the start of the pickup day."
+            Icon        = "bx-calendar-check",
+            Title       = L["PreOrder.Queue.Empty.Title"].Value,
+            Description = L["PreOrder.Queue.Empty.Description"].Value
         };
         <partial name="_EmptyState" model="empty" />
     }
@@ -40,12 +41,12 @@
             <table class="table mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Order #</th>
-                        <th>User</th>
-                        <th>Items</th>
-                        <th class="text-end">Total</th>
-                        <th>Status</th>
-                        <th>Placed at</th>
+                        <th>@L["PreOrder.Index.OrderNo"]</th>
+                        <th>@L["Common.User"]</th>
+                        <th>@L["Common.Items"]</th>
+                        <th class="text-end">@L["Common.Total"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th>@L["PreOrder.Queue.PlacedAt"]</th>
                     </tr>
                 </thead>
                 <tbody>

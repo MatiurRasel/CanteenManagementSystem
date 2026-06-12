@@ -1,6 +1,7 @@
 @model CanteenManagementSystem.Presentation.Controllers.AccountController.LoginForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Sign in";
+    ViewData["Title"] = L["Account.Login.Title"].Value;
     Layout = null;
     var googleOn = ViewData["GoogleSsoEnabled"] is bool b && b;
 }
@@ -9,32 +10,33 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign in · SmartCanteen</title>
+    <title>@L["Account.Login.Title"] · @L["Account.Common.BrandName"]</title>
     <partial name="_AuthChrome" />
+    <link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" />
 </head>
 <body>
 <div class="auth-split">
     <aside class="auth-split-brand">
         <div class="auth-brand-logo">
-            <span class="dot"><i class="fa-solid fa-utensils"></i></span>
-            <span>SmartCanteen</span>
+            <span class="dot"><i class="bx bx-restaurant"></i></span>
+            <span>@L["Account.Common.BrandName"]</span>
         </div>
         <div class="auth-brand-tagline">
-            <h1>The canteen, sorted.</h1>
-            <p>Multi-tenant SaaS for school &amp; corporate canteens. Scan, order, pay, report — all in Bangla &amp; English.</p>
+            <h1>@L["Account.Login.Tagline"]</h1>
+            <p>@L["Account.Login.TaglineSub"]</p>
             <div class="auth-checks">
-                <div class="check"><i class="fa-solid fa-check"></i> Card-tap orders in under a second</div>
-                <div class="check"><i class="fa-solid fa-check"></i> Self-service kiosks, no student login needed</div>
-                <div class="check"><i class="fa-solid fa-check"></i> Parent portal &amp; wallet recharges via bKash, Nagad, SSL, Stripe</div>
-                <div class="check"><i class="fa-solid fa-check"></i> Realtime kitchen display + SMS / WhatsApp alerts</div>
+                <div class="check"><i class="bx bx-check"></i> @L["Account.Login.CheckCardTap"]</div>
+                <div class="check"><i class="bx bx-check"></i> @L["Account.Login.CheckKiosk"]</div>
+                <div class="check"><i class="bx bx-check"></i> @L["Account.Login.CheckParentPortal"]</div>
+                <div class="check"><i class="bx bx-check"></i> @L["Account.Login.CheckKitchen"]</div>
             </div>
         </div>
     </aside>
 
     <main class="auth-split-form">
         <div class="auth-card" style="max-width:440px;margin:0 auto;width:100%">
-            <h2 class="auth-title">Welcome back</h2>
-            <p class="auth-sub">Sign in to manage your canteen.</p>
+            <h2 class="auth-title">@L["Account.Login.WelcomeBack"]</h2>
+            <p class="auth-sub">@L["Account.Login.Subtitle"]</p>
 
             @if (TempData["Flash.Success"] is string okMsg)
             {
@@ -58,12 +60,12 @@
                             <path fill="#4CAF50" d="M24 44a20 20 0 0 0 13.5-5.2l-6.3-5.2a12 12 0 0 1-7.2 2.4 12 12 0 0 1-11.3-8L6 33.5A20 20 0 0 0 24 44z"/>
                             <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.3 5.2c-.4.4 6.8-4.8 6.8-14.8 0-1.3-.1-2.4-.4-3.5z"/>
                         </svg>
-                        Continue with Google
+                        @L["Account.Login.ContinueWithGoogle"]
                     </button>
                 </form>
                 <div class="ui-row align-items-center mb-3" style="gap:.75rem;color:var(--muted);font-size:.8rem">
                     <div style="flex:1;height:1px;background:var(--border)"></div>
-                    or sign in with email
+                    @L["Account.Login.OrSignInWithEmail"]
                     <div style="flex:1;height:1px;background:var(--border)"></div>
                 </div>
             }
@@ -74,20 +76,20 @@
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mb-3"></div>
 
                 <div class="mb-3">
-                    <label class="ui-label" asp-for="UserName">Username or email</label>
+                    <label class="ui-label" asp-for="UserName">@L["Account.Login.UserNameLabel"]</label>
                     <input asp-for="UserName" class="ui-input form-control" placeholder="sysadmin" autocomplete="username" autofocus />
                     <span asp-validation-for="UserName" class="text-danger small"></span>
                 </div>
 
                 <div class="mb-2">
-                    <label class="ui-label" asp-for="Password">Password</label>
+                    <label class="ui-label" asp-for="Password">@L["Account.Login.PasswordLabel"]</label>
                     <div style="position:relative">
                         <input asp-for="Password" id="pwInput" class="ui-input form-control" type="password" autocomplete="current-password" placeholder="••••••••" />
                         <button type="button"
                                 style="position:absolute;top:50%;right:.5rem;transform:translateY(-50%);background:transparent;border:0;color:var(--muted);padding:.35rem"
-                                onclick="(function(b){var i=document.getElementById('pwInput');var s=i.type==='password';i.type=s?'text':'password';b.innerHTML='<i class=\'fa-regular fa-eye'+(s?'-slash':'')+'\'></i>';})(this);"
-                                aria-label="Show password">
-                            <i class="fa-regular fa-eye"></i>
+                                onclick="(function(b){var i=document.getElementById('pwInput');var s=i.type==='password';i.type=s?'text':'password';b.innerHTML='<i class=\''+(s?'bx bx-hide':'bx bx-show')+'\'></i>';})(this);"
+                                aria-label="@L["Account.Login.ShowPassword"]">
+                            <i class="bx bx-show"></i>
                         </button>
                     </div>
                     <span asp-validation-for="Password" class="text-danger small"></span>
@@ -96,29 +98,29 @@
                 <div class="d-flex align-items-center justify-content-between" style="margin:.85rem 0 1.25rem">
                     <div class="form-check m-0">
                         <input asp-for="RememberMe" class="form-check-input" id="rememberMe" />
-                        <label class="form-check-label small" for="rememberMe">Keep me signed in</label>
+                        <label class="form-check-label small" for="rememberMe">@L["Account.Login.RememberMe"]</label>
                     </div>
-                    <a asp-action="ForgotPassword" class="auth-link">Forgot password?</a>
+                    <a asp-action="ForgotPassword" class="auth-link">@L["Account.Login.ForgotPassword"]</a>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Sign in
+                    <i class="bx bx-log-in me-2"></i>@L["Account.Login.Title"]
                 </button>
             </form>
 
             <div class="ui-row align-items-center my-3" style="gap:.75rem;color:var(--muted);font-size:.8rem">
                 <div style="flex:1;height:1px;background:var(--border)"></div>
-                or use a one-time link
+                @L["Account.Login.OrOneTimeLink"]
                 <div style="flex:1;height:1px;background:var(--border)"></div>
             </div>
 
             <a asp-action="MagicLink" class="btn btn-outline-secondary w-100">
-                <i class="fa-regular fa-envelope me-2"></i> Email me a sign-in link
+                <i class="bx bx-envelope me-2"></i> @L["Account.Login.EmailMeLink"]
             </a>
 
             <div class="text-center mt-4 small ui-muted">
-                Default bootstrap: <code>sysadmin</code> / <code>Change@@123</code><br />
-                You'll be asked to change the password on first login.
+                @L["Account.Login.DefaultBootstrap"] <code>sysadmin</code> / <code>Change@@123</code><br />
+                @L["Account.Login.FirstLoginNote"]
             </div>
         </div>
     </main>

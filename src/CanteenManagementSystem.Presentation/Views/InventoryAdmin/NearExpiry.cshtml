@@ -4,27 +4,28 @@
 @using CanteenManagementSystem.Application.Inventory
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<NearExpiryRow>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Near-expiry items";
+    ViewData["Title"] = L["InventoryAdmin.NearExpiry.Title"].Value;
     int hours = ViewBag.HoursWindow as int? ?? 8;
 
     var hoursForm = $@"
         <form method='get' class='d-flex gap-2 align-items-end'>
             <div>
-                <label class='ui-label mb-1'>Window (hours)</label>
+                <label class='ui-label mb-1'>{L["InventoryAdmin.NearExpiry.WindowHours"].Value}</label>
                 <select name='hours' class='form-select ui-select form-select-sm' onchange='this.form.submit()'>
-                    <option value='2'  {(hours == 2  ? "selected" : "")}>next 2 h</option>
-                    <option value='4'  {(hours == 4  ? "selected" : "")}>next 4 h</option>
-                    <option value='8'  {(hours == 8  ? "selected" : "")}>next 8 h</option>
-                    <option value='24' {(hours == 24 ? "selected" : "")}>next 24 h</option>
-                    <option value='48' {(hours == 48 ? "selected" : "")}>next 48 h</option>
+                    <option value='2'  {(hours == 2  ? "selected" : "")}>{L["InventoryAdmin.NearExpiry.NextHours", 2].Value}</option>
+                    <option value='4'  {(hours == 4  ? "selected" : "")}>{L["InventoryAdmin.NearExpiry.NextHours", 4].Value}</option>
+                    <option value='8'  {(hours == 8  ? "selected" : "")}>{L["InventoryAdmin.NearExpiry.NextHours", 8].Value}</option>
+                    <option value='24' {(hours == 24 ? "selected" : "")}>{L["InventoryAdmin.NearExpiry.NextHours", 24].Value}</option>
+                    <option value='48' {(hours == 48 ? "selected" : "")}>{L["InventoryAdmin.NearExpiry.NextHours", 48].Value}</option>
                 </select>
             </div>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = "Near-expiry items",
-        Subtitle = $"Items in today + tomorrow's menu expiring within {hours} hour(s). Sort: nearest first.",
+        Title    = L["InventoryAdmin.NearExpiry.Title"].Value,
+        Subtitle = L["InventoryAdmin.NearExpiry.Subtitle", hours].Value,
         Actions  = Html.Raw(hoursForm)
     };
     int expired  = Model.Count(r => r.HoursToExpiry < 0);
@@ -32,30 +33,30 @@
 
     var kpiExpired = new UiKpiOptions
     {
-        Label = "Already expired",
+        Label = L["InventoryAdmin.NearExpiry.KpiExpired"].Value,
         Value = expired.ToString(),
-        Icon  = "fa-circle-exclamation",
+        Icon  = "bx-error-circle",
         Trend = expired > 0 ? UiKpiTrend.Down : UiKpiTrend.None
     };
     var kpiSoon = new UiKpiOptions
     {
-        Label = "Expiring soon",
+        Label = L["InventoryAdmin.NearExpiry.KpiExpiringSoon"].Value,
         Value = expiringSoon.ToString(),
-        Hint  = $"within {hours} h",
-        Icon  = "fa-hourglass-half"
+        Hint  = L["InventoryAdmin.NearExpiry.WithinHours", hours].Value,
+        Icon  = "bx-hourglass"
     };
     var kpiQty = new UiKpiOptions
     {
-        Label = "Stock at risk",
+        Label = L["InventoryAdmin.NearExpiry.KpiStockAtRisk"].Value,
         Value = Model.Sum(r => r.AvailableQuantity).ToString("N0"),
-        Hint  = "across all rows shown",
-        Icon  = "fa-boxes-stacked"
+        Hint  = L["InventoryAdmin.NearExpiry.AcrossRows"].Value,
+        Icon  = "bx-package"
     };
     var kpiValue = new UiKpiOptions
     {
-        Label = "Value at risk",
+        Label = L["InventoryAdmin.NearExpiry.KpiValueAtRisk"].Value,
         Value = "৳ " + Model.Sum(r => r.AvailableQuantity * r.Price).ToString("N0"),
-        Icon  = "fa-coins"
+        Icon  = "bx-coin-stack"
     };
 }
 
@@ -74,8 +75,8 @@
         var ok = new UiAlertOptions
         {
             Variant = UiAlertVariant.Success,
-            Heading = "Nothing expiring",
-            Body    = "No item in today or tomorrow's menu is within the selected window. Either the shelf-life is generous, the menu was just published, or stock has already run down."
+            Heading = L["InventoryAdmin.NearExpiry.NothingExpiring"].Value,
+            Body    = L["InventoryAdmin.NearExpiry.NothingExpiringBody"].Value
         };
         <partial name="_UiAlert" model="ok" />
     }
@@ -85,14 +86,14 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Item</th>
-                        <th>Menu date</th>
-                        <th class="text-end">Shelf life</th>
-                        <th>Expires (UTC)</th>
-                        <th class="text-end">Available</th>
-                        <th class="text-end">Value</th>
-                        <th>Status</th>
-                        <th class="text-end">Action</th>
+                        <th>@L["InventoryAdmin.NearExpiry.Item"]</th>
+                        <th>@L["InventoryAdmin.NearExpiry.MenuDate"]</th>
+                        <th class="text-end">@L["InventoryAdmin.NearExpiry.ShelfLife"]</th>
+                        <th>@L["InventoryAdmin.NearExpiry.ExpiresUtc"]</th>
+                        <th class="text-end">@L["InventoryAdmin.NearExpiry.Available"]</th>
+                        <th class="text-end">@L["InventoryAdmin.NearExpiry.Value"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end">@L["InventoryAdmin.NearExpiry.Action"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,8 +104,8 @@
                     var b = new UiBadgeOptions
                     {
                         Text    = isExpired
-                            ? $"Expired {Math.Abs((int)r.HoursToExpiry)}h ago"
-                            : $"In {(int)Math.Ceiling(r.HoursToExpiry)}h",
+                            ? L["InventoryAdmin.NearExpiry.ExpiredAgo", Math.Abs((int)r.HoursToExpiry)].Value
+                            : L["InventoryAdmin.NearExpiry.InHours", (int)Math.Ceiling(r.HoursToExpiry)].Value,
                         Variant = isExpired ? UiBadgeVariant.Danger
                                 : soon      ? UiBadgeVariant.Warning
                                             : UiBadgeVariant.Info,
@@ -113,21 +114,21 @@
                     <tr>
                         <td class="ui-text-strong">@r.ItemName</td>
                         <td class="small">@r.MenuDate.ToString("yyyy-MM-dd")</td>
-                        <td class="text-end ui-tabular">@r.ShelfLifeHours h</td>
+                        <td class="text-end ui-tabular">@L["InventoryAdmin.NearExpiry.HoursAbbrev", r.ShelfLifeHours]</td>
                         <td class="ui-mono small">@r.ExpiresAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
                         <td class="text-end ui-tabular">@r.AvailableQuantity</td>
                         <td class="text-end ui-tabular">৳ @((r.AvailableQuantity * r.Price).ToString("N0"))</td>
                         <td><partial name="_UiBadge" model="b" /></td>
                         <td class="text-end">
                             <form asp-action="RecordWaste" method="post" class="d-inline"
-                                  data-cl-confirm="Write off the remaining @r.AvailableQuantity unit(s) of @r.ItemName as Expired waste?" data-cl-confirm-variant="warning">
+                                  data-cl-confirm="@L["InventoryAdmin.NearExpiry.ConfirmWriteOff", r.AvailableQuantity, r.ItemName]" data-cl-confirm-variant="warning">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="foodItemId" value="@r.FoodItemId" />
                                 <input type="hidden" name="quantity"   value="@r.AvailableQuantity" />
                                 <input type="hidden" name="reason"     value="@CanteenManagementSystem.Domain.Inventory.WasteReason.Expired" />
                                 <input type="hidden" name="notes"      value="Auto-write-off from /admin/inventory/near-expiry" />
                                 <button class="btn btn-sm btn-outline-danger" type="submit">
-                                    <i class="fa-solid fa-trash me-1"></i> Write off
+                                    <i class="bx bx-trash me-1"></i> @L["InventoryAdmin.NearExpiry.WriteOff"]
                                 </button>
                             </form>
                         </td>

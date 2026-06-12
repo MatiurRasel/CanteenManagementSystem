@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "410";
     ViewData["Tone"]           = "secondary";
-    ViewData["Icon"]           = "fa-box-archive";
-    ViewData["Title"]          = "Gone";
-    ViewData["Description"]    = "This resource used to be here but has been permanently removed. There's no forwarding address — try searching from the home page.";
+    ViewData["Icon"]           = "bx bx-archive";
+    ViewData["Title"]          = L["Error.410.Title"].Value;
+    ViewData["Description"]    = L["Error.410.Description"].Value;
     ViewData["CtaUrl"]         = "/";
-    ViewData["CtaLabel"]       = "Back to home";
-    ViewData["CtaIcon"]        = "fa-house";
+    ViewData["CtaLabel"]       = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]        = "bx bx-home";
     ViewData["SecondaryUrl"]   = "/whats-new";
-    ViewData["SecondaryLabel"] = "What's new";
-    ViewData["SecondaryIcon"]  = "fa-newspaper";
+    ViewData["SecondaryLabel"] = L["Error.410.Secondary"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-news";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gone · SmartCanteen</title>
+    <title>@L["Error.410.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

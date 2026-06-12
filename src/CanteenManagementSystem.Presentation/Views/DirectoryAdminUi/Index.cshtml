@@ -4,8 +4,9 @@
 @using Platform.Domain.Directory
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.DirectoryAdminUiController.HealthVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Directory";
+    ViewData["Title"] = L["Directory"].Value;
     UiBadgeVariant StatusVar(string s) => s switch
     {
         "Healthy"  => UiBadgeVariant.Success,
@@ -24,20 +25,20 @@
     {
         if (when is null) return "—";
         var t = DateTime.UtcNow - when.Value;
-        if (t.TotalSeconds < 60) return $"{(int)t.TotalSeconds}s ago";
-        if (t.TotalMinutes < 60) return $"{(int)t.TotalMinutes}m ago";
-        if (t.TotalHours   < 24) return $"{(int)t.TotalHours}h ago";
-        return $"{(int)t.TotalDays}d ago";
+        if (t.TotalSeconds < 60) return L["DirectoryAdminUi.Index.SecondsAgo", (int)t.TotalSeconds].Value;
+        if (t.TotalMinutes < 60) return L["DirectoryAdminUi.Index.MinutesAgo", (int)t.TotalMinutes].Value;
+        if (t.TotalHours   < 24) return L["DirectoryAdminUi.Index.HoursAgo", (int)t.TotalHours].Value;
+        return L["DirectoryAdminUi.Index.DaysAgo", (int)t.TotalDays].Value;
     }
 
     var header = new UiPageHeaderOptions
     {
-        Title    = "Directory",
-        Subtitle = "Student / employee roster for this tenant. Synced from your configured source."
+        Title    = L["Directory"].Value,
+        Subtitle = L["DirectoryAdminUi.Index.Subtitle"].Value
     };
-    var healthBadge = new UiBadgeOptions { Text = Model.Status, Variant = StatusVar(Model.Status), WithDot = true };
-    var kpiStudents  = new UiKpiOptions { Label = "Students",  Value = Model.StudentsTotal.ToString("N0"),  Icon = "fa-graduation-cap" };
-    var kpiEmployees = new UiKpiOptions { Label = "Employees", Value = Model.EmployeesTotal.ToString("N0"), Icon = "fa-id-badge" };
+    var healthBadge = new UiBadgeOptions { Text = L[$"DirectoryAdminUi.Health.{Model.Status}"].Value, Variant = StatusVar(Model.Status), WithDot = true };
+    var kpiStudents  = new UiKpiOptions { Label = L["DirectoryAdminUi.Students"].Value,  Value = Model.StudentsTotal.ToString("N0"),  Icon = "bx bxs-graduation" };
+    var kpiEmployees = new UiKpiOptions { Label = L["DirectoryAdminUi.Employees"].Value, Value = Model.EmployeesTotal.ToString("N0"), Icon = "bx bx-id-card" };
 }
 
 <partial name="_FlashMessages" />
@@ -49,29 +50,29 @@
         <form asp-action="SyncNow" method="post" class="d-inline">
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-rotate me-1"></i> Sync now
+                <i class="bx bx-refresh me-1"></i> @L["DirectoryAdminUi.Index.SyncNow"]
             </button>
         </form>
         <a asp-action="Setup" class="btn btn-outline-secondary">
-            <i class="fa-solid fa-gear me-1"></i> Setup
+            <i class="bx bx-cog me-1"></i> @L["DirectoryAdminUi.Index.Setup"]
         </a>
-        <a asp-action="Students"  class="btn btn-outline-secondary ms-auto">Students</a>
-        <a asp-action="Employees" class="btn btn-outline-secondary">Employees</a>
-        <a asp-action="Runs"      class="btn btn-outline-secondary">All runs</a>
+        <a asp-action="Students"  class="btn btn-outline-secondary ms-auto">@L["DirectoryAdminUi.Students"]</a>
+        <a asp-action="Employees" class="btn btn-outline-secondary">@L["DirectoryAdminUi.Employees"]</a>
+        <a asp-action="Runs"      class="btn btn-outline-secondary">@L["DirectoryAdminUi.Index.AllRuns"]</a>
     </div>
 
     <div class="row g-3 mb-3">
         <div class="col-md-6 col-xl-3">
             <div class="ui-card h-100">
                 <div class="ui-card-body">
-                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Health</div>
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">@L["DirectoryAdminUi.Index.Health"]</div>
                     <div class="d-flex align-items-center mt-2">
                         <partial name="_UiBadge" model="healthBadge" />
                         <span class="ui-muted small ms-2">
                             @if (Model.ConsecutiveFailures > 0)
-                            { <text>@Model.ConsecutiveFailures consec. failure(s)</text> }
+                            { <text>@L["DirectoryAdminUi.Index.ConsecutiveFailures", Model.ConsecutiveFailures]</text> }
                             else
-                            { <text>No recent failures</text> }
+                            { <text>@L["DirectoryAdminUi.Index.NoRecentFailures"]</text> }
                         </span>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
         <div class="col-md-6 col-xl-3">
             <div class="ui-card h-100">
                 <div class="ui-card-body">
-                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Source</div>
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">@L["DirectoryAdminUi.Source"]</div>
                     <div class="ui-text-strong mt-2">@Model.Source</div>
                 </div>
             </div>
@@ -93,7 +94,7 @@
         <div class="col-md-6">
             <div class="ui-card h-100">
                 <div class="ui-card-body">
-                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Last sync</div>
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">@L["DirectoryAdminUi.Index.LastSync"]</div>
                     <div class="ui-text-strong mt-2">@Ago(Model.LastSyncAtUtc)</div>
                     <div class="ui-muted small">@(Model.LastSyncAtUtc?.ToString("u") ?? "—")</div>
                 </div>
@@ -102,11 +103,11 @@
         <div class="col-md-6">
             <div class="ui-card h-100">
                 <div class="ui-card-body">
-                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">Last successful sync</div>
+                    <div class="ui-muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">@L["DirectoryAdminUi.Index.LastSuccessfulSync"]</div>
                     <div class="ui-text-strong mt-2">@Ago(Model.LastSuccessAtUtc)</div>
                     @if (!string.IsNullOrEmpty(Model.LastErrorMessage))
                     {
-                        <div class="text-danger small mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>@Model.LastErrorMessage</div>
+                        <div class="text-danger small mt-1"><i class="bx bx-error me-1"></i>@Model.LastErrorMessage</div>
                     }
                 </div>
             </div>
@@ -116,14 +117,14 @@
     <div class="row g-3 mb-3">
         <div class="col-md-6">
             <div class="ui-card h-100">
-                <div class="ui-card-header"><div class="ui-card-title">Upload students CSV</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Index.UploadStudentsCsv"]</div></div>
                 <div class="ui-card-body">
-                    <div class="ui-muted small mb-2">Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Program, Class, Section, Session, Version).</div>
+                    <div class="ui-muted small mb-2">@L["DirectoryAdminUi.Index.StudentsCsvHeaders"]</div>
                     <form asp-action="UploadStudents" method="post" enctype="multipart/form-data" class="d-flex gap-2">
                         @Html.AntiForgeryToken()
                         <input type="file" name="file" accept=".csv" class="ui-input form-control" required />
                         <button type="submit" class="btn btn-outline-primary text-nowrap">
-                            <i class="fa-solid fa-upload me-1"></i> Upload
+                            <i class="bx bx-upload me-1"></i> @L["DirectoryAdminUi.Index.Upload"]
                         </button>
                     </form>
                 </div>
@@ -131,14 +132,14 @@
         </div>
         <div class="col-md-6">
             <div class="ui-card h-100">
-                <div class="ui-card-header"><div class="ui-card-title">Upload employees CSV</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Index.UploadEmployeesCsv"]</div></div>
                 <div class="ui-card-body">
-                    <div class="ui-muted small mb-2">Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Designation, EmployeeType).</div>
+                    <div class="ui-muted small mb-2">@L["DirectoryAdminUi.Index.EmployeesCsvHeaders"]</div>
                     <form asp-action="UploadEmployees" method="post" enctype="multipart/form-data" class="d-flex gap-2">
                         @Html.AntiForgeryToken()
                         <input type="file" name="file" accept=".csv" class="ui-input form-control" required />
                         <button type="submit" class="btn btn-outline-primary text-nowrap">
-                            <i class="fa-solid fa-upload me-1"></i> Upload
+                            <i class="bx bx-upload me-1"></i> @L["DirectoryAdminUi.Index.Upload"]
                         </button>
                     </form>
                 </div>
@@ -147,23 +148,23 @@
     </div>
 
     <div class="ui-card">
-        <div class="ui-card-header"><div class="ui-card-title">Recent sync runs</div></div>
+        <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Index.RecentSyncRuns"]</div></div>
         <div class="ui-table-wrap">
             <table class="table mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>When</th>
-                        <th>Source</th>
-                        <th>Status</th>
-                        <th>Students Δ</th>
-                        <th>Employees Δ</th>
-                        <th>Duration</th>
+                        <th>@L["DirectoryAdminUi.Index.When"]</th>
+                        <th>@L["DirectoryAdminUi.Source"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th>@L["DirectoryAdminUi.StudentsDelta"]</th>
+                        <th>@L["DirectoryAdminUi.EmployeesDelta"]</th>
+                        <th>@L["DirectoryAdminUi.Duration"]</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach (var r in Model.RecentRuns)
                 {
-                    var rb = new UiBadgeOptions { Text = r.Status, Variant = RunVar(r.Status), WithDot = true };
+                    var rb = new UiBadgeOptions { Text = L[$"DirectoryAdminUi.RunStatus.{r.Status}"].Value, Variant = RunVar(r.Status), WithDot = true };
                     <tr>
                         <td class="ui-mono small">@r.StartedAtUtc.ToString("MM-dd HH:mm:ss")</td>
                         <td><span class="ui-mono small">@r.Source</span></td>
@@ -175,7 +176,7 @@
                 }
                 @if (Model.RecentRuns.Count == 0)
                 {
-                    <tr><td colspan="6" class="ui-muted text-center py-4">No sync runs yet. Press <strong>Sync now</strong> or upload a CSV.</td></tr>
+                    <tr><td colspan="6" class="p-0"><partial name="_EmptyState" model="@(new EmptyStateOptions { Icon = "bx-refresh", Title = L["DirectoryAdminUi.NoRuns.Title"].Value, Description = L["DirectoryAdminUi.NoRuns.Description"].Value })" /></td></tr>
                 }
                 </tbody>
             </table>

@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "408";
     ViewData["Tone"]           = "warning";
-    ViewData["Icon"]           = "fa-hourglass-end";
-    ViewData["Title"]          = "Request timed out";
-    ViewData["Description"]    = "The server didn't get a complete request in time. This usually means a slow network — wait a moment, then try again.";
+    ViewData["Icon"]           = "bx bx-hourglass";
+    ViewData["Title"]          = L["Error.408.Title"].Value;
+    ViewData["Description"]    = L["Error.408.Description"].Value;
     ViewData["CtaUrl"]         = "javascript:location.reload()";
-    ViewData["CtaLabel"]       = "Try again";
-    ViewData["CtaIcon"]        = "fa-rotate-right";
+    ViewData["CtaLabel"]       = L["Error.Shared.TryAgain"].Value;
+    ViewData["CtaIcon"]        = "bx bx-refresh";
     ViewData["SecondaryUrl"]   = "/";
-    ViewData["SecondaryLabel"] = "Home";
-    ViewData["SecondaryIcon"]  = "fa-house";
+    ViewData["SecondaryLabel"] = L["Error.Shared.Home"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Request timed out · SmartCanteen</title>
+    <title>@L["Error.408.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

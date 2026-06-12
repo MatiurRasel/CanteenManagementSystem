@@ -4,12 +4,13 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.WhatsNewController.WhatsNewVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "What's new";
+    ViewData["Title"] = L["WhatsNew.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "What's new",
-        Subtitle = "Every shipped batch — most recent first."
+        Title    = L["WhatsNew.Index.Title"].Value,
+        Subtitle = L["WhatsNew.Index.Subtitle"].Value
     };
 }
 
@@ -20,9 +21,9 @@
     {
         var emptyVm = new EmptyStateOptions
         {
-            Icon        = "fa-bell-slash",
-            Title       = "Nothing shipped yet",
-            Description = "Check back after the next release."
+            Icon        = "bx-bell-off",
+            Title       = L["WhatsNew.Index.EmptyTitle"].Value,
+            Description = L["WhatsNew.Index.EmptyDescription"].Value
         };
         <partial name="_EmptyState" model="emptyVm" />
     }

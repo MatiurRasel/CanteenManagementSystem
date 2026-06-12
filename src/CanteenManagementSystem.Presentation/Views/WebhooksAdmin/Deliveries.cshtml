@@ -4,9 +4,10 @@
 @using Platform.Domain.Webhooks
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<WebhookDelivery>
+@inject IStringLocalizer<SharedResource> L
 @{
     var sub = ViewBag.Subscription as WebhookSubscription;
-    ViewData["Title"] = $"Deliveries · {sub?.DisplayName}";
+    ViewData["Title"] = L["WebhooksAdmin.Deliveries.Title", sub?.DisplayName ?? ""].Value;
     UiBadgeVariant V(string s) => s switch
     {
         "Delivered"  => UiBadgeVariant.Success,
@@ -15,11 +16,19 @@
         "Failed"     => UiBadgeVariant.Danger,
         _ => UiBadgeVariant.Secondary
     };
+    string SLabel(string s) => s switch
+    {
+        "Delivered"  => L["WebhooksAdmin.DeliveryStatus.Delivered"].Value,
+        "Queued"     => L["WebhooksAdmin.DeliveryStatus.Queued"].Value,
+        "Delivering" => L["WebhooksAdmin.DeliveryStatus.Delivering"].Value,
+        "Failed"     => L["WebhooksAdmin.DeliveryStatus.Failed"].Value,
+        _ => s
+    };
     var header = new UiPageHeaderOptions
     {
-        Title    = sub?.DisplayName ?? "Webhook deliveries",
-        Subtitle = $"Delivery log — {Model.Count} attempt(s) shown",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/webhooks'><i class='fa-solid fa-arrow-left me-1'></i> All webhooks</a>")
+        Title    = sub?.DisplayName ?? L["WebhooksAdmin.Deliveries.Heading"].Value,
+        Subtitle = L["WebhooksAdmin.Deliveries.Subtitle", Model.Count].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/webhooks'><i class='bx bx-arrow-back me-1'></i> {L["WebhooksAdmin.AllWebhooks"].Value}</a>")
     };
 }
 
@@ -31,8 +40,8 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "No deliveries yet",
-            Body    = "Trigger a matching event (order, wallet recharge, …) to see attempts here. Failed attempts get a Replay button so you can re-fire after fixing the receiver."
+            Heading = L["WebhooksAdmin.Deliveries.Empty.Title"].Value,
+            Body    = L["WebhooksAdmin.Deliveries.Empty.Description"].Value
         };
         <partial name="_UiAlert" model="info" />
     }
@@ -42,20 +51,20 @@
             <table class="table mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>When</th>
-                        <th>Event</th>
-                        <th>Status</th>
-                        <th class="text-end">Attempt</th>
-                        <th class="text-end">HTTP</th>
-                        <th>Next retry</th>
-                        <th>Response</th>
-                        <th class="text-end">Replay</th>
+                        <th>@L["WebhooksAdmin.Deliveries.When"]</th>
+                        <th>@L["WebhooksAdmin.Deliveries.Event"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end">@L["WebhooksAdmin.Deliveries.Attempt"]</th>
+                        <th class="text-end">@L["WebhooksAdmin.Deliveries.Http"]</th>
+                        <th>@L["WebhooksAdmin.Deliveries.NextRetry"]</th>
+                        <th>@L["WebhooksAdmin.Deliveries.Response"]</th>
+                        <th class="text-end">@L["WebhooksAdmin.Deliveries.Replay"]</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach (var d in Model)
                 {
-                    var b = new UiBadgeOptions { Text = d.Status, Variant = V(d.Status), WithDot = true };
+                    var b = new UiBadgeOptions { Text = SLabel(d.Status), Variant = V(d.Status), WithDot = true };
                     <tr>
                         <td class="ui-mono small">@((d.LastAttemptAtUtc ?? d.FirstQueuedAtUtc)?.ToString("yyyy-MM-dd HH:mm:ss"))</td>
                         <td><code class="small">@d.EventKey</code></td>
@@ -75,7 +84,7 @@
                                 <form asp-action="Replay" asp-route-id="@d.SubscriptionId" asp-route-deliveryId="@d.DeliveryId" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fa-solid fa-rotate-right me-1"></i> Replay
+                                        <i class="bx bx-rotate-right me-1"></i> @L["WebhooksAdmin.Deliveries.Replay"]
                                     </button>
                                 </form>
                             }

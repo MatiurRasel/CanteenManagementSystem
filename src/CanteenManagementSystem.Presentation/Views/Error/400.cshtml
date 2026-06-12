@@ -1,19 +1,20 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]          = "400";
     ViewData["Tone"]          = "warning";
-    ViewData["Icon"]          = "fa-circle-question";
-    ViewData["Title"]         = "Bad request";
-    ViewData["Description"]   = "The request was malformed and the server couldn't make sense of it. If you reached this page from a link, the link may be broken.";
+    ViewData["Icon"]          = "bx bx-help-circle";
+    ViewData["Title"]         = L["Error.400.Title"].Value;
+    ViewData["Description"]   = L["Error.400.Description"].Value;
     ViewData["CtaUrl"]        = "/";
-    ViewData["CtaLabel"]      = "Back to home";
-    ViewData["CtaIcon"]       = "fa-house";
+    ViewData["CtaLabel"]      = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]       = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bad request · SmartCanteen</title>
+    <title>@L["Error.400.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

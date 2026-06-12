@@ -4,13 +4,14 @@
 @using CanteenManagementSystem.Domain.Enums
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.CardsAdminController.IssueForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Issue card";
+    ViewData["Title"] = L["CardsAdmin.Index.IssueCard"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Issue a card",
-        Subtitle = "Bind an NFC UID to a user. They can scan immediately, no activation step needed.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/cards'><i class='fa-solid fa-arrow-left me-1'></i> All cards</a>")
+        Title    = L["CardsAdmin.Issue.Title"].Value,
+        Subtitle = L["CardsAdmin.Issue.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/cards'><i class='bx bx-arrow-back me-1'></i> {L["CardsAdmin.AllCards"].Value}</a>")
     };
 }
 
@@ -25,48 +26,47 @@
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label asp-for="CardUid" class="ui-label">Card UID</label>
+                                <label asp-for="CardUid" class="ui-label">@L["CardsAdmin.Issue.CardUid"]</label>
                                 <input asp-for="CardUid" class="ui-input form-control ui-mono" placeholder="A1B2C3D4"
                                        autocomplete="off" data-cl-hid-uid />
                                 <div class="ui-help-text">
-                                    Read from the NFC reader self-test or printed on the card. Hold the card to a paired WebHID reader to auto-fill.
+                                    @L["CardsAdmin.Issue.CardUidHelp"]
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label asp-for="UserType" class="ui-label">User type</label>
+                                <label asp-for="UserType" class="ui-label">@L["CardsAdmin.Issue.UserType"]</label>
                                 <select asp-for="UserType" class="form-select ui-select">
                                     @foreach (var t in Enum.GetValues<CanteenUserType>())
                                     {
-                                        <option value="@t">@t</option>
+                                        <option value="@t">@L[$"CardsAdmin.UserType.{t}"]</option>
                                     }
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label asp-for="UserId" class="ui-label">User ID</label>
+                                <label asp-for="UserId" class="ui-label">@L["CardsAdmin.Issue.UserId"]</label>
                                 <input asp-for="UserId" class="ui-input form-control" placeholder="STD-2026-001" />
                             </div>
                             <div class="col-12">
-                                <label asp-for="Notes" class="ui-label">Notes</label>
-                                <input asp-for="Notes" class="ui-input form-control" placeholder="Optional — batch / replacement reason" />
+                                <label asp-for="Notes" class="ui-label">@L["CardsAdmin.Issue.Notes"]</label>
+                                <input asp-for="Notes" class="ui-input form-control" placeholder="@L["CardsAdmin.Issue.NotesPlaceholder"]" />
                             </div>
                         </div>
                     </div>
                     <div class="ui-card-footer d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check me-1"></i> Issue</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary"><i class="bx bx-check me-1"></i> @L["CardsAdmin.Issue.Submit"]</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-5">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Lifecycle reminder</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["CardsAdmin.Issue.Reminder.Title"]</div></div>
                     <div class="ui-card-body">
                         <p class="ui-muted small mb-2">
-                            <strong>Issued → Active</strong> happens automatically on first counter scan, or via the
-                            <strong>Activate</strong> button on the card detail page.
+                            @L["CardsAdmin.Issue.Reminder.Body1"]
                         </p>
                         <p class="ui-muted small mb-0">
-                            If a UID is already active on another user, the form rejects — block / report-lost the old card first.
+                            @L["CardsAdmin.Issue.Reminder.Body2"]
                         </p>
                     </div>
                 </div>

@@ -23,19 +23,19 @@
     var header = new UiPageHeaderOptions
     {
         Title    = L["FoodItems"].Value,
-        Subtitle = "Catalog of every food item this canteen serves. Activating / deactivating items hides them from the menu — it doesn't delete them.",
-        Actions  = Html.Raw(@"<button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#itemModal' data-mode='create'>
-                                <i class='bx bx-plus me-1'></i> Add item
+        Subtitle = L["Menu.ManageItems.Subtitle"].Value,
+        Actions  = Html.Raw($@"<button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#itemModal' data-mode='create'>
+                                <i class='bx bx-plus me-1'></i> {L["Menu.ManageItems.AddItem"].Value}
                               </button>
                               <a class='btn btn-outline-secondary btn-sm ms-2' href='/Menu/Manage'>
-                                <i class='bx bx-arrow-back me-1'></i> Back to menu
+                                <i class='bx bx-arrow-back me-1'></i> {L["Menu.ManageItems.BackToMenu"].Value}
                               </a>")
     };
 
-    var kpiTotal    = new UiKpiOptions { Label = "Total items",     Value = Model.Count.ToString("N0"),  Icon = "fa-bowl-rice" };
-    var kpiActive   = new UiKpiOptions { Label = "Active",          Value = activeCount.ToString("N0"),  Icon = "fa-check",     Trend = UiKpiTrend.Up };
-    var kpiInactive = new UiKpiOptions { Label = "Inactive",        Value = inactiveCount.ToString("N0"),Icon = "fa-pause",     Trend = inactiveCount > 0 ? UiKpiTrend.Down : UiKpiTrend.None };
-    var kpiAvg      = new UiKpiOptions { Label = "Average price",   Value = "৳ " + avgPrice.ToString("N0"), Icon = "fa-coins", Hint = withImage + " items have a photo" };
+    var kpiTotal    = new UiKpiOptions { Label = L["Menu.ManageItems.TotalItems"].Value, Value = Model.Count.ToString("N0"),  Icon = "bx bx-bowl-rice" };
+    var kpiActive   = new UiKpiOptions { Label = L["Common.Active"].Value,               Value = activeCount.ToString("N0"),  Icon = "bx bx-check",      Trend = UiKpiTrend.Up };
+    var kpiInactive = new UiKpiOptions { Label = L["Common.Inactive"].Value,             Value = inactiveCount.ToString("N0"),Icon = "bx bx-pause",      Trend = inactiveCount > 0 ? UiKpiTrend.Down : UiKpiTrend.None };
+    var kpiAvg      = new UiKpiOptions { Label = L["Menu.ManageItems.AveragePrice"].Value, Value = "৳ " + avgPrice.ToString("N0"), Icon = "bx bx-coin-stack", Hint = L["Menu.ManageItems.ItemsWithPhoto", withImage].Value };
 }
 
 <div class="container-fluid py-4">
@@ -50,24 +50,24 @@
 
     <div class="d-flex gap-2 align-items-center mb-3 flex-wrap">
         <input id="item-search" type="search" class="ui-input form-control form-control-sm"
-               placeholder="Search by name / description / allergen…" style="max-width:340px" />
+               placeholder="@L["Menu.ManageItems.SearchPlaceholder"]" style="max-width:340px" />
         <select id="item-status" class="form-select ui-select form-select-sm" style="max-width:160px">
-            <option value="all">All</option>
-            <option value="active">Active only</option>
-            <option value="inactive">Inactive only</option>
+            <option value="all">@L["Common.All"]</option>
+            <option value="active">@L["Menu.ManageItems.ActiveOnly"]</option>
+            <option value="inactive">@L["Menu.ManageItems.InactiveOnly"]</option>
         </select>
-        <span class="ui-muted small ms-auto" id="item-count">@Model.Count item(s)</span>
+        <span class="ui-muted small ms-auto" id="item-count">@L["Menu.ManageItems.ItemCount", Model.Count]</span>
     </div>
 
     @if (Model.Count == 0)
     {
         var empty = new EmptyStateOptions
         {
-            Icon        = "fa-bowl-food",
-            Title       = "No items yet",
-            Description = "Add your first dish — it'll be available to schedule on today's menu and on weekly templates.",
-            CtaLabel    = "Add item",
-            CtaIcon     = "fa-plus",
+            Icon        = "bx-bowl-hot",
+            Title       = L["Menu.ManageItems.EmptyTitle"].Value,
+            Description = L["Menu.ManageItems.EmptyDescription"].Value,
+            CtaLabel    = L["Menu.ManageItems.AddItem"].Value,
+            CtaIcon     = "bx-plus",
             CtaUrl      = "#"
         };
         <partial name="_EmptyState" model="empty" />
@@ -79,12 +79,12 @@
                 <thead>
                     <tr>
                         <th style="width:1%"></th>
-                        <th>Item</th>
-                        <th>Category</th>
-                        <th>Dietary</th>
-                        <th class="text-end">Price</th>
-                        <th>Status</th>
-                        <th class="text-end" style="width:1%">Actions</th>
+                        <th>@L["Menu.ManageItems.Item"]</th>
+                        <th>@L["Menu.ManageItems.Category"]</th>
+                        <th>@L["Menu.ManageItems.Dietary"]</th>
+                        <th class="text-end">@L["Common.Price"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody id="item-tbody">
@@ -92,7 +92,7 @@
                 {
                     var statusBadge = new UiBadgeOptions
                     {
-                        Text    = item.IsActive ? "Active" : "Inactive",
+                        Text    = item.IsActive ? L["Common.Active"].Value : L["Common.Inactive"].Value,
                         Variant = item.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };
@@ -132,15 +132,15 @@
                             <div class="d-flex flex-wrap gap-1">
                                 @if (item.IsVegetarian)
                                 {
-                                    <span class="ks-chip chip-veg"><i class="bx bx-leaf"></i> Veg</span>
+                                    <span class="ks-chip chip-veg"><i class="bx bx-leaf"></i> @L["Menu.ManageItems.Veg"]</span>
                                 }
                                 @if (item.IsHalal)
                                 {
-                                    <span class="ks-chip chip-halal"><i class="bx bx-check-circle"></i> Halal</span>
+                                    <span class="ks-chip chip-halal"><i class="bx bx-check-circle"></i> @L["Menu.ManageItems.Halal"]</span>
                                 }
                                 @if (item.KCalories.HasValue && item.KCalories.Value > 0)
                                 {
-                                    <span class="ks-chip chip-kcal"><i class="bx bx-flame"></i> @item.KCalories kcal</span>
+                                    <span class="ks-chip chip-kcal"><i class="bx bxs-hot"></i> @L["Menu.ManageItems.Kcal", item.KCalories]</span>
                                 }
                                 @if (!string.IsNullOrEmpty(item.Allergens))
                                 {
@@ -155,12 +155,12 @@
                         <td><partial name="_UiBadge" model="statusBadge" /></td>
                         <td class="text-end">
                             <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#itemModal" data-mode="edit" data-id="@item.FoodItemID" title="Edit">
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#itemModal" data-mode="edit" data-id="@item.FoodItemID" title="@L["Common.Edit"]">
                                     <i class="bx bx-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-outline-@(item.IsActive ? "warning" : "success")"
                                         data-toggle-item="@item.FoodItemID"
-                                        title="@(item.IsActive ? "Deactivate" : "Activate")">
+                                        title="@(item.IsActive ? L["Menu.ManageItems.Deactivate"].Value : L["Menu.ManageItems.Activate"].Value)">
                                     <i class="bx @(item.IsActive ? "bx-pause" : "bx-play")"></i>
                                 </button>
                             </div>
@@ -180,29 +180,31 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="bx bx-bowl-hot me-1" style="color:var(--accent)"></i>
-                    <span id="item-modal-title">Add item</span>
+                    <span id="item-modal-title">@L["Menu.ManageItems.AddItem"]</span>
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Common.Close"]"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="item-form-region" data-loaded="true">
+                <partial name="_Skeleton" model="@(new SkeletonOptions { Variant = SkeletonVariant.Form, Rows = 6, Card = false })" />
+                <div class="skeleton-target">
                 <input type="hidden" name="FoodItemID" id="f-id" value="0" />
 
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <label class="ui-label" for="f-name">Item name</label>
-                        <input id="f-name" name="ItemName" required maxlength="200" class="ui-input form-control" placeholder="e.g. Veg Biryani" />
+                        <label class="ui-label" for="f-name">@L["Menu.ManageItems.ItemName"]</label>
+                        <input id="f-name" name="ItemName" required maxlength="200" class="ui-input form-control" placeholder="@L["Menu.ManageItems.ItemNamePlaceholder"]" />
                     </div>
                     <div class="col-md-4">
-                        <label class="ui-label" for="f-price">Price (৳)</label>
+                        <label class="ui-label" for="f-price">@L["Menu.ManageItems.PriceLabel"]</label>
                         <input id="f-price" name="Price" type="number" min="0" step="0.01" required class="ui-input form-control" />
                     </div>
                     <div class="col-12">
-                        <label class="ui-label" for="f-desc">Description</label>
-                        <input id="f-desc" name="Description" maxlength="500" class="ui-input form-control" placeholder="One short line" />
+                        <label class="ui-label" for="f-desc">@L["Common.Description"]</label>
+                        <input id="f-desc" name="Description" maxlength="500" class="ui-input form-control" placeholder="@L["Menu.ManageItems.DescriptionPlaceholder"]" />
                     </div>
 
                     <div class="col-md-4">
-                        <label class="ui-label" for="f-cat">Category</label>
+                        <label class="ui-label" for="f-cat">@L["Menu.ManageItems.Category"]</label>
                         <select id="f-cat" name="Category" class="form-select ui-select">
                             <option value="">—</option>
                             @foreach (var c in Enum.GetValues<CanteenManagementSystem.Domain.Enums.CanteenMealType>())
@@ -212,47 +214,48 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="ui-label" for="f-kcal">Calories (kcal)</label>
+                        <label class="ui-label" for="f-kcal">@L["Menu.ManageItems.Calories"]</label>
                         <input id="f-kcal" name="KCalories" type="number" min="0" step="1" class="ui-input form-control" />
                     </div>
                     <div class="col-md-4">
-                        <label class="ui-label" for="f-prep">Prep time (sec)</label>
+                        <label class="ui-label" for="f-prep">@L["Menu.ManageItems.PrepTime"]</label>
                         <input id="f-prep" name="PrepTimeSeconds" type="number" min="0" step="1" class="ui-input form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="ui-label" for="f-image">Image URL</label>
+                        <label class="ui-label" for="f-image">@L["Menu.ManageItems.ImageUrl"]</label>
                         <input id="f-image" name="ImageUrl" maxlength="500" class="ui-input form-control" placeholder="https://…/photo.jpg" />
                     </div>
                     <div class="col-md-6">
-                        <label class="ui-label" for="f-allerg">Allergens (comma-separated)</label>
-                        <input id="f-allerg" name="Allergens" maxlength="200" class="ui-input form-control" placeholder="nuts, dairy" />
+                        <label class="ui-label" for="f-allerg">@L["Menu.ManageItems.Allergens"]</label>
+                        <input id="f-allerg" name="Allergens" maxlength="200" class="ui-input form-control" placeholder="@L["Menu.ManageItems.AllergensPlaceholder"]" />
                     </div>
 
                     <div class="col-12">
                         <div class="d-flex gap-3 flex-wrap">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="f-veg"   name="IsVegetarian" />
-                                <label class="form-check-label" for="f-veg">Vegetarian</label>
+                                <label class="form-check-label" for="f-veg">@L["Menu.ManageItems.Vegetarian"]</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="f-halal" name="IsHalal" />
-                                <label class="form-check-label" for="f-halal">Halal</label>
+                                <label class="form-check-label" for="f-halal">@L["Menu.ManageItems.Halal"]</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="f-active" name="IsActive" checked />
-                                <label class="form-check-label" for="f-active">Active</label>
+                                <label class="form-check-label" for="f-active">@L["Common.Active"]</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="item-form-error" class="alert alert-danger small mt-3 d-none"></div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">@L["Common.Cancel"]</button>
                 <button type="submit" class="btn btn-primary" id="item-form-save">
-                    <i class="bx bx-save me-1"></i> Save
+                    <i class="bx bx-save me-1"></i> @L["Common.Save"]
                 </button>
             </div>
         </form>
@@ -264,11 +267,29 @@
 (function () {
     'use strict';
 
-    var modal     = document.getElementById('itemModal');
-    var modalForm = document.getElementById('item-form');
-    var titleEl   = document.getElementById('item-modal-title');
-    var errBox    = document.getElementById('item-form-error');
-    var saveBtn   = document.getElementById('item-form-save');
+    var T = {
+        addItem:       '@L["Menu.ManageItems.AddItem"]',
+        editItem:      '@L["Menu.ManageItems.EditItem"]',
+        itemNotFound:  '@L["Menu.ManageItems.ItemNotFound"]',
+        loadFailed:    '@L["Menu.ManageItems.LoadFailed"]',
+        itemUpdated:   '@L["Menu.ManageItems.ItemUpdated"]',
+        itemCreated:   '@L["Menu.ManageItems.ItemCreated"]',
+        saveFailed:    '@L["Menu.ManageItems.SaveFailed"]',
+        networkError:  '@L["Menu.ManageItems.NetworkError"]',
+        statusUpdated: '@L["Menu.ManageItems.StatusUpdated"]',
+        updateFailed:  '@L["Menu.ManageItems.UpdateFailed"]',
+        itemCount:     '@L["Menu.ManageItems.ItemCount"]'
+    };
+
+    var modal      = document.getElementById('itemModal');
+    var modalForm  = document.getElementById('item-form');
+    var titleEl    = document.getElementById('item-modal-title');
+    var errBox     = document.getElementById('item-form-error');
+    var saveBtn    = document.getElementById('item-form-save');
+    var formRegion = '#item-form-region';
+
+    function regionShow() { if (window.CanteenLoading) window.CanteenLoading.show(formRegion); }
+    function regionHide() { if (window.CanteenLoading) window.CanteenLoading.hide(formRegion); }
 
     var fields = {
         FoodItemID:      document.getElementById('f-id'),
@@ -310,25 +331,30 @@
         if (!trigger) return;
         var mode = trigger.getAttribute('data-mode') || 'create';
         if (mode === 'create') {
-            titleEl.textContent = 'Add item';
+            titleEl.textContent = T.addItem;
+            regionHide();
             resetForm();
             return;
         }
-        titleEl.textContent = 'Edit item';
+        titleEl.textContent = T.editItem;
         var id = trigger.getAttribute('data-id');
         if (!id) return;
+        regionShow();
         fetch('/Menu/GetFoodItem?id=' + encodeURIComponent(id))
             .then(function (r) { return r.json(); })
             .then(function (d) {
                 if (d && d.success && d.item) loadIntoForm(d.item);
                 else {
                     errBox.classList.remove('d-none');
-                    errBox.textContent = (d && d.message) || 'Item not found.';
+                    errBox.textContent = (d && d.message) || T.itemNotFound;
                 }
             })
             .catch(function () {
                 errBox.classList.remove('d-none');
-                errBox.textContent = 'Could not load item.';
+                errBox.textContent = T.loadFailed;
+            })
+            .finally(function () {
+                regionHide();
             });
     });
 
@@ -354,17 +380,17 @@
             });
             var data = await res.json();
             if (data && data.success) {
-                if (window.cmsToast) window.cmsToast(isEdit ? 'Item updated.' : 'Item created.', 'success');
+                if (window.cmsToast) window.cmsToast(isEdit ? T.itemUpdated : T.itemCreated, 'success');
                 bootstrap.Modal.getInstance(modal).hide();
                 setTimeout(function () { location.reload(); }, 200);
             } else {
                 errBox.classList.remove('d-none');
-                errBox.textContent = (data && data.message) || 'Save failed.';
+                errBox.textContent = (data && data.message) || T.saveFailed;
             }
         } catch (err) {
             console.error('save failed', err);
             errBox.classList.remove('d-none');
-            errBox.textContent = 'Network error.';
+            errBox.textContent = T.networkError;
         } finally {
             saveBtn.disabled = false;
         }
@@ -380,13 +406,13 @@
             var res = await fetch('/Menu/ToggleFoodItemStatus?id=' + encodeURIComponent(id), { method: 'POST' });
             var data = await res.json();
             if (data && data.success) {
-                if (window.cmsToast) window.cmsToast('Status updated.', 'success');
+                if (window.cmsToast) window.cmsToast(T.statusUpdated, 'success');
                 setTimeout(function () { location.reload(); }, 200);
             } else {
-                if (window.cmsToast) window.cmsToast((data && data.message) || 'Could not update.', 'warning');
+                if (window.cmsToast) window.cmsToast((data && data.message) || T.updateFailed, 'warning');
             }
         } catch (e) {
-            if (window.cmsToast) window.cmsToast('Network error.', 'warning');
+            if (window.cmsToast) window.cmsToast(T.networkError, 'warning');
         } finally {
             btn.disabled = false;
         }
@@ -408,7 +434,7 @@
             r.style.display = on ? '' : 'none';
             if (on) shown++;
         });
-        count.textContent = shown + ' item(s)';
+        count.textContent = T.itemCount.replace('{0}', shown);
     }
     search.addEventListener('input', applyFilter);
     status.addEventListener('change', applyFilter);

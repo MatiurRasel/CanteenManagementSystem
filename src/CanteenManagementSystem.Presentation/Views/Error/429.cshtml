@@ -1,19 +1,20 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]         = "429";
     ViewData["Tone"]         = "warning";
-    ViewData["Icon"]         = "fa-gauge-high";
-    ViewData["Title"]        = "Slow down a moment";
-    ViewData["Description"]  = "You've made too many requests in a short window. We've slowed you down to keep the system fair for everyone — try again in a minute.";
+    ViewData["Icon"]         = "bx bx-tachometer";
+    ViewData["Title"]        = L["Error.429.Title"].Value;
+    ViewData["Description"]  = L["Error.429.Description"].Value;
     ViewData["CtaUrl"]       = "javascript:setTimeout(function(){location.reload();},60000);location.href='/';";
-    ViewData["CtaLabel"]     = "Back to home";
-    ViewData["CtaIcon"]      = "fa-house";
+    ViewData["CtaLabel"]     = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]      = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Too many requests · SmartCanteen</title>
+    <title>@L["Error.429.PageTitle"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "503";
     ViewData["Tone"]           = "warning";
-    ViewData["Icon"]           = "fa-screwdriver-wrench";
-    ViewData["Title"]          = "Service unavailable";
-    ViewData["Description"]    = "We're either down for maintenance or under heavy load. We'll be back online shortly — refresh the page in a couple of minutes.";
+    ViewData["Icon"]           = "bx bx-wrench";
+    ViewData["Title"]          = L["Error.503.Title"].Value;
+    ViewData["Description"]    = L["Error.503.Description"].Value;
     ViewData["CtaUrl"]         = "javascript:location.reload()";
-    ViewData["CtaLabel"]       = "Refresh";
-    ViewData["CtaIcon"]        = "fa-rotate-right";
+    ViewData["CtaLabel"]       = L["Common.Refresh"].Value;
+    ViewData["CtaIcon"]        = "bx bx-refresh";
     ViewData["SecondaryUrl"]   = "/health/live";
-    ViewData["SecondaryLabel"] = "Status page";
-    ViewData["SecondaryIcon"]  = "fa-heart-pulse";
+    ViewData["SecondaryLabel"] = L["Error.503.Secondary"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-pulse";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Service unavailable · SmartCanteen</title>
+    <title>@L["Error.503.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

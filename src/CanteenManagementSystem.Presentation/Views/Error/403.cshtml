@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "403";
     ViewData["Tone"]           = "danger";
-    ViewData["Icon"]           = "fa-lock";
-    ViewData["Title"]          = "Access denied";
-    ViewData["Description"]    = "Your account is signed in, but it doesn't have permission for this page. Ask a tenant admin to grant you the relevant role, or switch to an account that has access.";
+    ViewData["Icon"]           = "bx bx-lock-alt";
+    ViewData["Title"]          = L["Error.403.Title"].Value;
+    ViewData["Description"]    = L["Error.403.Description"].Value;
     ViewData["CtaUrl"]         = "/";
-    ViewData["CtaLabel"]       = "Back to home";
-    ViewData["CtaIcon"]        = "fa-house";
+    ViewData["CtaLabel"]       = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]        = "bx bx-home";
     ViewData["SecondaryUrl"]   = "/Account/Login";
-    ViewData["SecondaryLabel"] = "Sign in as another user";
-    ViewData["SecondaryIcon"]  = "fa-right-from-bracket";
+    ViewData["SecondaryLabel"] = L["Error.403.Secondary"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-log-out";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Access denied · SmartCanteen</title>
+    <title>@L["Error.403.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

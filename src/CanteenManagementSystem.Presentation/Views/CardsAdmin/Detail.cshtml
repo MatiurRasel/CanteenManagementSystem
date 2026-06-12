@@ -4,8 +4,9 @@
 @using CanteenManagementSystem.Domain.Cards
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.CardsAdminController.DetailVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = $"Card · {Model.Card.CardUid}";
+    ViewData["Title"] = L["CardsAdmin.Detail.Title", Model.Card.CardUid].Value;
     UiBadgeVariant V(CardStatus s) => s switch
     {
         CardStatus.Active     => UiBadgeVariant.Success,
@@ -28,12 +29,12 @@
         _ => UiBadgeVariant.Secondary
     };
     var c = Model.Card;
-    var statusBadge = new UiBadgeOptions { Text = c.Status.ToString(), Variant = V(c.Status), WithDot = true };
+    var statusBadge = new UiBadgeOptions { Text = L[$"CardsAdmin.Status.{c.Status}"].Value, Variant = V(c.Status), WithDot = true };
     var header = new UiPageHeaderOptions
     {
         Title    = c.CardUid,
         Subtitle = $"{c.UserType} · {c.UserId}",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/cards'><i class='fa-solid fa-arrow-left me-1'></i> All cards</a>")
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/cards'><i class='bx bx-arrow-back me-1'></i> {L["CardsAdmin.AllCards"].Value}</a>")
     };
 }
 
@@ -44,45 +45,45 @@
         <partial name="_UiBadge" model="statusBadge" />
         @if (!string.IsNullOrEmpty(c.UserId))
         {
-            <span class="ui-muted small ms-2"><i class="fa-solid fa-user me-1"></i>@c.UserType · <code>@c.UserId</code></span>
+            <span class="ui-muted small ms-2"><i class="bx bxs-user me-1"></i>@c.UserType · <code>@c.UserId</code></span>
         }
     </div>
 
     <div class="row g-3">
         <div class="col-lg-5">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Lifecycle</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["CardsAdmin.Detail.Lifecycle"]</div></div>
                 <div class="ui-card-body">
                     <div class="d-flex flex-wrap gap-2">
                         @if (c.Status == CardStatus.Issued)
                         {
                             <form asp-action="Activate" asp-route-id="@c.CardId" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-check me-1"></i>Activate</button>
+                                <button class="btn btn-sm btn-success"><i class="bx bx-check me-1"></i>@L["CardsAdmin.Detail.Activate"]</button>
                             </form>
                         }
                         @if (c.Status == CardStatus.Active)
                         {
                             <form asp-action="Block" asp-route-id="@c.CardId" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-warning"><i class="fa-solid fa-pause me-1"></i>Block</button>
+                                <button class="btn btn-sm btn-warning"><i class="bx bx-pause me-1"></i>@L["CardsAdmin.Detail.Block"]</button>
                             </form>
                             <form asp-action="ReportLost" asp-route-id="@c.CardId" method="post" class="d-inline"
-                                  data-cl-confirm="Report this card as lost? It will stop scanning immediately." data-cl-confirm-variant="warning">
+                                  data-cl-confirm="@L["CardsAdmin.Detail.ConfirmReportLost"]" data-cl-confirm-variant="warning">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i>Report lost</button>
+                                <button class="btn btn-sm btn-danger"><i class="bx bx-error me-1"></i>@L["CardsAdmin.Detail.ReportLost"]</button>
                             </form>
                             <form asp-action="Retire" asp-route-id="@c.CardId" method="post" class="d-inline"
-                                  data-cl-confirm="Retire this card? Action is permanent." data-cl-confirm-variant="warning">
+                                  data-cl-confirm="@L["CardsAdmin.Detail.ConfirmRetire"]" data-cl-confirm-variant="warning">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-box-archive me-1"></i>Retire</button>
+                                <button class="btn btn-sm btn-outline-secondary"><i class="bx bx-archive me-1"></i>@L["CardsAdmin.Detail.Retire"]</button>
                             </form>
                         }
                         @if (c.Status == CardStatus.Blocked)
                         {
                             <form asp-action="Unblock" asp-route-id="@c.CardId" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-play me-1"></i>Unblock</button>
+                                <button class="btn btn-sm btn-success"><i class="bx bx-play me-1"></i>@L["CardsAdmin.Detail.Unblock"]</button>
                             </form>
                         }
                     </div>
@@ -90,31 +91,31 @@
             </div>
 
             <div class="ui-card mt-3">
-                <div class="ui-card-header"><div class="ui-card-title">Re-issue (replace lost card)</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["CardsAdmin.Detail.Reissue.Title"]</div></div>
                 <div class="ui-card-body">
                     <form asp-action="Reassign" asp-route-id="@c.CardId" method="post" class="ui-stack">
                         @Html.AntiForgeryToken()
                         <div>
-                            <label class="ui-label">New card UID</label>
+                            <label class="ui-label">@L["CardsAdmin.Detail.Reissue.NewUid"]</label>
                             <input name="NewCardUid" class="ui-input form-control" placeholder="F00DC0DE" autocomplete="off" />
                         </div>
                         <div>
-                            <label class="ui-label">Reason</label>
-                            <input name="Reason" class="ui-input form-control" placeholder="Replacement for lost card" />
+                            <label class="ui-label">@L["CardsAdmin.Detail.Reissue.Reason"]</label>
+                            <input name="Reason" class="ui-input form-control" placeholder="@L["CardsAdmin.Detail.Reissue.ReasonPlaceholder"]" />
                         </div>
                         <button type="submit" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-rotate me-1"></i> Re-issue
+                            <i class="bx bx-refresh me-1"></i> @L["CardsAdmin.Detail.Reissue.Submit"]
                         </button>
                     </form>
                 </div>
             </div>
 
             <div class="ui-card mt-3">
-                <div class="ui-card-header"><div class="ui-card-title">Print this card</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["CardsAdmin.Detail.Print.Title"]</div></div>
                 <div class="ui-card-body">
-                    <p class="ui-muted small mb-3">CR80 (86 × 54 mm) print template with photo + tenant logo + accent stripe.</p>
+                    <p class="ui-muted small mb-3">@L["CardsAdmin.Detail.Print.Description"]</p>
                     <a asp-action="Print" asp-route-id="@c.CardId" class="btn btn-outline-secondary" target="_blank">
-                        <i class="fa-solid fa-print me-1"></i> Open print preview
+                        <i class="bx bx-printer me-1"></i> @L["CardsAdmin.Detail.Print.Open"]
                     </a>
                 </div>
             </div>
@@ -122,22 +123,22 @@
 
         <div class="col-lg-7">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Event timeline</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["CardsAdmin.Detail.Timeline.Title"]</div></div>
                 <div class="ui-table-wrap">
                     <table class="table table-sm mb-0 ui-table">
                         <thead>
                             <tr>
-                                <th>When (UTC)</th>
-                                <th>Event</th>
-                                <th>UID change</th>
-                                <th>By</th>
-                                <th>Reason</th>
+                                <th>@L["CardsAdmin.Detail.Timeline.When"]</th>
+                                <th>@L["CardsAdmin.Detail.Timeline.Event"]</th>
+                                <th>@L["CardsAdmin.Detail.Timeline.UidChange"]</th>
+                                <th>@L["CardsAdmin.Detail.Timeline.By"]</th>
+                                <th>@L["CardsAdmin.Detail.Timeline.Reason"]</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach (var e in Model.Events)
                         {
-                            var eb = new UiBadgeOptions { Text = e.EventType.ToString(), Variant = EV(e.EventType) };
+                            var eb = new UiBadgeOptions { Text = L[$"CardsAdmin.Event.{e.EventType}"].Value, Variant = EV(e.EventType) };
                             <tr>
                                 <td class="ui-mono small">@e.OccurredAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
                                 <td><partial name="_UiBadge" model="eb" /></td>
@@ -153,7 +154,16 @@
                         }
                         @if (Model.Events.Count == 0)
                         {
-                            <tr><td colspan="5" class="text-center ui-muted py-3">No events recorded.</td></tr>
+                            <tr>
+                                <td colspan="5" class="p-0">
+                                    <partial name="_EmptyState" model="@(new EmptyStateOptions
+                                    {
+                                        Icon        = "bx-history",
+                                        Title       = L["CardsAdmin.Detail.Timeline.Empty.Title"].Value,
+                                        Description = L["CardsAdmin.Detail.Timeline.Empty.Description"].Value
+                                    })" />
+                                </td>
+                            </tr>
                         }
                         </tbody>
                     </table>

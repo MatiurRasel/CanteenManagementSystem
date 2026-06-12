@@ -4,13 +4,14 @@
 @using CanteenManagementSystem.Domain.Inventory
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<Supplier>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Suppliers";
+    ViewData["Title"] = L["InventoryAdmin.Suppliers.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Suppliers",
-        Subtitle = "Vendors you raise purchase orders against.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/admin/inventory/suppliers/edit'><i class='fa-solid fa-plus me-1'></i> Add supplier</a>")
+        Title    = L["InventoryAdmin.Suppliers.Title"].Value,
+        Subtitle = L["InventoryAdmin.Suppliers.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-primary' href='/admin/inventory/suppliers/edit'><i class='bx bx-plus me-1'></i> {L["InventoryAdmin.Suppliers.AddSupplier"].Value}</a>")
     };
 }
 
@@ -19,7 +20,7 @@
 
     @if (Model.Count == 0)
     {
-        var empty = new EmptyStateOptions { Icon = "fa-truck-field", Title = "No suppliers yet", Description = "Add the vendor you order raw stock from.", CtaLabel = "Add supplier", CtaUrl = "/admin/inventory/suppliers/edit", CtaIcon = "fa-plus" };
+        var empty = new EmptyStateOptions { Icon = "bxs-truck", Title = L["InventoryAdmin.Suppliers.Empty.Title"].Value, Description = L["InventoryAdmin.Suppliers.Empty.Description"].Value, CtaLabel = L["InventoryAdmin.Suppliers.AddSupplier"].Value, CtaUrl = "/admin/inventory/suppliers/edit", CtaIcon = "bx-plus" };
         <partial name="_EmptyState" model="empty" />
     }
     else
@@ -28,11 +29,11 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th class="text-end" style="width:1%">Actions</th>
+                        <th>@L["Common.Name"]</th>
+                        <th>@L["InventoryAdmin.Suppliers.Contact"]</th>
+                        <th>@L["Common.Email"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +41,7 @@
                 {
                     var badge = new UiBadgeOptions
                     {
-                        Text = s.IsActive ? "Active" : "Disabled",
+                        Text = s.IsActive ? L["Common.Active"].Value : L["Common.Disabled"].Value,
                         Variant = s.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };
@@ -57,7 +58,7 @@
                         <td><partial name="_UiBadge" model="badge" /></td>
                         <td class="text-end">
                             <a class="btn btn-ghost btn-sm" href="/admin/inventory/suppliers/edit/@s.SupplierId">
-                                <i class="fa-solid fa-pen"></i>
+                                <i class="bx bx-edit"></i>
                             </a>
                         </td>
                     </tr>

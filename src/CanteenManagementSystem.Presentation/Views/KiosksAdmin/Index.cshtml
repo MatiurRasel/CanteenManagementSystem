@@ -3,13 +3,14 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.KiosksAdminController.IndexVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Kiosk tablets";
+    ViewData["Title"] = L["KiosksAdmin.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Kiosk tablets",
-        Subtitle = "Pair self-service tablets so students can scan + order with no staff login.",
-        Actions  = Html.Raw("<button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#issueModal'><i class='fa-solid fa-plus me-1'></i> Pair new tablet</button>")
+        Title    = L["KiosksAdmin.Index.Title"].Value,
+        Subtitle = L["KiosksAdmin.Index.Subtitle"].Value,
+        Actions  = Html.Raw($"<button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#issueModal'><i class='bx bx-plus me-1'></i> {L["KiosksAdmin.Index.PairNew"].Value}</button>")
     };
 }
 
@@ -22,25 +23,25 @@
             <div class="ui-card-header">
                 <div>
                     <div class="ui-card-title">
-                        <i class="fa-solid fa-circle-check me-1" style="color:var(--success)"></i>
-                        Tablet "@Model.JustIssued.Name" is paired
+                        <i class="bx bx-check-circle me-1" style="color:var(--success)"></i>
+                        @L["KiosksAdmin.Index.Paired.Title", Model.JustIssued.Name]
                     </div>
-                    <div class="ui-card-muted-body">Open this URL <strong>ONCE</strong> on the tablet's browser. The tablet then stays paired for 30 days with no further setup.</div>
+                    <div class="ui-card-muted-body">@L["KiosksAdmin.Index.Paired.OpenOnce"]</div>
                 </div>
             </div>
             <div class="ui-card-body">
                 <div class="input-group mb-3">
                     <input type="text" id="pairUrl" class="ui-input form-control ui-mono small" value="@Model.JustIssued.PairUrl" readonly />
                     <button class="btn btn-outline-primary" type="button"
-                            onclick="navigator.clipboard.writeText(document.getElementById('pairUrl').value);this.innerText='Copied!';setTimeout(()=>this.innerHTML='<i class=\'fa-solid fa-copy me-1\'></i>Copy',1500)">
-                        <i class="fa-solid fa-copy me-1"></i>Copy
+                            onclick="navigator.clipboard.writeText(document.getElementById('pairUrl').value);this.innerText='@L["KiosksAdmin.Index.Copied"]';setTimeout(()=>this.innerHTML='<i class=\'bx bx-copy me-1\'></i>@L["Common.Copy"]',1500)">
+                        <i class="bx bx-copy me-1"></i>@L["Common.Copy"]
                     </button>
                 </div>
-                <div class="ui-muted small mb-2">Or scan this QR with the tablet camera:</div>
-                <img alt="Pair QR" loading="lazy"
+                <div class="ui-muted small mb-2">@L["KiosksAdmin.Index.ScanQr"]</div>
+                <img alt="@L["KiosksAdmin.Index.PairQrAlt"]" loading="lazy"
                      src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=@Uri.EscapeDataString(Model.JustIssued.PairUrl)"
                      style="border-radius:var(--rad);border:1px solid var(--border);padding:.5rem;background:#fff" />
-                <div class="ui-muted small mt-2">Raw token (record once if QR isn't an option): <code>@Model.JustIssued.RawToken</code></div>
+                <div class="ui-muted small mt-2">@L["KiosksAdmin.Index.RawToken"] <code>@Model.JustIssued.RawToken</code></div>
             </div>
         </div>
     }
@@ -49,11 +50,11 @@
     {
         var emptyOpts = new EmptyStateOptions
         {
-            Icon        = "fa-tablet-screen-button",
-            Title       = "No kiosk tablets paired yet",
-            Description = "Click 'Pair new tablet' to issue a one-time token. Students never need to log in.",
-            CtaLabel    = "Pair new tablet",
-            CtaIcon     = "fa-plus",
+            Icon        = "bx-tab",
+            Title       = L["KiosksAdmin.Index.Empty.Title"].Value,
+            Description = L["KiosksAdmin.Index.Empty.Description"].Value,
+            CtaLabel    = L["KiosksAdmin.Index.PairNew"].Value,
+            CtaIcon     = "bx-plus",
             CtaUrl      = "#issueModal"
         };
         <partial name="_EmptyState" model="emptyOpts" />
@@ -64,12 +65,12 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Token</th>
-                        <th>Status</th>
-                        <th>Issued</th>
-                        <th>Last seen</th>
-                        <th class="text-end">Actions</th>
+                        <th>@L["Common.Name"]</th>
+                        <th>@L["KiosksAdmin.Index.Token"]</th>
+                        <th>@L["Common.Status"]</th>
+                        <th>@L["CardsAdmin.Issued"]</th>
+                        <th>@L["KiosksAdmin.Index.LastSeen"]</th>
+                        <th class="text-end">@L["Common.Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,19 +78,19 @@
                 {
                     var b = new UiBadgeOptions
                     {
-                        Text    = d.IsActive ? "Active" : "Revoked",
+                        Text    = d.IsActive ? L["Common.Active"].Value : L["KiosksAdmin.Index.Revoked"].Value,
                         Variant = d.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                         WithDot = true
                     };
                     <tr>
                         <td class="ui-text-strong">@d.Name</td>
-                        <td class="ui-mono small ui-muted">@d.TokenPrefix… <span class="small">(hidden)</span></td>
+                        <td class="ui-mono small ui-muted">@d.TokenPrefix… <span class="small">@L["KiosksAdmin.Index.Hidden"]</span></td>
                         <td><partial name="_UiBadge" model="b" /></td>
                         <td class="small">@d.IssuedAtUtc.ToLocalTime().ToString("yyyy-MM-dd")</td>
                         <td>
                             @if (d.LastSeenAtUtc is null)
                             {
-                                <span class="small ui-muted">Never</span>
+                                <span class="small ui-muted">@L["KiosksAdmin.Index.Never"]</span>
                             }
                             else
                             {
@@ -100,9 +101,9 @@
                             @if (d.IsActive)
                             {
                                 <form asp-action="Revoke" asp-route-id="@d.KioskDeviceId" method="post" class="d-inline"
-                                      data-cl-confirm="Revoke this tablet? It will sign out on next page load." data-cl-confirm-variant="warning">
+                                      data-cl-confirm="@L["KiosksAdmin.Index.ConfirmRevoke"]" data-cl-confirm-variant="warning">
                                     @Html.AntiForgeryToken()
-                                    <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-ban me-1"></i>Revoke</button>
+                                    <button class="btn btn-sm btn-outline-danger"><i class="bx bx-block me-1"></i>@L["KiosksAdmin.Index.Revoke"]</button>
                                 </form>
                             }
                         </td>
@@ -119,17 +120,17 @@
         <form class="modal-content" method="post" asp-action="Issue">
             @Html.AntiForgeryToken()
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fa-solid fa-tablet-screen-button me-2" style="color:var(--accent)"></i>Pair a new kiosk tablet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bx bx-tab me-2" style="color:var(--accent)"></i>@L["KiosksAdmin.Modal.Title"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Common.Close"]"></button>
             </div>
             <div class="modal-body">
-                <p class="ui-muted small">Give the tablet a name you'll recognise. The token is generated immediately and shown ONCE on the next screen.</p>
-                <label class="ui-label">Tablet name</label>
-                <input name="Name" class="ui-input form-control" placeholder="Counter A tablet" required maxlength="120" />
+                <p class="ui-muted small">@L["KiosksAdmin.Modal.Help"]</p>
+                <label class="ui-label">@L["KiosksAdmin.Modal.Name"]</label>
+                <input name="Name" class="ui-input form-control" placeholder="@L["KiosksAdmin.Modal.NamePlaceholder"]" required maxlength="120" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-key me-1"></i>Issue pairing token</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">@L["Common.Cancel"]</button>
+                <button type="submit" class="btn btn-primary"><i class="bx bx-key me-1"></i>@L["KiosksAdmin.Modal.Submit"]</button>
             </div>
         </form>
     </div>

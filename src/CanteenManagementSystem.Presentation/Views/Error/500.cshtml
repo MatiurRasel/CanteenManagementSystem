@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "500";
     ViewData["Tone"]           = "danger";
-    ViewData["Icon"]           = "fa-bug";
-    ViewData["Title"]          = "Something broke on our side";
-    ViewData["Description"]    = "An unexpected error happened while we tried to serve your request. The site team has been notified — try again, or come back in a few minutes.";
+    ViewData["Icon"]           = "bx bx-bug";
+    ViewData["Title"]          = L["Error.500.Title"].Value;
+    ViewData["Description"]    = L["Error.500.Description"].Value;
     ViewData["CtaUrl"]         = "javascript:location.reload()";
-    ViewData["CtaLabel"]       = "Try again";
-    ViewData["CtaIcon"]        = "fa-rotate-right";
+    ViewData["CtaLabel"]       = L["Error.Shared.TryAgain"].Value;
+    ViewData["CtaIcon"]        = "bx bx-refresh";
     ViewData["SecondaryUrl"]   = "/";
-    ViewData["SecondaryLabel"] = "Home";
-    ViewData["SecondaryIcon"]  = "fa-house";
+    ViewData["SecondaryLabel"] = L["Error.Shared.Home"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Server error · SmartCanteen</title>
+    <title>@L["Error.Shared.ServerError"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

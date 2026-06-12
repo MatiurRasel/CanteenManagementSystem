@@ -4,16 +4,17 @@
 @using CanteenManagementSystem.Domain.Inventory
 @using CanteenManagementSystem.Domain.Menu
 @using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "New purchase order";
+    ViewData["Title"] = L["InventoryAdmin.NewPurchaseOrder.Title"].Value;
     var suppliers = (IReadOnlyList<Supplier>)(ViewBag.Suppliers ?? new List<Supplier>());
     var foods     = (List<FoodItem>)(ViewBag.FoodItems ?? new List<FoodItem>());
 
     var header = new UiPageHeaderOptions
     {
-        Title    = "New purchase order",
-        Subtitle = "Add lines; receiving the PO later will bump today's menu quantities.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/inventory/pos'><i class='fa-solid fa-arrow-left me-1'></i> Back</a>")
+        Title    = L["InventoryAdmin.NewPurchaseOrder.Title"].Value,
+        Subtitle = L["InventoryAdmin.NewPurchaseOrder.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-ghost' href='/admin/inventory/pos'><i class='bx bx-arrow-back me-1'></i> {L["Common.Back"].Value}</a>")
     };
 }
 
@@ -25,12 +26,12 @@
         <div class="row g-4">
             <div class="col-12 col-lg-4">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Header</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["InventoryAdmin.NewPurchaseOrder.Header"]</div></div>
                     <div class="ui-card-body ui-stack">
                         <div>
-                            <label class="ui-label">Supplier <span class="ui-muted">*</span></label>
+                            <label class="ui-label">@L["InventoryAdmin.PurchaseOrders.Supplier"] <span class="ui-muted">*</span></label>
                             <select name="supplierId" class="form-select ui-select" required>
-                                <option value="" disabled selected>Pick one…</option>
+                                <option value="" disabled selected>@L["InventoryAdmin.NewPurchaseOrder.PickOne"]</option>
                                 @foreach (var s in suppliers)
                                 {
                                     <option value="@s.SupplierId">@s.Name</option>
@@ -38,15 +39,15 @@
                             </select>
                             @if (suppliers.Count == 0)
                             {
-                                <div class="ui-help-text">No suppliers yet — <a href="/admin/inventory/suppliers/edit">add one</a> first.</div>
+                                <div class="ui-help-text">@L["InventoryAdmin.Suppliers.Empty.Title"] — <a href="/admin/inventory/suppliers/edit">@L["InventoryAdmin.NewPurchaseOrder.AddOneFirst"]</a></div>
                             }
                         </div>
                         <div>
-                            <label class="ui-label">PO number <span class="ui-muted">(optional)</span></label>
-                            <input class="ui-input form-control" name="poNumber" placeholder="auto" maxlength="40" />
+                            <label class="ui-label">@L["InventoryAdmin.NewPurchaseOrder.PoNumberLabel"] <span class="ui-muted">(@L["Common.Optional"])</span></label>
+                            <input class="ui-input form-control" name="poNumber" placeholder="@L["InventoryAdmin.NewPurchaseOrder.AutoPlaceholder"]" maxlength="40" />
                         </div>
                         <div>
-                            <label class="ui-label">Notes</label>
+                            <label class="ui-label">@L["InventoryAdmin.NewPurchaseOrder.Notes"]</label>
                             <input class="ui-input form-control" name="notes" maxlength="500" />
                         </div>
                     </div>
@@ -55,9 +56,9 @@
             <div class="col-12 col-lg-8">
                 <div class="ui-card">
                     <div class="ui-card-header">
-                        <div class="ui-card-title">Lines</div>
+                        <div class="ui-card-title">@L["InventoryAdmin.PurchaseOrders.Lines"]</div>
                         <button type="button" class="btn btn-sm btn-ghost" id="po-add-line">
-                            <i class="fa-solid fa-plus me-1"></i> Add line
+                            <i class="bx bx-plus me-1"></i> @L["InventoryAdmin.NewPurchaseOrder.AddLine"]
                         </button>
                     </div>
                     <div class="ui-card-body">
@@ -65,10 +66,10 @@
                             <table class="table ui-table">
                                 <thead>
                                     <tr>
-                                        <th>Item</th>
-                                        <th class="text-end" style="width:18%">Qty</th>
-                                        <th class="text-end" style="width:24%">Unit cost ৳</th>
-                                        <th class="text-end" style="width:24%">Line total ৳</th>
+                                        <th>@L["InventoryAdmin.NewPurchaseOrder.Item"]</th>
+                                        <th class="text-end" style="width:18%">@L["Common.Quantity"]</th>
+                                        <th class="text-end" style="width:24%">@L["InventoryAdmin.NewPurchaseOrder.UnitCost"] ৳</th>
+                                        <th class="text-end" style="width:24%">@L["InventoryAdmin.NewPurchaseOrder.LineTotal"] ৳</th>
                                         <th class="text-end" style="width:1%">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -76,19 +77,19 @@
                                     <tr class="po-line-row">
                                         <td>
                                             <select name="foodItemId" class="form-select ui-select" required>
-                                                <option value="" disabled selected>Pick…</option>
+                                                <option value="" disabled selected>@L["InventoryAdmin.NewPurchaseOrder.Pick"]</option>
                                                 @foreach (var f in foods) { <option value="@f.FoodItemID" data-price="@f.Price">@f.ItemName (৳ @f.Price.ToString("N0"))</option> }
                                             </select>
                                         </td>
                                         <td><input name="quantity" type="number" min="1" step="1" class="ui-input form-control text-end" required /></td>
                                         <td><input name="unitCost" type="number" min="0" step="0.01" class="ui-input form-control text-end" required /></td>
                                         <td class="text-end ui-tabular line-total">৳ 0</td>
-                                        <td class="text-end"><button class="btn btn-ghost btn-sm po-line-del" type="button" tabindex="-1"><i class="fa-solid fa-trash"></i></button></td>
+                                        <td class="text-end"><button class="btn btn-ghost btn-sm po-line-del" type="button" tabindex="-1" title="@L["Common.Remove"]"><i class="bx bx-trash"></i></button></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3" class="text-end ui-text-strong">Grand total</td>
+                                        <td colspan="3" class="text-end ui-text-strong">@L["InventoryAdmin.NewPurchaseOrder.GrandTotal"]</td>
                                         <td class="text-end ui-tabular ui-text-strong" id="po-grand-total">৳ 0</td>
                                         <td></td>
                                     </tr>
@@ -100,8 +101,8 @@
             </div>
         </div>
         <div class="ui-row" style="justify-content:flex-end; gap: .5rem; margin-top: 1.5rem">
-            <a class="btn btn-ghost" href="/admin/inventory/pos">Cancel</a>
-            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane me-1"></i> Submit PO</button>
+            <a class="btn btn-ghost" href="/admin/inventory/pos">@L["Common.Cancel"]</a>
+            <button class="btn btn-primary" type="submit"><i class="bx bx-send me-1"></i> @L["InventoryAdmin.NewPurchaseOrder.SubmitPo"]</button>
         </div>
     </form>
 </div>

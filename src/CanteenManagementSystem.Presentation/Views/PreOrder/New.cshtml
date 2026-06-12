@@ -4,26 +4,27 @@
 @using CanteenManagementSystem.Domain.Menu
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.PreOrderController.NewForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Pre-order";
+    ViewData["Title"] = L["PreOrder.New.Title"].Value;
     var target = (DateTime)(ViewBag.Target ?? DateTime.Today.AddDays(1));
     var menu = (List<DailyMenu>)(ViewBag.Menu ?? new List<DailyMenu>());
 
     var dateForm = $@"
         <form method='get' class='d-flex gap-2 align-items-end'>
             <div>
-                <label class='ui-label mb-1'>Pickup date</label>
+                <label class='ui-label mb-1'>{L["PreOrder.New.PickupDate"].Value}</label>
                 <input type='date' name='date' value='{target:yyyy-MM-dd}' class='ui-input form-control form-control-sm'
                        min='{DateTime.UtcNow.Date:yyyy-MM-dd}'
                        max='{DateTime.UtcNow.Date.AddDays(14):yyyy-MM-dd}' />
             </div>
-            <button class='btn btn-outline-primary btn-sm' type='submit'>Refresh menu</button>
+            <button class='btn btn-outline-primary btn-sm' type='submit'>{L["PreOrder.New.RefreshMenu"].Value}</button>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = $"Pre-order for {target:dddd, dd MMM yyyy}",
-        Subtitle = "Pick quantities, then confirm. Your wallet is checked at submission, not now.",
-        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm me-2' href='/pre-orders'><i class='fa-solid fa-arrow-left me-1'></i> Pre-orders</a>{dateForm}")
+        Title    = L["PreOrder.New.TitleFor", target.ToString("dddd, dd MMM yyyy")].Value,
+        Subtitle = L["PreOrder.New.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm me-2' href='/pre-orders'><i class='bx bx-arrow-back me-1'></i> {L["PreOrders"].Value}</a>{dateForm}")
     };
 }
 
@@ -35,8 +36,8 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "No menu yet",
-            Body    = $"No menu has been published for {target:dd MMM yyyy}. Ask the admin to schedule the day's menu first, or pick another date."
+            Heading = L["PreOrder.New.NoMenu.Title"].Value,
+            Body    = L["PreOrder.New.NoMenu.Body", target.ToString("dd MMM yyyy")].Value
         };
         <partial name="_UiAlert" model="info" />
     }
@@ -51,10 +52,10 @@
                     <table class="table mb-0 ui-table">
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Dietary</th>
-                                <th class="text-end">Price</th>
-                                <th style="width:140px" class="text-end">Quantity</th>
+                                <th>@L["PreOrder.New.Item"]</th>
+                                <th>@L["PreOrder.New.Dietary"]</th>
+                                <th class="text-end">@L["Common.Price"]</th>
+                                <th style="width:140px" class="text-end">@L["Common.Quantity"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,9 +84,9 @@
             </div>
 
             <div class="d-flex justify-content-end gap-2 mt-3">
-                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-calendar-check me-1"></i> Confirm pre-order
+                    <i class="bx bx-calendar-check me-1"></i> @L["PreOrder.New.Confirm"]
                 </button>
             </div>
         </form>

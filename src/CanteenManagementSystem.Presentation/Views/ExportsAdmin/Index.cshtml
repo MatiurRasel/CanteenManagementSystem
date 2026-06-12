@@ -2,15 +2,16 @@
     /admin/exports — tenant-scoped CSV exports for finance / audit.
 *@
 @using CanteenManagementSystem.Presentation.Models
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Exports";
+    ViewData["Title"] = L["ExportsAdmin.Index.Title"].Value;
     var today = DateTime.UtcNow.Date;
     var defaultFrom = today.AddDays(-6).ToString("yyyy-MM-dd");
     var defaultTo   = today.ToString("yyyy-MM-dd");
     var header = new UiPageHeaderOptions
     {
-        Title    = "Exports",
-        Subtitle = "Tenant-scoped CSVs for finance + audit. UTF-8 BOM (opens correctly in Excel)."
+        Title    = L["ExportsAdmin.Index.Title"].Value,
+        Subtitle = L["ExportsAdmin.Index.Subtitle"].Value
     };
 }
 
@@ -22,24 +23,24 @@
             <form method="get" asp-action="Orders" class="ui-card">
                 <div class="ui-card-header">
                     <div>
-                        <div class="ui-card-title"><i class="fa-solid fa-cart-shopping me-2" style="color:var(--accent)"></i>Orders CSV</div>
-                        <div class="ui-card-muted-body">Every order in the selected window, with item summary inline.</div>
+                        <div class="ui-card-title"><i class="bx bx-cart me-2" style="color:var(--accent)"></i>@L["ExportsAdmin.Index.OrdersCsv"]</div>
+                        <div class="ui-card-muted-body">@L["ExportsAdmin.Index.OrdersDescription"]</div>
                     </div>
                 </div>
                 <div class="ui-card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="ui-label">From</label>
+                            <label class="ui-label">@L["Common.From"]</label>
                             <input type="date" name="from" value="@defaultFrom" class="ui-input form-control" />
                         </div>
                         <div class="col-md-4">
-                            <label class="ui-label">To</label>
+                            <label class="ui-label">@L["Common.To"]</label>
                             <input type="date" name="to" value="@defaultTo" class="ui-input form-control" />
                         </div>
                         <div class="col-md-4">
-                            <label class="ui-label">Status (optional)</label>
+                            <label class="ui-label">@L["ExportsAdmin.Index.StatusOptional"]</label>
                             <select name="status" class="form-select ui-select">
-                                <option value="">All statuses</option>
+                                <option value="">@L["ExportsAdmin.Index.AllStatuses"]</option>
                                 @foreach (var s in Enum.GetValues<CanteenManagementSystem.Domain.Enums.CanteenOrderStatus>())
                                 {
                                     <option value="@((int)s)">@s</option>
@@ -50,7 +51,7 @@
                 </div>
                 <div class="ui-card-footer">
                     <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-download me-1"></i> Download orders.csv
+                        <i class="bx bx-download me-1"></i> @L["ExportsAdmin.Index.DownloadOrdersCsv"]
                     </button>
                 </div>
             </form>
@@ -60,29 +61,29 @@
             <form method="get" asp-action="Wallet" class="ui-card">
                 <div class="ui-card-header">
                     <div>
-                        <div class="ui-card-title"><i class="fa-solid fa-wallet me-2" style="color:var(--accent)"></i>Wallet ledger CSV</div>
-                        <div class="ui-card-muted-body">Every wallet entry in the window — recharge / block / deduct / refund.</div>
+                        <div class="ui-card-title"><i class="bx bx-wallet me-2" style="color:var(--accent)"></i>@L["ExportsAdmin.Index.WalletCsv"]</div>
+                        <div class="ui-card-muted-body">@L["ExportsAdmin.Index.WalletDescription"]</div>
                     </div>
                 </div>
                 <div class="ui-card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="ui-label">From</label>
+                            <label class="ui-label">@L["Common.From"]</label>
                             <input type="date" name="from" value="@defaultFrom" class="ui-input form-control" />
                         </div>
                         <div class="col-md-4">
-                            <label class="ui-label">To</label>
+                            <label class="ui-label">@L["Common.To"]</label>
                             <input type="date" name="to" value="@defaultTo" class="ui-input form-control" />
                         </div>
                         <div class="col-md-4">
-                            <label class="ui-label">User ID (optional)</label>
+                            <label class="ui-label">@L["ExportsAdmin.Index.UserIdOptional"]</label>
                             <input type="text" name="userId" placeholder="STD-2026-001" class="ui-input form-control" />
                         </div>
                     </div>
                 </div>
                 <div class="ui-card-footer">
                     <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-download me-1"></i> Download wallet.csv
+                        <i class="bx bx-download me-1"></i> @L["ExportsAdmin.Index.DownloadWalletCsv"]
                     </button>
                 </div>
             </form>
@@ -93,7 +94,7 @@
         var tip = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Body    = "Exports are capped at 100,000 rows per request. Need more? Filter by a tighter date range or hand-write a SQL query against the read replica."
+            Body    = L["ExportsAdmin.Index.RowCapNote"].Value
         };
     }
     <div class="mt-4">

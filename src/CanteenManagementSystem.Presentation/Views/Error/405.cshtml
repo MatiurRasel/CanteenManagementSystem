@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "405";
     ViewData["Tone"]           = "warning";
-    ViewData["Icon"]           = "fa-ban";
-    ViewData["Title"]          = "Method not allowed";
-    ViewData["Description"]    = "This endpoint doesn't accept the HTTP method you used. If you arrived here from a form, the form's target route may have changed — head back and try again.";
+    ViewData["Icon"]           = "bx bx-block";
+    ViewData["Title"]          = L["Error.405.Title"].Value;
+    ViewData["Description"]    = L["Error.405.Description"].Value;
     ViewData["CtaUrl"]         = "javascript:history.back()";
-    ViewData["CtaLabel"]       = "Go back";
-    ViewData["CtaIcon"]        = "fa-arrow-left";
+    ViewData["CtaLabel"]       = L["Error.Shared.GoBack"].Value;
+    ViewData["CtaIcon"]        = "bx bx-arrow-back";
     ViewData["SecondaryUrl"]   = "/";
-    ViewData["SecondaryLabel"] = "Home";
-    ViewData["SecondaryIcon"]  = "fa-house";
+    ViewData["SecondaryLabel"] = L["Error.Shared.Home"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Method not allowed · SmartCanteen</title>
+    <title>@L["Error.405.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

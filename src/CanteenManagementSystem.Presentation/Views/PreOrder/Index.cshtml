@@ -4,8 +4,9 @@
 @using CanteenManagementSystem.Domain.Enums
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<CanteenManagementSystem.Presentation.Controllers.PreOrderController.OrderRow>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Pre-orders";
+    ViewData["Title"] = L["PreOrders"].Value;
     UiBadgeVariant V(CanteenOrderStatus s) => s switch
     {
         CanteenOrderStatus.Delivered => UiBadgeVariant.Success,
@@ -16,9 +17,9 @@
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Pre-orders",
-        Subtitle = "Order ahead for a specific pickup time — skip the lunch queue.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-primary' href='/pre-orders/new'><i class='fa-solid fa-plus me-1'></i> New pre-order</a>")
+        Title    = L["PreOrders"].Value,
+        Subtitle = L["PreOrder.Index.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-primary' href='/pre-orders/new'><i class='bx bx-plus me-1'></i> {L["PreOrder.Index.NewPreOrder"].Value}</a>")
     };
 }
 
@@ -29,12 +30,12 @@
     {
         var empty = new EmptyStateOptions
         {
-            Icon = "fa-calendar-plus",
-            Title = "No pre-orders yet",
-            Description = "Place a pre-order for a specific pickup time and skip the rush.",
-            CtaLabel = "Create one",
+            Icon = "bx-calendar-plus",
+            Title = L["PreOrder.Index.Empty.Title"].Value,
+            Description = L["PreOrder.Index.Empty.Description"].Value,
+            CtaLabel = L["PreOrder.Index.Empty.Cta"].Value,
             CtaUrl   = "/pre-orders/new",
-            CtaIcon  = "fa-plus"
+            CtaIcon  = "bx-plus"
         };
         <partial name="_EmptyState" model="empty" />
     }
@@ -44,11 +45,11 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Order #</th>
-                        <th class="text-end">Pickup at</th>
-                        <th>Items</th>
-                        <th class="text-end">Total</th>
-                        <th>Status</th>
+                        <th>@L["PreOrder.Index.OrderNo"]</th>
+                        <th class="text-end">@L["PreOrder.Index.PickupAt"]</th>
+                        <th>@L["Common.Items"]</th>
+                        <th class="text-end">@L["Common.Total"]</th>
+                        <th>@L["Common.Status"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +58,7 @@
                     var b = new UiBadgeOptions { Text = o.Status.ToString(), Variant = V(o.Status), WithDot = true };
                     var itemSummary = o.Items.Count == 0
                         ? "—"
-                        : string.Join(", ", o.Items.Take(3)) + (o.Items.Count > 3 ? $" +{o.Items.Count - 3} more" : "");
+                        : string.Join(", ", o.Items.Take(3)) + (o.Items.Count > 3 ? " " + L["PreOrder.Index.MoreItems", o.Items.Count - 3].Value : "");
                     <tr>
                         <td class="ui-mono">@o.OrderNumber</td>
                         <td class="text-end ui-text-strong ui-tabular">@o.PickupAtUtc.ToString("yyyy-MM-dd HH:mm")</td>

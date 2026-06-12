@@ -11,6 +11,7 @@
 @using CanteenManagementSystem.Domain.Enums
 @using Platform.Domain.Tenancy
 @using Platform.Application.Configuration
+@inject IStringLocalizer<SharedResource> L
 @{
     var clientInfo = ViewBag.ClientInfo as Client;
     var config     = ViewBag.Config as CanteenConfiguration;
@@ -25,8 +26,9 @@
 <html lang="bn" class="ks-html" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] · Live menu</title>
+    <title>@ViewData["Title"] · @L["Display.Menu.LiveMenu"]</title>
     <partial name="_KioskShell" />
+    <link rel="stylesheet" href="~/css/canteen-loading.css" asp-append-version="true" />
     <style>
         body.ks-body {
             background:
@@ -140,6 +142,9 @@
             background: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,.22);
             animation: ks-pulse 1.6s ease-in-out infinite;
         }
+        /* Skeleton region keeps the grid's flex sizing while hydrating. */
+        #menuRegion { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+        #menuRegion > .skeleton-target { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
     </style>
 </head>
 <body class="ks-body">
@@ -147,14 +152,14 @@
 <div class="ks-shell">
     <header class="ks-header">
         <div class="d-flex align-items-center gap-3">
-            <div class="ks-balance-icon"><i class="bx bxs-restaurant"></i></div>
+            <div class="ks-balance-icon"><i class="bx bx-restaurant"></i></div>
             <div>
                 <div class="ks-title">@(clientInfo?.ClientName ?? "Smart Canteen")</div>
-                <div class="ks-subtitle">@(clientInfo?.ShortName ?? "Live menu display")</div>
+                <div class="ks-subtitle">@(clientInfo?.ShortName ?? L["Display.Menu.LiveMenuDisplay"].Value)</div>
             </div>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <span class="live-pill"><span class="dot"></span> LIVE</span>
+            <span class="live-pill"><span class="dot"></span> @L["Display.Menu.Live"]</span>
             <div class="ks-clock" id="clock">--:--:--</div>
         </div>
     </header>
@@ -162,39 +167,40 @@
     <div class="display-content">
         <section class="menu-grid-wrap">
             <div class="menu-grid-header">
-                <h2><i class="bx bx-bowl-hot me-2"></i> Today's menu</h2>
-                <div class="meta">Auto-refresh · <span id="menu-count">0</span> item(s)</div>
+                <h2><i class="bx bx-bowl-hot me-2"></i> @L["TodayMenu"]</h2>
+                <div class="meta">@L["Display.Menu.AutoRefresh"] · <span id="menu-count">0</span> @L["Display.Menu.ItemCountSuffix"]</div>
             </div>
-            <div id="menuGrid" class="menu-grid">
-                <div class="display-empty">
-                    <i class="bx bx-loader-alt bx-spin"></i>
-                    <div>Loading menu…</div>
+            <div id="menuRegion" data-loaded="false">
+                <partial name="_Skeleton" model="@(new SkeletonOptions { Variant = SkeletonVariant.Card, Rows = 6, Card = true })" />
+                <div class="skeleton-target">
+                    <div id="menuGrid" class="menu-grid"></div>
                 </div>
             </div>
         </section>
 
         <aside class="display-side">
             <div class="display-side-card">
-                <div class="label">Now</div>
+                <div class="label">@L["Display.Menu.Now"]</div>
                 <div class="display-clock" id="clock-big">--:--</div>
                 <div class="display-date" id="date">—</div>
             </div>
             <div class="display-side-card">
-                <div class="label">Display settings</div>
-                <div class="display-config-row"><span>Prices</span>    <strong>@(showPrices ? "On" : "Off")</strong></div>
-                <div class="display-config-row"><span>Stock</span>     <strong>@(showStock ? "On" : "Off")</strong></div>
-                <div class="display-config-row"><span>Nutrition</span> <strong id="cfg-nutrition">@(showNutrition ? "On" : "Off")</strong></div>
-                <div class="display-config-row"><span>Refresh</span>   <strong>@refreshInterval ms</strong></div>
+                <div class="label">@L["Display.Menu.DisplaySettings"]</div>
+                <div class="display-config-row"><span>@L["Display.Menu.Prices"]</span>    <strong>@(showPrices ? L["Display.Menu.On"].Value : L["Display.Menu.Off"].Value)</strong></div>
+                <div class="display-config-row"><span>@L["Display.Menu.Stock"]</span>     <strong>@(showStock ? L["Display.Menu.On"].Value : L["Display.Menu.Off"].Value)</strong></div>
+                <div class="display-config-row"><span>@L["Display.Menu.Nutrition"]</span> <strong id="cfg-nutrition">@(showNutrition ? L["Display.Menu.On"].Value : L["Display.Menu.Off"].Value)</strong></div>
+                <div class="display-config-row"><span>@L["Common.Refresh"]</span>   <strong>@refreshInterval ms</strong></div>
             </div>
             <div class="display-side-card">
-                <div class="label">Quick keys</div>
-                <div class="ui-muted small"><kbd>N</kbd> toggle nutrition chips</div>
-                <div class="ui-muted small mt-1"><kbd>F</kbd> fullscreen</div>
+                <div class="label">@L["Display.Menu.QuickKeys"]</div>
+                <div class="ui-muted small"><kbd>N</kbd> @L["Display.Menu.ToggleNutrition"]</div>
+                <div class="ui-muted small mt-1"><kbd>F</kbd> @L["Display.Menu.Fullscreen"]</div>
             </div>
         </aside>
     </div>
 </div>
 
+<script src="~/js/canteen-loading.js" asp-append-version="true"></script>
 <script>
 (function () {
     'use strict';
@@ -202,6 +208,18 @@
     var showStock     = @(showStock.ToString().ToLowerInvariant());
     var showNutrition = @(showNutrition.ToString().ToLowerInvariant());
     var refreshInterval = @refreshInterval;
+    var T = {
+        veg:          '@L["Display.Menu.Veg"]',
+        halal:        '@L["Display.Menu.Halal"]',
+        soldOut:      '@L["Display.Menu.SoldOut"]',
+        onlyLeft:     '@L["Display.Menu.OnlyLeft"]',
+        stockCount:   '@L["Display.Menu.StockCount"]',
+        loadFailed:   '@L["Display.Menu.LoadFailed"]',
+        noMenu:       '@L["Display.Menu.NoMenu"]',
+        networkRetry: '@L["Display.Menu.NetworkRetry"]',
+        on:           '@L["Display.Menu.On"]',
+        off:          '@L["Display.Menu.Off"]'
+    };
 
     function escapeHtml(s) {
         return String(s == null ? '' : s)
@@ -210,11 +228,11 @@
     }
     function renderChips(item) {
         var html = '';
-        if (item.isVegetarian) html += '<span class="ks-chip chip-veg"><i class="bx bx-leaf"></i> Veg</span>';
-        if (item.isHalal)      html += '<span class="ks-chip chip-halal"><i class="bx bx-check-circle"></i> Halal</span>';
+        if (item.isVegetarian) html += '<span class="ks-chip chip-veg"><i class="bx bx-leaf"></i> ' + T.veg + '</span>';
+        if (item.isHalal)      html += '<span class="ks-chip chip-halal"><i class="bx bx-check-circle"></i> ' + T.halal + '</span>';
         if (showNutrition) {
             if (item.kCalories && item.kCalories > 0)
-                html += '<span class="ks-chip chip-kcal"><i class="bx bx-flame"></i> ' + item.kCalories + ' kcal</span>';
+                html += '<span class="ks-chip chip-kcal"><i class="bx bxs-flame"></i> ' + item.kCalories + ' kcal</span>';
             if (item.allergens) {
                 String(item.allergens).split(',').map(function (s) { return s.trim(); }).filter(Boolean)
                     .forEach(function (a) {
@@ -233,7 +251,7 @@
             var n = item.availableQuantity ?? 0;
             var cls = n === 0 ? 'chip-out' : n <= 5 ? 'chip-low' : 'chip-in';
             stock = '<span class="ks-chip ' + cls + '">' +
-                    (n === 0 ? 'Sold out' : (n <= 5 ? ('Only ' + n + ' left') : ('Stock ' + n))) +
+                    (n === 0 ? T.soldOut : (n <= 5 ? T.onlyLeft.replace('{0}', n) : T.stockCount.replace('{0}', n))) +
                     '</span>';
         }
         return '<article class="ks-tv-card">' +
@@ -251,24 +269,36 @@
     var menuGrid  = document.getElementById('menuGrid');
     var menuCount = document.getElementById('menu-count');
 
+    // Reveal the hydrated region after the FIRST render only — the 5s
+    // auto-refresh must never flash the skeleton again.
+    var firstRender = true;
+    function revealMenu() {
+        if (!firstRender) return;
+        firstRender = false;
+        if (window.CanteenLoading) { CanteenLoading.hide('#menuRegion'); }
+        else { document.getElementById('menuRegion').setAttribute('data-loaded', 'true'); }
+    }
+
     async function loadMenu() {
         try {
             var res  = await fetch('@Url.Action("GetTodayMenu", "Display")');
             var data = await res.json();
             if (!data.success) {
-                menuGrid.innerHTML = '<div class="display-empty"><i class="bx bx-error-circle"></i><div>Could not load menu</div></div>';
+                menuGrid.innerHTML = '<div class="display-empty"><i class="bx bx-error-circle"></i><div>' + T.loadFailed + '</div></div>';
                 return;
             }
             var items = data.items || [];
             menuCount.textContent = items.length;
             if (items.length === 0) {
-                menuGrid.innerHTML = '<div class="display-empty"><i class="bx bxs-bowl-hot"></i><div>No menu published yet for today</div></div>';
+                menuGrid.innerHTML = '<div class="display-empty"><i class="bx bxs-bowl-hot"></i><div>' + T.noMenu + '</div></div>';
                 return;
             }
             menuGrid.innerHTML = items.map(renderCard).join('');
         } catch (e) {
             console.error('menu load failed', e);
-            menuGrid.innerHTML = '<div class="display-empty"><i class="bx bx-error-circle"></i><div>Network error — retrying…</div></div>';
+            menuGrid.innerHTML = '<div class="display-empty"><i class="bx bx-error-circle"></i><div>' + T.networkRetry + '</div></div>';
+        } finally {
+            revealMenu();
         }
     }
 
@@ -285,7 +315,7 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'n' || e.key === 'N') {
             showNutrition = !showNutrition;
-            document.getElementById('cfg-nutrition').textContent = showNutrition ? 'On' : 'Off';
+            document.getElementById('cfg-nutrition').textContent = showNutrition ? T.on : T.off;
             loadMenu();
         }
         if (e.key === 'f' || e.key === 'F') {

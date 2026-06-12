@@ -4,13 +4,14 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.DirectoryAdminUiController.SetupForm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Directory · Setup";
+    ViewData["Title"] = L["DirectoryAdminUi.Setup.PageTitle"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Directory source",
-        Subtitle = "Pick how this tenant's student / employee directory feeds in.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='fa-solid fa-arrow-left me-1'></i> Directory</a>")
+        Title    = L["DirectoryAdminUi.Setup.Heading"].Value,
+        Subtitle = L["DirectoryAdminUi.Setup.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='bx bx-arrow-back me-1'></i> {L["Directory"].Value}</a>")
     };
 }
 
@@ -25,28 +26,28 @@
         <div class="row g-3">
             <div class="col-lg-8">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Source type</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Setup.SourceType"]</div></div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="Source">Source</label>
+                                <label class="ui-label" asp-for="Source">@L["DirectoryAdminUi.Source"]</label>
                                 <select asp-for="Source" class="form-select ui-select" id="sourceSelect">
-                                    <option value="Manual">Manual (upload CSV)</option>
-                                    <option value="Database">School DB (read-only views)</option>
-                                    <option value="Api">School portal API</option>
-                                    <option value="Disabled">Disabled (no sync)</option>
+                                    <option value="Manual">@L["DirectoryAdminUi.Setup.SourceManual"]</option>
+                                    <option value="Database">@L["DirectoryAdminUi.Setup.SourceDatabase"]</option>
+                                    <option value="Api">@L["DirectoryAdminUi.Setup.SourceApi"]</option>
+                                    <option value="Disabled">@L["DirectoryAdminUi.Setup.SourceDisabled"]</option>
                                 </select>
                                 <span asp-validation-for="Source" class="text-danger small"></span>
                             </div>
                             <div class="col-md-3">
-                                <label class="ui-label" asp-for="SyncIntervalMinutes">Interval (min)</label>
+                                <label class="ui-label" asp-for="SyncIntervalMinutes">@L["DirectoryAdminUi.Setup.IntervalMinutes"]</label>
                                 <input asp-for="SyncIntervalMinutes" class="ui-input form-control" type="number" min="5" max="1440" />
                             </div>
                             <div class="col-md-3">
-                                <label class="ui-label" asp-for="SnapshotMode">Snapshot mode</label>
+                                <label class="ui-label" asp-for="SnapshotMode">@L["DirectoryAdminUi.Setup.SnapshotMode"]</label>
                                 <select asp-for="SnapshotMode" class="form-select ui-select">
-                                    <option value="PerSync">Per sync (full snapshot)</option>
-                                    <option value="Daily">Daily (incremental otherwise)</option>
+                                    <option value="PerSync">@L["DirectoryAdminUi.Setup.SnapshotPerSync"]</option>
+                                    <option value="Daily">@L["DirectoryAdminUi.Setup.SnapshotDaily"]</option>
                                 </select>
                             </div>
                         </div>
@@ -54,21 +55,21 @@
                 </div>
 
                 <div class="ui-card mt-3" data-source-panel="Database">
-                    <div class="ui-card-header"><div class="ui-card-title">School DB credentials</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Setup.DbCredentials"]</div></div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="ui-label" asp-for="DatabaseConnectionString">Connection string</label>
+                                <label class="ui-label" asp-for="DatabaseConnectionString">@L["DirectoryAdminUi.Setup.ConnectionString"]</label>
                                 <input asp-for="DatabaseConnectionString" class="ui-input form-control" autocomplete="off"
-                                       placeholder='@(Model.HasDbConnectionStored ? "(stored — paste to replace)" : "Server=...;Database=...;User ID=...;Password=...;TrustServerCertificate=True")' />
-                                <div class="ui-help-text">Encrypted at rest. Leave blank to keep the existing value.</div>
+                                       placeholder='@(Model.HasDbConnectionStored ? L["DirectoryAdminUi.Setup.StoredPlaceholder"].Value : "Server=...;Database=...;User ID=...;Password=...;TrustServerCertificate=True")' />
+                                <div class="ui-help-text">@L["DirectoryAdminUi.Setup.ConnectionStringHelp"]</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="DatabaseStudentsView">Students view</label>
+                                <label class="ui-label" asp-for="DatabaseStudentsView">@L["DirectoryAdminUi.Setup.StudentsView"]</label>
                                 <input asp-for="DatabaseStudentsView" class="ui-input form-control" placeholder="vw_StudentInfo_Canteen" />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="DatabaseEmployeesView">Employees view</label>
+                                <label class="ui-label" asp-for="DatabaseEmployeesView">@L["DirectoryAdminUi.Setup.EmployeesView"]</label>
                                 <input asp-for="DatabaseEmployeesView" class="ui-input form-control" placeholder="vw_EmployeeInfo_Canteen" />
                             </div>
                         </div>
@@ -76,25 +77,25 @@
                 </div>
 
                 <div class="ui-card mt-3" data-source-panel="Api">
-                    <div class="ui-card-header"><div class="ui-card-title">School portal API</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Setup.SourceApi"]</div></div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="ui-label" asp-for="ApiBaseUrl">Base URL</label>
+                                <label class="ui-label" asp-for="ApiBaseUrl">@L["DirectoryAdminUi.Setup.BaseUrl"]</label>
                                 <input asp-for="ApiBaseUrl" class="ui-input form-control" placeholder="https://portal.acme.edu/api/v1/directory" />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="ApiKey">App Key</label>
+                                <label class="ui-label" asp-for="ApiKey">@L["DirectoryAdminUi.Setup.AppKey"]</label>
                                 <input asp-for="ApiKey" class="ui-input form-control" autocomplete="off"
-                                       placeholder='@(Model.HasApiKeyStored ? "(stored — paste to replace)" : "live_...")' />
+                                       placeholder='@(Model.HasApiKeyStored ? L["DirectoryAdminUi.Setup.StoredPlaceholder"].Value : "live_...")' />
                             </div>
                             <div class="col-md-6">
-                                <label class="ui-label" asp-for="ApiSecret">HMAC secret</label>
+                                <label class="ui-label" asp-for="ApiSecret">@L["DirectoryAdminUi.Setup.HmacSecret"]</label>
                                 <input asp-for="ApiSecret" class="ui-input form-control" autocomplete="off"
-                                       placeholder='@(Model.HasApiSecretStored ? "(stored — paste to replace)" : "32 random bytes, base64-encoded")' />
+                                       placeholder='@(Model.HasApiSecretStored ? L["DirectoryAdminUi.Setup.StoredPlaceholder"].Value : L["DirectoryAdminUi.Setup.ApiSecretPlaceholder"].Value)' />
                             </div>
                             <div class="col-md-3">
-                                <label class="ui-label" asp-for="ApiPageSize">Page size</label>
+                                <label class="ui-label" asp-for="ApiPageSize">@L["DirectoryAdminUi.Setup.PageSize"]</label>
                                 <input asp-for="ApiPageSize" class="ui-input form-control" type="number" min="50" max="5000" />
                             </div>
                         </div>
@@ -102,20 +103,20 @@
                 </div>
 
                 <div class="ui-card mt-3">
-                    <div class="ui-card-header"><div class="ui-card-title">Failure alerts</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Setup.FailureAlerts"]</div></div>
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <label class="ui-label" asp-for="MaxFailuresBeforeAlert">Threshold</label>
+                                <label class="ui-label" asp-for="MaxFailuresBeforeAlert">@L["DirectoryAdminUi.Setup.Threshold"]</label>
                                 <input asp-for="MaxFailuresBeforeAlert" class="ui-input form-control" type="number" min="1" max="20" />
-                                <div class="ui-help-text">Consecutive failures before alerting.</div>
+                                <div class="ui-help-text">@L["DirectoryAdminUi.Setup.ThresholdHelp"]</div>
                             </div>
                             <div class="col-md-5">
-                                <label class="ui-label" asp-for="AlertEmail">Alert email</label>
+                                <label class="ui-label" asp-for="AlertEmail">@L["DirectoryAdminUi.Setup.AlertEmail"]</label>
                                 <input asp-for="AlertEmail" class="ui-input form-control" type="email" />
                             </div>
                             <div class="col-md-4">
-                                <label class="ui-label" asp-for="AlertPhone">Alert phone</label>
+                                <label class="ui-label" asp-for="AlertPhone">@L["DirectoryAdminUi.Setup.AlertPhone"]</label>
                                 <input asp-for="AlertPhone" class="ui-input form-control" />
                             </div>
                         </div>
@@ -125,16 +126,16 @@
 
             <div class="col-lg-4">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">Save changes</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["DirectoryAdminUi.Setup.SaveChanges"]</div></div>
                     <div class="ui-card-body">
                         <p class="ui-muted small mb-3">
-                            Credentials are encrypted before storage. Leaving a secret field blank keeps the existing value.
+                            @L["DirectoryAdminUi.Setup.SaveHelp"]
                         </p>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                                <i class="bx bx-save me-1"></i> @L["Common.Save"]
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                         </div>
                     </div>
                 </div>

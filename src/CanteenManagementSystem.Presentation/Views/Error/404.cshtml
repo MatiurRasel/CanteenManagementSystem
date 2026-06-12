@@ -1,25 +1,26 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     var originalPath = ViewData["OriginalPath"] as string;
     ViewData["Code"]           = "404";
     ViewData["Tone"]           = "secondary";
-    ViewData["Icon"]           = "fa-compass";
-    ViewData["Title"]          = "Page not found";
+    ViewData["Icon"]           = "bx bx-compass";
+    ViewData["Title"]          = L["Error.404.Title"].Value;
     ViewData["Description"]    = string.IsNullOrEmpty(originalPath)
-        ? "We couldn't find the page you were looking for. It may have moved, or the link you followed could be out of date."
-        : $"We couldn't find anything at {originalPath}. It may have moved, or the link you followed could be out of date.";
+        ? L["Error.404.Description"].Value
+        : L["Error.404.PathInfo", originalPath].Value;
     ViewData["CtaUrl"]         = "/";
-    ViewData["CtaLabel"]       = "Back to home";
-    ViewData["CtaIcon"]        = "fa-house";
+    ViewData["CtaLabel"]       = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]        = "bx bx-home";
     ViewData["SecondaryUrl"]   = "/admin/receipts/search";
-    ViewData["SecondaryLabel"] = "Search";
-    ViewData["SecondaryIcon"]  = "fa-magnifying-glass";
+    ViewData["SecondaryLabel"] = L["Common.Search"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-search";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page not found · SmartCanteen</title>
+    <title>@L["Error.404.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

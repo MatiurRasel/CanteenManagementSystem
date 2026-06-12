@@ -1,19 +1,20 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]         = "422";
     ViewData["Tone"]         = "warning";
-    ViewData["Icon"]         = "fa-circle-exclamation";
-    ViewData["Title"]        = "Couldn't process that";
-    ViewData["Description"]  = "The data you sent was understood, but something didn't pass validation. Check the fields you submitted and try again.";
+    ViewData["Icon"]         = "bx bx-error-circle";
+    ViewData["Title"]        = L["Error.422.Title"].Value;
+    ViewData["Description"]  = L["Error.422.Description"].Value;
     ViewData["CtaUrl"]       = "javascript:history.back()";
-    ViewData["CtaLabel"]     = "Go back";
-    ViewData["CtaIcon"]      = "fa-arrow-left";
+    ViewData["CtaLabel"]     = L["Error.Shared.GoBack"].Value;
+    ViewData["CtaIcon"]      = "bx bx-arrow-back";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unprocessable · SmartCanteen</title>
+    <title>@L["Error.422.PageTitle"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

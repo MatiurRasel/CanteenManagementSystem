@@ -3,18 +3,19 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.AccountController.RecoveryCodesVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Your MFA recovery codes";
+    ViewData["Title"] = L["Account.RecoveryCodes.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Your MFA recovery codes",
-        Subtitle = "These are shown once. Save them somewhere safe — a password manager or a printed copy in a sealed envelope."
+        Title    = L["Account.RecoveryCodes.Title"].Value,
+        Subtitle = L["Account.RecoveryCodes.Subtitle"].Value
     };
     var warn = new UiAlertOptions
     {
         Variant = UiAlertVariant.Warning,
-        Heading = "Save these codes NOW",
-        Body    = "Each code can be used exactly once if you lose access to your authenticator. We never show them again — generate a fresh set if you need new ones."
+        Heading = L["Account.RecoveryCodes.WarnHeading"].Value,
+        Body    = L["Account.RecoveryCodes.WarnBody"].Value
     };
 }
 
@@ -24,17 +25,17 @@
 
     <div class="ui-card mt-4">
         <div class="ui-card-header">
-            <div class="ui-card-title">@Model.Codes.Count codes</div>
+            <div class="ui-card-title">@L["Account.RecoveryCodes.Count", Model.Codes.Count]</div>
             <div class="ui-row" style="gap:.5rem">
                 <button class="btn btn-outline-secondary btn-sm" type="button" onclick="cmsCopyRecovery()">
-                    <i class="fa-solid fa-copy me-1"></i> Copy all
+                    <i class="bx bx-copy me-1"></i> @L["Account.RecoveryCodes.CopyAll"]
                 </button>
                 <button class="btn btn-outline-secondary btn-sm" type="button" onclick="window.print()">
-                    <i class="fa-solid fa-print me-1"></i> Print
+                    <i class="bx bx-printer me-1"></i> @L["Common.Print"]
                 </button>
                 <a class="btn btn-outline-secondary btn-sm" download="canteen-recovery-codes.txt"
                    id="cms-download-recovery">
-                    <i class="fa-solid fa-download me-1"></i> Download .txt
+                    <i class="bx bx-download me-1"></i> @L["Account.RecoveryCodes.DownloadTxt"]
                 </a>
             </div>
         </div>
@@ -50,7 +51,7 @@
         </div>
         <div class="ui-card-footer">
             <a asp-action="Mfa" class="btn btn-primary">
-                <i class="fa-solid fa-check me-1"></i> I've saved them — done
+                <i class="bx bx-check me-1"></i> @L["Account.RecoveryCodes.Done"]
             </a>
         </div>
     </div>
@@ -58,15 +59,19 @@
 
 @section Scripts {
     <script>
+        const T = {
+            copied: '@L["Account.RecoveryCodes.Copied"]',
+            copyFailed: '@L["Account.RecoveryCodes.CopyFailed"]'
+        };
         (function () {
             var codes = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Codes));
             var text  = codes.join('\n');
             window.cmsCopyRecovery = function () {
                 navigator.clipboard.writeText(text).then(function () {
-                    if (window.showToast) window.showToast('Codes copied to clipboard.', 'success');
+                    if (window.showToast) window.showToast(T.copied, 'success');
                 }, function () {
-                    if (window.cmsToast) window.cmsToast('Copy failed — select + copy manually.', 'warning');
-                    else alert('Copy failed — select + copy manually.');
+                    if (window.cmsToast) window.cmsToast(T.copyFailed, 'warning');
+                    else alert(T.copyFailed);
                 });
             };
             var dl = document.getElementById('cms-download-recovery');

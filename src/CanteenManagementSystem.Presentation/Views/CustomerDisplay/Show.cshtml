@@ -3,9 +3,10 @@
     Big text, dark canvas, no chrome. Auto-refreshes every 10s.
 *@
 @model CanteenManagementSystem.Presentation.Controllers.CustomerDisplayController.CustomerDisplayVm
+@inject IStringLocalizer<SharedResource> L
 @{
     Layout = null;
-    ViewData["Title"] = $"Order {Model.OrderNumber}";
+    ViewData["Title"] = L["CustomerDisplay.Show.Title", Model.OrderNumber].Value;
     var statusClass = Model.Status switch
     {
         "Delivered" => "delivered",
@@ -15,13 +16,22 @@
         "Preparing" => "preparing",
         _ => "other"
     };
+    var statusText = Model.Status switch
+    {
+        "Delivered" => L["CustomerDisplay.Show.Delivered"].Value,
+        "Ready"     => L["CustomerDisplay.Show.Ready"].Value,
+        "Pending"   => L["CustomerDisplay.Show.Pending"].Value,
+        "Confirmed" => L["CustomerDisplay.Show.Confirmed"].Value,
+        "Preparing" => L["CustomerDisplay.Show.Preparing"].Value,
+        _ => Model.Status
+    };
 }
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order @Model.OrderNumber</title>
+    <title>@L["CustomerDisplay.Show.Title", Model.OrderNumber]</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
@@ -104,10 +114,10 @@
             <div class="order-no">#@Model.OrderNumber</div>
             <span class="status @statusClass">
                 <span class="status-dot"></span>
-                @Model.Status
+                @statusText
             </span>
             <div class="items">
-                <div class="items-title">Items</div>
+                <div class="items-title">@L["Common.Items"]</div>
                 @foreach (var i in Model.Items)
                 {
                     <div class="item">
@@ -118,10 +128,10 @@
                 }
             </div>
             <div class="total">
-                <span>Total</span>
+                <span>@L["Common.Total"]</span>
                 <span>৳ @Model.TotalAmount.ToString("N0")</span>
             </div>
-            <div class="meta">Placed @Model.OrderDate.ToString("yyyy-MM-dd · HH:mm")</div>
+            <div class="meta">@L["CustomerDisplay.Show.PlacedAt", Model.OrderDate.ToString("yyyy-MM-dd · HH:mm")]</div>
         </div>
     </div>
     <script>

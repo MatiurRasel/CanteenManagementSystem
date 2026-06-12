@@ -5,8 +5,9 @@
 @using CanteenManagementSystem.Domain.Enums
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.MeController.OrderHistoryVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "My orders";
+    ViewData["Title"] = L["MyOrders"].Value;
     var totalPages = Math.Max(1, (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize));
 
     UiBadgeVariant BadgeVariant(CanteenOrderStatus s) => s switch
@@ -20,26 +21,26 @@
 
     var header = new UiPageHeaderOptions
     {
-        Title    = "My orders",
-        Subtitle = "Your full order history, wallet balance, and monthly spend.",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-outline-primary' href='/me/orders.csv'><i class='fa-solid fa-file-csv me-1'></i> Orders CSV</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/export' title='GDPR Article 20 — every row of your data, in one ZIP'><i class='fa-solid fa-download me-1'></i> Download my data</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/favorites'><i class='fa-solid fa-heart me-1'></i> Favourites</a>")
+        Title    = L["MyOrders"].Value,
+        Subtitle = L["Me.Orders.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-outline-primary' href='/me/orders.csv'><i class='bx bx-spreadsheet me-1'></i> {L["Me.Orders.OrdersCsv"].Value}</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/export' title='{L["Me.Orders.DownloadDataTitle"].Value}'><i class='bx bx-download me-1'></i> {L["Me.Orders.DownloadData"].Value}</a> <a class='btn btn-sm btn-outline-secondary ms-2' href='/me/favorites'><i class='bx bx-heart me-1'></i> {L["Me.Orders.Favourites"].Value}</a>")
     };
 
     var notLinkedAlert = new UiAlertOptions
     {
         Variant = UiAlertVariant.Info,
-        Heading = "Profile not linked",
-        Body    = "Your account isn't linked to a student / employee record yet, so there are no orders to show. Ask your tenant admin to set the LinkedPersonId on your user profile."
+        Heading = L["Me.Orders.NotLinkedHeading"].Value,
+        Body    = L["Me.Orders.NotLinkedBody"].Value
     };
 
-    var balKpi   = new UiKpiOptions { Label = "Wallet balance",   Value = $"৳ {(Model.CurrentBalance ?? 0):N0}", Icon = "fa-wallet" };
-    var spendKpi = new UiKpiOptions { Label = "Spent this month", Value = $"৳ {Model.SpentThisMonth:N0}",       Icon = "fa-receipt" };
-    var countKpi = new UiKpiOptions { Label = "Total orders",     Value = Model.TotalCount.ToString("N0"),       Icon = "fa-cart-shopping" };
+    var balKpi   = new UiKpiOptions { Label = L["Me.Orders.WalletBalance"].Value,  Value = $"৳ {(Model.CurrentBalance ?? 0):N0}", Icon = "bx bx-wallet" };
+    var spendKpi = new UiKpiOptions { Label = L["Me.Orders.SpentThisMonth"].Value, Value = $"৳ {Model.SpentThisMonth:N0}",       Icon = "bx bx-receipt" };
+    var countKpi = new UiKpiOptions { Label = L["Me.Orders.TotalOrders"].Value,    Value = Model.TotalCount.ToString("N0"),       Icon = "bx bx-cart" };
     var avgKpi   = new UiKpiOptions
     {
-        Label = "Avg order",
+        Label = L["Me.Orders.AvgOrder"].Value,
         Value = Model.TotalCount > 0 ? $"৳ {Model.SpentThisMonth / Math.Max(1, Model.TotalCount):N0}" : "—",
-        Icon  = "fa-chart-line"
+        Icon  = "bx bx-line-chart"
     };
 }
 
@@ -63,29 +64,29 @@
             <table class="table table-hover mb-0 ui-table">
                 <thead>
                     <tr>
-                        <th>Order #</th>
-                        <th>When</th>
-                        <th>Items</th>
-                        <th class="text-end">Total</th>
-                        <th>Status</th>
+                        <th>@L["Me.Orders.OrderNumber"]</th>
+                        <th>@L["Me.Orders.When"]</th>
+                        <th>@L["Common.Items"]</th>
+                        <th class="text-end">@L["Common.Total"]</th>
+                        <th>@L["Common.Status"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model.Items.Count == 0)
                     {
-                        <tr><td colspan="5" class="text-center py-5 ui-muted">No orders yet — head to a kiosk or counter to place your first.</td></tr>
+                        <tr><td colspan="5" class="text-center py-5 ui-muted">@L["Me.Orders.EmptyOrders"]</td></tr>
                     }
                     @foreach (var o in Model.Items)
                     {
                         var statusBadge = new UiBadgeOptions { Text = o.Status.ToString(), Variant = BadgeVariant(o.Status), WithDot = true };
                         var itemCount   = o.OrderItems?.Count ?? 0;
-                        var itemSummary = o.OrderItems is null ? "" : string.Join(", ", o.OrderItems.Select(oi => $"{oi.Quantity}× {oi.FoodItem?.ItemName ?? "Item"}"));
+                        var itemSummary = o.OrderItems is null ? "" : string.Join(", ", o.OrderItems.Select(oi => $"{oi.Quantity}× {oi.FoodItem?.ItemName ?? L["Me.Orders.ItemFallback"].Value}"));
                         <tr>
                             <td class="ui-mono">@o.OrderNumber</td>
                             <td class="ui-muted ui-tabular">@o.OrderDate.ToString("yyyy-MM-dd · HH:mm")</td>
                             <td>
                                 <div class="ui-text-strong" style="font-size:13px">@itemSummary</div>
-                                <div class="ui-muted" style="font-size:12px">@itemCount item(s)</div>
+                                <div class="ui-muted" style="font-size:12px">@L["Me.Orders.ItemCount", itemCount]</div>
                             </td>
                             <td class="text-end ui-tabular ui-text-strong">৳ @o.TotalAmount.ToString("N0")</td>
                             <td><partial name="_UiBadge" model="statusBadge" /></td>
@@ -97,7 +98,7 @@
 
         @if (totalPages > 1)
         {
-            <nav class="mt-4" aria-label="orders-pagination">
+            <nav class="mt-4" aria-label="@L["Me.Orders.PaginationLabel"]">
                 <ul class="pagination justify-content-center">
                     @for (var p = 1; p <= totalPages; p++)
                     {

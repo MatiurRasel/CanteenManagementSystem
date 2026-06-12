@@ -5,7 +5,7 @@
 @inject IStringLocalizer<SharedResource> L
 
 @{
-    ViewData["Title"] = "মেনু ম্যানেজমেন্ট";
+    ViewData["Title"] = L["Menu.Manage.Title"].Value;
     var culture = CultureInfo.GetCultureInfo("bn-BD");
     var dailyItems = Model.MenuItems ?? new List<DailyMenuItemViewModel>();
     var weeklyTemplates = Model.WeeklyTemplates ?? new List<WeeklyMenuTemplate>();
@@ -15,8 +15,8 @@
     // IHtmlContent and can't be inlined into a string).
     var header = new UiPageHeaderOptions
     {
-        Title    = "মেনু ম্যানেজমেন্ট",
-        Subtitle = "দৈনিক মেনু, সাপ্তাহিক টেমপ্লেট এবং খাবার আইটেম এক জায়গায় দেখুন।"
+        Title    = L["Menu.Manage.Title"].Value,
+        Subtitle = L["Menu.Manage.Subtitle"].Value
     };
 }
 
@@ -26,13 +26,13 @@
     <form class="d-flex gap-2 align-items-end mb-3 flex-wrap" method="post" action="/Menu/Manage">
         @Html.AntiForgeryToken()
         <div>
-            <label class="ui-label mb-1" for="menu-date">তারিখ</label>
+            <label class="ui-label mb-1" for="menu-date">@L["Common.Date"]</label>
             <input id="menu-date" type="date" name="date"
                    value="@Model.TargetDate.ToString("yyyy-MM-dd")"
                    class="ui-input form-control form-control-sm" style="max-width:180px" required />
         </div>
         <button type="submit" class="btn btn-primary btn-sm">
-            <i class="bx bx-calendar me-1"></i> লোড করুন
+            <i class="bx bx-calendar me-1"></i> @L["Menu.Manage.Load"]
         </button>
     </form>
 
@@ -42,13 +42,13 @@
                 <div class="ui-card-header pb-0">
                     <ul class="nav nav-pills gap-2" id="menuTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="daily-tab" data-bs-toggle="pill" data-bs-target="#daily-pane" type="button" role="tab">দৈনিক মেনু</button>
+                            <button class="nav-link active" id="daily-tab" data-bs-toggle="pill" data-bs-target="#daily-pane" type="button" role="tab">@L["Menu.Manage.DailyTab"]</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="weekly-tab" data-bs-toggle="pill" data-bs-target="#weekly-pane" type="button" role="tab">সাপ্তাহিক টেমপ্লেট</button>
+                            <button class="nav-link" id="weekly-tab" data-bs-toggle="pill" data-bs-target="#weekly-pane" type="button" role="tab">@L["Menu.Manage.WeeklyTab"]</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="food-tab" data-bs-toggle="pill" data-bs-target="#food-pane" type="button" role="tab">খাবার আইটেম</button>
+                            <button class="nav-link" id="food-tab" data-bs-toggle="pill" data-bs-target="#food-pane" type="button" role="tab">@L["Menu.Manage.FoodTab"]</button>
                         </li>
                     </ul>
                 </div>
@@ -57,22 +57,22 @@
                         <div class="tab-pane fade show active" id="daily-pane" role="tabpanel">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <div class="ui-card-title">আজকের মেনু</div>
+                                    <div class="ui-card-title">@L["TodayMenu"]</div>
                                     <div class="ui-muted small">@Model.TargetDate.ToString("dd MMMM yyyy", culture)</div>
                                 </div>
-                                <span class="ui-badge variant-primary">@dailyItems.Count আইটেম</span>
+                                <span class="ui-badge variant-primary">@L["Menu.Manage.ItemsCount", dailyItems.Count]</span>
                             </div>
                             <div class="ui-table-wrap">
                                 <table class="table table-hover mb-0 ui-table">
                                     <thead>
                                         <tr>
-                                            <th>আইটেম</th>
-                                            <th>ক্যাটাগরি</th>
-                                            <th class="text-end">দাম</th>
-                                            <th class="text-end">মোট</th>
-                                            <th class="text-end">বিক্রি</th>
-                                            <th class="text-end">বাকি</th>
-                                            <th>Status</th>
+                                            <th>@L["Menu.Manage.Item"]</th>
+                                            <th>@L["Menu.Manage.Category"]</th>
+                                            <th class="text-end">@L["Common.Price"]</th>
+                                            <th class="text-end">@L["Common.Total"]</th>
+                                            <th class="text-end">@L["Menu.Manage.Sold"]</th>
+                                            <th class="text-end">@L["Menu.Manage.Remaining"]</th>
+                                            <th>@L["Common.Status"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +82,7 @@
                                         {
                                             var sb = new UiBadgeOptions
                                             {
-                                                Text = item.IsAvailable ? "উপলব্ধ" : "অনুপলব্ধ",
+                                                Text = item.IsAvailable ? L["Menu.Manage.Available"].Value : L["Menu.Manage.Unavailable"].Value,
                                                 Variant = item.IsAvailable ? UiBadgeVariant.Success : UiBadgeVariant.Secondary,
                                                 WithDot = true
                                             };
@@ -99,7 +99,7 @@
                                     }
                                     else
                                     {
-                                        <tr><td colspan="7" class="text-center ui-muted py-5">এই তারিখের জন্য কোনো মেনু নেই।</td></tr>
+                                        <tr><td colspan="7" class="text-center ui-muted py-5">@L["Menu.Manage.NoMenuForDate"]</td></tr>
                                     }
                                     </tbody>
                                 </table>
@@ -108,18 +108,18 @@
 
                         <div class="tab-pane fade" id="weekly-pane" role="tabpanel">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="ui-card-title">সাপ্তাহিক টেমপ্লেট</div>
-                                <span class="ui-badge variant-info">@weeklyTemplates.Count টেমপ্লেট</span>
+                                <div class="ui-card-title">@L["Menu.Manage.WeeklyTab"]</div>
+                                <span class="ui-badge variant-info">@L["Menu.Manage.TemplatesCount", weeklyTemplates.Count]</span>
                             </div>
                             <div class="ui-table-wrap">
                                 <table class="table table-hover mb-0 ui-table">
                                     <thead>
                                         <tr>
-                                            <th>টেমপ্লেট</th>
-                                            <th>দিন</th>
-                                            <th>আইটেম</th>
-                                            <th>Meal Type</th>
-                                            <th class="text-end">ডিফল্ট Qty</th>
+                                            <th>@L["Menu.Manage.Template"]</th>
+                                            <th>@L["Menu.Manage.Day"]</th>
+                                            <th>@L["Menu.Manage.Item"]</th>
+                                            <th>@L["Menu.Manage.MealType"]</th>
+                                            <th class="text-end">@L["Menu.Manage.DefaultQty"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,7 +138,7 @@
                                     }
                                     else
                                     {
-                                        <tr><td colspan="5" class="text-center ui-muted py-5">কোনো সাপ্তাহিক টেমপ্লেট নেই।</td></tr>
+                                        <tr><td colspan="5" class="text-center ui-muted py-5">@L["Menu.Manage.NoTemplates"]</td></tr>
                                     }
                                     </tbody>
                                 </table>
@@ -147,19 +147,19 @@
 
                         <div class="tab-pane fade" id="food-pane" role="tabpanel">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="ui-card-title">খাবার আইটেম</div>
+                                <div class="ui-card-title">@L["Menu.Manage.FoodTab"]</div>
                                 <a asp-action="ManageItems" asp-controller="Menu" class="btn btn-outline-primary btn-sm">
-                                    <i class="fa-solid fa-utensils me-1"></i> আইটেম ম্যানেজ
+                                    <i class="bx bx-restaurant me-1"></i> @L["Menu.Manage.ManageItems"]
                                 </a>
                             </div>
                             <div class="ui-table-wrap">
                                 <table class="table table-hover mb-0 ui-table">
                                     <thead>
                                         <tr>
-                                            <th>নাম</th>
-                                            <th>বিবরণ</th>
-                                            <th class="text-end">দাম</th>
-                                            <th>Status</th>
+                                            <th>@L["Common.Name"]</th>
+                                            <th>@L["Common.Description"]</th>
+                                            <th class="text-end">@L["Common.Price"]</th>
+                                            <th>@L["Common.Status"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,7 +169,7 @@
                                         {
                                             var ab = new UiBadgeOptions
                                             {
-                                                Text = item.IsActive ? "Active" : "Inactive",
+                                                Text = item.IsActive ? L["Common.Active"].Value : L["Common.Inactive"].Value,
                                                 Variant = item.IsActive ? UiBadgeVariant.Success : UiBadgeVariant.Secondary
                                             };
                                             <tr>
@@ -182,7 +182,7 @@
                                     }
                                     else
                                     {
-                                        <tr><td colspan="4" class="text-center ui-muted py-5">কোনো খাবার আইটেম পাওয়া যায়নি।</td></tr>
+                                        <tr><td colspan="4" class="text-center ui-muted py-5">@L["Menu.Manage.NoFoodItems"]</td></tr>
                                     }
                                     </tbody>
                                 </table>
@@ -195,27 +195,27 @@
 
         <div class="col-12 col-xl-4">
             <div class="ui-card h-100">
-                <div class="ui-card-header"><div class="ui-card-title">দ্রুত কাজ</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["QuickActions"]</div></div>
                 <div class="ui-card-body ui-stack-sm">
                     <a asp-action="ManageItems" asp-controller="Menu" class="btn btn-outline-primary w-100 text-start">
-                        <i class="fa-solid fa-plus me-2"></i>নতুন আইটেম
+                        <i class="bx bx-plus me-2"></i>@L["Menu.Manage.NewItem"]
                     </a>
                     <a asp-action="Manage" asp-controller="Menu" class="btn btn-outline-secondary w-100 text-start">
-                        <i class="fa-solid fa-rotate me-2"></i>রিফ্রেশ
+                        <i class="bx bx-refresh me-2"></i>@L["Common.Refresh"]
                     </a>
                     <a asp-controller="Operator" asp-action="Dashboard" class="btn btn-outline-success w-100 text-start">
-                        <i class="fa-solid fa-chart-line me-2"></i>ড্যাশবোর্ডে যান
+                        <i class="bx bx-line-chart me-2"></i>@L["Menu.Manage.GoToDashboard"]
                     </a>
                     <form method="post" asp-controller="MenuExtension" asp-action="CopyYesterday" data-cl-form>
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="targetDate" value="@Model.TargetDate.ToString("yyyy-MM-dd")" />
                         <button class="btn btn-outline-secondary w-100 text-start" type="submit">
-                            <i class="fa-solid fa-copy me-2"></i> Copy yesterday
+                            <i class="bx bx-copy me-2"></i> @L["Menu.Manage.CopyYesterday"]
                         </button>
                     </form>
                 </div>
                 <div class="ui-card-footer ui-muted small">
-                    নির্দিষ্ট দিনের মেনু লোড করুন এবং টেমপ্লেট/আইটেম দ্রুত দেখুন।
+                    @L["Menu.Manage.FooterHint"]
                 </div>
             </div>
         </div>

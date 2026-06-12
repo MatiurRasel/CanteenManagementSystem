@@ -3,14 +3,15 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.WebhooksAdminController.SubForm
+@inject IStringLocalizer<SharedResource> L
 @{
     var isNew = Model.SubscriptionId == 0;
-    ViewData["Title"] = isNew ? "New webhook" : Model.DisplayName;
+    ViewData["Title"] = isNew ? L["WebhooksAdmin.Edit.NewWebhook"].Value : Model.DisplayName;
     var header = new UiPageHeaderOptions
     {
-        Title    = isNew ? "New webhook subscription" : Model.DisplayName,
-        Subtitle = "Outbound HTTP POST when canteen events fire. HMAC-signed; replayable from the delivery log.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/webhooks'><i class='fa-solid fa-arrow-left me-1'></i> All webhooks</a>")
+        Title    = isNew ? L["WebhooksAdmin.Edit.NewSubscription"].Value : Model.DisplayName,
+        Subtitle = L["WebhooksAdmin.Edit.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/webhooks'><i class='bx bx-arrow-back me-1'></i> {L["WebhooksAdmin.AllWebhooks"].Value}</a>")
     };
 }
 
@@ -27,29 +28,29 @@
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-9">
-                                <label asp-for="DisplayName" class="ui-label">Display name</label>
-                                <input asp-for="DisplayName" class="ui-input form-control" placeholder="School portal — order webhook" />
+                                <label asp-for="DisplayName" class="ui-label">@L["WebhooksAdmin.Edit.DisplayName"]</label>
+                                <input asp-for="DisplayName" class="ui-input form-control" placeholder="@L["WebhooksAdmin.Edit.DisplayNamePlaceholder"]" />
                             </div>
                             <div class="col-md-3 d-flex align-items-end">
                                 <div class="form-check mt-2">
                                     <input class="form-check-input" type="checkbox" asp-for="IsActive" />
-                                    <label class="form-check-label" asp-for="IsActive">Active</label>
+                                    <label class="form-check-label" asp-for="IsActive">@L["Common.Active"]</label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label asp-for="Url" class="ui-label">Endpoint URL</label>
+                                <label asp-for="Url" class="ui-label">@L["WebhooksAdmin.Edit.EndpointUrl"]</label>
                                 <input asp-for="Url" class="ui-input form-control" placeholder="https://partner.school.edu/canteen/events" />
                             </div>
                             <div class="col-12">
-                                <label asp-for="Secret" class="ui-label">HMAC secret</label>
+                                <label asp-for="Secret" class="ui-label">@L["WebhooksAdmin.Edit.HmacSecret"]</label>
                                 <input asp-for="Secret" class="ui-input form-control ui-mono" autocomplete="off" />
-                                <div class="ui-help-text">Used to sign every outbound POST. Share with the partner once — they can't view it again.</div>
+                                <div class="ui-help-text">@L["WebhooksAdmin.Edit.SecretHelp"]</div>
                             </div>
                             <div class="col-12">
-                                <label asp-for="EventsCsv" class="ui-label">Events</label>
+                                <label asp-for="EventsCsv" class="ui-label">@L["WebhooksAdmin.Events"]</label>
                                 <input asp-for="EventsCsv" class="ui-input form-control" placeholder="order.placed, order.delivered" />
                                 <div class="ui-help-text">
-                                    CSV from: <code>order.placed</code>, <code>order.delivered</code>, <code>order.voided</code>,
+                                    @L["WebhooksAdmin.Edit.EventsHelp"] <code>order.placed</code>, <code>order.delivered</code>, <code>order.voided</code>,
                                     <code>order.refunded</code>, <code>wallet.recharged</code>, <code>card.lost</code>,
                                     <code>directory.synced</code>.
                                 </div>
@@ -58,25 +59,24 @@
                     </div>
                     <div class="ui-card-footer d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                            <i class="bx bx-save me-1"></i> @L["Common.Save"]
                         </button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">Signature scheme</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["WebhooksAdmin.Edit.SignatureScheme"]</div></div>
                     <div class="ui-card-body small">
-                        <p class="mb-2">Outbound requests carry:</p>
+                        <p class="mb-2">@L["WebhooksAdmin.Edit.OutboundRequestsCarry"]</p>
                         <pre class="ui-mono small mb-2" style="background:var(--surface-2);padding:.75rem;border-radius:var(--rad);border:1px solid var(--border);white-space:pre-wrap">X-App-Key:       webhook:{SubscriptionId}
 X-App-Timestamp: {unix-utc-seconds}
 X-App-Signature: base64( HMAC-SHA256( secret,
                    "webhook:{id}\n{ts}\nPOST\n{path}\n{body-sha256-hex}" ) )</pre>
                         <p class="ui-muted mb-0">
-                            Same canonical-string algorithm as the inbound API-key flow — a partner writes
-                            one verifier for both directions.
+                            @L["WebhooksAdmin.Edit.SignatureNote"]
                         </p>
                     </div>
                 </div>

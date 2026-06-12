@@ -4,20 +4,28 @@
 @using CanteenManagementSystem.Domain.Inventory
 @using CanteenManagementSystem.Presentation.Models
 @model StockTake
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = $"Stock take #{Model.StockTakeId}";
+    ViewData["Title"] = L["InventoryAdmin.StockTakeDetail.Title", Model.StockTakeId].Value;
     var isDraft = Model.Status == StockTakeStatus.Draft;
+    string StatusText(StockTakeStatus s) => s switch
+    {
+        StockTakeStatus.Draft     => L["InventoryAdmin.StockTakeStatus.Draft"].Value,
+        StockTakeStatus.Submitted => L["InventoryAdmin.StockTakeStatus.Submitted"].Value,
+        StockTakeStatus.Cancelled => L["InventoryAdmin.StockTakeStatus.Cancelled"].Value,
+        _ => s.ToString()
+    };
     var statusBadge = new UiBadgeOptions
     {
-        Text    = Model.Status.ToString(),
+        Text    = StatusText(Model.Status),
         Variant = Model.Status switch { StockTakeStatus.Draft => UiBadgeVariant.Info, StockTakeStatus.Submitted => UiBadgeVariant.Success, _ => UiBadgeVariant.Warning },
         WithDot = true
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = $"Stock take #{Model.StockTakeId}",
-        Subtitle = $"Started {Model.StartedAtUtc:yyyy-MM-dd HH:mm} by {Model.StartedBy ?? "—"}",
-        Actions  = Html.Raw("<a class='btn btn-sm btn-ghost' href='/admin/inventory/stock-takes'><i class='fa-solid fa-arrow-left me-1'></i> All takes</a>")
+        Title    = L["InventoryAdmin.StockTakeDetail.Title", Model.StockTakeId].Value,
+        Subtitle = L["InventoryAdmin.StockTakeDetail.StartedByLine", Model.StartedAtUtc.ToString("yyyy-MM-dd HH:mm"), Model.StartedBy ?? "—"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-sm btn-ghost' href='/admin/inventory/stock-takes'><i class='bx bx-arrow-back me-1'></i> {L["InventoryAdmin.StockTakeDetail.AllTakes"].Value}</a>")
     };
 }
 
@@ -26,7 +34,7 @@
 
     <div class="ui-row mb-3">
         <partial name="_UiBadge" model="statusBadge" />
-        <span class="ui-muted" style="font-size:13px">@Model.Lines.Count items</span>
+        <span class="ui-muted" style="font-size:13px">@L["InventoryAdmin.StockTakeDetail.ItemsCount", Model.Lines.Count]</span>
     </div>
 
     <form method="post" action="/admin/inventory/stock-takes/@Model.StockTakeId/submit" data-cl-form>
@@ -35,10 +43,10 @@
             <table class="table ui-table">
                 <thead>
                     <tr>
-                        <th>Item</th>
-                        <th class="text-end" style="width:15%">Expected</th>
-                        <th class="text-end" style="width:20%">Counted</th>
-                        <th class="text-end" style="width:15%">Variance</th>
+                        <th>@L["InventoryAdmin.StockTakeDetail.Item"]</th>
+                        <th class="text-end" style="width:15%">@L["InventoryAdmin.StockTakeDetail.Expected"]</th>
+                        <th class="text-end" style="width:20%">@L["InventoryAdmin.StockTakeDetail.Counted"]</th>
+                        <th class="text-end" style="width:15%">@L["InventoryAdmin.StockTakeDetail.Variance"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,9 +73,9 @@
         @if (isDraft)
         {
             <div class="ui-row" style="justify-content:flex-end; gap:.5rem; margin-top:1.5rem">
-                <a class="btn btn-ghost" href="/admin/inventory/stock-takes">Cancel</a>
+                <a class="btn btn-ghost" href="/admin/inventory/stock-takes">@L["Common.Cancel"]</a>
                 <button class="btn btn-primary" type="submit">
-                    <i class="fa-solid fa-check me-1"></i> Submit count
+                    <i class="bx bx-check me-1"></i> @L["InventoryAdmin.StockTakeDetail.SubmitCount"]
                 </button>
             </div>
         }

@@ -6,8 +6,9 @@
     nothing other than the card itself appears on paper.
 *@
 @model CanteenManagementSystem.Presentation.Controllers.CardsAdminController.CardPrintVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = $"Print card {Model.Card.CardUid}";
+    ViewData["Title"] = L["CardsAdmin.Print.Title", Model.Card.CardUid].Value;
     Layout = "_Layout";
     var accent = string.IsNullOrWhiteSpace(Model.AccentColor) ? "#6f42c1" : Model.AccentColor;
 }
@@ -80,8 +81,8 @@
 }
 
 <div class="no-print d-flex justify-content-between align-items-center px-3 py-2">
-    <a asp-action="Detail" asp-route-id="@Model.Card.CardId" class="btn btn-link">← Back</a>
-    <button class="btn btn-primary" onclick="window.print()">Print card</button>
+    <a asp-action="Detail" asp-route-id="@Model.Card.CardId" class="btn btn-link">← @L["Common.Back"]</a>
+    <button class="btn btn-primary" onclick="window.print()">@L["CardsAdmin.PrintCard"]</button>
 </div>
 
 <div class="card-print-wrap">
@@ -97,14 +98,14 @@
             else
             {
                 <div class="photo d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-user fa-2x text-muted"></i>
+                    <i class="bx bxs-user bx-md text-muted"></i>
                 </div>
             }
             <div class="meta">
                 <div class="name">@Model.UserName</div>
-                <div class="row"><strong>ID:</strong> @Model.Card.UserId</div>
-                <div class="row"><strong>Type:</strong> @Model.Card.UserType</div>
-                <div class="row"><strong>Issued:</strong> @Model.Card.IssuedAtUtc.ToString("yyyy-MM-dd")</div>
+                <div class="row"><strong>@L["CardsAdmin.Print.Id"]:</strong> @Model.Card.UserId</div>
+                <div class="row"><strong>@L["Common.Type"]:</strong> @Model.Card.UserType</div>
+                <div class="row"><strong>@L["CardsAdmin.Issued"]:</strong> @Model.Card.IssuedAtUtc.ToString("yyyy-MM-dd")</div>
             </div>
         </div>
         <div class="uid">@Model.Card.CardUid</div>

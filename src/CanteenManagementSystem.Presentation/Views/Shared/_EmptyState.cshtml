@@ -5,20 +5,29 @@
 
     Usage:
         <partial name="_EmptyState" model="@new EmptyStateOptions {
-            Icon         = "fa-utensils",
-            Title        = "No menu items yet",
-            Description  = "Add your first item to get started.",
-            CtaLabel     = "Add menu item",
+            Icon         = "bx-restaurant",
+            Title        = L["Menu.Empty.Title"],
+            Description  = L["Menu.Empty.Description"],
+            CtaLabel     = L["Menu.Empty.Cta"],
             CtaUrl       = Url.Action("Create", "Menu")
         }" />
+
+    Icon accepts a Boxicons class ("bx-*" / "bxs-*"); legacy "fa-*" values
+    still render through Font Awesome until the migration sweep completes.
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model EmptyStateOptions
-@{ var opts = Model ?? new EmptyStateOptions(); }
+@{
+    var opts = Model ?? new EmptyStateOptions();
+    string IconClass(string? icon) =>
+        string.IsNullOrWhiteSpace(icon) ? "bx bx-info-circle"
+        : icon.StartsWith("fa-")        ? $"fa-solid {icon}"
+        : $"bx {icon}";
+}
 
 <div class="text-center py-5 px-3 canteen-empty">
     <div class="empty-icon mb-3">
-        <i class="fa-solid @opts.Icon"></i>
+        <i class="@IconClass(opts.Icon)"></i>
     </div>
     <h6 class="fw-semibold mb-1">@opts.Title</h6>
     @if (!string.IsNullOrWhiteSpace(opts.Description))
@@ -30,7 +39,7 @@
         <a href="@opts.CtaUrl" class="btn btn-primary">
             @if (!string.IsNullOrWhiteSpace(opts.CtaIcon))
             {
-                <i class="fa-solid @opts.CtaIcon me-1"></i>
+                <i class="@IconClass(opts.CtaIcon) me-1"></i>
             }
             @opts.CtaLabel
         </a>

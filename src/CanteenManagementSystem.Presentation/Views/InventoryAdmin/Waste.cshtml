@@ -6,13 +6,14 @@
 @using CanteenManagementSystem.Domain.Menu
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<WasteLogRow>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Waste log";
+    ViewData["Title"] = L["InventoryAdmin.Waste.Title"].Value;
     var foods = (List<FoodItem>)(ViewBag.FoodItems ?? new List<FoodItem>());
     var header = new UiPageHeaderOptions
     {
-        Title    = "Waste log",
-        Subtitle = "Disposed / expired / dropped items. Auto-decrements today's DailyMenu quantity."
+        Title    = L["InventoryAdmin.Waste.Title"].Value,
+        Subtitle = L["InventoryAdmin.Waste.Subtitle"].Value
     };
 }
 
@@ -22,38 +23,38 @@
     <div class="row g-4">
         <div class="col-12 col-lg-4">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Record waste</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["InventoryAdmin.Waste.RecordWaste"]</div></div>
                 <div class="ui-card-body">
                     <form method="post" action="/admin/inventory/waste/record" class="ui-stack" data-cl-form>
                         @Html.AntiForgeryToken()
                         <div>
-                            <label class="ui-label">Item <span class="ui-muted">*</span></label>
+                            <label class="ui-label">@L["InventoryAdmin.Waste.Item"] <span class="ui-muted">*</span></label>
                             <select name="foodItemId" class="form-select ui-select" required>
-                                <option value="" disabled selected>Pick…</option>
+                                <option value="" disabled selected>@L["InventoryAdmin.Waste.Pick"]</option>
                                 @foreach (var f in foods) { <option value="@f.FoodItemID">@f.ItemName</option> }
                             </select>
                         </div>
                         <div>
-                            <label class="ui-label">Quantity <span class="ui-muted">*</span></label>
+                            <label class="ui-label">@L["Common.Quantity"] <span class="ui-muted">*</span></label>
                             <input class="ui-input form-control" name="quantity" type="number" min="1" step="1" required />
                         </div>
                         <div>
-                            <label class="ui-label">Reason</label>
+                            <label class="ui-label">@L["InventoryAdmin.Waste.Reason"]</label>
                             <select name="reason" class="form-select ui-select">
-                                <option value="Spoilage">Spoilage</option>
-                                <option value="Expired">Expired</option>
-                                <option value="Dropped">Dropped</option>
-                                <option value="Contamination">Contamination</option>
-                                <option value="PrepError">Prep error</option>
-                                <option value="Other">Other</option>
+                                <option value="Spoilage">@L["InventoryAdmin.Waste.ReasonSpoilage"]</option>
+                                <option value="Expired">@L["InventoryAdmin.Waste.ReasonExpired"]</option>
+                                <option value="Dropped">@L["InventoryAdmin.Waste.ReasonDropped"]</option>
+                                <option value="Contamination">@L["InventoryAdmin.Waste.ReasonContamination"]</option>
+                                <option value="PrepError">@L["InventoryAdmin.Waste.ReasonPrepError"]</option>
+                                <option value="Other">@L["InventoryAdmin.Waste.ReasonOther"]</option>
                             </select>
                         </div>
                         <div>
-                            <label class="ui-label">Notes</label>
+                            <label class="ui-label">@L["InventoryAdmin.Waste.Notes"]</label>
                             <input class="ui-input form-control" name="notes" maxlength="500" />
                         </div>
                         <button class="btn btn-primary" type="submit">
-                            <i class="fa-solid fa-trash-can me-1"></i> Record
+                            <i class="bx bx-trash me-1"></i> @L["InventoryAdmin.Waste.Record"]
                         </button>
                     </form>
                 </div>
@@ -61,22 +62,22 @@
         </div>
         <div class="col-12 col-lg-8">
             <div class="ui-card">
-                <div class="ui-card-header"><div class="ui-card-title">Recent entries</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["InventoryAdmin.Waste.RecentEntries"]</div></div>
                 <div class="ui-card-body p-0">
                     @if (Model.Count == 0)
                     {
-                        <div class="text-center py-5 ui-muted">No waste recorded — that's a good day.</div>
+                        <div class="text-center py-5 ui-muted">@L["InventoryAdmin.Waste.Empty"]</div>
                     }
                     else
                     {
                         <table class="table ui-table mb-0">
                             <thead>
                                 <tr>
-                                    <th>When</th>
-                                    <th>Item</th>
-                                    <th class="text-end">Qty</th>
-                                    <th>Reason</th>
-                                    <th>By</th>
+                                    <th>@L["InventoryAdmin.Waste.When"]</th>
+                                    <th>@L["InventoryAdmin.Waste.Item"]</th>
+                                    <th class="text-end">@L["Common.Quantity"]</th>
+                                    <th>@L["InventoryAdmin.Waste.Reason"]</th>
+                                    <th>@L["InventoryAdmin.Waste.By"]</th>
                                 </tr>
                             </thead>
                             <tbody>

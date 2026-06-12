@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]           = "402";
     ViewData["Tone"]           = "warning";
-    ViewData["Icon"]           = "fa-credit-card";
-    ViewData["Title"]          = "Payment required";
-    ViewData["Description"]    = "This tenant's subscription is past due or the current plan doesn't include the feature you tried to access. Pay the latest invoice or upgrade your plan to continue.";
+    ViewData["Icon"]           = "bx bx-credit-card";
+    ViewData["Title"]          = L["Error.402.Title"].Value;
+    ViewData["Description"]    = L["Error.402.Description"].Value;
     ViewData["CtaUrl"]         = "/admin/billing";
-    ViewData["CtaLabel"]       = "Go to billing";
-    ViewData["CtaIcon"]        = "fa-receipt";
+    ViewData["CtaLabel"]       = L["Error.402.Cta"].Value;
+    ViewData["CtaIcon"]        = "bx bx-receipt";
     ViewData["SecondaryUrl"]   = "/";
-    ViewData["SecondaryLabel"] = "Home";
-    ViewData["SecondaryIcon"]  = "fa-house";
+    ViewData["SecondaryLabel"] = L["Error.Shared.Home"].Value;
+    ViewData["SecondaryIcon"]  = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment required · SmartCanteen</title>
+    <title>@L["Error.402.Title"] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

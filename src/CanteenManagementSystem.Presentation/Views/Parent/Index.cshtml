@@ -6,8 +6,9 @@
 @using CanteenManagementSystem.Domain.Enums
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.ParentController.DashboardVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Parent portal";
+    ViewData["Title"] = L["ParentPortal"].Value;
 
     UiBadgeVariant CardVariant(CardStatus? s) => s switch
     {
@@ -26,15 +27,15 @@
 
     var header = new UiPageHeaderOptions
     {
-        Title    = "My children",
-        Subtitle = "Balance, recent orders, top-up, and emergency card freeze."
+        Title    = L["Parent.Index.Title"].Value,
+        Subtitle = L["Parent.Index.Subtitle"].Value
     };
 
     var noChildrenAlert = new UiAlertOptions
     {
         Variant = UiAlertVariant.Info,
-        Heading = "No linked children",
-        Body    = "No children are linked to this account yet. Ask the canteen admin to add your children's IDs to your profile."
+        Heading = L["Parent.Index.NoLinkedChildren"].Value,
+        Body    = L["Parent.Index.NoLinkedChildrenBody"].Value
     };
 }
 
@@ -62,37 +63,37 @@
                 </div>
                 <div class="text-end">
                     <div style="font-size:24px; font-weight:600" class="ui-text-strong ui-tabular">৳ @c.Balance.ToString("N0")</div>
-                    <div class="ui-muted" style="font-size:12px">spent ৳ @c.SpentThisMonth.ToString("N0") this month</div>
+                    <div class="ui-muted" style="font-size:12px">@L["Parent.Index.SpentThisMonth", c.SpentThisMonth.ToString("N0")]</div>
                 </div>
             </div>
             <div class="ui-card-body">
                 <div class="row g-4">
                     @* Top-up + NFC card *@
                     <div class="col-md-4">
-                        <div class="ui-section-label">Top up</div>
+                        <div class="ui-section-label">@L["Parent.Index.TopUp"]</div>
                         <form method="post" asp-action="Topup" class="ui-stack-sm" data-cl-form>
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="ExternalId" value="@c.ExternalId" />
                             <div class="input-group">
                                 <span class="input-group-text">৳</span>
                                 <input name="Amount" type="number" min="1" step="1" class="form-control" placeholder="500" required />
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fa-solid fa-plus"></i>
+                                <button class="btn btn-primary" type="submit" aria-label="@L["Parent.Index.TopUp"]">
+                                    <i class="bx bx-plus"></i>
                                 </button>
                             </div>
-                            <div class="ui-help-text">Goes straight into the child's wallet.</div>
+                            <div class="ui-help-text">@L["Parent.Index.TopUpHelp"]</div>
                         </form>
 
-                        <div class="ui-section-label mt-4">NFC card</div>
+                        <div class="ui-section-label mt-4">@L["Parent.Index.NfcCard"]</div>
                         @if (c.ActiveCardId is null)
                         {
-                            <div class="ui-muted" style="font-size:13px">No card on file yet — ask the counter to issue one.</div>
+                            <div class="ui-muted" style="font-size:13px">@L["Parent.Index.NoCardOnFile"]</div>
                         }
                         else
                         {
                             var cardBadge = new UiBadgeOptions
                             {
-                                Text    = c.ActiveCardStatus?.ToString() ?? "Unknown",
+                                Text    = c.ActiveCardStatus?.ToString() ?? L["Parent.Index.Unknown"].Value,
                                 Variant = CardVariant(c.ActiveCardStatus),
                                 WithDot = true
                             };
@@ -102,11 +103,11 @@
                             </div>
                             @if (c.ActiveCardStatus == CardStatus.Active)
                             {
-                                <form method="post" asp-action="FreezeCard" data-cl-confirm="Freeze card @c.ActiveCardUid? Counter scans will reject it immediately." data-cl-confirm-variant="warning">
+                                <form method="post" asp-action="FreezeCard" data-cl-confirm="@L["Parent.Index.FreezeConfirm", c.ActiveCardUid]" data-cl-confirm-variant="warning">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="cardId" value="@c.ActiveCardId" />
                                     <button class="btn btn-sm btn-outline-secondary" type="submit">
-                                        <i class="fa-solid fa-snowflake me-1"></i> Freeze card
+                                        <i class="bx bx-cloud-snow me-1"></i> @L["Parent.Index.FreezeCard"]
                                     </button>
                                 </form>
                             }
@@ -115,10 +116,10 @@
 
                     @* Recent orders *@
                     <div class="col-md-8">
-                        <div class="ui-section-label">Recent orders</div>
+                        <div class="ui-section-label">@L["Parent.Index.RecentOrders"]</div>
                         @if (c.RecentOrders.Count == 0)
                         {
-                            <div class="ui-muted" style="font-size:13px">No orders yet.</div>
+                            <partial name="_EmptyState" model="@(new EmptyStateOptions { Icon = "bx-receipt", Title = L["Parent.Index.NoOrdersYet"].Value, Description = L["Parent.Index.NoOrdersYetDescription"].Value })" />
                         }
                         else
                         {
@@ -126,11 +127,11 @@
                                 <table class="table table-hover mb-0 ui-table">
                                     <thead>
                                         <tr>
-                                            <th>Order #</th>
-                                            <th>When</th>
-                                            <th>Items</th>
-                                            <th class="text-end">Total</th>
-                                            <th>Status</th>
+                                            <th>@L["Parent.Index.OrderNumber"]</th>
+                                            <th>@L["Parent.Index.When"]</th>
+                                            <th>@L["Common.Items"]</th>
+                                            <th class="text-end">@L["Common.Total"]</th>
+                                            <th>@L["Common.Status"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -1,22 +1,23 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     var code = Context.Response.StatusCode;
     ViewData["Code"]           = code.ToString();
     ViewData["Tone"]           = code >= 500 ? "danger" : "warning";
-    ViewData["Icon"]           = code >= 500 ? "fa-triangle-exclamation" : "fa-circle-question";
-    ViewData["Title"]          = code >= 500 ? "Server error" : "Request error";
+    ViewData["Icon"]           = code >= 500 ? "bx bx-error" : "bx bx-help-circle";
+    ViewData["Title"]          = code >= 500 ? L["Error.Shared.ServerError"].Value : L["Error.Generic.RequestError"].Value;
     ViewData["Description"]    = code >= 500
-        ? "Something went wrong on our side. Try again, or come back in a few minutes."
-        : "The request couldn't be completed. Check the URL or try again from the home page.";
+        ? L["Error.Generic.ServerDescription"].Value
+        : L["Error.Generic.RequestDescription"].Value;
     ViewData["CtaUrl"]         = "/";
-    ViewData["CtaLabel"]       = "Back to home";
-    ViewData["CtaIcon"]        = "fa-house";
+    ViewData["CtaLabel"]       = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]        = "bx bx-home";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Error @code · SmartCanteen</title>
+    <title>@L["Error.Generic.PageTitle", code] · SmartCanteen</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

@@ -10,16 +10,18 @@
       * window.canteenCues.success() / .error() (audio cue)
       * Auto-reset after 30s idle on result screen
 *@
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Self-service kiosk";
+    ViewData["Title"] = L["SelfServiceKiosk"].Value;
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en" class="ks-html" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
-    <title>Self-service kiosk · SmartCanteen</title>
+    <title>@L["SelfServiceKiosk"] · SmartCanteen</title>
     <partial name="_KioskShell" />
+    <link rel="stylesheet" href="~/css/canteen-loading.css" asp-append-version="true" />
     <style>
         body.ks-body {
             background:
@@ -97,23 +99,23 @@
 </head>
 <body class="ks-body">
 
-<div class="idle-countdown" id="idleCountdown"><i class="bx bx-time-five me-1"></i> Auto-reset in <span id="idleSeconds">30</span> s</div>
+<div class="idle-countdown" id="idleCountdown"><i class="bx bx-time-five me-1"></i> @L["Kiosk.Index.AutoResetIn"] <span id="idleSeconds">30</span> s</div>
 
 <div class="ks-shell-center">
     <div class="kiosk-frame">
         <div class="kiosk-hero">
-            <h1><i class="bx bxs-restaurant me-2"></i> Self-service</h1>
-            <p>Scan your card or type your ID to see today's menu</p>
+            <h1><i class="bx bx-restaurant me-2"></i> @L["Kiosk.Index.Heading"]</h1>
+            <p>@L["Kiosk.Index.Tagline"]</p>
         </div>
         <div class="kiosk-body">
 
             @* ── State: scan input ─────────────────────────────────────── *@
             <div id="screenScan" class="screen show">
                 <div class="text-center mb-3">
-                    <span class="ks-pill is-ready"><span class="ks-dot"></span> Ready</span>
+                    <span class="ks-pill is-ready"><span class="ks-dot"></span> @L["Kiosk.Index.Ready"]</span>
                 </div>
                 <form id="verifyForm" autocomplete="off">
-                    <label class="ui-label" for="kioskInput">ID / Card UID</label>
+                    <label class="ui-label" for="kioskInput">@L["Kiosk.Index.IdentifierLabel"]</label>
                     <div class="input-group input-group-lg">
                         <span class="input-group-text"><i class="bx bx-id-card"></i></span>
                         <input id="kioskInput" name="identifier"
@@ -124,7 +126,7 @@
                     </div>
                     <div class="d-grid mt-3">
                         <button type="submit" class="btn btn-primary ks-bigtap-hero">
-                            <i class="bx bx-search-alt me-2"></i> Look me up
+                            <i class="bx bx-search-alt me-2"></i> @L["Kiosk.Index.LookMeUp"]
                         </button>
                     </div>
                 </form>
@@ -134,29 +136,32 @@
             @* ── State: looking up ─────────────────────────────────────── *@
             <div id="screenLoading" class="screen ks-state is-loading">
                 <div class="ks-state-icon"><i class="bx bx-loader-alt"></i></div>
-                <h3>Looking you up…</h3>
-                <p>One moment.</p>
+                <h3>@L["Kiosk.Index.LookingUp"]</h3>
+                <p>@L["Kiosk.Index.OneMoment"]</p>
             </div>
 
-            @* ── State: result ──────────────────────────────────────────── *@
-            <div id="screenResult" class="screen text-center">
-                <img id="userPhoto" src="/images/default_logo.png" alt=""
-                     style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;border:4px solid color-mix(in srgb, var(--accent) 30%, transparent);box-shadow:var(--sh-2)" />
-                <h3 id="userName" class="ui-text-strong mb-1" style="font-size:1.5rem">—</h3>
-                <p id="userInfo" class="ui-muted mb-3">—</p>
+            @* ── State: result (JS-hydrated → skeleton until first render) ─ *@
+            <div id="screenResult" class="screen text-center" data-loaded="false">
+                <partial name="_Skeleton" model="@(new SkeletonOptions { Variant = SkeletonVariant.Avatar, Rows = 1, Card = false })" />
+                <div class="skeleton-target">
+                    <img id="userPhoto" src="/images/default_logo.png" alt=""
+                         style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;border:4px solid color-mix(in srgb, var(--accent) 30%, transparent);box-shadow:var(--sh-2)" />
+                    <h3 id="userName" class="ui-text-strong mb-1" style="font-size:1.5rem">—</h3>
+                    <p id="userInfo" class="ui-muted mb-3">—</p>
 
-                <div class="ks-balance-card mb-3" style="text-align:left">
-                    <div>
-                        <div class="ks-balance-label">Wallet balance</div>
-                        <div class="ks-balance-value">৳ <span id="userBalance">0</span></div>
+                    <div class="ks-balance-card mb-3" style="text-align:left">
+                        <div>
+                            <div class="ks-balance-label">@L["AvailableBalance"]</div>
+                            <div class="ks-balance-value">৳ <span id="userBalance">0</span></div>
+                        </div>
+                        <div class="ks-balance-icon"><i class="bx bxs-wallet"></i></div>
                     </div>
-                    <div class="ks-balance-icon"><i class="bx bxs-wallet"></i></div>
-                </div>
 
-                <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
-                    <button id="btnDone" class="btn btn-primary ks-bigtap-hero">
-                        <i class="bx bx-check-circle me-2"></i> Done
-                    </button>
+                    <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+                        <button id="btnDone" class="btn btn-primary ks-bigtap-hero">
+                            <i class="bx bx-check-circle me-2"></i> @L["Kiosk.Index.Done"]
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,9 +170,15 @@
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/audio-cues.js"></script>
+<script src="~/js/canteen-loading.js" asp-append-version="true"></script>
 <script>
 (function () {
     'use strict';
+    var T = {
+        lookupFailed:  '@L["Kiosk.Index.LookupFailed"]',
+        notRecognised: '@L["Kiosk.Index.NotRecognised"]',
+        networkError:  '@L["Kiosk.Index.NetworkError"]'
+    };
     var IDLE_SECONDS    = 30;
     var COUNTDOWN_START = 10;
     var scanScreen    = document.getElementById('screenScan');
@@ -215,13 +226,16 @@
         document.getElementById('userInfo').textContent = data.academicInformation || data.AcademicInformation || '';
         var bal = data.availableBalance != null ? data.availableBalance : data.AvailableBalance;
         document.getElementById('userBalance').textContent = Number(bal || 0).toLocaleString('bn-BD');
+        // First successful render — reveal the hydrated region (idempotent afterwards).
+        if (window.CanteenLoading) { CanteenLoading.hide('#screenResult'); }
+        else { resultScreen.setAttribute('data-loaded', 'true'); }
         show(resultScreen);
         if (window.canteenCues && window.canteenCues.success) window.canteenCues.success();
         startIdleTimer();
     }
 
     function showError (msg) {
-        errorBox.textContent = msg || 'Lookup failed. Try again.';
+        errorBox.textContent = msg || T.lookupFailed;
         errorBox.classList.remove('d-none');
         show(scanScreen);
         if (window.canteenCues && window.canteenCues.error) window.canteenCues.error();
@@ -242,13 +256,13 @@
             var data = await res.json();
             var ok = (data.success || data.Success);
             if (!ok) {
-                showError(data.message || data.Message || 'Card / ID not recognised.');
+                showError(data.message || data.Message || T.notRecognised);
                 return;
             }
             showResult(data);
         } catch (e) {
             console.error('kiosk lookup failed', e);
-            showError('Network error — try again.');
+            showError(T.networkError);
         }
     });
 

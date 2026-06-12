@@ -21,10 +21,10 @@
         <div class="col-12 col-md-6 col-xl-3">
             <a asp-controller="Operator" asp-action="Dashboard" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
                 <div class="ui-card-body">
-                    <span class="icon-circle"><i class="fa-solid fa-chart-line"></i></span>
+                    <span class="icon-circle"><i class="bx bx-line-chart"></i></span>
                     <div class="mt-3">
                         <div class="ui-card-title">@L["Dashboard"]</div>
-                        <div class="ui-muted small mt-1">Live KPIs and order queue.</div>
+                        <div class="ui-muted small mt-1">@L["Home.Index.DashboardDescription"]</div>
                     </div>
                 </div>
             </a>
@@ -32,10 +32,10 @@
         <div class="col-12 col-md-6 col-xl-3">
             <a asp-controller="Verification" asp-action="Index" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
                 <div class="ui-card-body">
-                    <span class="icon-circle"><i class="fa-solid fa-id-card-clip"></i></span>
+                    <span class="icon-circle"><i class="bx bx-id-card"></i></span>
                     <div class="mt-3">
                         <div class="ui-card-title">@L["Verification"]</div>
-                        <div class="ui-muted small mt-1">Scan a user, see balance &amp; menu.</div>
+                        <div class="ui-muted small mt-1">@L["Home.Index.VerificationDescription"]</div>
                     </div>
                 </div>
             </a>
@@ -43,10 +43,10 @@
         <div class="col-12 col-md-6 col-xl-3">
             <a asp-controller="Menu" asp-action="Manage" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
                 <div class="ui-card-body">
-                    <span class="icon-circle"><i class="fa-solid fa-utensils"></i></span>
+                    <span class="icon-circle"><i class="bx bx-restaurant"></i></span>
                     <div class="mt-3">
                         <div class="ui-card-title">@L["Menu"]</div>
-                        <div class="ui-muted small mt-1">Curate today's menu and stock.</div>
+                        <div class="ui-muted small mt-1">@L["Home.Index.MenuDescription"]</div>
                     </div>
                 </div>
             </a>
@@ -54,10 +54,10 @@
         <div class="col-12 col-md-6 col-xl-3">
             <a asp-controller="Display" asp-action="Menu" class="ui-card ui-card-interactive h-100 text-decoration-none text-reset">
                 <div class="ui-card-body">
-                    <span class="icon-circle"><i class="fa-solid fa-tv"></i></span>
+                    <span class="icon-circle"><i class="bx bx-tv"></i></span>
                     <div class="mt-3">
                         <div class="ui-card-title">@L["Display"]</div>
-                        <div class="ui-muted small mt-1">Customer-facing display board.</div>
+                        <div class="ui-muted small mt-1">@L["Home.Index.DisplayDescription"]</div>
                     </div>
                 </div>
             </a>

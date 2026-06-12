@@ -1,68 +1,2695 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
-  <resheader name="version"><value>2.0</value></resheader>
-  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-
-  <data name="AppName" xml:space="preserve"><value>Canteen Management System</value></data>
-  <data name="AppSubtitle" xml:space="preserve"><value>Smart canteen operations</value></data>
-  <data name="TenantBranding" xml:space="preserve"><value>Tenant</value></data>
-
-  <data name="QuickActions" xml:space="preserve"><value>Quick Actions</value></data>
-  <data name="Dashboard" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="Menu" xml:space="preserve"><value>Menu</value></data>
-  <data name="Display" xml:space="preserve"><value>Display Board</value></data>
-  <data name="Verification" xml:space="preserve"><value>Verification</value></data>
-  <data name="Operators" xml:space="preserve"><value>Operators</value></data>
-  <data name="Reports" xml:space="preserve"><value>Reports</value></data>
-
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Canteen Management System</value>
+  </data>
+  <data name="AppSubtitle" xml:space="preserve">
+    <value>Smart canteen operations</value>
+  </data>
+  <data name="TenantBranding" xml:space="preserve">
+    <value>Tenant</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display Board</value>
+  </data>
+  <data name="Verification" xml:space="preserve">
+    <value>Verification</value>
+  </data>
+  <data name="Operators" xml:space="preserve">
+    <value>Operators</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
   <!-- P1 + P2 personas -->
-  <data name="MyOrders"     xml:space="preserve"><value>My orders</value></data>
-  <data name="ParentPortal" xml:space="preserve"><value>Parent portal</value></data>
-  <data name="PreOrders"    xml:space="preserve"><value>Pre-orders</value></data>
-  <data name="Cards"        xml:space="preserve"><value>NFC cards</value></data>
-  <data name="Kitchen"      xml:space="preserve"><value>Kitchen Display</value></data>
-  <data name="Tenants"      xml:space="preserve"><value>Tenants</value></data>
-  <data name="Users"        xml:space="preserve"><value>Users</value></data>
-  <data name="Gateways"     xml:space="preserve"><value>Gateways</value></data>
-  <data name="Directory"    xml:space="preserve"><value>Directory</value></data>
-  <data name="AuditLog"     xml:space="preserve"><value>Audit log</value></data>
-  <data name="Printer"      xml:space="preserve"><value>Printer</value></data>
-  <data name="NotificationTemplates" xml:space="preserve"><value>Notification templates</value></data>
-  <data name="ScheduledReports"      xml:space="preserve"><value>Scheduled reports</value></data>
-  <data name="ReportsCatalog"        xml:space="preserve"><value>Reports catalog</value></data>
-  <data name="SelfServiceKiosk"      xml:space="preserve"><value>Self-service kiosk</value></data>
-  <data name="Administration"        xml:space="preserve"><value>Administration</value></data>
-
-  <data name="Localization" xml:space="preserve"><value>Localization</value></data>
-  <data name="LanguageBangla" xml:space="preserve"><value>Bangla</value></data>
-  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
-
-  <data name="ToggleTheme" xml:space="preserve"><value>Toggle theme</value></data>
-  <data name="ToggleMenu" xml:space="preserve"><value>Toggle menu</value></data>
-  <data name="SignOut" xml:space="preserve"><value>Sign out</value></data>
-
-  <data name="VerifyHeading" xml:space="preserve"><value>Canteen Verification</value></data>
-  <data name="VerifySubtitle" xml:space="preserve"><value>Identify a user in seconds via card, ID, QR, or NFC.</value></data>
-  <data name="VerifyInputLabel" xml:space="preserve"><value>ID / Card / QR</value></data>
-  <data name="VerifyInputPlaceholder" xml:space="preserve"><value>Student or employee ID</value></data>
-  <data name="VerifyButton" xml:space="preserve"><value>Verify</value></data>
-  <data name="ResetButton" xml:space="preserve"><value>Reset</value></data>
-  <data name="VerifyHint" xml:space="preserve"><value>Tip: use this page on a kiosk or operator counter.</value></data>
-  <data name="ResultsTitle" xml:space="preserve"><value>Result</value></data>
-  <data name="ResultsEmptyTitle" xml:space="preserve"><value>No user verified yet</value></data>
-  <data name="ResultsEmptyHint" xml:space="preserve"><value>Enter an ID above to begin.</value></data>
-
-  <data name="AvailableBalance" xml:space="preserve"><value>Available balance</value></data>
-  <data name="TotalBalance" xml:space="preserve"><value>Total balance</value></data>
-  <data name="UsedBalance" xml:space="preserve"><value>Used balance</value></data>
-  <data name="TodayMenu" xml:space="preserve"><value>Today's menu</value></data>
-
-  <data name="StatsTodayOrders" xml:space="preserve"><value>Today's orders</value></data>
-  <data name="StatsPending" xml:space="preserve"><value>Pending</value></data>
-  <data name="StatsDelivered" xml:space="preserve"><value>Delivered</value></data>
-  <data name="StatsRevenue" xml:space="preserve"><value>Revenue</value></data>
-  <data name="LiveOrders" xml:space="preserve"><value>Live orders</value></data>
-  <data name="ViewAll" xml:space="preserve"><value>View all</value></data>
+  <data name="MyOrders" xml:space="preserve">
+    <value>My orders</value>
+  </data>
+  <data name="ParentPortal" xml:space="preserve">
+    <value>Parent portal</value>
+  </data>
+  <data name="PreOrders" xml:space="preserve">
+    <value>Pre-orders</value>
+  </data>
+  <data name="Cards" xml:space="preserve">
+    <value>NFC cards</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Kitchen Display</value>
+  </data>
+  <data name="Tenants" xml:space="preserve">
+    <value>Tenants</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Gateways" xml:space="preserve">
+    <value>Gateways</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="AuditLog" xml:space="preserve">
+    <value>Audit log</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Printer</value>
+  </data>
+  <data name="NotificationTemplates" xml:space="preserve">
+    <value>Notification templates</value>
+  </data>
+  <data name="ScheduledReports" xml:space="preserve">
+    <value>Scheduled reports</value>
+  </data>
+  <data name="ReportsCatalog" xml:space="preserve">
+    <value>Reports catalog</value>
+  </data>
+  <data name="SelfServiceKiosk" xml:space="preserve">
+    <value>Self-service kiosk</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Localization" xml:space="preserve">
+    <value>Localization</value>
+  </data>
+  <data name="LanguageBangla" xml:space="preserve">
+    <value>Bangla</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Toggle theme</value>
+  </data>
+  <data name="ToggleMenu" xml:space="preserve">
+    <value>Toggle menu</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="VerifyHeading" xml:space="preserve">
+    <value>Canteen Verification</value>
+  </data>
+  <data name="VerifySubtitle" xml:space="preserve">
+    <value>Identify a user in seconds via card, ID, QR, or NFC.</value>
+  </data>
+  <data name="VerifyInputLabel" xml:space="preserve">
+    <value>ID / Card / QR</value>
+  </data>
+  <data name="VerifyInputPlaceholder" xml:space="preserve">
+    <value>Student or employee ID</value>
+  </data>
+  <data name="VerifyButton" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="ResetButton" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="VerifyHint" xml:space="preserve">
+    <value>Tip: use this page on a kiosk or operator counter.</value>
+  </data>
+  <data name="ResultsTitle" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="ResultsEmptyTitle" xml:space="preserve">
+    <value>No user verified yet</value>
+  </data>
+  <data name="ResultsEmptyHint" xml:space="preserve">
+    <value>Enter an ID above to begin.</value>
+  </data>
+  <data name="AvailableBalance" xml:space="preserve">
+    <value>Available balance</value>
+  </data>
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Total balance</value>
+  </data>
+  <data name="UsedBalance" xml:space="preserve">
+    <value>Used balance</value>
+  </data>
+  <data name="TodayMenu" xml:space="preserve">
+    <value>Today's menu</value>
+  </data>
+  <data name="StatsTodayOrders" xml:space="preserve">
+    <value>Today's orders</value>
+  </data>
+  <data name="StatsPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="StatsDelivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="StatsRevenue" xml:space="preserve">
+    <value>Revenue</value>
+  </data>
+  <data name="LiveOrders" xml:space="preserve">
+    <value>Live orders</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common.Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common.View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Common.Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Common.Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Common.Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Common.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Common.Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Common.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Common.Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Common.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Common.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Common.Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Common.Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Common.Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Common.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Common.Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Common.Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Common.Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Common.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Common.Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Common.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Common.Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Common.Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Common.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Common.Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Common.All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Common.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Common.New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Common.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Common.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Common.Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Common.Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Common.Loading" xml:space="preserve">
+    <value>Loading…</value>
+  </data>
+  <data name="Common.NoData.Title" xml:space="preserve">
+    <value>Nothing here yet</value>
+  </data>
+  <data name="Common.NoData.Description" xml:space="preserve">
+    <value>There is no data to show for the current filters.</value>
+  </data>
+  <data name="Common.Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Common.Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="Common.Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Common.Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Common.Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Common.Of" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="Common.Items" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="Common.User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Common.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Common.Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Common.Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Common.From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Common.To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Common.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Common.Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Common.Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Common.Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Common.Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Common.Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Common.Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Account.Common.BrandName" xml:space="preserve">
+    <value>SmartCanteen</value>
+  </data>
+  <data name="Account.Common.BackToSignIn" xml:space="preserve">
+    <value>Back to sign in</value>
+  </data>
+  <data name="Account.Common.EmailPlaceholder" xml:space="preserve">
+    <value>you@example.com</value>
+  </data>
+  <data name="Account.Common.NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="Account.Common.ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="Account.Login.Title" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Account.Login.Tagline" xml:space="preserve">
+    <value>The canteen, sorted.</value>
+  </data>
+  <data name="Account.Login.TaglineSub" xml:space="preserve">
+    <value>Multi-tenant SaaS for school &amp; corporate canteens. Scan, order, pay, report — all in Bangla &amp; English.</value>
+  </data>
+  <data name="Account.Login.CheckCardTap" xml:space="preserve">
+    <value>Card-tap orders in under a second</value>
+  </data>
+  <data name="Account.Login.CheckKiosk" xml:space="preserve">
+    <value>Self-service kiosks, no student login needed</value>
+  </data>
+  <data name="Account.Login.CheckParentPortal" xml:space="preserve">
+    <value>Parent portal &amp; wallet recharges via bKash, Nagad, SSL, Stripe</value>
+  </data>
+  <data name="Account.Login.CheckKitchen" xml:space="preserve">
+    <value>Realtime kitchen display + SMS / WhatsApp alerts</value>
+  </data>
+  <data name="Account.Login.WelcomeBack" xml:space="preserve">
+    <value>Welcome back</value>
+  </data>
+  <data name="Account.Login.Subtitle" xml:space="preserve">
+    <value>Sign in to manage your canteen.</value>
+  </data>
+  <data name="Account.Login.ContinueWithGoogle" xml:space="preserve">
+    <value>Continue with Google</value>
+  </data>
+  <data name="Account.Login.OrSignInWithEmail" xml:space="preserve">
+    <value>or sign in with email</value>
+  </data>
+  <data name="Account.Login.UserNameLabel" xml:space="preserve">
+    <value>Username or email</value>
+  </data>
+  <data name="Account.Login.PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Account.Login.ShowPassword" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="Account.Login.RememberMe" xml:space="preserve">
+    <value>Keep me signed in</value>
+  </data>
+  <data name="Account.Login.ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Account.Login.OrOneTimeLink" xml:space="preserve">
+    <value>or use a one-time link</value>
+  </data>
+  <data name="Account.Login.EmailMeLink" xml:space="preserve">
+    <value>Email me a sign-in link</value>
+  </data>
+  <data name="Account.Login.DefaultBootstrap" xml:space="preserve">
+    <value>Default bootstrap:</value>
+  </data>
+  <data name="Account.Login.FirstLoginNote" xml:space="preserve">
+    <value>You'll be asked to change the password on first login.</value>
+  </data>
+  <data name="Account.Mfa.Title" xml:space="preserve">
+    <value>Multi-factor auth</value>
+  </data>
+  <data name="Account.Mfa.Subtitle" xml:space="preserve">
+    <value>Add a time-based one-time-password app to your account.</value>
+  </data>
+  <data name="Account.Mfa.EnabledHeading" xml:space="preserve">
+    <value>MFA is on for your account</value>
+  </data>
+  <data name="Account.Mfa.EnabledBody" xml:space="preserve">
+    <value>Sign-in asks for a 6-digit TOTP code. You have {0} recovery code(s) left.</value>
+  </data>
+  <data name="Account.Mfa.RecoveryCodesTitle" xml:space="preserve">
+    <value>Recovery codes</value>
+  </data>
+  <data name="Account.Mfa.RecoveryCodesHint" xml:space="preserve">
+    <value>Lost your authenticator? Use a recovery code instead. You can regenerate the set any time — the old codes stop working immediately.</value>
+  </data>
+  <data name="Account.Mfa.RegenerateConfirm" xml:space="preserve">
+    <value>Generate a fresh set of recovery codes? The current codes will stop working.</value>
+  </data>
+  <data name="Account.Mfa.RegenerateCodes" xml:space="preserve">
+    <value>Generate new codes</value>
+  </data>
+  <data name="Account.Mfa.Disable" xml:space="preserve">
+    <value>Disable MFA</value>
+  </data>
+  <data name="Account.Mfa.DisableConfirm" xml:space="preserve">
+    <value>Disable MFA? Your account will rely on password only.</value>
+  </data>
+  <data name="Account.Mfa.SetupHeading" xml:space="preserve">
+    <value>Add a second factor</value>
+  </data>
+  <data name="Account.Mfa.SetupBody" xml:space="preserve">
+    <value>Scan the QR code with Authy / Google Authenticator / Microsoft Authenticator, then enter the 6-digit code to confirm.</value>
+  </data>
+  <data name="Account.Mfa.QrAlt" xml:space="preserve">
+    <value>MFA QR code</value>
+  </data>
+  <data name="Account.Mfa.SecretHint" xml:space="preserve">
+    <value>Or paste this secret manually:</value>
+  </data>
+  <data name="Account.Mfa.VerifyCodeTitle" xml:space="preserve">
+    <value>Verify code</value>
+  </data>
+  <data name="Account.Mfa.CodeLabel" xml:space="preserve">
+    <value>6-digit code from your authenticator</value>
+  </data>
+  <data name="Account.Mfa.EnableButton" xml:space="preserve">
+    <value>Enable MFA</value>
+  </data>
+  <data name="Account.RecoveryCodes.Title" xml:space="preserve">
+    <value>Your MFA recovery codes</value>
+  </data>
+  <data name="Account.RecoveryCodes.Subtitle" xml:space="preserve">
+    <value>These are shown once. Save them somewhere safe — a password manager or a printed copy in a sealed envelope.</value>
+  </data>
+  <data name="Account.RecoveryCodes.WarnHeading" xml:space="preserve">
+    <value>Save these codes NOW</value>
+  </data>
+  <data name="Account.RecoveryCodes.WarnBody" xml:space="preserve">
+    <value>Each code can be used exactly once if you lose access to your authenticator. We never show them again — generate a fresh set if you need new ones.</value>
+  </data>
+  <data name="Account.RecoveryCodes.Count" xml:space="preserve">
+    <value>{0} codes</value>
+  </data>
+  <data name="Account.RecoveryCodes.CopyAll" xml:space="preserve">
+    <value>Copy all</value>
+  </data>
+  <data name="Account.RecoveryCodes.DownloadTxt" xml:space="preserve">
+    <value>Download .txt</value>
+  </data>
+  <data name="Account.RecoveryCodes.Done" xml:space="preserve">
+    <value>I've saved them — done</value>
+  </data>
+  <data name="Account.RecoveryCodes.Copied" xml:space="preserve">
+    <value>Codes copied to clipboard.</value>
+  </data>
+  <data name="Account.RecoveryCodes.CopyFailed" xml:space="preserve">
+    <value>Copy failed - select + copy manually.</value>
+  </data>
+  <data name="Account.ChangePassword.Title" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Account.ChangePassword.Subtitle" xml:space="preserve">
+    <value>Update your account password.</value>
+  </data>
+  <data name="Account.ChangePassword.MustChangeSubtitle" xml:space="preserve">
+    <value>Your administrator requires you to update your password before continuing.</value>
+  </data>
+  <data name="Account.ChangePassword.MustChangeWarning" xml:space="preserve">
+    <value>You must change your password before continuing.</value>
+  </data>
+  <data name="Account.ChangePassword.CurrentPassword" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="Account.ChangePassword.MinLengthHint" xml:space="preserve">
+    <value>At least 8 characters.</value>
+  </data>
+  <data name="Account.ChangePassword.Submit" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="Account.VerifyMfa.Title" xml:space="preserve">
+    <value>Two-factor verification</value>
+  </data>
+  <data name="Account.VerifyMfa.PromptTotp" xml:space="preserve">
+    <value>Enter the 6-digit code from your authenticator app.</value>
+  </data>
+  <data name="Account.VerifyMfa.PromptRecovery" xml:space="preserve">
+    <value>Enter one of your one-time recovery codes.</value>
+  </data>
+  <data name="Account.VerifyMfa.CodeLabel" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Account.VerifyMfa.Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="Account.VerifyMfa.UseRecovery" xml:space="preserve">
+    <value>Use a recovery code instead</value>
+  </data>
+  <data name="Account.VerifyMfa.UseTotp" xml:space="preserve">
+    <value>Use my authenticator app instead</value>
+  </data>
+  <data name="Account.VerifyMfa.RecoveryPlaceholder" xml:space="preserve">
+    <value>e.g. 5F2H7-K9XYM</value>
+  </data>
+  <data name="Account.VerifyMfa.SignInDifferentUser" xml:space="preserve">
+    <value>Sign in as a different user</value>
+  </data>
+  <data name="Account.ForgotPassword.Title" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>
+  <data name="Account.ForgotPassword.Heading" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Account.ForgotPassword.Subtitle" xml:space="preserve">
+    <value>Enter the email on your SmartCanteen account and we'll send a one-time reset link. The link expires in 30 minutes.</value>
+  </data>
+  <data name="Account.ForgotPassword.Submit" xml:space="preserve">
+    <value>Send reset link</value>
+  </data>
+  <data name="Account.MagicLink.Title" xml:space="preserve">
+    <value>Email sign-in link</value>
+  </data>
+  <data name="Account.MagicLink.BrowserTitle" xml:space="preserve">
+    <value>Sign in via email</value>
+  </data>
+  <data name="Account.MagicLink.Heading" xml:space="preserve">
+    <value>Sign in with an email link</value>
+  </data>
+  <data name="Account.MagicLink.Subtitle" xml:space="preserve">
+    <value>No password needed. We'll send a one-time sign-in link that's valid for 15 minutes.</value>
+  </data>
+  <data name="Account.MagicLink.Submit" xml:space="preserve">
+    <value>Send sign-in link</value>
+  </data>
+  <data name="Account.ResetPassword.Title" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="Account.ResetPassword.Heading" xml:space="preserve">
+    <value>Choose a new password</value>
+  </data>
+  <data name="Account.ResetPassword.Subtitle" xml:space="preserve">
+    <value>Make it at least 8 characters. Mix letters, numbers, and symbols for the strongest result.</value>
+  </data>
+  <data name="Account.ResetPassword.Submit" xml:space="preserve">
+    <value>Set new password</value>
+  </data>
+  <data name="Account.AccessDenied.Title" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Account.AccessDenied.Subtitle" xml:space="preserve">
+    <value>Your account doesn't have permission to view this page.</value>
+  </data>
+  <data name="Account.AccessDenied.BackHome" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Account.AccessDenied.SignInAnother" xml:space="preserve">
+    <value>Sign in as another user</value>
+  </data>
+  <data name="Error.Shared.BackHome" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Error.Shared.Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Error.Shared.TryAgain" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="Error.Shared.GoBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="Error.Shared.ServerError" xml:space="preserve">
+    <value>Server error</value>
+  </data>
+  <data name="Error.400.Title" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
+  <data name="Error.400.Description" xml:space="preserve">
+    <value>The request was malformed and the server couldn't make sense of it. If you reached this page from a link, the link may be broken.</value>
+  </data>
+  <data name="Error.401.Title" xml:space="preserve">
+    <value>Sign in to continue</value>
+  </data>
+  <data name="Error.401.Description" xml:space="preserve">
+    <value>You need to be signed in to view this page. If you were signed in already, your session may have expired — sign in again to continue.</value>
+  </data>
+  <data name="Error.401.Cta" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Error.402.Title" xml:space="preserve">
+    <value>Payment required</value>
+  </data>
+  <data name="Error.402.Description" xml:space="preserve">
+    <value>This tenant's subscription is past due or the current plan doesn't include the feature you tried to access. Pay the latest invoice or upgrade your plan to continue.</value>
+  </data>
+  <data name="Error.402.Cta" xml:space="preserve">
+    <value>Go to billing</value>
+  </data>
+  <data name="Error.403.Title" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Error.403.Description" xml:space="preserve">
+    <value>Your account is signed in, but it doesn't have permission for this page. Ask a tenant admin to grant you the relevant role, or switch to an account that has access.</value>
+  </data>
+  <data name="Error.403.Secondary" xml:space="preserve">
+    <value>Sign in as another user</value>
+  </data>
+  <data name="Error.404.Title" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="Error.404.Description" xml:space="preserve">
+    <value>We couldn't find the page you were looking for. It may have moved, or the link you followed could be out of date.</value>
+  </data>
+  <data name="Error.404.PathInfo" xml:space="preserve">
+    <value>We couldn't find anything at {0}. It may have moved, or the link you followed could be out of date.</value>
+  </data>
+  <data name="Error.405.Title" xml:space="preserve">
+    <value>Method not allowed</value>
+  </data>
+  <data name="Error.405.Description" xml:space="preserve">
+    <value>This endpoint doesn't accept the HTTP method you used. If you arrived here from a form, the form's target route may have changed — head back and try again.</value>
+  </data>
+  <data name="Error.408.Title" xml:space="preserve">
+    <value>Request timed out</value>
+  </data>
+  <data name="Error.408.Description" xml:space="preserve">
+    <value>The server didn't get a complete request in time. This usually means a slow network — wait a moment, then try again.</value>
+  </data>
+  <data name="Error.410.Title" xml:space="preserve">
+    <value>Gone</value>
+  </data>
+  <data name="Error.410.Description" xml:space="preserve">
+    <value>This resource used to be here but has been permanently removed. There's no forwarding address — try searching from the home page.</value>
+  </data>
+  <data name="Error.410.Secondary" xml:space="preserve">
+    <value>What's new</value>
+  </data>
+  <data name="Error.422.Title" xml:space="preserve">
+    <value>Couldn't process that</value>
+  </data>
+  <data name="Error.422.Description" xml:space="preserve">
+    <value>The data you sent was understood, but something didn't pass validation. Check the fields you submitted and try again.</value>
+  </data>
+  <data name="Error.422.PageTitle" xml:space="preserve">
+    <value>Unprocessable</value>
+  </data>
+  <data name="Error.429.Title" xml:space="preserve">
+    <value>Slow down a moment</value>
+  </data>
+  <data name="Error.429.Description" xml:space="preserve">
+    <value>You've made too many requests in a short window. We've slowed you down to keep the system fair for everyone — try again in a minute.</value>
+  </data>
+  <data name="Error.429.PageTitle" xml:space="preserve">
+    <value>Too many requests</value>
+  </data>
+  <data name="Error.500.Title" xml:space="preserve">
+    <value>Something broke on our side</value>
+  </data>
+  <data name="Error.500.Description" xml:space="preserve">
+    <value>An unexpected error happened while we tried to serve your request. The site team has been notified — try again, or come back in a few minutes.</value>
+  </data>
+  <data name="Error.502.Title" xml:space="preserve">
+    <value>Bad gateway</value>
+  </data>
+  <data name="Error.502.Description" xml:space="preserve">
+    <value>An upstream service we depend on returned an invalid response. This usually clears itself within a minute or two — try again shortly.</value>
+  </data>
+  <data name="Error.503.Title" xml:space="preserve">
+    <value>Service unavailable</value>
+  </data>
+  <data name="Error.503.Description" xml:space="preserve">
+    <value>We're either down for maintenance or under heavy load. We'll be back online shortly — refresh the page in a couple of minutes.</value>
+  </data>
+  <data name="Error.503.Secondary" xml:space="preserve">
+    <value>Status page</value>
+  </data>
+  <data name="Error.504.Title" xml:space="preserve">
+    <value>Gateway timeout</value>
+  </data>
+  <data name="Error.504.Description" xml:space="preserve">
+    <value>An upstream service took too long to respond. The request didn't reach completion — try again shortly.</value>
+  </data>
+  <data name="Error.Generic.RequestError" xml:space="preserve">
+    <value>Request error</value>
+  </data>
+  <data name="Error.Generic.ServerDescription" xml:space="preserve">
+    <value>Something went wrong on our side. Try again, or come back in a few minutes.</value>
+  </data>
+  <data name="Error.Generic.RequestDescription" xml:space="preserve">
+    <value>The request couldn't be completed. Check the URL or try again from the home page.</value>
+  </data>
+  <data name="Error.Generic.PageTitle" xml:space="preserve">
+    <value>Error {0}</value>
+  </data>
+  <data name="Menu.Manage.Title" xml:space="preserve">
+    <value>Menu management</value>
+  </data>
+  <data name="Menu.Manage.Subtitle" xml:space="preserve">
+    <value>View the daily menu, weekly templates and food items in one place.</value>
+  </data>
+  <data name="Menu.Manage.Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="Menu.Manage.DailyTab" xml:space="preserve">
+    <value>Daily menu</value>
+  </data>
+  <data name="Menu.Manage.WeeklyTab" xml:space="preserve">
+    <value>Weekly templates</value>
+  </data>
+  <data name="Menu.Manage.FoodTab" xml:space="preserve">
+    <value>Food items</value>
+  </data>
+  <data name="Menu.Manage.ItemsCount" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="Menu.Manage.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Menu.Manage.Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Menu.Manage.Sold" xml:space="preserve">
+    <value>Sold</value>
+  </data>
+  <data name="Menu.Manage.Remaining" xml:space="preserve">
+    <value>Remaining</value>
+  </data>
+  <data name="Menu.Manage.Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Menu.Manage.Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="Menu.Manage.NoMenuForDate" xml:space="preserve">
+    <value>No menu for this date.</value>
+  </data>
+  <data name="Menu.Manage.TemplatesCount" xml:space="preserve">
+    <value>{0} templates</value>
+  </data>
+  <data name="Menu.Manage.Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Menu.Manage.Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Menu.Manage.MealType" xml:space="preserve">
+    <value>Meal type</value>
+  </data>
+  <data name="Menu.Manage.DefaultQty" xml:space="preserve">
+    <value>Default qty</value>
+  </data>
+  <data name="Menu.Manage.NoTemplates" xml:space="preserve">
+    <value>No weekly templates.</value>
+  </data>
+  <data name="Menu.Manage.ManageItems" xml:space="preserve">
+    <value>Manage items</value>
+  </data>
+  <data name="Menu.Manage.NoFoodItems" xml:space="preserve">
+    <value>No food items found.</value>
+  </data>
+  <data name="Menu.Manage.NewItem" xml:space="preserve">
+    <value>New item</value>
+  </data>
+  <data name="Menu.Manage.GoToDashboard" xml:space="preserve">
+    <value>Go to dashboard</value>
+  </data>
+  <data name="Menu.Manage.CopyYesterday" xml:space="preserve">
+    <value>Copy yesterday</value>
+  </data>
+  <data name="Menu.Manage.FooterHint" xml:space="preserve">
+    <value>Load the menu for a specific day and quickly review templates and items.</value>
+  </data>
+  <data name="FoodItems" xml:space="preserve">
+    <value>Food items</value>
+  </data>
+  <data name="Menu.ManageItems.Subtitle" xml:space="preserve">
+    <value>Catalog of every food item this canteen serves. Activating or deactivating items hides them from the menu without deleting them.</value>
+  </data>
+  <data name="Menu.ManageItems.AddItem" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="Menu.ManageItems.BackToMenu" xml:space="preserve">
+    <value>Back to menu</value>
+  </data>
+  <data name="Menu.ManageItems.TotalItems" xml:space="preserve">
+    <value>Total items</value>
+  </data>
+  <data name="Menu.ManageItems.AveragePrice" xml:space="preserve">
+    <value>Average price</value>
+  </data>
+  <data name="Menu.ManageItems.ItemsWithPhoto" xml:space="preserve">
+    <value>{0} items have a photo</value>
+  </data>
+  <data name="Menu.ManageItems.SearchPlaceholder" xml:space="preserve">
+    <value>Search by name, description or allergen</value>
+  </data>
+  <data name="Menu.ManageItems.ActiveOnly" xml:space="preserve">
+    <value>Active only</value>
+  </data>
+  <data name="Menu.ManageItems.InactiveOnly" xml:space="preserve">
+    <value>Inactive only</value>
+  </data>
+  <data name="Menu.ManageItems.ItemCount" xml:space="preserve">
+    <value>{0} item(s)</value>
+  </data>
+  <data name="Menu.ManageItems.EmptyTitle" xml:space="preserve">
+    <value>No items yet</value>
+  </data>
+  <data name="Menu.ManageItems.EmptyDescription" xml:space="preserve">
+    <value>Add your first dish. It will be available to schedule on the daily menu and weekly templates.</value>
+  </data>
+  <data name="Menu.ManageItems.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Menu.ManageItems.Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Menu.ManageItems.Dietary" xml:space="preserve">
+    <value>Dietary</value>
+  </data>
+  <data name="Menu.ManageItems.Veg" xml:space="preserve">
+    <value>Veg</value>
+  </data>
+  <data name="Menu.ManageItems.Halal" xml:space="preserve">
+    <value>Halal</value>
+  </data>
+  <data name="Menu.ManageItems.Kcal" xml:space="preserve">
+    <value>{0} kcal</value>
+  </data>
+  <data name="Menu.ManageItems.Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Menu.ManageItems.Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Menu.ManageItems.EditItem" xml:space="preserve">
+    <value>Edit item</value>
+  </data>
+  <data name="Menu.ManageItems.ItemName" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="Menu.ManageItems.ItemNamePlaceholder" xml:space="preserve">
+    <value>e.g. Veg Biryani</value>
+  </data>
+  <data name="Menu.ManageItems.PriceLabel" xml:space="preserve">
+    <value>Price (৳)</value>
+  </data>
+  <data name="Menu.ManageItems.DescriptionPlaceholder" xml:space="preserve">
+    <value>One short line</value>
+  </data>
+  <data name="Menu.ManageItems.Calories" xml:space="preserve">
+    <value>Calories (kcal)</value>
+  </data>
+  <data name="Menu.ManageItems.PrepTime" xml:space="preserve">
+    <value>Prep time (sec)</value>
+  </data>
+  <data name="Menu.ManageItems.ImageUrl" xml:space="preserve">
+    <value>Image URL</value>
+  </data>
+  <data name="Menu.ManageItems.Allergens" xml:space="preserve">
+    <value>Allergens (comma-separated)</value>
+  </data>
+  <data name="Menu.ManageItems.AllergensPlaceholder" xml:space="preserve">
+    <value>nuts, dairy</value>
+  </data>
+  <data name="Menu.ManageItems.Vegetarian" xml:space="preserve">
+    <value>Vegetarian</value>
+  </data>
+  <data name="Menu.ManageItems.ItemNotFound" xml:space="preserve">
+    <value>Item not found.</value>
+  </data>
+  <data name="Menu.ManageItems.LoadFailed" xml:space="preserve">
+    <value>Could not load item.</value>
+  </data>
+  <data name="Menu.ManageItems.ItemUpdated" xml:space="preserve">
+    <value>Item updated.</value>
+  </data>
+  <data name="Menu.ManageItems.ItemCreated" xml:space="preserve">
+    <value>Item created.</value>
+  </data>
+  <data name="Menu.ManageItems.SaveFailed" xml:space="preserve">
+    <value>Save failed.</value>
+  </data>
+  <data name="Menu.ManageItems.NetworkError" xml:space="preserve">
+    <value>Network error.</value>
+  </data>
+  <data name="Menu.ManageItems.StatusUpdated" xml:space="preserve">
+    <value>Status updated.</value>
+  </data>
+  <data name="Menu.ManageItems.UpdateFailed" xml:space="preserve">
+    <value>Could not update.</value>
+  </data>
+  <data name="PublicMenu.Index.Title" xml:space="preserve">
+    <value>Menu · {0}</value>
+  </data>
+  <data name="PublicMenu.Index.ShowNutrition" xml:space="preserve">
+    <value>Show nutrition and allergen info</value>
+  </data>
+  <data name="PublicMenu.Index.EmptyTitle" xml:space="preserve">
+    <value>No menu yet</value>
+  </data>
+  <data name="PublicMenu.Index.EmptyDescription" xml:space="preserve">
+    <value>Nothing has been published for {0}. Check back closer to mealtime.</value>
+  </data>
+  <data name="PublicMenu.Index.SoldOut" xml:space="preserve">
+    <value>Sold out</value>
+  </data>
+  <data name="PublicMenu.Index.OnlyLeft" xml:space="preserve">
+    <value>Only {0} left</value>
+  </data>
+  <data name="PublicMenu.Index.Veg" xml:space="preserve">
+    <value>Veg</value>
+  </data>
+  <data name="PublicMenu.Index.Halal" xml:space="preserve">
+    <value>Halal</value>
+  </data>
+  <data name="PublicMenu.Index.Kcal" xml:space="preserve">
+    <value>{0} kcal</value>
+  </data>
+  <data name="PublicMenu.Index.FooterCta" xml:space="preserve">
+    <value>Have a card? Tap to scan at the counter</value>
+  </data>
+  <data name="Favorites.Index.Title" xml:space="preserve">
+    <value>My favourites</value>
+  </data>
+  <data name="Favorites.Index.Subtitle" xml:space="preserve">
+    <value>Tap a card to re-order an item you have saved.</value>
+  </data>
+  <data name="Favorites.Index.EmptyTitle" xml:space="preserve">
+    <value>No favourites yet</value>
+  </data>
+  <data name="Favorites.Index.EmptyDescription" xml:space="preserve">
+    <value>Tap the heart icon next to any item on your orders page and it lands here.</value>
+  </data>
+  <data name="Favorites.Index.GoToOrders" xml:space="preserve">
+    <value>Go to my orders</value>
+  </data>
+  <data name="Favorites.Index.SavedOn" xml:space="preserve">
+    <value>saved {0}</value>
+  </data>
+  <data name="Favorites.Index.OrderNow" xml:space="preserve">
+    <value>Order now</value>
+  </data>
+  <data name="Me.Orders.Subtitle" xml:space="preserve">
+    <value>Your full order history, wallet balance, and monthly spend.</value>
+  </data>
+  <data name="Me.Orders.OrdersCsv" xml:space="preserve">
+    <value>Orders CSV</value>
+  </data>
+  <data name="Me.Orders.DownloadData" xml:space="preserve">
+    <value>Download my data</value>
+  </data>
+  <data name="Me.Orders.DownloadDataTitle" xml:space="preserve">
+    <value>GDPR Article 20 - every row of your data, in one ZIP</value>
+  </data>
+  <data name="Me.Orders.Favourites" xml:space="preserve">
+    <value>Favourites</value>
+  </data>
+  <data name="Me.Orders.NotLinkedHeading" xml:space="preserve">
+    <value>Profile not linked</value>
+  </data>
+  <data name="Me.Orders.NotLinkedBody" xml:space="preserve">
+    <value>Your account is not linked to a student or employee record yet, so there are no orders to show. Ask your tenant admin to set the LinkedPersonId on your user profile.</value>
+  </data>
+  <data name="Me.Orders.WalletBalance" xml:space="preserve">
+    <value>Wallet balance</value>
+  </data>
+  <data name="Me.Orders.SpentThisMonth" xml:space="preserve">
+    <value>Spent this month</value>
+  </data>
+  <data name="Me.Orders.TotalOrders" xml:space="preserve">
+    <value>Total orders</value>
+  </data>
+  <data name="Me.Orders.AvgOrder" xml:space="preserve">
+    <value>Avg order</value>
+  </data>
+  <data name="Me.Orders.OrderNumber" xml:space="preserve">
+    <value>Order #</value>
+  </data>
+  <data name="Me.Orders.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="Me.Orders.EmptyOrders" xml:space="preserve">
+    <value>No orders yet. Head to a kiosk or counter to place your first.</value>
+  </data>
+  <data name="Me.Orders.ItemFallback" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Me.Orders.ItemCount" xml:space="preserve">
+    <value>{0} item(s)</value>
+  </data>
+  <data name="Me.Orders.PaginationLabel" xml:space="preserve">
+    <value>Orders pagination</value>
+  </data>
+  <data name="TableOrder.Index.YourTable" xml:space="preserve">
+    <value>Table {0}</value>
+  </data>
+  <data name="TableOrder.Index.NoMenu.Title" xml:space="preserve">
+    <value>No menu published for today yet</value>
+  </data>
+  <data name="TableOrder.Index.NoMenu.Description" xml:space="preserve">
+    <value>Check back later or order at the counter.</value>
+  </data>
+  <data name="TableOrder.Index.Veg" xml:space="preserve">
+    <value>Veg</value>
+  </data>
+  <data name="TableOrder.Index.Halal" xml:space="preserve">
+    <value>Halal</value>
+  </data>
+  <data name="TableOrder.Index.IdentifierLabel" xml:space="preserve">
+    <value>Your ID or card UID</value>
+  </data>
+  <data name="TableOrder.Index.IdentifierPlaceholder" xml:space="preserve">
+    <value>STD-2026-001 or card UID</value>
+  </data>
+  <data name="TableOrder.Index.WalletNote" xml:space="preserve">
+    <value>Your wallet pays for this order. You'll get an SMS when it's ready.</value>
+  </data>
+  <data name="TableOrder.Index.PlaceOrder" xml:space="preserve">
+    <value>Place order</value>
+  </data>
+  <data name="PreOrder.Index.Subtitle" xml:space="preserve">
+    <value>Order ahead for a specific pickup time — skip the lunch queue.</value>
+  </data>
+  <data name="PreOrder.Index.NewPreOrder" xml:space="preserve">
+    <value>New pre-order</value>
+  </data>
+  <data name="PreOrder.Index.Empty.Title" xml:space="preserve">
+    <value>No pre-orders yet</value>
+  </data>
+  <data name="PreOrder.Index.Empty.Description" xml:space="preserve">
+    <value>Place a pre-order for a specific pickup time and skip the rush.</value>
+  </data>
+  <data name="PreOrder.Index.Empty.Cta" xml:space="preserve">
+    <value>Create one</value>
+  </data>
+  <data name="PreOrder.Index.OrderNo" xml:space="preserve">
+    <value>Order #</value>
+  </data>
+  <data name="PreOrder.Index.PickupAt" xml:space="preserve">
+    <value>Pickup at</value>
+  </data>
+  <data name="PreOrder.Index.MoreItems" xml:space="preserve">
+    <value>+{0} more</value>
+  </data>
+  <data name="PreOrder.New.Title" xml:space="preserve">
+    <value>Pre-order</value>
+  </data>
+  <data name="PreOrder.New.TitleFor" xml:space="preserve">
+    <value>Pre-order for {0}</value>
+  </data>
+  <data name="PreOrder.New.Subtitle" xml:space="preserve">
+    <value>Pick quantities, then confirm. Your wallet is checked at submission, not now.</value>
+  </data>
+  <data name="PreOrder.New.PickupDate" xml:space="preserve">
+    <value>Pickup date</value>
+  </data>
+  <data name="PreOrder.New.RefreshMenu" xml:space="preserve">
+    <value>Refresh menu</value>
+  </data>
+  <data name="PreOrder.New.NoMenu.Title" xml:space="preserve">
+    <value>No menu yet</value>
+  </data>
+  <data name="PreOrder.New.NoMenu.Body" xml:space="preserve">
+    <value>No menu has been published for {0}. Ask the admin to schedule the day's menu first, or pick another date.</value>
+  </data>
+  <data name="PreOrder.New.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="PreOrder.New.Dietary" xml:space="preserve">
+    <value>Dietary</value>
+  </data>
+  <data name="PreOrder.New.Confirm" xml:space="preserve">
+    <value>Confirm pre-order</value>
+  </data>
+  <data name="PreOrder.Queue.Title" xml:space="preserve">
+    <value>Today's pre-orders</value>
+  </data>
+  <data name="PreOrder.Queue.Heading" xml:space="preserve">
+    <value>Pre-orders due today</value>
+  </data>
+  <data name="PreOrder.Queue.Subtitle" xml:space="preserve">
+    <value>{0} · {1} order(s)</value>
+  </data>
+  <data name="PreOrder.Queue.Empty.Title" xml:space="preserve">
+    <value>No pre-orders due today</value>
+  </data>
+  <data name="PreOrder.Queue.Empty.Description" xml:space="preserve">
+    <value>When customers schedule ahead, their orders appear here at the start of the pickup day.</value>
+  </data>
+  <data name="PreOrder.Queue.PlacedAt" xml:space="preserve">
+    <value>Placed at</value>
+  </data>
+  <data name="Kiosk.Index.AutoResetIn" xml:space="preserve">
+    <value>Auto-reset in</value>
+  </data>
+  <data name="Kiosk.Index.Heading" xml:space="preserve">
+    <value>Self-service</value>
+  </data>
+  <data name="Kiosk.Index.Tagline" xml:space="preserve">
+    <value>Scan your card or type your ID to see today's menu</value>
+  </data>
+  <data name="Kiosk.Index.Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Kiosk.Index.IdentifierLabel" xml:space="preserve">
+    <value>ID / Card UID</value>
+  </data>
+  <data name="Kiosk.Index.LookMeUp" xml:space="preserve">
+    <value>Look me up</value>
+  </data>
+  <data name="Kiosk.Index.LookingUp" xml:space="preserve">
+    <value>Looking you up…</value>
+  </data>
+  <data name="Kiosk.Index.OneMoment" xml:space="preserve">
+    <value>One moment.</value>
+  </data>
+  <data name="Kiosk.Index.Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Kiosk.Index.LookupFailed" xml:space="preserve">
+    <value>Lookup failed. Try again.</value>
+  </data>
+  <data name="Kiosk.Index.NotRecognised" xml:space="preserve">
+    <value>Card / ID not recognised.</value>
+  </data>
+  <data name="Kiosk.Index.NetworkError" xml:space="preserve">
+    <value>Network error - try again.</value>
+  </data>
+  <data name="Kiosk.Setup.Title" xml:space="preserve">
+    <value>Kiosk setup</value>
+  </data>
+  <data name="Kiosk.Setup.NotPaired" xml:space="preserve">
+    <value>This tablet isn't paired yet</value>
+  </data>
+  <data name="Kiosk.Setup.PairIntro.Before" xml:space="preserve">
+    <value>A tenant admin needs to issue a pairing token from</value>
+  </data>
+  <data name="Kiosk.Setup.PairIntro.After" xml:space="preserve">
+    <value>and open the pairing URL on this tablet once.</value>
+  </data>
+  <data name="Kiosk.Setup.Step1" xml:space="preserve">
+    <value>An admin signs in on a separate device.</value>
+  </data>
+  <data name="Kiosk.Setup.Step2" xml:space="preserve">
+    <value>Opens {0} and clicks "Pair new tablet".</value>
+  </data>
+  <data name="Kiosk.Setup.Step3" xml:space="preserve">
+    <value>Names the tablet (e.g. "Counter A tablet"), clicks "Issue pairing token".</value>
+  </data>
+  <data name="Kiosk.Setup.Step4" xml:space="preserve">
+    <value>Scans the QR code with this tablet's camera, OR copies the pair URL to this tablet.</value>
+  </data>
+  <data name="Kiosk.Setup.Step5" xml:space="preserve">
+    <value>This page reloads as the live kiosk for the next 30 days.</value>
+  </data>
+  <data name="Kiosk.Setup.OperatorSignIn" xml:space="preserve">
+    <value>Or sign in as an operator instead:</value>
+  </data>
+  <data name="CustomerDisplay.Show.Title" xml:space="preserve">
+    <value>Order {0}</value>
+  </data>
+  <data name="CustomerDisplay.Show.Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="CustomerDisplay.Show.Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="CustomerDisplay.Show.Preparing" xml:space="preserve">
+    <value>Preparing</value>
+  </data>
+  <data name="CustomerDisplay.Show.Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="CustomerDisplay.Show.Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="CustomerDisplay.Show.PlacedAt" xml:space="preserve">
+    <value>Placed {0}</value>
+  </data>
+  <data name="Display.Menu.LiveMenu" xml:space="preserve">
+    <value>Live menu</value>
+  </data>
+  <data name="Display.Menu.LiveMenuDisplay" xml:space="preserve">
+    <value>Live menu display</value>
+  </data>
+  <data name="Display.Menu.Live" xml:space="preserve">
+    <value>LIVE</value>
+  </data>
+  <data name="Display.Menu.AutoRefresh" xml:space="preserve">
+    <value>Auto-refresh</value>
+  </data>
+  <data name="Display.Menu.ItemCountSuffix" xml:space="preserve">
+    <value>item(s)</value>
+  </data>
+  <data name="Display.Menu.Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
+  <data name="Display.Menu.DisplaySettings" xml:space="preserve">
+    <value>Display settings</value>
+  </data>
+  <data name="Display.Menu.Prices" xml:space="preserve">
+    <value>Prices</value>
+  </data>
+  <data name="Display.Menu.Stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="Display.Menu.Nutrition" xml:space="preserve">
+    <value>Nutrition</value>
+  </data>
+  <data name="Display.Menu.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Display.Menu.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Display.Menu.QuickKeys" xml:space="preserve">
+    <value>Quick keys</value>
+  </data>
+  <data name="Display.Menu.ToggleNutrition" xml:space="preserve">
+    <value>toggle nutrition chips</value>
+  </data>
+  <data name="Display.Menu.Fullscreen" xml:space="preserve">
+    <value>fullscreen</value>
+  </data>
+  <data name="Display.Menu.Veg" xml:space="preserve">
+    <value>Veg</value>
+  </data>
+  <data name="Display.Menu.Halal" xml:space="preserve">
+    <value>Halal</value>
+  </data>
+  <data name="Display.Menu.SoldOut" xml:space="preserve">
+    <value>Sold out</value>
+  </data>
+  <data name="Display.Menu.OnlyLeft" xml:space="preserve">
+    <value>Only {0} left</value>
+  </data>
+  <data name="Display.Menu.StockCount" xml:space="preserve">
+    <value>Stock {0}</value>
+  </data>
+  <data name="Display.Menu.LoadFailed" xml:space="preserve">
+    <value>Could not load menu</value>
+  </data>
+  <data name="Display.Menu.NoMenu" xml:space="preserve">
+    <value>No menu published yet for today</value>
+  </data>
+  <data name="Display.Menu.NetworkRetry" xml:space="preserve">
+    <value>Network error - retrying...</value>
+  </data>
+  <data name="Home.Index.DashboardDescription" xml:space="preserve">
+    <value>Live KPIs and order queue.</value>
+  </data>
+  <data name="Home.Index.VerificationDescription" xml:space="preserve">
+    <value>Scan a user, see balance &amp; menu.</value>
+  </data>
+  <data name="Home.Index.MenuDescription" xml:space="preserve">
+    <value>Curate today's menu and stock.</value>
+  </data>
+  <data name="Home.Index.DisplayDescription" xml:space="preserve">
+    <value>Customer-facing display board.</value>
+  </data>
+  <data name="Home.Privacy.Title" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="Home.Privacy.Subtitle" xml:space="preserve">
+    <value>How SmartCanteen handles personal data.</value>
+  </data>
+  <data name="Home.Privacy.WhatWeCollect" xml:space="preserve">
+    <value>What we collect</value>
+  </data>
+  <data name="Home.Privacy.WhatWeCollectBody" xml:space="preserve">
+    <value>User profile (name, email, role), card UID, order history, wallet transactions, device pairing tokens, and webhook delivery logs. Sensitive credentials (passwords, gateway secrets) are hashed or encrypted at rest and never returned to the browser.</value>
+  </data>
+  <data name="Home.Privacy.HowWeUseIt" xml:space="preserve">
+    <value>How we use it</value>
+  </data>
+  <data name="Home.Privacy.HowWeUseItBody" xml:space="preserve">
+    <value>Strictly to operate this canteen — process orders, settle wallet balances, deliver SMS / email notifications, run reports, and audit transactions. Data is segregated per tenant; one tenant cannot see another tenant's data.</value>
+  </data>
+  <data name="Home.Privacy.Retention" xml:space="preserve">
+    <value>Retention</value>
+  </data>
+  <data name="Home.Privacy.RetentionBody" xml:space="preserve">
+    <value>Transaction history is retained for the duration required by your local tax law (typically 5 years). Soft-deleted tenants are kept on a 30-day cooling-off window before a one-shot hard delete.</value>
+  </data>
+  <data name="Home.Privacy.YourRights" xml:space="preserve">
+    <value>Your rights</value>
+  </data>
+  <data name="Home.Privacy.YourRightsBody" xml:space="preserve">
+    <value>Subject access, correction, and erasure requests should be addressed to your tenant administrator — they hold the data controller role for your canteen's deployment.</value>
+  </data>
+  <data name="Parent.Index.Title" xml:space="preserve">
+    <value>My children</value>
+  </data>
+  <data name="Parent.Index.Subtitle" xml:space="preserve">
+    <value>Balance, recent orders, top-up, and emergency card freeze.</value>
+  </data>
+  <data name="Parent.Index.NoLinkedChildren" xml:space="preserve">
+    <value>No linked children</value>
+  </data>
+  <data name="Parent.Index.NoLinkedChildrenBody" xml:space="preserve">
+    <value>No children are linked to this account yet. Ask the canteen admin to add your children's IDs to your profile.</value>
+  </data>
+  <data name="Parent.Index.SpentThisMonth" xml:space="preserve">
+    <value>spent ৳ {0} this month</value>
+  </data>
+  <data name="Parent.Index.TopUp" xml:space="preserve">
+    <value>Top up</value>
+  </data>
+  <data name="Parent.Index.TopUpHelp" xml:space="preserve">
+    <value>Goes straight into the child's wallet.</value>
+  </data>
+  <data name="Parent.Index.NfcCard" xml:space="preserve">
+    <value>NFC card</value>
+  </data>
+  <data name="Parent.Index.NoCardOnFile" xml:space="preserve">
+    <value>No card on file yet — ask the counter to issue one.</value>
+  </data>
+  <data name="Parent.Index.Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Parent.Index.FreezeConfirm" xml:space="preserve">
+    <value>Freeze card {0}? Counter scans will reject it immediately.</value>
+  </data>
+  <data name="Parent.Index.FreezeCard" xml:space="preserve">
+    <value>Freeze card</value>
+  </data>
+  <data name="Parent.Index.RecentOrders" xml:space="preserve">
+    <value>Recent orders</value>
+  </data>
+  <data name="Parent.Index.NoOrdersYet" xml:space="preserve">
+    <value>No orders yet</value>
+  </data>
+  <data name="Parent.Index.NoOrdersYetDescription" xml:space="preserve">
+    <value>Orders placed by this child will appear here.</value>
+  </data>
+  <data name="Parent.Index.OrderNumber" xml:space="preserve">
+    <value>Order #</value>
+  </data>
+  <data name="Parent.Index.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="WhatsNew.Index.Title" xml:space="preserve">
+    <value>What's new</value>
+  </data>
+  <data name="WhatsNew.Index.Subtitle" xml:space="preserve">
+    <value>Every shipped batch — most recent first.</value>
+  </data>
+  <data name="WhatsNew.Index.EmptyTitle" xml:space="preserve">
+    <value>Nothing shipped yet</value>
+  </data>
+  <data name="WhatsNew.Index.EmptyDescription" xml:space="preserve">
+    <value>Check back after the next release.</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.Title" xml:space="preserve">
+    <value>Suppliers</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.Subtitle" xml:space="preserve">
+    <value>Vendors you raise purchase orders against.</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.AddSupplier" xml:space="preserve">
+    <value>Add supplier</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.Empty.Title" xml:space="preserve">
+    <value>No suppliers yet</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.Empty.Description" xml:space="preserve">
+    <value>Add the vendor you order raw stock from.</value>
+  </data>
+  <data name="InventoryAdmin.Suppliers.Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.Title" xml:space="preserve">
+    <value>Edit supplier</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.EditNamed" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.ContactName" xml:space="preserve">
+    <value>Contact name</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="InventoryAdmin.EditSupplier.SaveSupplier" xml:space="preserve">
+    <value>Save supplier</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Title" xml:space="preserve">
+    <value>Purchase orders</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Subtitle" xml:space="preserve">
+    <value>Inbound stock from suppliers — receipt bumps today's DailyMenu quantities.</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.NewPo" xml:space="preserve">
+    <value>New PO</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Empty.Title" xml:space="preserve">
+    <value>No purchase orders</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Empty.Description" xml:space="preserve">
+    <value>Create your first PO to start tracking stock arrivals.</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.PoNumber" xml:space="preserve">
+    <value>PO #</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Supplier" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Lines" xml:space="preserve">
+    <value>Lines</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Ordered" xml:space="preserve">
+    <value>Ordered</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.Receive" xml:space="preserve">
+    <value>Receive</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.ConfirmReceive" xml:space="preserve">
+    <value>Mark {0} received? This will bump today's menu quantities.</value>
+  </data>
+  <data name="InventoryAdmin.PurchaseOrders.ConfirmCancel" xml:space="preserve">
+    <value>Cancel {0}?</value>
+  </data>
+  <data name="InventoryAdmin.PoStatus.Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="InventoryAdmin.PoStatus.Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="InventoryAdmin.PoStatus.Received" xml:space="preserve">
+    <value>Received</value>
+  </data>
+  <data name="InventoryAdmin.PoStatus.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Title" xml:space="preserve">
+    <value>New purchase order</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Subtitle" xml:space="preserve">
+    <value>Add lines; receiving the PO later will bump today's menu quantities.</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Header" xml:space="preserve">
+    <value>Header</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.PickOne" xml:space="preserve">
+    <value>Pick one…</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.AddOneFirst" xml:space="preserve">
+    <value>add one first.</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.PoNumberLabel" xml:space="preserve">
+    <value>PO number</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.AutoPlaceholder" xml:space="preserve">
+    <value>auto</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.AddLine" xml:space="preserve">
+    <value>Add line</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.UnitCost" xml:space="preserve">
+    <value>Unit cost</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.LineTotal" xml:space="preserve">
+    <value>Line total</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.Pick" xml:space="preserve">
+    <value>Pick…</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.GrandTotal" xml:space="preserve">
+    <value>Grand total</value>
+  </data>
+  <data name="InventoryAdmin.NewPurchaseOrder.SubmitPo" xml:space="preserve">
+    <value>Submit PO</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Title" xml:space="preserve">
+    <value>Stock takes</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Subtitle" xml:space="preserve">
+    <value>Periodic physical-vs-system counts. Begin one → walk the shelves → submit → variance recorded.</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.BeginTake" xml:space="preserve">
+    <value>Begin take</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Empty.Title" xml:space="preserve">
+    <value>No stock takes yet</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Empty.Description" xml:space="preserve">
+    <value>Click Begin take above to snapshot every active item's expected vs counted quantity.</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Started" xml:space="preserve">
+    <value>Started</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.NetVariance" xml:space="preserve">
+    <value>Net variance</value>
+  </data>
+  <data name="InventoryAdmin.StockTakes.Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeStatus.Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeStatus.Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeStatus.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.Title" xml:space="preserve">
+    <value>Stock take #{0}</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.StartedByLine" xml:space="preserve">
+    <value>Started {0} by {1}</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.AllTakes" xml:space="preserve">
+    <value>All takes</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.ItemsCount" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.Expected" xml:space="preserve">
+    <value>Expected</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.Counted" xml:space="preserve">
+    <value>Counted</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.Variance" xml:space="preserve">
+    <value>Variance</value>
+  </data>
+  <data name="InventoryAdmin.StockTakeDetail.SubmitCount" xml:space="preserve">
+    <value>Submit count</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Title" xml:space="preserve">
+    <value>Waste log</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Subtitle" xml:space="preserve">
+    <value>Disposed / expired / dropped items. Auto-decrements today's DailyMenu quantity.</value>
+  </data>
+  <data name="InventoryAdmin.Waste.RecordWaste" xml:space="preserve">
+    <value>Record waste</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Pick" xml:space="preserve">
+    <value>Pick…</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonSpoilage" xml:space="preserve">
+    <value>Spoilage</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonExpired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonDropped" xml:space="preserve">
+    <value>Dropped</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonContamination" xml:space="preserve">
+    <value>Contamination</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonPrepError" xml:space="preserve">
+    <value>Prep error</value>
+  </data>
+  <data name="InventoryAdmin.Waste.ReasonOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Record" xml:space="preserve">
+    <value>Record</value>
+  </data>
+  <data name="InventoryAdmin.Waste.RecentEntries" xml:space="preserve">
+    <value>Recent entries</value>
+  </data>
+  <data name="InventoryAdmin.Waste.Empty" xml:space="preserve">
+    <value>No waste recorded — that's a good day.</value>
+  </data>
+  <data name="InventoryAdmin.Waste.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="InventoryAdmin.Waste.By" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Title" xml:space="preserve">
+    <value>Near-expiry items</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Subtitle" xml:space="preserve">
+    <value>Items in today + tomorrow's menu expiring within {0} hour(s). Sort: nearest first.</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.WindowHours" xml:space="preserve">
+    <value>Window (hours)</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.NextHours" xml:space="preserve">
+    <value>next {0} h</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.KpiExpired" xml:space="preserve">
+    <value>Already expired</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.KpiExpiringSoon" xml:space="preserve">
+    <value>Expiring soon</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.WithinHours" xml:space="preserve">
+    <value>within {0} h</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.KpiStockAtRisk" xml:space="preserve">
+    <value>Stock at risk</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.AcrossRows" xml:space="preserve">
+    <value>across all rows shown</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.KpiValueAtRisk" xml:space="preserve">
+    <value>Value at risk</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.NothingExpiring" xml:space="preserve">
+    <value>Nothing expiring</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.NothingExpiringBody" xml:space="preserve">
+    <value>No item in today or tomorrow's menu is within the selected window. Either the shelf-life is generous, the menu was just published, or stock has already run down.</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.MenuDate" xml:space="preserve">
+    <value>Menu date</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.ShelfLife" xml:space="preserve">
+    <value>Shelf life</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.ExpiresUtc" xml:space="preserve">
+    <value>Expires (UTC)</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.ExpiredAgo" xml:space="preserve">
+    <value>Expired {0}h ago</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.InHours" xml:space="preserve">
+    <value>In {0}h</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.HoursAbbrev" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.ConfirmWriteOff" xml:space="preserve">
+    <value>Write off the remaining {0} unit(s) of {1} as Expired waste?</value>
+  </data>
+  <data name="InventoryAdmin.NearExpiry.WriteOff" xml:space="preserve">
+    <value>Write off</value>
+  </data>
+  <data name="CardsAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Issue, block, reassign, and re-print cards. Cache-busted on every change so the next swipe reflects it.</value>
+  </data>
+  <data name="CardsAdmin.Index.IssueCard" xml:space="preserve">
+    <value>Issue card</value>
+  </data>
+  <data name="CardsAdmin.Index.SearchPlaceholder" xml:space="preserve">
+    <value>Card UID or user id…</value>
+  </data>
+  <data name="CardsAdmin.Index.Uid" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="CardsAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No cards found</value>
+  </data>
+  <data name="CardsAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>No cards match this filter.</value>
+  </data>
+  <data name="CardsAdmin.Issued" xml:space="preserve">
+    <value>Issued</value>
+  </data>
+  <data name="CardsAdmin.PrintCard" xml:space="preserve">
+    <value>Print card</value>
+  </data>
+  <data name="CardsAdmin.AllCards" xml:space="preserve">
+    <value>All cards</value>
+  </data>
+  <data name="CardsAdmin.Status.Issued" xml:space="preserve">
+    <value>Issued</value>
+  </data>
+  <data name="CardsAdmin.Status.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="CardsAdmin.Status.Blocked" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="CardsAdmin.Status.Reassigned" xml:space="preserve">
+    <value>Reassigned</value>
+  </data>
+  <data name="CardsAdmin.Status.Retired" xml:space="preserve">
+    <value>Retired</value>
+  </data>
+  <data name="CardsAdmin.Status.Lost" xml:space="preserve">
+    <value>Lost</value>
+  </data>
+  <data name="CardsAdmin.Detail.Title" xml:space="preserve">
+    <value>Card · {0}</value>
+  </data>
+  <data name="CardsAdmin.Detail.Lifecycle" xml:space="preserve">
+    <value>Lifecycle</value>
+  </data>
+  <data name="CardsAdmin.Detail.Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="CardsAdmin.Detail.Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="CardsAdmin.Detail.ReportLost" xml:space="preserve">
+    <value>Report lost</value>
+  </data>
+  <data name="CardsAdmin.Detail.ConfirmReportLost" xml:space="preserve">
+    <value>Report this card as lost? It will stop scanning immediately.</value>
+  </data>
+  <data name="CardsAdmin.Detail.Retire" xml:space="preserve">
+    <value>Retire</value>
+  </data>
+  <data name="CardsAdmin.Detail.ConfirmRetire" xml:space="preserve">
+    <value>Retire this card? Action is permanent.</value>
+  </data>
+  <data name="CardsAdmin.Detail.Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+  <data name="CardsAdmin.Detail.Reissue.Title" xml:space="preserve">
+    <value>Re-issue (replace lost card)</value>
+  </data>
+  <data name="CardsAdmin.Detail.Reissue.NewUid" xml:space="preserve">
+    <value>New card UID</value>
+  </data>
+  <data name="CardsAdmin.Detail.Reissue.Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="CardsAdmin.Detail.Reissue.ReasonPlaceholder" xml:space="preserve">
+    <value>Replacement for lost card</value>
+  </data>
+  <data name="CardsAdmin.Detail.Reissue.Submit" xml:space="preserve">
+    <value>Re-issue</value>
+  </data>
+  <data name="CardsAdmin.Detail.Print.Title" xml:space="preserve">
+    <value>Print this card</value>
+  </data>
+  <data name="CardsAdmin.Detail.Print.Description" xml:space="preserve">
+    <value>CR80 (86 × 54 mm) print template with photo + tenant logo + accent stripe.</value>
+  </data>
+  <data name="CardsAdmin.Detail.Print.Open" xml:space="preserve">
+    <value>Open print preview</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.Title" xml:space="preserve">
+    <value>Event timeline</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.When" xml:space="preserve">
+    <value>When (UTC)</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.UidChange" xml:space="preserve">
+    <value>UID change</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.By" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.Empty.Title" xml:space="preserve">
+    <value>No events recorded</value>
+  </data>
+  <data name="CardsAdmin.Detail.Timeline.Empty.Description" xml:space="preserve">
+    <value>Lifecycle events for this card will appear here.</value>
+  </data>
+  <data name="CardsAdmin.Event.Issued" xml:space="preserve">
+    <value>Issued</value>
+  </data>
+  <data name="CardsAdmin.Event.Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
+  <data name="CardsAdmin.Event.Blocked" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="CardsAdmin.Event.Unblocked" xml:space="preserve">
+    <value>Unblocked</value>
+  </data>
+  <data name="CardsAdmin.Event.Reassigned" xml:space="preserve">
+    <value>Reassigned</value>
+  </data>
+  <data name="CardsAdmin.Event.ReportedLost" xml:space="preserve">
+    <value>Reported lost</value>
+  </data>
+  <data name="CardsAdmin.Event.Retired" xml:space="preserve">
+    <value>Retired</value>
+  </data>
+  <data name="CardsAdmin.Issue.Title" xml:space="preserve">
+    <value>Issue a card</value>
+  </data>
+  <data name="CardsAdmin.Issue.Subtitle" xml:space="preserve">
+    <value>Bind an NFC UID to a user. They can scan immediately, no activation step needed.</value>
+  </data>
+  <data name="CardsAdmin.Issue.CardUid" xml:space="preserve">
+    <value>Card UID</value>
+  </data>
+  <data name="CardsAdmin.Issue.CardUidHelp" xml:space="preserve">
+    <value>Read from the NFC reader self-test or printed on the card. Hold the card to a paired WebHID reader to auto-fill.</value>
+  </data>
+  <data name="CardsAdmin.Issue.UserType" xml:space="preserve">
+    <value>User type</value>
+  </data>
+  <data name="CardsAdmin.Issue.UserId" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="CardsAdmin.Issue.Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="CardsAdmin.Issue.NotesPlaceholder" xml:space="preserve">
+    <value>Optional — batch / replacement reason</value>
+  </data>
+  <data name="CardsAdmin.Issue.Submit" xml:space="preserve">
+    <value>Issue</value>
+  </data>
+  <data name="CardsAdmin.Issue.Reminder.Title" xml:space="preserve">
+    <value>Lifecycle reminder</value>
+  </data>
+  <data name="CardsAdmin.Issue.Reminder.Body1" xml:space="preserve">
+    <value>Issued → Active happens automatically on first counter scan, or via the Activate button on the card detail page.</value>
+  </data>
+  <data name="CardsAdmin.Issue.Reminder.Body2" xml:space="preserve">
+    <value>If a UID is already active on another user, the form rejects — block / report-lost the old card first.</value>
+  </data>
+  <data name="CardsAdmin.UserType.Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="CardsAdmin.UserType.Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="CardsAdmin.Print.Title" xml:space="preserve">
+    <value>Print card {0}</value>
+  </data>
+  <data name="CardsAdmin.Print.Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="KiosksAdmin.Index.Title" xml:space="preserve">
+    <value>Kiosk tablets</value>
+  </data>
+  <data name="KiosksAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Pair self-service tablets so students can scan + order with no staff login.</value>
+  </data>
+  <data name="KiosksAdmin.Index.PairNew" xml:space="preserve">
+    <value>Pair new tablet</value>
+  </data>
+  <data name="KiosksAdmin.Index.Paired.Title" xml:space="preserve">
+    <value>Tablet "{0}" is paired</value>
+  </data>
+  <data name="KiosksAdmin.Index.Paired.OpenOnce" xml:space="preserve">
+    <value>Open this URL ONCE on the tablet's browser. The tablet then stays paired for 30 days with no further setup.</value>
+  </data>
+  <data name="KiosksAdmin.Index.Copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="KiosksAdmin.Index.ScanQr" xml:space="preserve">
+    <value>Or scan this QR with the tablet camera:</value>
+  </data>
+  <data name="KiosksAdmin.Index.PairQrAlt" xml:space="preserve">
+    <value>Pair QR</value>
+  </data>
+  <data name="KiosksAdmin.Index.RawToken" xml:space="preserve">
+    <value>Raw token (record once if QR is not an option):</value>
+  </data>
+  <data name="KiosksAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No kiosk tablets paired yet</value>
+  </data>
+  <data name="KiosksAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>Click 'Pair new tablet' to issue a one-time token. Students never need to log in.</value>
+  </data>
+  <data name="KiosksAdmin.Index.Token" xml:space="preserve">
+    <value>Token</value>
+  </data>
+  <data name="KiosksAdmin.Index.LastSeen" xml:space="preserve">
+    <value>Last seen</value>
+  </data>
+  <data name="KiosksAdmin.Index.Revoked" xml:space="preserve">
+    <value>Revoked</value>
+  </data>
+  <data name="KiosksAdmin.Index.Hidden" xml:space="preserve">
+    <value>(hidden)</value>
+  </data>
+  <data name="KiosksAdmin.Index.Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="KiosksAdmin.Index.ConfirmRevoke" xml:space="preserve">
+    <value>Revoke this tablet? It will sign out on next page load.</value>
+  </data>
+  <data name="KiosksAdmin.Index.Revoke" xml:space="preserve">
+    <value>Revoke</value>
+  </data>
+  <data name="KiosksAdmin.Modal.Title" xml:space="preserve">
+    <value>Pair a new kiosk tablet</value>
+  </data>
+  <data name="KiosksAdmin.Modal.Help" xml:space="preserve">
+    <value>Give the tablet a name you'll recognise. The token is generated immediately and shown ONCE on the next screen.</value>
+  </data>
+  <data name="KiosksAdmin.Modal.Name" xml:space="preserve">
+    <value>Tablet name</value>
+  </data>
+  <data name="KiosksAdmin.Modal.NamePlaceholder" xml:space="preserve">
+    <value>Counter A tablet</value>
+  </data>
+  <data name="KiosksAdmin.Modal.Submit" xml:space="preserve">
+    <value>Issue pairing token</value>
+  </data>
+  <data name="PrinterAdmin.Index.Title" xml:space="preserve">
+    <value>Receipt printer</value>
+  </data>
+  <data name="PrinterAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Per-tenant thermal printer (TCP / ESC-POS). Most Epson, Xprinter, Citizen, Aclas units accept text on port 9100.</value>
+  </data>
+  <data name="PrinterAdmin.Alert.NotConfigured.Title" xml:space="preserve">
+    <value>No printer configured</value>
+  </data>
+  <data name="PrinterAdmin.Alert.NotConfigured.Body" xml:space="preserve">
+    <value>Enter the printer's IP + port below, save, then click Test print to confirm.</value>
+  </data>
+  <data name="PrinterAdmin.Config.Title" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="PrinterAdmin.Config.Host" xml:space="preserve">
+    <value>Host (IP or DNS)</value>
+  </data>
+  <data name="PrinterAdmin.Config.HostHelp" xml:space="preserve">
+    <value>Most thermal printers expose a raw socket on port 9100.</value>
+  </data>
+  <data name="PrinterAdmin.Config.Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="PrinterAdmin.Config.Timeout" xml:space="preserve">
+    <value>Timeout (ms)</value>
+  </data>
+  <data name="PrinterAdmin.Config.LineWidth" xml:space="preserve">
+    <value>Line width</value>
+  </data>
+  <data name="PrinterAdmin.Config.Width32" xml:space="preserve">
+    <value>32 (58 mm paper)</value>
+  </data>
+  <data name="PrinterAdmin.Config.Width48" xml:space="preserve">
+    <value>48 (80 mm paper)</value>
+  </data>
+  <data name="PrinterAdmin.Config.ApplyNote" xml:space="preserve">
+    <value>Changes apply on next print — no restart.</value>
+  </data>
+  <data name="PrinterAdmin.Test.Title" xml:space="preserve">
+    <value>Test print</value>
+  </data>
+  <data name="PrinterAdmin.Test.Description" xml:space="preserve">
+    <value>Sends a single sheet with brand + timestamp. Verifies network reach + paper.</value>
+  </data>
+  <data name="PrinterAdmin.Test.Submit" xml:space="preserve">
+    <value>Print test sheet</value>
+  </data>
+  <data name="PrinterAdmin.Drawer.Title" xml:space="preserve">
+    <value>Cash drawer</value>
+  </data>
+  <data name="PrinterAdmin.Drawer.Description" xml:space="preserve">
+    <value>Triggers the drawer attached to the printer's RJ11 port. Every kick is audited.</value>
+  </data>
+  <data name="PrinterAdmin.Drawer.Submit" xml:space="preserve">
+    <value>Open drawer</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.Subtitle" xml:space="preserve">
+    <value>Student / employee roster for this tenant. Synced from your configured source.</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.SecondsAgo" xml:space="preserve">
+    <value>{0}s ago</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.MinutesAgo" xml:space="preserve">
+    <value>{0}m ago</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.HoursAgo" xml:space="preserve">
+    <value>{0}h ago</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.DaysAgo" xml:space="preserve">
+    <value>{0}d ago</value>
+  </data>
+  <data name="DirectoryAdminUi.Health.Healthy" xml:space="preserve">
+    <value>Healthy</value>
+  </data>
+  <data name="DirectoryAdminUi.Health.Failing" xml:space="preserve">
+    <value>Failing</value>
+  </data>
+  <data name="DirectoryAdminUi.Health.Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="DirectoryAdminUi.RunStatus.Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="DirectoryAdminUi.RunStatus.Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="DirectoryAdminUi.RunStatus.Running" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="DirectoryAdminUi.Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="DirectoryAdminUi.Employees" xml:space="preserve">
+    <value>Employees</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.SyncNow" xml:space="preserve">
+    <value>Sync now</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.Setup" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.AllRuns" xml:space="preserve">
+    <value>All runs</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.Health" xml:space="preserve">
+    <value>Health</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.ConsecutiveFailures" xml:space="preserve">
+    <value>{0} consecutive failure(s)</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.NoRecentFailures" xml:space="preserve">
+    <value>No recent failures</value>
+  </data>
+  <data name="DirectoryAdminUi.Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.LastSync" xml:space="preserve">
+    <value>Last sync</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.LastSuccessfulSync" xml:space="preserve">
+    <value>Last successful sync</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.UploadStudentsCsv" xml:space="preserve">
+    <value>Upload students CSV</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.StudentsCsvHeaders" xml:space="preserve">
+    <value>Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Program, Class, Section, Session, Version).</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.UploadEmployeesCsv" xml:space="preserve">
+    <value>Upload employees CSV</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.EmployeesCsvHeaders" xml:space="preserve">
+    <value>Headers: ExternalId, Name (+ optional CardIdentifier, Gender, ContactNo, PhotoPath, Designation, EmployeeType).</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.RecentSyncRuns" xml:space="preserve">
+    <value>Recent sync runs</value>
+  </data>
+  <data name="DirectoryAdminUi.Index.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="DirectoryAdminUi.StudentsDelta" xml:space="preserve">
+    <value>Students Δ</value>
+  </data>
+  <data name="DirectoryAdminUi.EmployeesDelta" xml:space="preserve">
+    <value>Employees Δ</value>
+  </data>
+  <data name="DirectoryAdminUi.Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="DirectoryAdminUi.NoRuns.Title" xml:space="preserve">
+    <value>No sync runs yet</value>
+  </data>
+  <data name="DirectoryAdminUi.NoRuns.Description" xml:space="preserve">
+    <value>Press Sync now or upload a CSV to get started.</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.PageTitle" xml:space="preserve">
+    <value>Directory · Setup</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.Heading" xml:space="preserve">
+    <value>Directory source</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.Subtitle" xml:space="preserve">
+    <value>Pick how this tenant's student / employee directory feeds in.</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SourceType" xml:space="preserve">
+    <value>Source type</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SourceManual" xml:space="preserve">
+    <value>Manual (upload CSV)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SourceDatabase" xml:space="preserve">
+    <value>School DB (read-only views)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SourceApi" xml:space="preserve">
+    <value>School portal API</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SourceDisabled" xml:space="preserve">
+    <value>Disabled (no sync)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.IntervalMinutes" xml:space="preserve">
+    <value>Interval (min)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SnapshotMode" xml:space="preserve">
+    <value>Snapshot mode</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SnapshotPerSync" xml:space="preserve">
+    <value>Per sync (full snapshot)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SnapshotDaily" xml:space="preserve">
+    <value>Daily (incremental otherwise)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.DbCredentials" xml:space="preserve">
+    <value>School DB credentials</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.ConnectionString" xml:space="preserve">
+    <value>Connection string</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.StoredPlaceholder" xml:space="preserve">
+    <value>(stored — paste to replace)</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.ConnectionStringHelp" xml:space="preserve">
+    <value>Encrypted at rest. Leave blank to keep the existing value.</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.StudentsView" xml:space="preserve">
+    <value>Students view</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.EmployeesView" xml:space="preserve">
+    <value>Employees view</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.BaseUrl" xml:space="preserve">
+    <value>Base URL</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.AppKey" xml:space="preserve">
+    <value>App Key</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.HmacSecret" xml:space="preserve">
+    <value>HMAC secret</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.ApiSecretPlaceholder" xml:space="preserve">
+    <value>32 random bytes, base64-encoded</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.PageSize" xml:space="preserve">
+    <value>Page size</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.FailureAlerts" xml:space="preserve">
+    <value>Failure alerts</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.ThresholdHelp" xml:space="preserve">
+    <value>Consecutive failures before alerting.</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.AlertEmail" xml:space="preserve">
+    <value>Alert email</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.AlertPhone" xml:space="preserve">
+    <value>Alert phone</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="DirectoryAdminUi.Setup.SaveHelp" xml:space="preserve">
+    <value>Credentials are encrypted before storage. Leaving a secret field blank keeps the existing value.</value>
+  </data>
+  <data name="DirectoryAdminUi.Runs.PageTitle" xml:space="preserve">
+    <value>Directory · Sync runs</value>
+  </data>
+  <data name="DirectoryAdminUi.Runs.Heading" xml:space="preserve">
+    <value>Sync runs</value>
+  </data>
+  <data name="DirectoryAdminUi.Runs.Subtitle" xml:space="preserve">
+    <value>{0} run(s) shown · most recent first</value>
+  </data>
+  <data name="DirectoryAdminUi.Runs.Started" xml:space="preserve">
+    <value>Started</value>
+  </data>
+  <data name="DirectoryAdminUi.Students.PageTitle" xml:space="preserve">
+    <value>Directory · Students</value>
+  </data>
+  <data name="DirectoryAdminUi.SearchPlaceholder" xml:space="preserve">
+    <value>Search name / card / ID</value>
+  </data>
+  <data name="DirectoryAdminUi.RecordCount" xml:space="preserve">
+    <value>{0} record(s)</value>
+  </data>
+  <data name="DirectoryAdminUi.ExternalId" xml:space="preserve">
+    <value>External ID</value>
+  </data>
+  <data name="DirectoryAdminUi.Card" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="DirectoryAdminUi.Students.ProgramClass" xml:space="preserve">
+    <value>Program / Class</value>
+  </data>
+  <data name="DirectoryAdminUi.Students.Session" xml:space="preserve">
+    <value>Session</value>
+  </data>
+  <data name="DirectoryAdminUi.Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="DirectoryAdminUi.Synced" xml:space="preserve">
+    <value>Synced</value>
+  </data>
+  <data name="DirectoryAdminUi.Students.EmptyTitle" xml:space="preserve">
+    <value>No students yet</value>
+  </data>
+  <data name="DirectoryAdminUi.Roster.EmptyDescription" xml:space="preserve">
+    <value>Upload a CSV or run a sync.</value>
+  </data>
+  <data name="DirectoryAdminUi.Employees.PageTitle" xml:space="preserve">
+    <value>Directory · Employees</value>
+  </data>
+  <data name="DirectoryAdminUi.Employees.Designation" xml:space="preserve">
+    <value>Designation</value>
+  </data>
+  <data name="DirectoryAdminUi.Employees.EmptyTitle" xml:space="preserve">
+    <value>No employees yet</value>
+  </data>
+  <data name="UsersAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Operator / admin accounts for this tenant.</value>
+  </data>
+  <data name="UsersAdmin.Index.BulkImport" xml:space="preserve">
+    <value>Bulk import</value>
+  </data>
+  <data name="UsersAdmin.Index.InviteUser" xml:space="preserve">
+    <value>Invite user</value>
+  </data>
+  <data name="UsersAdmin.Index.Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="UsersAdmin.Index.LoggedIn30d" xml:space="preserve">
+    <value>Logged in 30d</value>
+  </data>
+  <data name="UsersAdmin.Index.Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsersAdmin.DisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="UsersAdmin.Kind" xml:space="preserve">
+    <value>Kind</value>
+  </data>
+  <data name="UsersAdmin.Index.Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="UsersAdmin.Index.LastLogin" xml:space="preserve">
+    <value>Last login</value>
+  </data>
+  <data name="UsersAdmin.Index.EmptyTitle" xml:space="preserve">
+    <value>No users yet</value>
+  </data>
+  <data name="UsersAdmin.Index.EmptyDescription" xml:space="preserve">
+    <value>Invite your first user to get started.</value>
+  </data>
+  <data name="UsersAdmin.Index.Never" xml:space="preserve">
+    <value>never</value>
+  </data>
+  <data name="UsersAdmin.Index.Lock" xml:space="preserve">
+    <value>Lock</value>
+  </data>
+  <data name="UsersAdmin.Index.Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="UsersAdmin.Index.LockConfirm" xml:space="preserve">
+    <value>Lock {0}?</value>
+  </data>
+  <data name="UsersAdmin.Index.ActivateConfirm" xml:space="preserve">
+    <value>Activate {0}?</value>
+  </data>
+  <data name="UsersAdmin.Index.ResetPasswordConfirm" xml:space="preserve">
+    <value>Reset password for {0}? They will get a temporary password.</value>
+  </data>
+  <data name="UsersAdmin.Index.ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="UsersAdmin.Invite.Heading" xml:space="preserve">
+    <value>Invite a user</value>
+  </data>
+  <data name="UsersAdmin.Invite.Subtitle" xml:space="preserve">
+    <value>Create the account, pick the role, ship a one-time password.</value>
+  </data>
+  <data name="UsersAdmin.AllUsers" xml:space="preserve">
+    <value>All users</value>
+  </data>
+  <data name="UsersAdmin.Invite.UsernameHelp" xml:space="preserve">
+    <value>Lower-cased on save. Must be unique platform-wide.</value>
+  </data>
+  <data name="UsersAdmin.UserKind.Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="UsersAdmin.UserKind.Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="UsersAdmin.UserKind.Cashier" xml:space="preserve">
+    <value>Cashier</value>
+  </data>
+  <data name="UsersAdmin.UserKind.Auditor" xml:space="preserve">
+    <value>Auditor</value>
+  </data>
+  <data name="UsersAdmin.Invite.InitialRole" xml:space="preserve">
+    <value>Initial role</value>
+  </data>
+  <data name="UsersAdmin.Invite.WhatHappensNext" xml:space="preserve">
+    <value>What happens next</value>
+  </data>
+  <data name="UsersAdmin.Invite.Step1" xml:space="preserve">
+    <value>User created in AppUsers bound to this tenant</value>
+  </data>
+  <data name="UsersAdmin.Invite.Step2" xml:space="preserve">
+    <value>Random one-time password is returned on the next page</value>
+  </data>
+  <data name="UsersAdmin.Invite.Step3" xml:space="preserve">
+    <value>User is forced to change it at first login</value>
+  </data>
+  <data name="UsersAdmin.Invite.CreateUser" xml:space="preserve">
+    <value>Create user</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.PageTitle" xml:space="preserve">
+    <value>Bulk import users</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.Heading" xml:space="preserve">
+    <value>Bulk import users (CSV)</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.Subtitle" xml:space="preserve">
+    <value>Upload a CSV — existing usernames are skipped, so re-uploading is idempotent.</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.CsvFile" xml:space="preserve">
+    <value>CSV file</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.CsvHelp" xml:space="preserve">
+    <value>UTF-8 encoded. First row is the header. Up to ~10k rows in one go.</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.ExpectedShape" xml:space="preserve">
+    <value>Expected CSV shape</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.Default" xml:space="preserve">
+    <value>default</value>
+  </data>
+  <data name="UsersAdmin.BulkImport.ExternalIdHint" xml:space="preserve">
+    <value>linked person id, e.g. employee number</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Title" xml:space="preserve">
+    <value>Payment gateways</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Live + sandbox credentials per gateway. Toggle IsSandbox on each row to flip environments.</value>
+  </data>
+  <data name="GatewaysAdmin.Env.Live" xml:space="preserve">
+    <value>Live</value>
+  </data>
+  <data name="GatewaysAdmin.Env.Sandbox" xml:space="preserve">
+    <value>Sandbox</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No gateways configured</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>The seed should have inserted defaults. Run the seeder or add a gateway manually.</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="GatewaysAdmin.Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Channels" xml:space="preserve">
+    <value>Channels</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Env" xml:space="preserve">
+    <value>Env</value>
+  </data>
+  <data name="GatewaysAdmin.Status.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="GatewaysAdmin.Status.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="GatewaysAdmin.Index.Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.Title" xml:space="preserve">
+    <value>Edit · {0}</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.AllGateways" xml:space="preserve">
+    <value>All gateways</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.IdentityEnvironment" xml:space="preserve">
+    <value>Identity &amp; environment</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.DisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.Subtitle" xml:space="preserve">
+    <value>Subtitle</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.SortOrder" xml:space="preserve">
+    <value>Sort order</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.LogoUrl" xml:space="preserve">
+    <value>Logo URL</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.LiveCredentials" xml:space="preserve">
+    <value>Live credentials</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.Production" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.SandboxCredentials" xml:space="preserve">
+    <value>Sandbox credentials</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.NotificationsSave" xml:space="preserve">
+    <value>Notifications &amp; save</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.EmailOnSuccess" xml:space="preserve">
+    <value>Email on success</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.EmailOnFailure" xml:space="preserve">
+    <value>Email on failure</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.EmailOnRefund" xml:space="preserve">
+    <value>Email on refund</value>
+  </data>
+  <data name="GatewaysAdmin.Edit.SecretsNote" xml:space="preserve">
+    <value>Secret fields show *** when a value is already stored. Leave them blank to keep existing — only fields you actively type into get overwritten.</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.BaseUrl" xml:space="preserve">
+    <value>Base URL</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.AppKey" xml:space="preserve">
+    <value>App key</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.AppSecret" xml:space="preserve">
+    <value>App secret</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.MerchantId" xml:space="preserve">
+    <value>Merchant ID</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.MerchantNumber" xml:space="preserve">
+    <value>Merchant number</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.CallbackUrl" xml:space="preserve">
+    <value>Success callback URL</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.WebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.IpnUrl" xml:space="preserve">
+    <value>IPN URL</value>
+  </data>
+  <data name="GatewaysAdmin.Creds.FailCallbackUrl" xml:space="preserve">
+    <value>Failure callback URL</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Title" xml:space="preserve">
+    <value>Webhooks</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Heading" xml:space="preserve">
+    <value>Outbound webhooks</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Subtitle" xml:space="preserve">
+    <value>HMAC-signed callbacks to partner endpoints. Failed deliveries retry with exponential backoff; the dispatcher emits Prometheus metrics.</value>
+  </data>
+  <data name="WebhooksAdmin.Index.AddSubscription" xml:space="preserve">
+    <value>Add subscription</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Empty.Title" xml:space="preserve">
+    <value>No subscriptions yet</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Empty.Description" xml:space="preserve">
+    <value>Add a URL to start receiving HMAC-signed event callbacks.</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="WebhooksAdmin.Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Failures" xml:space="preserve">
+    <value>Failures</value>
+  </data>
+  <data name="WebhooksAdmin.Index.LastSuccess" xml:space="preserve">
+    <value>Last success</value>
+  </data>
+  <data name="WebhooksAdmin.Status.Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="WebhooksAdmin.Index.Deliveries" xml:space="preserve">
+    <value>Deliveries</value>
+  </data>
+  <data name="WebhooksAdmin.AllWebhooks" xml:space="preserve">
+    <value>All webhooks</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.NewWebhook" xml:space="preserve">
+    <value>New webhook</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.NewSubscription" xml:space="preserve">
+    <value>New webhook subscription</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.Subtitle" xml:space="preserve">
+    <value>Outbound HTTP POST when canteen events fire. HMAC-signed; replayable from the delivery log.</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.DisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.DisplayNamePlaceholder" xml:space="preserve">
+    <value>School portal — order webhook</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.EndpointUrl" xml:space="preserve">
+    <value>Endpoint URL</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.HmacSecret" xml:space="preserve">
+    <value>HMAC secret</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.SecretHelp" xml:space="preserve">
+    <value>Used to sign every outbound POST. Share with the partner once — they can't view it again.</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.EventsHelp" xml:space="preserve">
+    <value>CSV from:</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.SignatureScheme" xml:space="preserve">
+    <value>Signature scheme</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.OutboundRequestsCarry" xml:space="preserve">
+    <value>Outbound requests carry:</value>
+  </data>
+  <data name="WebhooksAdmin.Edit.SignatureNote" xml:space="preserve">
+    <value>Same canonical-string algorithm as the inbound API-key flow — a partner writes one verifier for both directions.</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Title" xml:space="preserve">
+    <value>Deliveries · {0}</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Heading" xml:space="preserve">
+    <value>Webhook deliveries</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Subtitle" xml:space="preserve">
+    <value>Delivery log — {0} attempt(s) shown</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Empty.Title" xml:space="preserve">
+    <value>No deliveries yet</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Empty.Description" xml:space="preserve">
+    <value>Trigger a matching event (order, wallet recharge, …) to see attempts here. Failed attempts get a Replay button so you can re-fire after fixing the receiver.</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.When" xml:space="preserve">
+    <value>When</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Attempt" xml:space="preserve">
+    <value>Attempt</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Http" xml:space="preserve">
+    <value>HTTP</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.NextRetry" xml:space="preserve">
+    <value>Next retry</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Response" xml:space="preserve">
+    <value>Response</value>
+  </data>
+  <data name="WebhooksAdmin.Deliveries.Replay" xml:space="preserve">
+    <value>Replay</value>
+  </data>
+  <data name="WebhooksAdmin.DeliveryStatus.Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="WebhooksAdmin.DeliveryStatus.Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="WebhooksAdmin.DeliveryStatus.Delivering" xml:space="preserve">
+    <value>Delivering</value>
+  </data>
+  <data name="WebhooksAdmin.DeliveryStatus.Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="ExportsAdmin.Index.Title" xml:space="preserve">
+    <value>Exports</value>
+  </data>
+  <data name="ExportsAdmin.Index.Subtitle" xml:space="preserve">
+    <value>Tenant-scoped CSVs for finance + audit. UTF-8 BOM (opens correctly in Excel).</value>
+  </data>
+  <data name="ExportsAdmin.Index.OrdersCsv" xml:space="preserve">
+    <value>Orders CSV</value>
+  </data>
+  <data name="ExportsAdmin.Index.OrdersDescription" xml:space="preserve">
+    <value>Every order in the selected window, with item summary inline.</value>
+  </data>
+  <data name="ExportsAdmin.Index.StatusOptional" xml:space="preserve">
+    <value>Status (optional)</value>
+  </data>
+  <data name="ExportsAdmin.Index.AllStatuses" xml:space="preserve">
+    <value>All statuses</value>
+  </data>
+  <data name="ExportsAdmin.Index.DownloadOrdersCsv" xml:space="preserve">
+    <value>Download orders.csv</value>
+  </data>
+  <data name="ExportsAdmin.Index.WalletCsv" xml:space="preserve">
+    <value>Wallet ledger CSV</value>
+  </data>
+  <data name="ExportsAdmin.Index.WalletDescription" xml:space="preserve">
+    <value>Every wallet entry in the window — recharge / block / deduct / refund.</value>
+  </data>
+  <data name="ExportsAdmin.Index.UserIdOptional" xml:space="preserve">
+    <value>User ID (optional)</value>
+  </data>
+  <data name="ExportsAdmin.Index.DownloadWalletCsv" xml:space="preserve">
+    <value>Download wallet.csv</value>
+  </data>
+  <data name="ExportsAdmin.Index.RowCapNote" xml:space="preserve">
+    <value>Exports are capped at 100,000 rows per request. Need more? Filter by a tighter date range or hand-write a SQL query against the read replica.</value>
+  </data>
 </root>

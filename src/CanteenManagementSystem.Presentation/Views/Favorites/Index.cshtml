@@ -4,12 +4,13 @@
 @using CanteenManagementSystem.Application.Favorites
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<FavoriteItemDto>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "My favourites";
+    ViewData["Title"] = L["Favorites.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "My favourites",
-        Subtitle = "Tap a card to re-order an item you've saved."
+        Title    = L["Favorites.Index.Title"].Value,
+        Subtitle = L["Favorites.Index.Subtitle"].Value
     };
 }
 
@@ -20,12 +21,12 @@
     {
         var empty = new EmptyStateOptions
         {
-            Icon  = "fa-heart",
-            Title = "No favourites yet",
-            Description = "Tap the heart icon on /me/orders next to any item you'd order again, and it lands here.",
-            CtaLabel = "Go to my orders",
+            Icon  = "bx-heart",
+            Title = L["Favorites.Index.EmptyTitle"].Value,
+            Description = L["Favorites.Index.EmptyDescription"].Value,
+            CtaLabel = L["Favorites.Index.GoToOrders"].Value,
             CtaUrl   = "/me/orders",
-            CtaIcon  = "fa-arrow-right"
+            CtaIcon  = "bx-right-arrow-alt"
         };
         <partial name="_EmptyState" model="empty" />
     }
@@ -42,16 +43,16 @@
                                 <form method="post" action="/me/favorites/@f.FavoriteId" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="_method" value="DELETE" />
-                                    <button class="btn btn-ghost btn-sm" type="submit" title="Remove">
-                                        <i class="fa-solid fa-heart" style="color: var(--danger-fg)"></i>
+                                    <button class="btn btn-ghost btn-sm" type="submit" title="@L["Common.Remove"]">
+                                        <i class="bx bxs-heart" style="color: var(--danger-fg)"></i>
                                     </button>
                                 </form>
                             </div>
                             <div class="ui-tabular ui-text-strong" style="font-size:18px">৳ @f.Price.ToString("N0")</div>
-                            <div class="ui-muted" style="font-size:12px">saved @f.CreatedAtUtc.ToString("yyyy-MM-dd")</div>
+                            <div class="ui-muted" style="font-size:12px">@L["Favorites.Index.SavedOn", f.CreatedAtUtc.ToString("yyyy-MM-dd")]</div>
                             <div class="ui-divider"></div>
                             <a class="btn btn-primary w-100" href="/kiosk?fav=@f.FoodItemId">
-                                <i class="fa-solid fa-cart-plus me-1"></i> Order now
+                                <i class="bx bx-cart-add me-1"></i> @L["Favorites.Index.OrderNow"]
                             </a>
                         </div>
                     </div>

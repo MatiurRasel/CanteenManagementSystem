@@ -4,8 +4,9 @@
 @using Platform.Domain.Directory
 @using CanteenManagementSystem.Presentation.Models
 @model IReadOnlyList<DirectorySyncRun>
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Directory · Sync runs";
+    ViewData["Title"] = L["DirectoryAdminUi.Runs.PageTitle"].Value;
     UiBadgeVariant V(string s) => s switch
     {
         "Success" => UiBadgeVariant.Success,
@@ -15,9 +16,9 @@
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Sync runs",
-        Subtitle = $"{Model.Count} run(s) shown · most recent first",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='fa-solid fa-arrow-left me-1'></i> Directory</a>")
+        Title    = L["DirectoryAdminUi.Runs.Heading"].Value,
+        Subtitle = L["DirectoryAdminUi.Runs.Subtitle", Model.Count].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/directory-admin'><i class='bx bx-arrow-back me-1'></i> {L["Directory"].Value}</a>")
     };
 }
 
@@ -28,19 +29,19 @@
         <table class="table mb-0 ui-table">
             <thead>
                 <tr>
-                    <th>Started</th>
-                    <th>Source</th>
-                    <th>Status</th>
-                    <th>Students Δ</th>
-                    <th>Employees Δ</th>
-                    <th>Duration</th>
-                    <th>Error</th>
+                    <th>@L["DirectoryAdminUi.Runs.Started"]</th>
+                    <th>@L["DirectoryAdminUi.Source"]</th>
+                    <th>@L["Common.Status"]</th>
+                    <th>@L["DirectoryAdminUi.StudentsDelta"]</th>
+                    <th>@L["DirectoryAdminUi.EmployeesDelta"]</th>
+                    <th>@L["DirectoryAdminUi.Duration"]</th>
+                    <th>@L["Common.Error"]</th>
                 </tr>
             </thead>
             <tbody>
             @foreach (var r in Model)
             {
-                var b = new UiBadgeOptions { Text = r.Status, Variant = V(r.Status), WithDot = true };
+                var b = new UiBadgeOptions { Text = L[$"DirectoryAdminUi.RunStatus.{r.Status}"].Value, Variant = V(r.Status), WithDot = true };
                 <tr>
                     <td class="ui-mono small">@r.StartedAtUtc.ToString("u")</td>
                     <td><code class="small">@r.Source</code></td>
@@ -60,7 +61,7 @@
             }
             @if (Model.Count == 0)
             {
-                <tr><td colspan="7" class="ui-muted text-center py-4">No sync runs yet.</td></tr>
+                <tr><td colspan="7" class="p-0"><partial name="_EmptyState" model="@(new EmptyStateOptions { Icon = "bx-refresh", Title = L["DirectoryAdminUi.NoRuns.Title"].Value, Description = L["DirectoryAdminUi.NoRuns.Description"].Value })" /></td></tr>
             }
             </tbody>
         </table>

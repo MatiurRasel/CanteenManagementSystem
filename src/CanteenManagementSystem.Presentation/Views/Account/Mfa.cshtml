@@ -3,12 +3,13 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.AccountController.SetupMfaVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Multi-factor auth";
+    ViewData["Title"] = L["Account.Mfa.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Multi-factor auth",
-        Subtitle = "Add a time-based one-time-password app to your account."
+        Title    = L["Account.Mfa.Title"].Value,
+        Subtitle = L["Account.Mfa.Subtitle"].Value
     };
     // Use a free QR rendering service for the otpauth:// URI. If you'd rather render
     // the QR locally, replace this with an inline SVG generator.
@@ -25,36 +26,35 @@
         var ok = new UiAlertOptions
         {
             Variant = UiAlertVariant.Success,
-            Heading = "MFA is on for your account",
-            Body    = $"Sign-in asks for a 6-digit TOTP code. You have {Model.RemainingRecoveryCodes} recovery code(s) left."
+            Heading = L["Account.Mfa.EnabledHeading"].Value,
+            Body    = L["Account.Mfa.EnabledBody", Model.RemainingRecoveryCodes].Value
         };
         <partial name="_UiAlert" model="ok" />
 
         <div class="ui-card mt-4">
-            <div class="ui-card-header"><div class="ui-card-title">Recovery codes</div></div>
+            <div class="ui-card-header"><div class="ui-card-title">@L["Account.Mfa.RecoveryCodesTitle"]</div></div>
             <div class="ui-card-body ui-stack">
                 <p class="ui-muted" style="font-size:13px">
-                    Lost your authenticator? Use a recovery code instead. You can regenerate the set any time
-                    — the old codes stop working immediately.
+                    @L["Account.Mfa.RecoveryCodesHint"]
                 </p>
                 <form method="post" asp-action="RegenerateRecoveryCodes" data-cl-form
-                      data-cl-confirm="Generate a fresh set of recovery codes? The current codes will stop working." data-cl-confirm-variant="warning">
+                      data-cl-confirm="@L["Account.Mfa.RegenerateConfirm"]" data-cl-confirm-variant="warning">
                     @Html.AntiForgeryToken()
                     <button class="btn btn-outline-primary" type="submit">
-                        <i class="fa-solid fa-key me-1"></i> Generate new codes
+                        <i class="bx bx-key me-1"></i> @L["Account.Mfa.RegenerateCodes"]
                     </button>
                 </form>
             </div>
         </div>
 
         <div class="ui-card mt-4">
-            <div class="ui-card-header"><div class="ui-card-title">Disable MFA</div></div>
+            <div class="ui-card-header"><div class="ui-card-title">@L["Account.Mfa.Disable"]</div></div>
             <div class="ui-card-body">
                 <form method="post" asp-action="DisableMfa" data-cl-form
-                      data-cl-confirm="Disable MFA? Your account will rely on password only." data-cl-confirm-variant="warning">
+                      data-cl-confirm="@L["Account.Mfa.DisableConfirm"]" data-cl-confirm-variant="warning">
                     @Html.AntiForgeryToken()
                     <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fa-solid fa-shield-halved me-1"></i> Disable MFA
+                        <i class="bx bxs-shield me-1"></i> @L["Account.Mfa.Disable"]
                     </button>
                 </form>
             </div>
@@ -65,8 +65,8 @@
         var info = new UiAlertOptions
         {
             Variant = UiAlertVariant.Info,
-            Heading = "Add a second factor",
-            Body    = "Scan the QR code with Authy / Google Authenticator / Microsoft Authenticator, then enter the 6-digit code to confirm."
+            Heading = L["Account.Mfa.SetupHeading"].Value,
+            Body    = L["Account.Mfa.SetupBody"].Value
         };
         <partial name="_UiAlert" model="info" />
 
@@ -76,28 +76,28 @@
                     <div class="ui-card-body text-center">
                         @if (!string.IsNullOrEmpty(Model.OtpAuthUri))
                         {
-                            <img src="@QrUrl(Model.OtpAuthUri)" alt="MFA QR code" style="max-width:240px;border-radius:var(--rad)" />
+                            <img src="@QrUrl(Model.OtpAuthUri)" alt="@L["Account.Mfa.QrAlt"]" style="max-width:240px;border-radius:var(--rad)" />
                         }
-                        <div class="ui-muted mt-3" style="font-size:13px">Or paste this secret manually:</div>
+                        <div class="ui-muted mt-3" style="font-size:13px">@L["Account.Mfa.SecretHint"]</div>
                         <div class="ui-mono mt-2" style="font-size:16px;letter-spacing:0.1em;word-break:break-all">@Model.PendingSecret</div>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-7">
                 <div class="ui-card">
-                    <div class="ui-card-header"><div class="ui-card-title">Verify code</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["Account.Mfa.VerifyCodeTitle"]</div></div>
                     <div class="ui-card-body">
                         <form method="post" asp-action="ConfirmMfa" class="ui-stack" data-cl-form>
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="PendingSecret" value="@Model.PendingSecret" />
                             <div>
-                                <label class="ui-label">6-digit code from your authenticator</label>
+                                <label class="ui-label">@L["Account.Mfa.CodeLabel"]</label>
                                 <input class="ui-input form-control ui-mono" name="Code" required pattern="[0-9]{6}"
                                        maxlength="6" inputmode="numeric" autocomplete="one-time-code"
                                        placeholder="000000" style="font-size:24px;letter-spacing:0.25em;text-align:center" />
                             </div>
                             <button class="btn btn-primary" type="submit">
-                                <i class="fa-solid fa-shield-halved me-1"></i> Enable MFA
+                                <i class="bx bxs-shield me-1"></i> @L["Account.Mfa.EnableButton"]
                             </button>
                         </form>
                     </div>

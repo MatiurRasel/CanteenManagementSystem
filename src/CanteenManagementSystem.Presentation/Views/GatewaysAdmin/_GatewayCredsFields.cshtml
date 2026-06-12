@@ -4,6 +4,7 @@
    "{Prefix}{FieldName}" so the controller's strong-typed model bind picks
    them up automatically.
 *@
+@inject IStringLocalizer<SharedResource> L
 @{
     var prefix = ViewData["Prefix"] as string ?? "Live";
     var baseUrl  = ViewData["BaseUrl"]  as string;
@@ -21,47 +22,47 @@
 
 <div class="row g-3">
     <div class="col-md-12">
-        <label class="form-label small">Base URL</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.BaseUrl"]</label>
         <input name="@(prefix)BaseUrl" value="@baseUrl" class="form-control" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Username</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.Username"]</label>
         <input name="@(prefix)Username" value="@user" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Password</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.Password"]</label>
         <input name="@(prefix)Password" value="@pwd" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">App key</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.AppKey"]</label>
         <input name="@(prefix)AppKey" value="@key" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">App secret</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.AppSecret"]</label>
         <input name="@(prefix)AppSecret" value="@secret" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Merchant ID</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.MerchantId"]</label>
         <input name="@(prefix)MerchantId" value="@mid" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Merchant number</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.MerchantNumber"]</label>
         <input name="@(prefix)MerchantNumber" value="@mnum" class="form-control" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Success callback URL</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.CallbackUrl"]</label>
         <input name="@(prefix)CallbackUrl" value="@cb" class="form-control" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Webhook URL</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.WebhookUrl"]</label>
         <input name="@(prefix)WebhookUrl" value="@wh" class="form-control" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">IPN URL</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.IpnUrl"]</label>
         <input name="@(prefix)IpnUrl" value="@ipn" class="form-control" />
     </div>
     <div class="col-md-6">
-        <label class="form-label small">Failure callback URL</label>
+        <label class="form-label small">@L["GatewaysAdmin.Creds.FailCallbackUrl"]</label>
         <input name="@(prefix)FailCallbackUrl" value="@fail" class="form-control" />
     </div>
 </div>
