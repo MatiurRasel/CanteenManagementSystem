@@ -41,7 +41,7 @@
     --cl-skeleton-card-bg:   var(--bs-card-bg, #fff);
     --cl-skeleton-card-bd:   var(--bs-border-color, #e9ecef);
     --cl-skeleton-card-pad:  1rem;
-    --cl-shimmer-duration:   1.4s;
+    --cl-shimmer-duration:   1.3s;
     --cl-spinner-color:      var(--app-accent, currentColor);
     --cl-overlay-bg:         rgba(255, 255, 255, 0.72);
     --cl-overlay-blur:       2px;
@@ -53,21 +53,25 @@
     --cl-overlay-bg:       rgba(20, 22, 28, 0.72);
 }
 
-/* ─── Skeleton shimmer block ────────────────────────────────────────────── */
+/* ─── Skeleton shimmer block ────────────────────────────────────────────────
+   Accent-aware shimmer: the resting block and the moving highlight are blended
+   with the live tenant accent (--app-accent, set per-tenant in _Layout and by
+   app-branding.js) via color-mix, so the sweep subtly glows in the tenant's
+   brand colour instead of plain grey. Off-centre shine band (25/37/63) over a
+   400%-wide gradient travelled with `ease` gives a smooth, distinctly-moving
+   highlight. Falls back to flat grey where color-mix is unsupported. */
 .cl-skeleton-block,
 .canteen-skeleton .skeleton-block {
     display: block;
-    /* Tighter shine band (40-50-60) so the highlight reads as a distinct
-       moving sweep instead of a soft wide wash. */
     background: linear-gradient(
         90deg,
-        var(--cl-skeleton-base) 30%,
-        var(--cl-skeleton-shine) 50%,
-        var(--cl-skeleton-base) 70%);
-    background-size: 200% 100%;
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5))  7%, var(--cl-skeleton-base))  25%,
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5)) 16%, var(--cl-skeleton-shine)) 37%,
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5))  7%, var(--cl-skeleton-base))  63%);
+    background-size: 400% 100%;
     border-radius: var(--cl-skeleton-radius);
     height: var(--cl-skeleton-height);
-    animation: cl-shimmer var(--cl-shimmer-duration) linear infinite;
+    animation: cl-shimmer var(--cl-shimmer-duration) ease infinite;
 }
 
 .cl-skeleton-circle {
@@ -77,12 +81,26 @@
     height: 2.5rem;
     background: linear-gradient(
         90deg,
-        var(--cl-skeleton-base) 0%,
-        var(--cl-skeleton-shine) 50%,
-        var(--cl-skeleton-base) 100%);
-    background-size: 200% 100%;
-    animation: cl-shimmer var(--cl-shimmer-duration) linear infinite;
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5))  7%, var(--cl-skeleton-base))  25%,
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5)) 16%, var(--cl-skeleton-shine)) 37%,
+        color-mix(in srgb, var(--app-accent, var(--accent, #4f46e5))  7%, var(--cl-skeleton-base))  63%);
+    background-size: 400% 100%;
+    animation: cl-shimmer var(--cl-shimmer-duration) ease infinite;
     flex-shrink: 0;
+}
+
+/* Fallback for engines without color-mix() — plain grey shimmer, same motion. */
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .cl-skeleton-block,
+    .canteen-skeleton .skeleton-block,
+    .cl-skeleton-circle {
+        background: linear-gradient(
+            90deg,
+            var(--cl-skeleton-base)  25%,
+            var(--cl-skeleton-shine) 37%,
+            var(--cl-skeleton-base)  63%);
+        background-size: 400% 100%;
+    }
 }
 
 /* Card wrapper — the lightweight panel each skeleton variant sits inside. */
@@ -118,6 +136,9 @@
    child or nested in a card body / col / etc.                              */
 [data-loaded="true"]  .canteen-skeleton { display: none !important; }
 [data-loaded="false"] .skeleton-target  { display: none !important; }
+/* Fade the real content up when it replaces the skeleton (matches the shimmer-
+   stop → reveal transition; disabled under reduced-motion below). */
+[data-loaded="true"] .skeleton-target { animation: cl-skel-reveal .35s cubic-bezier(.3, .7, .4, 1) both; }
 
 /* ─── Spinner (inline + button + overlay) ───────────────────────────────── */
 .cl-spinner {
@@ -200,12 +221,19 @@ a[data-loading="false"] .cl-btn-spinner {
 .cl-overlay-host { position: relative; }
 
 /* ─── Shimmer + spin keyframes ──────────────────────────────────────────── */
+/* 200% travel across the 400%-wide gradient → the off-centre shine band sweeps
+   fully through the visible area each cycle. */
 @keyframes cl-shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }
 @keyframes cl-spin {
     to { transform: rotate(360deg); }
+}
+/* Content reveal once hydrated — the real markup fades up as the skeleton hides. */
+@keyframes cl-skel-reveal {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
 }
 
 /* ─── Reduced motion: kill the animations, keep the visual ──────────────── */
@@ -213,7 +241,8 @@ a[data-loading="false"] .cl-btn-spinner {
     .cl-skeleton-block,
     .canteen-skeleton .skeleton-block,
     .cl-skeleton-circle,
-    .cl-spinner {
+    .cl-spinner,
+    [data-loaded="true"] .skeleton-target {
         animation: none !important;
     }
     .cl-overlay { transition: none; }
