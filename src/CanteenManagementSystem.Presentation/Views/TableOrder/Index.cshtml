@@ -1,4 +1,4 @@
-@model CanteenManagementSystem.Presentation.Controllers.TableOrderController.PageVm
+﻿@model CanteenManagementSystem.Presentation.Controllers.TableOrderController.PageVm
 @inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Title"] = L["TableOrder.Index.YourTable", Model.TableNumber].Value;
@@ -12,7 +12,6 @@
     <meta name="theme-color" content="#4f46e5" />
     <title>@L["TableOrder.Index.YourTable", Model.TableNumber] — Canteen</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
     <style>

@@ -2705,7 +2705,7 @@
     <value>এনটিটির ধরন</value>
   </data>
   <data name="AuditAdmin.Index.EntityTypePlaceholder" xml:space="preserve">
-    <value>User, Order…</value>
+    <value>ব্যবহারকারী, অর্ডার…</value>
   </data>
   <data name="AuditAdmin.Index.SearchPlaceholder" xml:space="preserve">
     <value>ইউজার / ID</value>
@@ -3531,5 +3531,590 @@
   </data>
   <data name="ReportsAdmin.Index.Spend" xml:space="preserve">
     <value>খরচ</value>
+  </data>
+  <data name="Kitchen.Index.RealTime" xml:space="preserve">
+    <value>রিয়েল-টাইম</value>
+  </data>
+  <data name="Kitchen.Index.Connecting" xml:space="preserve">
+    <value>সংযোগ হচ্ছে…</value>
+  </data>
+  <data name="Kitchen.Index.FullscreenTitle" xml:space="preserve">
+    <value>ফুলস্ক্রিন (F11 / F)</value>
+  </data>
+  <data name="Kitchen.Index.ReadyForPickup" xml:space="preserve">
+    <value>পিকআপের জন্য প্রস্তুত</value>
+  </data>
+  <data name="Kitchen.Index.Reconnecting" xml:space="preserve">
+    <value>পুনরায় সংযোগ হচ্ছে…</value>
+  </data>
+  <data name="Kitchen.Index.Live" xml:space="preserve">
+    <value>লাইভ</value>
+  </data>
+  <data name="Kitchen.Index.Offline" xml:space="preserve">
+    <value>অফলাইন (রিফ্রেশ করুন)</value>
+  </data>
+  <data name="Kitchen.Index.Start" xml:space="preserve">
+    <value>শুরু করুন</value>
+  </data>
+  <data name="Verification.KeypadOrder.Title" xml:space="preserve">
+    <value>কীপ্যাড অর্ডার</value>
+  </data>
+  <data name="Verification.KeypadOrder.Subtitle" xml:space="preserve">
+    <value>নিউমেরিক কীপ্যাড-চালিত কাউন্টার ফ্লো। ট্যাপ বা টাইপ করুন — পেজ স্বয়ংক্রিয়ভাবে এগিয়ে যাবে।</value>
+  </data>
+  <data name="Verification.KeypadOrder.CardScan" xml:space="preserve">
+    <value>কার্ড স্ক্যান</value>
+  </data>
+  <data name="Verification.KeypadOrder.IdentifyCustomer" xml:space="preserve">
+    <value>গ্রাহক শনাক্ত করুন</value>
+  </data>
+  <data name="Verification.KeypadOrder.EnterIdPrompt" xml:space="preserve">
+    <value>ব্যবহারকারীর ID বা কার্ড নম্বর লিখুন, তারপর সবুজ বোতামটি চাপুন।</value>
+  </data>
+  <data name="Verification.KeypadOrder.Session" xml:space="preserve">
+    <value>সেশন</value>
+  </data>
+  <data name="Verification.KeypadOrder.SessionId" xml:space="preserve">
+    <value>সেশন ID</value>
+  </data>
+  <data name="Verification.KeypadOrder.LastResponse" xml:space="preserve">
+    <value>সর্বশেষ রেসপন্স</value>
+  </data>
+  <data name="Verification.KeypadOrder.NoneYet" xml:space="preserve">
+    <value>(নেই)</value>
+  </data>
+  <data name="Verification.KeypadOrder.BackToCardScan" xml:space="preserve">
+    <value>কার্ড স্ক্যানে ফিরে যান</value>
+  </data>
+  <data name="Operator.Dashboard.RefreshHint" xml:space="preserve">
+    <value>প্রতি ৫ সেকেন্ডে রিফ্রেশ হয়।</value>
+  </data>
+  <data name="Operator.Dashboard.Live" xml:space="preserve">
+    <value>লাইভ</value>
+  </data>
+  <data name="Operator.Dashboard.LoadingOrders" xml:space="preserve">
+    <value>অপেক্ষমাণ অর্ডার লোড হচ্ছে…</value>
+  </data>
+  <data name="Operator.Dashboard.QuickLinks" xml:space="preserve">
+    <value>দ্রুত লিংক</value>
+  </data>
+  <data name="Operator.ShiftSummary.Title" xml:space="preserve">
+    <value>শিফট সারসংক্ষেপ</value>
+  </data>
+  <data name="Operator.ShiftSummary.CanteenCounter" xml:space="preserve">
+    <value>ক্যান্টিন কাউন্টার</value>
+  </data>
+  <data name="Operator.ShiftSummary.Csv" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="Operator.ShiftSummary.OrdersPlaced" xml:space="preserve">
+    <value>প্রদত্ত অর্ডার</value>
+  </data>
+  <data name="Operator.ShiftSummary.OrdersHint" xml:space="preserve">
+    <value>{0}টি ডেলিভারিকৃত · {1}টি চলমান · {2}টি বাতিল</value>
+  </data>
+  <data name="Operator.ShiftSummary.GrossRevenue" xml:space="preserve">
+    <value>মোট আয়</value>
+  </data>
+  <data name="Operator.ShiftSummary.AvgPerOrder" xml:space="preserve">
+    <value>গড় ৳ {0} / অর্ডার</value>
+  </data>
+  <data name="Operator.ShiftSummary.Refunds" xml:space="preserve">
+    <value>রিফান্ড</value>
+  </data>
+  <data name="Operator.ShiftSummary.NetHint" xml:space="preserve">
+    <value>নিট ৳ {0}</value>
+  </data>
+  <data name="Operator.ShiftSummary.UniqueCustomers" xml:space="preserve">
+    <value>স্বতন্ত্র গ্রাহক</value>
+  </data>
+  <data name="Operator.ShiftSummary.SoldCount" xml:space="preserve">
+    <value>{0}টি বিক্রি হয়েছে</value>
+  </data>
+  <data name="Operator.ShiftSummary.NoDeliveries" xml:space="preserve">
+    <value>এখনও কোনো ডেলিভারি হয়নি।</value>
+  </data>
+  <data name="Operator.ShiftSummary.CancelledOrders" xml:space="preserve">
+    <value>বাতিল অর্ডার</value>
+  </data>
+  <data name="Operator.ShiftSummary.At" xml:space="preserve">
+    <value>সময়</value>
+  </data>
+  <data name="Operator.ShiftSummary.SignOff" xml:space="preserve">
+    <value>অপারেটর সাইন-অফ</value>
+  </data>
+  <data name="Operator.ShiftSummary.SignOffHint" xml:space="preserve">
+    <value>এই শিটে স্বাক্ষর করে দৈনিক ক্যাশ জমার সাথে ফাইল করুন। সিস্টেম প্রতিটি লেনদেন স্বাধীনভাবে লগ করেছে।</value>
+  </data>
+  <data name="Operator.ShiftSummary.OperatorName" xml:space="preserve">
+    <value>অপারেটরের নাম</value>
+  </data>
+  <data name="Operator.ShiftSummary.Signature" xml:space="preserve">
+    <value>স্বাক্ষর</value>
+  </data>
+  <data name="ReceiptSearch.Search.Title" xml:space="preserve">
+    <value>রসিদ খুঁজুন</value>
+  </data>
+  <data name="ReceiptSearch.Search.Subtitle" xml:space="preserve">
+    <value>অর্ডার নম্বর, ব্যবহারকারীর ID বা তারিখের পরিসর দিয়ে খুঁজুন; পুনরায় প্রিন্ট করতে ক্লিক করুন।</value>
+  </data>
+  <data name="ReceiptSearch.Search.Placeholder" xml:space="preserve">
+    <value>অর্ডার নম্বর বা ব্যবহারকারীর ID…</value>
+  </data>
+  <data name="ReceiptSearch.Search.NoMatches" xml:space="preserve">
+    <value>কোনো রসিদ মেলেনি — আরও বিস্তৃত তারিখের পরিসর চেষ্টা করুন।</value>
+  </data>
+  <data name="ReceiptSearch.Search.Reprint" xml:space="preserve">
+    <value>পুনরায় প্রিন্ট</value>
+  </data>
+  <data name="AdminDashboard.Index.VsYesterday" xml:space="preserve">
+    <value>গতকালের তুলনায় {0}%</value>
+  </data>
+  <data name="AdminDashboard.Index.NoDataYesterday" xml:space="preserve">
+    <value>গতকালের কোনো ডেটা নেই</value>
+  </data>
+  <data name="AdminDashboard.Index.Subtitle" xml:space="preserve">
+    <value>ক্যান্টিনের কার্যক্রম, জনপ্রিয় আইটেম ও পরিচালন অবস্থার এক ঝলক।</value>
+  </data>
+  <data name="AdminDashboard.Index.ManageMenu" xml:space="preserve">
+    <value>মেনু পরিচালনা</value>
+  </data>
+  <data name="AdminDashboard.Index.RevenueToday" xml:space="preserve">
+    <value>আজকের আয়</value>
+  </data>
+  <data name="AdminDashboard.Index.OrdersToday" xml:space="preserve">
+    <value>আজকের অর্ডার</value>
+  </data>
+  <data name="AdminDashboard.Index.DeliveredCount" xml:space="preserve">
+    <value>{0}টি ডেলিভারিকৃত</value>
+  </data>
+  <data name="AdminDashboard.Index.PendingNow" xml:space="preserve">
+    <value>এখন অপেক্ষমাণ</value>
+  </data>
+  <data name="AdminDashboard.Index.AllClear" xml:space="preserve">
+    <value>সব ঠিক আছে</value>
+  </data>
+  <data name="AdminDashboard.Index.NeedsAttention" xml:space="preserve">
+    <value>মনোযোগ প্রয়োজন</value>
+  </data>
+  <data name="AdminDashboard.Index.LowStockItems" xml:space="preserve">
+    <value>কম স্টকের আইটেম</value>
+  </data>
+  <data name="AdminDashboard.Index.FullyStocked" xml:space="preserve">
+    <value>পর্যাপ্ত স্টক আছে</value>
+  </data>
+  <data name="AdminDashboard.Index.RestockToday" xml:space="preserve">
+    <value>আজই স্টক পূরণ করুন</value>
+  </data>
+  <data name="AdminDashboard.Index.RecentOrdersSubtitle" xml:space="preserve">
+    <value>কাউন্টার, কিয়স্ক ও টেবিল ফ্লো জুড়ে সাম্প্রতিক অর্ডারসমূহ।</value>
+  </data>
+  <data name="AdminDashboard.Index.SearchAll" xml:space="preserve">
+    <value>সব খুঁজুন</value>
+  </data>
+  <data name="AdminDashboard.Index.NoOrdersToday" xml:space="preserve">
+    <value>আজ এখনও কোনো অর্ডার নেই।</value>
+  </data>
+  <data name="AdminDashboard.Index.PopularThisWeek" xml:space="preserve">
+    <value>এই সপ্তাহে জনপ্রিয়</value>
+  </data>
+  <data name="AdminDashboard.Index.NoDataYet" xml:space="preserve">
+    <value>এখনও কোনো ডেটা নেই।</value>
+  </data>
+  <data name="AdminDashboard.Index.BeginStockTake" xml:space="preserve">
+    <value>স্টক গণনা শুরু করুন</value>
+  </data>
+  <data name="AdminDashboard.Index.CombosQuickButtons" xml:space="preserve">
+    <value>কম্বো ও দ্রুত বোতাম</value>
+  </data>
+  <data name="PlatformDashboard.Index.Title" xml:space="preserve">
+    <value>প্ল্যাটফর্ম ড্যাশবোর্ড</value>
+  </data>
+  <data name="PlatformDashboard.Index.Subtitle" xml:space="preserve">
+    <value>ক্রস-টেন্যান্ট সারসংক্ষেপ · {0} UTC</value>
+  </data>
+  <data name="PlatformDashboard.Index.TenantsHint" xml:space="preserve">
+    <value>{0}টি সক্রিয় · {1}টি স্থগিত · {2}টি মুছে ফেলা</value>
+  </data>
+  <data name="PlatformDashboard.Index.AcrossEveryTenant" xml:space="preserve">
+    <value>সব টেন্যান্ট জুড়ে</value>
+  </data>
+  <data name="PlatformDashboard.Index.RevenueHint" xml:space="preserve">
+    <value>ডেলিভারিকৃত + অপেক্ষমাণ অর্ডারের যোগফল</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailures" xml:space="preserve">
+    <value>সিঙ্ক ব্যর্থতা (২৪ ঘণ্টা)</value>
+  </data>
+  <data name="PlatformDashboard.Index.AllGreen" xml:space="preserve">
+    <value>সব ঠিক আছে</value>
+  </data>
+  <data name="PlatformDashboard.Index.DirectoryPullIssues" xml:space="preserve">
+    <value>ডিরেক্টরি পুল সমস্যা</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentTenants" xml:space="preserve">
+    <value>সাম্প্রতিক টেন্যান্ট</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentTenantsSubtitle" xml:space="preserve">
+    <value>নতুনতম আগে · প্রতি টেন্যান্টের আজকের অর্ডার + আয়</value>
+  </data>
+  <data name="PlatformDashboard.Index.Tenant" xml:space="preserve">
+    <value>টেন্যান্ট</value>
+  </data>
+  <data name="PlatformDashboard.Index.Deleted" xml:space="preserve">
+    <value>মুছে ফেলা</value>
+  </data>
+  <data name="PlatformDashboard.Index.Suspended" xml:space="preserve">
+    <value>স্থগিত</value>
+  </data>
+  <data name="PlatformDashboard.Index.NoTenantsYet" xml:space="preserve">
+    <value>এখনও কোনো টেন্যান্ট নেই — অনবোর্ড করুন এখানে</value>
+  </data>
+  <data name="PlatformDashboard.Index.TopTenantsMtd" xml:space="preserve">
+    <value>এই মাসের শীর্ষ টেন্যান্ট</value>
+  </data>
+  <data name="PlatformDashboard.Index.OrderCount" xml:space="preserve">
+    <value>{0}টি অর্ডার</value>
+  </data>
+  <data name="PlatformDashboard.Index.NoOrdersThisMonth" xml:space="preserve">
+    <value>এই মাসে কোনো অর্ডার নেই।</value>
+  </data>
+  <data name="PlatformDashboard.Index.LowStockHeading" xml:space="preserve">
+    <value>{0}টি টেন্যান্টের স্টক কমে আসছে</value>
+  </data>
+  <data name="PlatformDashboard.Index.LowStockBody" xml:space="preserve">
+    <value>আজকের মেনুতে প্রতি টেন্যান্টের অন্তত একটি আইটেমের Available ≤ 5। প্রতি টেন্যান্টের LowStockAlertService স্বয়ংক্রিয়ভাবে অপারেটরদের অবহিত করে।</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailuresTitle" xml:space="preserve">
+    <value>ডিরেক্টরি সিঙ্ক ব্যর্থতা · গত ২৪ ঘণ্টা</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailuresSubtitle" xml:space="preserve">
+    <value>সব টেন্যান্ট জুড়ে প্রতিটি ব্যর্থ রান — তদন্ত করতে টেন্যান্টে ক্লিক করুন।</value>
+  </data>
+  <data name="PlatformDashboard.Index.AllSyncsOk" xml:space="preserve">
+    <value>গত ২৪ ঘণ্টায় প্রতিটি টেন্যান্টের ডিরেক্টরি সিঙ্ক সফল হয়েছে।</value>
+  </data>
+  <data name="PlatformDashboard.Index.WhenUtc" xml:space="preserve">
+    <value>কখন (UTC)</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentFailures" xml:space="preserve">
+    <value>সাম্প্রতিক ব্যর্থতা</value>
+  </data>
+  <data name="ReportSchedules.Index.EveryHours" xml:space="preserve">
+    <value>প্রতি {0} ঘণ্টায়</value>
+  </data>
+  <data name="ReportSchedules.Index.DailyAt" xml:space="preserve">
+    <value>প্রতিদিন {0}-এ</value>
+  </data>
+  <data name="ReportSchedules.Index.WeeklyAt" xml:space="preserve">
+    <value>প্রতি {0} {1}-এ</value>
+  </data>
+  <data name="ReportSchedules.Index.MonthlyAt" xml:space="preserve">
+    <value>মাসের {0} তারিখ {1}-এ</value>
+  </data>
+  <data name="ReportSchedules.Index.Subtitle" xml:space="preserve">
+    <value>স্বয়ংক্রিয়ভাবে চালান + ফলাফল ইমেইল করুন। প্যারামিটার JSON-এর ভেতরে @TODAY / @YESTERDAY / @WEEK_AGO টোকেন সমর্থিত।</value>
+  </data>
+  <data name="ReportSchedules.Index.NewSchedule" xml:space="preserve">
+    <value>নতুন সময়সূচি</value>
+  </data>
+  <data name="ReportSchedules.Index.Empty.Title" xml:space="preserve">
+    <value>এখনও কোনো সময়সূচি নেই</value>
+  </data>
+  <data name="ReportSchedules.Index.Empty.Description" xml:space="preserve">
+    <value>স্বয়ংক্রিয়ভাবে রিপোর্ট ইমেইল করা শুরু করতে একটি তৈরি করুন।</value>
+  </data>
+  <data name="ReportSchedules.Index.Report" xml:space="preserve">
+    <value>রিপোর্ট</value>
+  </data>
+  <data name="ReportSchedules.Index.Recipients" xml:space="preserve">
+    <value>প্রাপক</value>
+  </data>
+  <data name="ReportSchedules.Index.LastRun" xml:space="preserve">
+    <value>সর্বশেষ রান</value>
+  </data>
+  <data name="ReportSchedules.Index.NextRun" xml:space="preserve">
+    <value>পরবর্তী রান</value>
+  </data>
+  <data name="ReportSchedules.Index.RunNow" xml:space="preserve">
+    <value>এখনই চালান</value>
+  </data>
+  <data name="ReportSchedules.Index.Pause" xml:space="preserve">
+    <value>বিরতি দিন</value>
+  </data>
+  <data name="ReportSchedules.Index.Resume" xml:space="preserve">
+    <value>পুনরায় চালু করুন</value>
+  </data>
+  <data name="ReportSchedules.Index.ConfirmDelete" xml:space="preserve">
+    <value>{0} মুছে ফেলবেন?</value>
+  </data>
+  <data name="ReportSchedules.Edit.NewTitle" xml:space="preserve">
+    <value>নতুন নির্ধারিত রিপোর্ট</value>
+  </data>
+  <data name="ReportSchedules.Edit.EditTitle" xml:space="preserve">
+    <value>সময়সূচি সম্পাদনা</value>
+  </data>
+  <data name="ReportSchedules.Edit.Subtitle" xml:space="preserve">
+    <value>রিপোর্ট, সময়সূচি, ফরম্যাট ও প্রাপক বেছে নিন। ঐচ্ছিক প্যারামিটার JSON @-টোকেন সমর্থন করে।</value>
+  </data>
+  <data name="ReportSchedules.Edit.AllSchedules" xml:space="preserve">
+    <value>সব সময়সূচি</value>
+  </data>
+  <data name="ReportSchedules.Edit.DisplayNamePlaceholder" xml:space="preserve">
+    <value>রাত্রিকালীন দৈনিক-আদায়</value>
+  </data>
+  <data name="ReportSchedules.Edit.Recurrence" xml:space="preserve">
+    <value>পুনরাবৃত্তি</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceDaily" xml:space="preserve">
+    <value>দৈনিক</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceWeekly" xml:space="preserve">
+    <value>সাপ্তাহিক</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceMonthly" xml:space="preserve">
+    <value>মাসিক</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceHourly" xml:space="preserve">
+    <value>প্রতি ঘণ্টায়</value>
+  </data>
+  <data name="ReportSchedules.Edit.HourUtc" xml:space="preserve">
+    <value>ঘণ্টা (UTC, 0-23)</value>
+  </data>
+  <data name="ReportSchedules.Edit.Minute" xml:space="preserve">
+    <value>মিনিট</value>
+  </data>
+  <data name="ReportSchedules.Edit.DayOfMonth" xml:space="preserve">
+    <value>মাসের দিন</value>
+  </data>
+  <data name="ReportSchedules.Edit.EveryNHours" xml:space="preserve">
+    <value>প্রতি N ঘণ্টায়</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecipientsCsv" xml:space="preserve">
+    <value>প্রাপক (CSV)</value>
+  </data>
+  <data name="ReportSchedules.Edit.ParametersJson" xml:space="preserve">
+    <value>প্যারামিটার (JSON)</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks" xml:space="preserve">
+    <value>এটি কীভাবে কাজ করে</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks1" xml:space="preserve">
+    <value>শিডিউলার প্রতি মিনিটে (UTC) চলে; NextRunAtUtc পেরিয়ে যাওয়া সময়সূচিগুলো চালু হয়।</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks2" xml:space="preserve">
+    <value>Notifications.Email.* টেন্যান্ট সেটিংস ব্যবহার করে আউটপুট ইমেইল সংযুক্তি হিসেবে পাঠানো হয়।</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks3" xml:space="preserve">
+    <value>ব্যর্থ হলে সময়সূচির সারিতে LastError লেখা হয় — পরবর্তী টিকে আবার চেষ্টা করা হয়।</value>
+  </data>
+  <data name="Shared.Layout.ResizeSidebar" xml:space="preserve">
+    <value>সাইডবারের আকার পরিবর্তন করুন — টেনে আনুন, বা রিসেট করতে ডাবল-ক্লিক করুন</value>
+  </data>
+  <data name="Shared.Brand.PinSidebar" xml:space="preserve">
+    <value>সাইডবার পিন / সংকুচিত করুন</value>
+  </data>
+  <data name="Shared.Sidebar.KioskTooltip" xml:space="preserve">
+    <value>সেলফ-সার্ভিস ট্যাবলেট ভিউ — ৩০ সেকেন্ড নিষ্ক্রিয় থাকলে স্বয়ংক্রিয়ভাবে স্ক্যানে ফিরে যায়।</value>
+  </data>
+  <data name="Shared.Sidebar.PlatformOverview" xml:space="preserve">
+    <value>প্ল্যাটফর্ম সারসংক্ষেপ</value>
+  </data>
+  <data name="Shared.Sidebar.Exports" xml:space="preserve">
+    <value>এক্সপোর্ট</value>
+  </data>
+  <data name="Shared.Sidebar.NearExpiry" xml:space="preserve">
+    <value>মেয়াদোত্তীর্ণপ্রায় আইটেম</value>
+  </data>
+  <data name="Shared.Sidebar.DeliveryLog" xml:space="preserve">
+    <value>ডেলিভারি লগ</value>
+  </data>
+  <data name="Shared.Sidebar.DiscountRules" xml:space="preserve">
+    <value>ছাড়ের নিয়ম</value>
+  </data>
+  <data name="Shared.Sidebar.ComboButtons" xml:space="preserve">
+    <value>কম্বো বোতাম</value>
+  </data>
+  <data name="Shared.Sidebar.Inventory" xml:space="preserve">
+    <value>ইনভেন্টরি</value>
+  </data>
+  <data name="Shared.Sidebar.Webhooks" xml:space="preserve">
+    <value>ওয়েবহুক</value>
+  </data>
+  <data name="Shared.Sidebar.FindReceipts" xml:space="preserve">
+    <value>রসিদ খুঁজুন</value>
+  </data>
+  <data name="Shared.Sidebar.FeatureFlags" xml:space="preserve">
+    <value>ফিচার ফ্ল্যাগ</value>
+  </data>
+  <data name="Shared.Sidebar.Billing" xml:space="preserve">
+    <value>বিলিং</value>
+  </data>
+  <data name="Shared.Sidebar.DesignSystem" xml:space="preserve">
+    <value>ডিজাইন সিস্টেম</value>
+  </data>
+  <data name="Shared.Sidebar.KioskTablets" xml:space="preserve">
+    <value>কিয়স্ক ট্যাবলেট</value>
+  </data>
+  <data name="Shared.Sidebar.Branding" xml:space="preserve">
+    <value>ব্র্যান্ডিং</value>
+  </data>
+  <data name="Shared.Sidebar.MyAccount" xml:space="preserve">
+    <value>আমার অ্যাকাউন্ট</value>
+  </data>
+  <data name="Shared.Sidebar.Favourites" xml:space="preserve">
+    <value>পছন্দসমূহ</value>
+  </data>
+  <data name="Shared.Topbar.Impersonating.Before" xml:space="preserve">
+    <value>ইমপারসোনেট করছেন</value>
+  </data>
+  <data name="Shared.Topbar.Impersonating.After" xml:space="preserve">
+    <value>— প্রতিটি রিড/রাইট এই টেন্যান্টের মধ্যে সীমাবদ্ধ।</value>
+  </data>
+  <data name="Shared.Topbar.StopImpersonating" xml:space="preserve">
+    <value>ইমপারসোনেশন বন্ধ করুন</value>
+  </data>
+  <data name="Shared.Topbar.CollapseSidebar" xml:space="preserve">
+    <value>সাইডবার সংকুচিত করুন</value>
+  </data>
+  <data name="Shared.Topbar.SearchPlaceholder" xml:space="preserve">
+    <value>যেকোনো কিছু খুঁজুন…</value>
+  </data>
+  <data name="Shared.Topbar.Notifications" xml:space="preserve">
+    <value>নোটিফিকেশন</value>
+  </data>
+  <data name="Shared.Topbar.NoNotifications" xml:space="preserve">
+    <value>নতুন কোনো নোটিফিকেশন নেই</value>
+  </data>
+  <data name="Shared.Topbar.TwoFactorAuth" xml:space="preserve">
+    <value>টু-ফ্যাক্টর অথেনটিকেশন</value>
+  </data>
+  <data name="Shared.Topbar.CustomizeTheme" xml:space="preserve">
+    <value>থিম কাস্টমাইজ করুন</value>
+  </data>
+  <data name="Shared.Customizer.Open" xml:space="preserve">
+    <value>টেমপ্লেট কাস্টমাইজার খুলুন</value>
+  </data>
+  <data name="Shared.Customizer.Title" xml:space="preserve">
+    <value>কাস্টমাইজ</value>
+  </data>
+  <data name="Shared.Customizer.Subtitle" xml:space="preserve">
+    <value>এই ডিভাইসটি নিজের মতো সাজান। রিসেট করলে টেন্যান্টের ব্র্যান্ড প্রযোজ্য হবে।</value>
+  </data>
+  <data name="Shared.Customizer.Presets" xml:space="preserve">
+    <value>প্রিসেট টেমপ্লেট</value>
+  </data>
+  <data name="Shared.Customizer.ApplyPreset" xml:space="preserve">
+    <value>{0} প্রিসেট প্রয়োগ করুন</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Corporate" xml:space="preserve">
+    <value>কর্পোরেট</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Vibrant" xml:space="preserve">
+    <value>প্রাণবন্ত</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Monochrome" xml:space="preserve">
+    <value>মনোক্রোম</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Ocean" xml:space="preserve">
+    <value>সমুদ্র</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Sunset" xml:space="preserve">
+    <value>সূর্যাস্ত</value>
+  </data>
+  <data name="Shared.Customizer.Theme" xml:space="preserve">
+    <value>থিম</value>
+  </data>
+  <data name="Shared.Customizer.Light" xml:space="preserve">
+    <value>লাইট</value>
+  </data>
+  <data name="Shared.Customizer.Dark" xml:space="preserve">
+    <value>ডার্ক</value>
+  </data>
+  <data name="Shared.Customizer.System" xml:space="preserve">
+    <value>সিস্টেম</value>
+  </data>
+  <data name="Shared.Customizer.PrimaryColor" xml:space="preserve">
+    <value>প্রাথমিক রং</value>
+  </data>
+  <data name="Shared.Customizer.UseColor" xml:space="preserve">
+    <value>{0} ব্যবহার করুন</value>
+  </data>
+  <data name="Shared.Customizer.CustomColor" xml:space="preserve">
+    <value>কাস্টম রং</value>
+  </data>
+  <data name="Shared.Customizer.PickColor" xml:space="preserve">
+    <value>যেকোনো রং বাছাই করুন</value>
+  </data>
+  <data name="Shared.Customizer.HexValue" xml:space="preserve">
+    <value>হেক্স মান</value>
+  </data>
+  <data name="Shared.Customizer.Hue" xml:space="preserve">
+    <value>হিউ</value>
+  </data>
+  <data name="Shared.Customizer.Saturation" xml:space="preserve">
+    <value>স্যাচুরেশন</value>
+  </data>
+  <data name="Shared.Customizer.Lightness" xml:space="preserve">
+    <value>লাইটনেস</value>
+  </data>
+  <data name="Shared.Customizer.Density" xml:space="preserve">
+    <value>ঘনত্ব</value>
+  </data>
+  <data name="Shared.Customizer.Compact" xml:space="preserve">
+    <value>কমপ্যাক্ট</value>
+  </data>
+  <data name="Shared.Customizer.Comfortable" xml:space="preserve">
+    <value>আরামদায়ক</value>
+  </data>
+  <data name="Shared.Customizer.Spacious" xml:space="preserve">
+    <value>প্রশস্ত</value>
+  </data>
+  <data name="Shared.Customizer.Direction" xml:space="preserve">
+    <value>লেআউটের দিক</value>
+  </data>
+  <data name="Shared.Customizer.ContentWidth" xml:space="preserve">
+    <value>কনটেন্টের প্রস্থ</value>
+  </data>
+  <data name="Shared.Customizer.Fluid" xml:space="preserve">
+    <value>ফ্লুইড</value>
+  </data>
+  <data name="Shared.Customizer.Contained" xml:space="preserve">
+    <value>সীমাবদ্ধ</value>
+  </data>
+  <data name="Shared.Customizer.Sidebar" xml:space="preserve">
+    <value>সাইডবার</value>
+  </data>
+  <data name="Shared.Customizer.Expanded" xml:space="preserve">
+    <value>প্রসারিত</value>
+  </data>
+  <data name="Shared.Customizer.Collapsed" xml:space="preserve">
+    <value>সংকুচিত</value>
+  </data>
+  <data name="Shared.Customizer.Reset" xml:space="preserve">
+    <value>টেন্যান্ট ডিফল্টে রিসেট করুন</value>
+  </data>
+  <data name="Shared.DietaryChips.Veg" xml:space="preserve">
+    <value>ভেজ</value>
+  </data>
+  <data name="Shared.DietaryChips.Halal" xml:space="preserve">
+    <value>হালাল</value>
+  </data>
+  <data name="Shared.DietaryChips.Vegetarian" xml:space="preserve">
+    <value>নিরামিষ</value>
+  </data>
+  <data name="Shared.DietaryChips.Kcal" xml:space="preserve">
+    <value>{0} kcal</value>
+  </data>
+  <data name="Shared.DietaryChips.KcalPerServing" xml:space="preserve">
+    <value>প্রতি পরিবেশনে {0} kcal</value>
+  </data>
+  <data name="Shared.DietaryChips.Contains" xml:space="preserve">
+    <value>এতে {0} রয়েছে</value>
+  </data>
+  <data name="Shared.ErrorPage.DefaultTitle" xml:space="preserve">
+    <value>কিছু একটা ভুল হয়েছে</value>
+  </data>
+  <data name="Shared.ErrorPage.TraceId" xml:space="preserve">
+    <value>ট্রেস ID: {0}</value>
   </data>
 </root>

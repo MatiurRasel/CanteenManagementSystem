@@ -20,6 +20,7 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model LoadingOverlayOptions
+@inject IStringLocalizer<SharedResource> L
 @{
     var opts = Model ?? new LoadingOverlayOptions();
     var classes = "cl-overlay" + (opts.Fixed ? " cl-overlay-fixed" : "");
@@ -29,7 +30,8 @@
 @* Razor drops attributes with null values, so id="@opts.Id" is safe whether Id is set or not. *@
 <div id="@opts.Id" class="@classes"
      data-active="@dataActive"
-     role="status" aria-live="polite">
+     role="status" aria-live="polite"
+     aria-label="@(string.IsNullOrWhiteSpace(opts.Text) ? L["Common.Loading"].Value : opts.Text)">
     <span class="cl-spinner" aria-hidden="true"></span>
     @if (!string.IsNullOrWhiteSpace(opts.Text))
     {

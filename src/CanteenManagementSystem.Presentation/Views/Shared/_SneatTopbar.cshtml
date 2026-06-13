@@ -30,12 +30,12 @@
     <div class="topbar-impersonation">
         <div class="small">
             <i class="bx bx-mask me-2"></i>
-            Impersonating <strong>@impTenant</strong> — every read/write is scoped to this tenant.
+            @L["Shared.Topbar.Impersonating.Before"] <strong>@impTenant</strong> @L["Shared.Topbar.Impersonating.After"]
         </div>
         <form asp-controller="TenantsAdmin" asp-action="StopImpersonating" method="post" class="m-0">
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-sm btn-warning">
-                <i class="bx bx-stop-circle me-1"></i> Stop impersonating
+                <i class="bx bx-stop-circle me-1"></i> @L["Shared.Topbar.StopImpersonating"]
             </button>
         </form>
     </div>
@@ -47,8 +47,8 @@
             <i class="bx bx-menu"></i>
         </button>
         <button type="button" class="topbar-action sidebar-collapse-toggle d-none d-lg-inline-flex"
-                data-sidebar-collapse aria-label="Collapse sidebar"
-                title="Collapse sidebar (Ctrl+B)">
+                data-sidebar-collapse aria-label="@L["Shared.Topbar.CollapseSidebar"]"
+                title="@L["Shared.Topbar.CollapseSidebar"] (Ctrl+B)">
             <i class="bx bx-menu-alt-left"></i>
         </button>
         <div class="topbar-title-block">
@@ -62,8 +62,8 @@
             <i class="bx bx-search topbar-search-icon"></i>
             <input type="search"
                    class="topbar-search-input"
-                   placeholder="Search anything… (Ctrl+K)"
-                   aria-label="Search"
+                   placeholder="@L["Shared.Topbar.SearchPlaceholder"] (Ctrl+K)"
+                   aria-label="@L["Common.Search"]"
                    id="cms-topbar-search" />
             <kbd class="topbar-search-kbd">⌘K</kbd>
         </div>
@@ -71,7 +71,7 @@
 
     <div class="topbar-right">
         <button type="button" class="topbar-action d-inline-flex d-lg-none"
-                data-topbar-mobile-search aria-label="Search">
+                data-topbar-mobile-search aria-label="@L["Common.Search"]">
             <i class="bx bx-search"></i>
         </button>
 
@@ -85,7 +85,7 @@
                     <a class="dropdown-item @(currentCulture == "en-US" ? "active" : "")"
                        asp-controller="Culture" asp-action="Set"
                        asp-route-culture="en-US" asp-route-returnUrl="@returnUrl">
-                        <span class="me-2">🇺🇸</span> English
+                        <span class="me-2">🇺🇸</span> @L["LanguageEnglish"]
                     </a>
                 </li>
                 <li>
@@ -104,19 +104,19 @@
 
         @if (User?.Identity?.IsAuthenticated == true)
         {
-            <button type="button" class="topbar-action topbar-notif" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+            <button type="button" class="topbar-action topbar-notif" data-bs-toggle="dropdown" aria-expanded="false" title="@L["Shared.Topbar.Notifications"]">
                 <i class="bx bx-bell"></i>
                 <span class="topbar-notif-dot" aria-hidden="true"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end topbar-dropdown">
                 <li class="dropdown-header d-flex justify-content-between align-items-center">
-                    <strong>Notifications</strong>
-                    <a asp-controller="NotificationDeliveries" asp-action="Index" class="small">View all</a>
+                    <strong>@L["Shared.Topbar.Notifications"]</strong>
+                    <a asp-controller="NotificationDeliveries" asp-action="Index" class="small">@L["ViewAll"]</a>
                 </li>
                 <li><hr class="dropdown-divider m-0" /></li>
                 <li><div class="dropdown-item-text text-center text-muted py-4 small">
                     <i class="bx bx-bell-off mb-2 d-block" style="font-size:1.5rem"></i>
-                    No new notifications
+                    @L["Shared.Topbar.NoNotifications"]
                 </div></li>
             </ul>
 
@@ -145,20 +145,20 @@
                         </div>
                     </li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li class="dropdown-header small text-muted">My account</li>
+                    <li class="dropdown-header small text-muted">@L["Shared.Sidebar.MyAccount"]</li>
                     <li>
                         <a asp-controller="Account" asp-action="Mfa" class="dropdown-item">
-                            <i class="bx bx-shield-quarter me-2 text-muted"></i> Two-factor auth
+                            <i class="bx bx-shield-quarter me-2 text-muted"></i> @L["Shared.Topbar.TwoFactorAuth"]
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Account" asp-action="ChangePassword" class="dropdown-item">
-                            <i class="bx bx-key me-2 text-muted"></i> Change password
+                            <i class="bx bx-key me-2 text-muted"></i> @L["Account.ChangePassword.Title"]
                         </a>
                     </li>
                     <li>
                         <button type="button" class="dropdown-item" data-customizer-open>
-                            <i class="bx bx-palette me-2 text-muted"></i> Customize theme
+                            <i class="bx bx-palette me-2 text-muted"></i> @L["Shared.Topbar.CustomizeTheme"]
                         </button>
                     </li>
                     <li><hr class="dropdown-divider" /></li>
@@ -166,7 +166,7 @@
                         <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="dropdown-item text-danger">
-                                <i class="bx bx-log-out me-2"></i> Sign out
+                                <i class="bx bx-log-out me-2"></i> @L["SignOut"]
                             </button>
                         </form>
                     </li>
@@ -176,7 +176,7 @@
         else
         {
             <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@returnUrl" class="btn btn-primary btn-sm">
-                <i class="bx bx-log-in me-1"></i> Sign in
+                <i class="bx bx-log-in me-1"></i> @L["Account.Login.Title"]
             </a>
         }
     </div>
@@ -185,8 +185,8 @@
 <div class="topbar-mobile-search" id="cms-mobile-search" hidden>
     <div class="topbar-search w-100">
         <i class="bx bx-search topbar-search-icon"></i>
-        <input type="search" class="topbar-search-input" placeholder="Search anything…" autofocus />
-        <button class="btn btn-sm btn-link" type="button" data-topbar-mobile-search-close aria-label="Close">
+        <input type="search" class="topbar-search-input" placeholder="@L["Shared.Topbar.SearchPlaceholder"]" autofocus />
+        <button class="btn btn-sm btn-link" type="button" data-topbar-mobile-search-close aria-label="@L["Common.Close"]">
             <i class="bx bx-x"></i>
         </button>
     </div>

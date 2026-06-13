@@ -5,14 +5,16 @@
 //   * /api/* and /Order/PlaceOrder writes when offline: queued in IndexedDB
 //     and replayed on the next "online" event or via background-sync.
 
-const CACHE_VERSION = 'canteen-v1';
+// Bumped to v2 after the Font Awesome → Boxicons migration so existing
+// clients drop the stale v1 cache (which precached the removed FA stylesheet).
+const CACHE_VERSION = 'canteen-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const SHELL_URLS = [
   '/',
   '/css/site.css',
   '/css/app-shell.css',
   '/lib/bootstrap/dist/css/bootstrap.min.css',
-  '/lib/fontawesome/css/all.min.css',
+  '/lib/boxicons/css/boxicons.min.css',
   '/lib/jquery/jquery.min.js',
   '/lib/bootstrap/dist/js/bootstrap.bundle.min.js',
   '/js/site.js',
@@ -23,7 +25,11 @@ const SHELL_URLS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(SHELL_URLS)).then(() => self.skipWaiting())
+    // Precache best-effort: a single 404 must not abort the whole install
+    // (cache.addAll is atomic and would reject), so map each URL individually.
+    caches.open(STATIC_CACHE)
+      .then((cache) => Promise.allSettled(SHELL_URLS.map((u) => cache.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 

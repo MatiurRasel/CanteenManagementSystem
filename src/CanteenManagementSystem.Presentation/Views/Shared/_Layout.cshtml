@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @using CanteenManagementSystem
 @using Platform.Application.Abstractions.Branding
 @using Platform.Application.Configuration
@@ -47,7 +47,6 @@
     <link rel="apple-touch-icon" href="~/favicon.ico" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" asp-append-version="true" />
     @* Boxicons 2.1.4 — preferred icon library going forward. Vendored locally
        (wwwroot/lib/boxicons) so CSP can stay `default-src 'self'` and the app
        works offline. *@
@@ -167,7 +166,7 @@
                 <partial name="_SneatSidebar" />
                 <div class="menu-footer">
                     <div class="d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-circle-dot text-success small"></i>
+                        <i class="bx bxs-circle text-success small"></i>
                         <span>@branding.AppSubtitle</span>
                     </div>
                 </div>
@@ -175,7 +174,7 @@
                 <div class="sidebar-resize-handle"
                      role="separator"
                      aria-orientation="vertical"
-                     aria-label="Resize sidebar — drag, or double-click to reset"
+                     aria-label="@L["Shared.Layout.ResizeSidebar"]"
                      tabindex="0"
                      data-sidebar-resize>
                     <span class="sidebar-resize-grip" aria-hidden="true"></span>

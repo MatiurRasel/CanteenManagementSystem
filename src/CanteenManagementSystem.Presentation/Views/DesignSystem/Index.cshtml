@@ -1,4 +1,4 @@
-@*
+﻿@*
     /design-system — the shadcn-flavoured component catalogue.
     Designed to compress every token + component into a single scrollable page
     so the UX reviewer can scan, copy, and steal across.
@@ -66,16 +66,16 @@
 <div class="ui-section-label">KPI tiles</div>
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Orders today", Value = "1,248", Delta = "+12% vs yesterday", Trend = UiKpiTrend.Up, Icon = "fa-receipt" })" />
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Orders today", Value = "1,248", Delta = "+12% vs yesterday", Trend = UiKpiTrend.Up, Icon = "bx-receipt" })" />
     </div>
     <div class="col-6 col-md-3">
-        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Revenue ৳", Value = "৳ 84,540", Delta = "+৳ 12,300 vs last week", Trend = UiKpiTrend.Up, Icon = "fa-coins" })" />
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Revenue ৳", Value = "৳ 84,540", Delta = "+৳ 12,300 vs last week", Trend = UiKpiTrend.Up, Icon = "bx-coin-stack" })" />
     </div>
     <div class="col-6 col-md-3">
-        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Refund rate", Value = "1.8%", Delta = "-0.3 pp", Trend = UiKpiTrend.Down, Icon = "fa-rotate-left" })" />
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Refund rate", Value = "1.8%", Delta = "-0.3 pp", Trend = UiKpiTrend.Down, Icon = "bx-rotate-left" })" />
     </div>
     <div class="col-6 col-md-3">
-        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Avg prep time", Value = "4m 12s", Delta = "steady", Icon = "fa-clock" })" />
+        <partial name="_UiKpi" model="@(new UiKpiOptions { Label = "Avg prep time", Value = "4m 12s", Delta = "steady", Icon = "bx-time" })" />
     </div>
 </div>
 
@@ -89,8 +89,8 @@
                 <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Secondary", Variant = UiButtonVariant.Secondary })" />
                 <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Outline",   Variant = UiButtonVariant.OutlinePrimary })" />
                 <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Ghost",     Variant = UiButtonVariant.Ghost })" />
-                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Success",   Variant = UiButtonVariant.Success, Icon = "fa-check" })" />
-                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Danger",    Variant = UiButtonVariant.Danger,  Icon = "fa-trash" })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Success",   Variant = UiButtonVariant.Success, Icon = "bx-check" })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Danger",    Variant = UiButtonVariant.Danger,  Icon = "bx-trash" })" />
                 <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Disabled",  Variant = UiButtonVariant.Primary, Disabled = true })" />
             </div>
             <div class="ui-row">
@@ -181,7 +181,7 @@
             <span class="ui-muted">Changes are reviewable in the audit log.</span>
             <div class="ui-row">
                 <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Cancel", Variant = UiButtonVariant.Ghost })" />
-                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Save rule", Variant = UiButtonVariant.Primary, Icon = "fa-floppy-disk", Type = "submit" })" />
+                <partial name="_UiButton" model="@(new UiButtonOptions { Text = "Save rule", Variant = UiButtonVariant.Primary, Icon = "bx-save", Type = "submit" })" />
             </div>
         </div>
     </div>

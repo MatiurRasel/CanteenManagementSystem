@@ -1,4 +1,4 @@
-@*
+﻿@*
     _ErrorChrome — shared <head> + body styles for the /Views/Error/* pages.
     Each per-status page (401.cshtml, 404.cshtml, …) sets Layout=null and
     invokes <partial name="_ErrorChrome" />. Variables that drive the visual
@@ -8,14 +8,14 @@
     var code        = ViewData["Code"]        as string ?? "ERR";
     var title       = ViewData["Title"]       as string ?? "Something went wrong";
     var description = ViewData["Description"] as string ?? string.Empty;
-    var icon        = ViewData["Icon"]        as string ?? "fa-triangle-exclamation";
+    var icon        = ViewData["Icon"]        as string ?? "bx-error";
     var tone        = ViewData["Tone"]        as string ?? "danger"; // info | warning | danger | secondary
     var ctaUrl      = ViewData["CtaUrl"]      as string ?? "/";
     var ctaLabel    = ViewData["CtaLabel"]    as string ?? "Back to home";
-    var ctaIcon     = ViewData["CtaIcon"]     as string ?? "fa-house";
+    var ctaIcon     = ViewData["CtaIcon"]     as string ?? "bx-home";
     var secondaryUrl   = ViewData["SecondaryUrl"]   as string;
     var secondaryLabel = ViewData["SecondaryLabel"] as string;
-    var secondaryIcon  = ViewData["SecondaryIcon"]  as string ?? "fa-arrow-left";
+    var secondaryIcon  = ViewData["SecondaryIcon"]  as string ?? "bx-left-arrow-alt";
     string ToneColor() => tone switch
     {
         "info"      => "#3b82f6",
@@ -35,7 +35,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+<link rel="stylesheet" href="~/lib/boxicons/css/boxicons.min.css" />
 <link rel="stylesheet" href="~/css/shadcn.css" asp-append-version="true" />
 <link rel="icon" href="~/favicon.ico" />
 <style>

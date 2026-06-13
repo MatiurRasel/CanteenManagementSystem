@@ -6,8 +6,10 @@
             Variant  = UiAlertVariant.Warning,
             Heading  = "Heads up",
             Body     = "Three pending callbacks couldn't be verified — see the retry log.",
-            Icon     = "fa-triangle-exclamation"
+            Icon     = "bx-error"
         }" />
+
+    Icon accepts Boxicons ("bx-*" / "bxs-*"); legacy "fa-*" still renders via Font Awesome.
 *@
 @model CanteenManagementSystem.Presentation.Models.UiAlertOptions
 @{
@@ -16,16 +18,17 @@
     var icon = string.IsNullOrEmpty(opts.Icon)
         ? opts.Variant switch
         {
-            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Success => "fa-circle-check",
-            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Warning => "fa-triangle-exclamation",
-            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Danger  => "fa-circle-xmark",
-            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Info    => "fa-circle-info",
-            _ => "fa-circle-info"
+            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Success => "bx-check-circle",
+            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Warning => "bx-error",
+            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Danger  => "bx-x-circle",
+            CanteenManagementSystem.Presentation.Models.UiAlertVariant.Info    => "bx-info-circle",
+            _ => "bx-info-circle"
         }
         : opts.Icon;
+    string IconClass(string i) => i.StartsWith("fa-") ? $"fa-solid {i}" : $"bx {i}";
 }
 <div class="ui-alert @variantClass" role="alert">
-    <i class="fa-solid @icon" aria-hidden="true"></i>
+    <i class="@IconClass(icon)" aria-hidden="true"></i>
     <div class="flex-grow-1">
         @if (!string.IsNullOrWhiteSpace(opts.Heading))
         {

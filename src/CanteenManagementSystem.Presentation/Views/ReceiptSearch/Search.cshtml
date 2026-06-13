@@ -4,8 +4,9 @@
 @using CanteenManagementSystem.Domain.Enums
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.ReceiptSearchController.ReceiptSearchVm
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Find receipts";
+    ViewData["Title"] = L["ReceiptSearch.Search.Title"].Value;
     UiBadgeVariant V(CanteenOrderStatus s) => s switch
     {
         CanteenOrderStatus.Delivered => UiBadgeVariant.Success,
@@ -16,8 +17,8 @@
     };
     var header = new UiPageHeaderOptions
     {
-        Title    = "Find receipts",
-        Subtitle = "Search by order number, user id, or date range; click through to re-print."
+        Title    = L["ReceiptSearch.Search.Title"].Value,
+        Subtitle = L["ReceiptSearch.Search.Subtitle"].Value
     };
 }
 
@@ -28,19 +29,19 @@
         <div class="ui-card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
-                    <label class="ui-label">Search</label>
-                    <input class="ui-input form-control" name="q" value="@Model.Q" placeholder="Order # or user id…" />
+                    <label class="ui-label">@L["Common.Search"]</label>
+                    <input class="ui-input form-control" name="q" value="@Model.Q" placeholder="@L["ReceiptSearch.Search.Placeholder"]" />
                 </div>
                 <div class="col-6 col-md-2">
-                    <label class="ui-label">From</label>
+                    <label class="ui-label">@L["Common.From"]</label>
                     <input class="ui-input form-control" type="date" name="from" value="@Model.From?.ToString("yyyy-MM-dd")" />
                 </div>
                 <div class="col-6 col-md-2">
-                    <label class="ui-label">To</label>
+                    <label class="ui-label">@L["Common.To"]</label>
                     <input class="ui-input form-control" type="date" name="to" value="@Model.To?.ToString("yyyy-MM-dd")" />
                 </div>
                 <div class="col-12 col-md-3">
-                    <button class="btn btn-primary w-100" type="submit"><i class="fa-solid fa-magnifying-glass me-1"></i> Search</button>
+                    <button class="btn btn-primary w-100" type="submit"><i class="bx bx-search me-1"></i> @L["Common.Search"]</button>
                 </div>
             </div>
         </div>
@@ -50,18 +51,18 @@
         <table class="table table-hover mb-0 ui-table">
             <thead>
                 <tr>
-                    <th>Order #</th>
-                    <th>User</th>
-                    <th class="text-end">Total</th>
-                    <th>Status</th>
-                    <th class="text-end">When</th>
-                    <th class="text-end" style="width:1%">Actions</th>
+                    <th>@L["Me.Orders.OrderNumber"]</th>
+                    <th>@L["Common.User"]</th>
+                    <th class="text-end">@L["Common.Total"]</th>
+                    <th>@L["Common.Status"]</th>
+                    <th class="text-end">@L["Me.Orders.When"]</th>
+                    <th class="text-end" style="width:1%">@L["Common.Actions"]</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.Hits.Count == 0)
                 {
-                    <tr><td colspan="6" class="text-center py-5 ui-muted">No receipts match — try a wider date range.</td></tr>
+                    <tr><td colspan="6" class="text-center py-5 ui-muted">@L["ReceiptSearch.Search.NoMatches"]</td></tr>
                 }
                 @foreach (var h in Model.Hits)
                 {
@@ -78,12 +79,12 @@
                         <td class="text-end">
                             <form method="post" action="/admin/printer/reprint/@h.OrderId" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-ghost btn-sm" type="submit" title="Re-print">
-                                    <i class="fa-solid fa-print"></i>
+                                <button class="btn btn-ghost btn-sm" type="submit" title="@L["ReceiptSearch.Search.Reprint"]">
+                                    <i class="bx bx-printer"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-ghost btn-sm" href="/display/order/@h.OrderNumber" target="_blank" title="View">
-                                <i class="fa-solid fa-eye"></i>
+                            <a class="btn btn-ghost btn-sm" href="/display/order/@h.OrderNumber" target="_blank" title="@L["Common.View"]">
+                                <i class="bx bx-show"></i>
                             </a>
                         </td>
                     </tr>

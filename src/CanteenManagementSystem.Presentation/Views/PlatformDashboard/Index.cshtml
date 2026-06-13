@@ -4,43 +4,44 @@
 @using CanteenManagementSystem.Application.Sysadmin
 @using CanteenManagementSystem.Presentation.Models
 @model PlatformDashboardSnapshot
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Platform dashboard";
+    ViewData["Title"] = L["PlatformDashboard.Index.Title"].Value;
     var header = new UiPageHeaderOptions
     {
-        Title    = "Platform dashboard",
-        Subtitle = $"Cross-tenant overview · {DateTime.UtcNow:dddd, dd MMM yyyy} UTC",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/tenants'><i class='fa-solid fa-buildings me-1'></i> All tenants</a>")
+        Title    = L["PlatformDashboard.Index.Title"].Value,
+        Subtitle = L["PlatformDashboard.Index.Subtitle", DateTime.UtcNow.ToString("dddd, dd MMM yyyy")].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/tenants'><i class='bx bx-buildings me-1'></i> {L["TenantsAdmin.New.AllTenants"].Value}</a>")
     };
 
     var kpiTenants = new UiKpiOptions
     {
-        Label = "Tenants",
+        Label = L["Tenants"].Value,
         Value = Model.TotalTenants.ToString("N0"),
-        Hint  = $"{Model.ActiveTenants} active · {Model.SuspendedTenants} suspended · {Model.DeletedTenants} deleted",
-        Icon  = "fa-buildings"
+        Hint  = L["PlatformDashboard.Index.TenantsHint", Model.ActiveTenants, Model.SuspendedTenants, Model.DeletedTenants].Value,
+        Icon  = "bx bx-buildings"
     };
     var kpiOrders = new UiKpiOptions
     {
-        Label = "Orders today",
+        Label = L["AdminDashboard.Index.OrdersToday"].Value,
         Value = Model.OrdersToday.ToString("N0"),
-        Hint  = "across every tenant",
-        Icon  = "fa-cart-shopping"
+        Hint  = L["PlatformDashboard.Index.AcrossEveryTenant"].Value,
+        Icon  = "bx bx-cart"
     };
     var kpiRevenue = new UiKpiOptions
     {
-        Label = "Revenue today",
+        Label = L["AdminDashboard.Index.RevenueToday"].Value,
         Value = "৳ " + Model.RevenueToday.ToString("N0"),
-        Hint  = "sum of delivered + pending orders",
-        Icon  = "fa-coins",
+        Hint  = L["PlatformDashboard.Index.RevenueHint"].Value,
+        Icon  = "bx bx-coin-stack",
         Trend = Model.RevenueToday > 0 ? UiKpiTrend.Up : UiKpiTrend.None
     };
     var kpiFailures = new UiKpiOptions
     {
-        Label = "Sync failures (24h)",
+        Label = L["PlatformDashboard.Index.SyncFailures"].Value,
         Value = Model.FailedSyncsLast24h.ToString(),
-        Hint  = Model.FailedSyncsLast24h == 0 ? "all green" : "directory pull issues",
-        Icon  = "fa-triangle-exclamation",
+        Hint  = Model.FailedSyncsLast24h == 0 ? L["PlatformDashboard.Index.AllGreen"].Value : L["PlatformDashboard.Index.DirectoryPullIssues"].Value,
+        Icon  = "bx bx-error",
         Trend = Model.FailedSyncsLast24h > 0 ? UiKpiTrend.Down : UiKpiTrend.None
     };
 }
@@ -60,20 +61,20 @@
             <div class="ui-card">
                 <div class="ui-card-header">
                     <div>
-                        <div class="ui-card-title">Recent tenants</div>
-                        <div class="ui-card-muted-body">Newest first · today's orders + revenue per tenant</div>
+                        <div class="ui-card-title">@L["PlatformDashboard.Index.RecentTenants"]</div>
+                        <div class="ui-card-muted-body">@L["PlatformDashboard.Index.RecentTenantsSubtitle"]</div>
                     </div>
                 </div>
                 <div class="ui-table-wrap">
                     <table class="table table-hover mb-0 ui-table">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Tenant</th>
-                                <th>Status</th>
-                                <th class="text-end">Orders</th>
-                                <th class="text-end">Revenue</th>
-                                <th class="text-end">Created</th>
+                                <th>@L["TenantsAdmin.Index.ColCode"]</th>
+                                <th>@L["PlatformDashboard.Index.Tenant"]</th>
+                                <th>@L["Common.Status"]</th>
+                                <th class="text-end">@L["ReportsAdmin.Index.KpiOrders"]</th>
+                                <th class="text-end">@L["StatsRevenue"]</th>
+                                <th class="text-end">@L["TenantsAdmin.Index.ColCreated"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +82,7 @@
                         {
                             var b = new UiBadgeOptions
                             {
-                                Text    = t.IsDeleted ? "Deleted" : (t.IsActive ? "Active" : "Suspended"),
+                                Text    = t.IsDeleted ? L["PlatformDashboard.Index.Deleted"].Value : (t.IsActive ? L["Common.Active"].Value : L["PlatformDashboard.Index.Suspended"].Value),
                                 Variant = t.IsDeleted ? UiBadgeVariant.Secondary
                                         : t.IsActive  ? UiBadgeVariant.Success
                                                       : UiBadgeVariant.Warning,
@@ -98,7 +99,7 @@
                         }
                         @if (Model.RecentTenants.Count == 0)
                         {
-                            <tr><td colspan="6" class="ui-muted text-center py-4">No tenants yet — onboard one at <a href="/admin/tenants/new">/admin/tenants/new</a>.</td></tr>
+                            <tr><td colspan="6" class="ui-muted text-center py-4">@L["PlatformDashboard.Index.NoTenantsYet"] <a href="/admin/tenants/new">/admin/tenants/new</a>.</td></tr>
                         }
                         </tbody>
                     </table>
@@ -109,7 +110,7 @@
         <div class="col-lg-5">
             <div class="ui-card">
                 <div class="ui-card-header">
-                    <div class="ui-card-title">Top tenants this month</div>
+                    <div class="ui-card-title">@L["PlatformDashboard.Index.TopTenantsMtd"]</div>
                     <span class="ui-badge variant-primary">@Model.TopTenantsMtd.Count</span>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -118,14 +119,14 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
                             <div class="min-w-0">
                                 <div class="ui-text-strong small text-truncate">@t.ClientName</div>
-                                <div class="ui-muted small">@t.OrdersMtd order(s)</div>
+                                <div class="ui-muted small">@L["PlatformDashboard.Index.OrderCount", t.OrdersMtd]</div>
                             </div>
                             <span class="ui-badge variant-success">৳ @t.RevenueMtd.ToString("N0")</span>
                         </li>
                     }
                     @if (Model.TopTenantsMtd.Count == 0)
                     {
-                        <li class="list-group-item ui-muted text-center" style="background:transparent">No orders this month.</li>
+                        <li class="list-group-item ui-muted text-center" style="background:transparent">@L["PlatformDashboard.Index.NoOrdersThisMonth"]</li>
                     }
                 </ul>
             </div>
@@ -135,8 +136,8 @@
                 var lowAlert = new UiAlertOptions
                 {
                     Variant = UiAlertVariant.Warning,
-                    Heading = $"{Model.LowStockTenants} tenant(s) running low on stock",
-                    Body    = "At least one item per tenant has Available ≤ 5 in today's menu. The per-tenant LowStockAlertService notifies operators automatically."
+                    Heading = L["PlatformDashboard.Index.LowStockHeading", Model.LowStockTenants].Value,
+                    Body    = L["PlatformDashboard.Index.LowStockBody"].Value
                 };
                 <div class="mt-3">
                     <partial name="_UiAlert" model="lowAlert" />
@@ -148,8 +149,8 @@
     <div class="ui-card mt-4">
         <div class="ui-card-header">
             <div>
-                <div class="ui-card-title">Directory sync failures · last 24h</div>
-                <div class="ui-card-muted-body">Every failed run across every tenant — click into a tenant to investigate.</div>
+                <div class="ui-card-title">@L["PlatformDashboard.Index.SyncFailuresTitle"]</div>
+                <div class="ui-card-muted-body">@L["PlatformDashboard.Index.SyncFailuresSubtitle"]</div>
             </div>
             <span class="ui-badge @(Model.FailedSyncsLast24h == 0 ? "variant-success" : "variant-danger")">@Model.FailedSyncsLast24h</span>
         </div>
@@ -159,7 +160,7 @@
             var ok = new UiAlertOptions
             {
                 Variant = UiAlertVariant.Success,
-                Body    = "Every tenant's directory sync succeeded in the last 24 hours."
+                Body    = L["PlatformDashboard.Index.AllSyncsOk"].Value
             };
             <div class="ui-card-body">
                 <partial name="_UiAlert" model="ok" />
@@ -171,11 +172,11 @@
                 <table class="table mb-0 ui-table">
                     <thead>
                         <tr>
-                            <th>When (UTC)</th>
-                            <th>Tenant</th>
-                            <th>Source</th>
-                            <th class="text-end">Recent failures</th>
-                            <th>Error</th>
+                            <th>@L["PlatformDashboard.Index.WhenUtc"]</th>
+                            <th>@L["PlatformDashboard.Index.Tenant"]</th>
+                            <th>@L["DirectoryAdminUi.Source"]</th>
+                            <th class="text-end">@L["PlatformDashboard.Index.RecentFailures"]</th>
+                            <th>@L["Common.Error"]</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -8,12 +8,15 @@
       * POST /Kitchen/status { orderId, status } updates server-side
       * SignalR /hubs/kitchen events: order:placed, order:status
       * Card age is rendered as MM:SS, turns warning at 5min, critical at 10min
+      * Skeleton hides the board until the hub connection settles (first
+        snapshot only) — reconnects never re-show it.
 *@
 @using CanteenManagementSystem.Application.Orders.Dtos
 @using CanteenManagementSystem.Domain.Enums
 @model PagedOrdersResultDto
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Kitchen Display";
+    ViewData["Title"] = L["Kitchen"].Value;
     Layout = null;
     var pending    = Model.Orders.Where(x => x.Status == CanteenOrderStatus.Pending || x.Status == CanteenOrderStatus.Placed).ToList();
     var preparing  = Model.Orders.Where(x => x.Status == CanteenOrderStatus.Preparing || x.Status == CanteenOrderStatus.Confirmed).ToList();
@@ -23,54 +26,66 @@
 <html lang="en" class="ks-html" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
-    <title>Kitchen Display · SmartCanteen</title>
+    <title>@L["Kitchen"] · @L["Account.Common.BrandName"]</title>
     <partial name="_KioskShell" />
+    <link rel="stylesheet" href="~/css/canteen-loading.css" asp-append-version="true" />
+    <style>
+        /* Skeleton region keeps the board's flex sizing while hydrating. */
+        #kdsRegion { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+        #kdsRegion > .skeleton-target { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+        #kdsRegion > .canteen-skeleton { padding: 1rem 1.5rem; }
+    </style>
 </head>
 <body class="ks-body">
 
 <div class="ks-shell">
     <header class="ks-header">
         <div>
-            <h1><i class="bx bx-restaurant me-2"></i> Kitchen Display</h1>
-            <small class="ks-subtitle">Real-time · <span id="kds-conn" class="ks-pill is-scanning" style="font-size:.7rem;padding:.15rem .55rem"><span class="ks-dot"></span> connecting…</span></small>
+            <h1><i class="bx bx-restaurant me-2"></i> @L["Kitchen"]</h1>
+            <small class="ks-subtitle">@L["Kitchen.Index.RealTime"] · <span id="kds-conn" class="ks-pill is-scanning" style="font-size:.7rem;padding:.15rem .55rem"><span class="ks-dot"></span> @L["Kitchen.Index.Connecting"]</span></small>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="kds-fullscreen" title="Fullscreen (F11 / F)">
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="kds-fullscreen" title="@L["Kitchen.Index.FullscreenTitle"]">
                 <i class="bx bx-fullscreen"></i>
             </button>
             <div class="ks-clock" id="kds-clock">--:--:--</div>
         </div>
     </header>
 
-    <main class="ks-board">
-        <div class="ks-board-col" data-bucket="pending">
-            <h2><span><i class="bx bx-time-five me-1"></i> Pending</span><span class="ks-col-count" data-count-for="pending">@pending.Count</span></h2>
-            <div class="ks-cards" data-cards="pending">
-                @foreach (var o in pending)
-                {
-                    <partial name="_KdsCard" model="o" />
-                }
-            </div>
+    <div id="kdsRegion" data-loaded="false">
+        <partial name="_Skeleton" model="@(new SkeletonOptions { Variant = SkeletonVariant.Card, Rows = 6, Card = true })" />
+        <div class="skeleton-target">
+            <main class="ks-board">
+                <div class="ks-board-col" data-bucket="pending">
+                    <h2><span><i class="bx bx-time-five me-1"></i> @L["CustomerDisplay.Show.Pending"]</span><span class="ks-col-count" data-count-for="pending">@pending.Count</span></h2>
+                    <div class="ks-cards" data-cards="pending">
+                        @foreach (var o in pending)
+                        {
+                            <partial name="_KdsCard" model="o" />
+                        }
+                    </div>
+                </div>
+                <div class="ks-board-col" data-bucket="preparing">
+                    <h2><span><i class="bx bxs-flame me-1"></i> @L["CustomerDisplay.Show.Preparing"]</span><span class="ks-col-count" data-count-for="preparing">@preparing.Count</span></h2>
+                    <div class="ks-cards" data-cards="preparing">
+                        @foreach (var o in preparing)
+                        {
+                            <partial name="_KdsCard" model="o" />
+                        }
+                    </div>
+                </div>
+                <div class="ks-board-col" data-bucket="ready">
+                    <h2><span><i class="bx bx-bell me-1"></i> @L["Kitchen.Index.ReadyForPickup"]</span><span class="ks-col-count" data-count-for="ready">@ready.Count</span></h2>
+                    <div class="ks-cards" data-cards="ready">
+                        @foreach (var o in ready)
+                        {
+                            <partial name="_KdsCard" model="o" />
+                        }
+                    </div>
+                </div>
+            </main>
         </div>
-        <div class="ks-board-col" data-bucket="preparing">
-            <h2><span><i class="bx bx-flame me-1"></i> Preparing</span><span class="ks-col-count" data-count-for="preparing">@preparing.Count</span></h2>
-            <div class="ks-cards" data-cards="preparing">
-                @foreach (var o in preparing)
-                {
-                    <partial name="_KdsCard" model="o" />
-                }
-            </div>
-        </div>
-        <div class="ks-board-col" data-bucket="ready">
-            <h2><span><i class="bx bx-bell me-1"></i> Ready for pickup</span><span class="ks-col-count" data-count-for="ready">@ready.Count</span></h2>
-            <div class="ks-cards" data-cards="ready">
-                @foreach (var o in ready)
-                {
-                    <partial name="_KdsCard" model="o" />
-                }
-            </div>
-        </div>
-    </main>
+    </div>
 </div>
 
 <form id="kds-form" style="display:none">
@@ -79,10 +94,18 @@
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/signalr/signalr.min.js"></script>
+<script src="~/js/canteen-loading.js" asp-append-version="true"></script>
 <script>
 (function () {
     'use strict';
     var STATUS = { Preparing: 30, Ready: 40, Delivered: 1 };
+    var T = {
+        reconnecting: '@L["Kitchen.Index.Reconnecting"]',
+        live:         '@L["Kitchen.Index.Live"]',
+        offline:      '@L["Kitchen.Index.Offline"]',
+        start:        '@L["Kitchen.Index.Start"]',
+        ready:        '@L["CustomerDisplay.Show.Ready"]'
+    };
     var tokenInput = document.querySelector('#kds-form input[name="__RequestVerificationToken"]');
     var token = tokenInput ? tokenInput.value : '';
 
@@ -93,6 +116,16 @@
         clockEl.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
     }
     tickClock(); setInterval(tickClock, 1000);
+
+    // Reveal the board after the FIRST connection attempt settles only —
+    // automatic reconnects must never flash the skeleton again.
+    var firstSnapshot = true;
+    function revealBoard () {
+        if (!firstSnapshot) return;
+        firstSnapshot = false;
+        if (window.CanteenLoading) { CanteenLoading.hide('#kdsRegion'); }
+        else { document.getElementById('kdsRegion').setAttribute('data-loaded', 'true'); }
+    }
 
     function refreshAges () {
         document.querySelectorAll('.ks-kds-card[data-placed]').forEach(function (card) {
@@ -160,9 +193,9 @@
         connBadge.style.fontSize  = '.7rem';
         connBadge.style.padding   = '.15rem .55rem';
     }
-    conn.onreconnecting(function () { setConn('is-scanning', 'reconnecting…'); });
-    conn.onreconnected(function ()  { setConn('is-ready',    'live'); });
-    conn.onclose(function ()        { setConn('is-error',    'offline (refresh)'); });
+    conn.onreconnecting(function () { setConn('is-scanning', T.reconnecting); });
+    conn.onreconnected(function ()  { setConn('is-ready',    T.live); });
+    conn.onclose(function ()        { setConn('is-error',    T.offline); });
 
     function escapeHtml (s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -179,8 +212,8 @@
                 '<div class="ks-kds-user">' + escapeHtml(p.userName || '') + '</div>' +
                 '<ul class="ks-kds-items">' + items + '</ul>' +
                 '<div class="ks-kds-actions">' +
-                    '<button class="btn btn-sm btn-primary" data-status="30"><i class="bx bx-flame me-1"></i>Start</button>' +
-                    '<button class="btn btn-sm btn-success" data-status="40"><i class="bx bx-check me-1"></i>Ready</button>' +
+                    '<button class="btn btn-sm btn-primary" data-status="30"><i class="bx bxs-flame me-1"></i>' + T.start + '</button>' +
+                    '<button class="btn btn-sm btn-success" data-status="40"><i class="bx bx-check me-1"></i>' + T.ready + '</button>' +
                 '</div>' +
             '</div>';
     }
@@ -200,8 +233,8 @@
         refreshCounts();
     });
     conn.start()
-        .then(function () { setConn('is-ready', 'live'); })
-        .catch(function () { setConn('is-error', 'offline (refresh)'); });
+        .then(function () { setConn('is-ready', T.live);    revealBoard(); })
+        .catch(function () { setConn('is-error', T.offline); revealBoard(); });
 
     // F / F11 toggles browser fullscreen — handy on the TV install.
     document.getElementById('kds-fullscreen').addEventListener('click', function () {

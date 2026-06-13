@@ -4,15 +4,16 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Presentation.Controllers.ReportSchedulesController.ScheduleForm
+@inject IStringLocalizer<SharedResource> L
 @{
     var isNew  = Model.ScheduleId == 0;
-    ViewData["Title"] = isNew ? "New scheduled report" : "Edit schedule";
+    ViewData["Title"] = isNew ? L["ReportSchedules.Edit.NewTitle"].Value : L["ReportSchedules.Edit.EditTitle"].Value;
     var reports = (ViewBag.Reports as IEnumerable<SelectListItem>) ?? Enumerable.Empty<SelectListItem>();
     var header = new UiPageHeaderOptions
     {
-        Title    = isNew ? "New scheduled report" : Model.DisplayName,
-        Subtitle = "Pick a report, schedule, format, recipients. Optional params JSON supports @-tokens.",
-        Actions  = Html.Raw("<a class='btn btn-outline-secondary btn-sm' href='/admin/report-schedules'><i class='fa-solid fa-arrow-left me-1'></i> All schedules</a>")
+        Title    = isNew ? L["ReportSchedules.Edit.NewTitle"].Value : Model.DisplayName,
+        Subtitle = L["ReportSchedules.Edit.Subtitle"].Value,
+        Actions  = Html.Raw($"<a class='btn btn-outline-secondary btn-sm' href='/admin/report-schedules'><i class='bx bx-left-arrow-alt me-1'></i> {L["ReportSchedules.Edit.AllSchedules"].Value}</a>")
     };
 }
 
@@ -29,70 +30,70 @@
                     <div class="ui-card-body">
                         <div class="row g-3">
                             <div class="col-md-7">
-                                <label class="ui-label" asp-for="ReportKey">Report</label>
+                                <label class="ui-label" asp-for="ReportKey">@L["ReportSchedules.Index.Report"]</label>
                                 <select asp-for="ReportKey" asp-items="reports" class="form-select ui-select"></select>
                                 <span asp-validation-for="ReportKey" class="text-danger small"></span>
                             </div>
                             <div class="col-md-5">
-                                <label class="ui-label" asp-for="DisplayName">Display name</label>
-                                <input asp-for="DisplayName" class="ui-input form-control" placeholder="Nightly daily-collection" />
+                                <label class="ui-label" asp-for="DisplayName">@L["UsersAdmin.DisplayName"]</label>
+                                <input asp-for="DisplayName" class="ui-input form-control" placeholder="@L["ReportSchedules.Edit.DisplayNamePlaceholder"]" />
                                 <span asp-validation-for="DisplayName" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-4">
-                                <label class="ui-label" asp-for="Recurrence">Recurrence</label>
+                                <label class="ui-label" asp-for="Recurrence">@L["ReportSchedules.Edit.Recurrence"]</label>
                                 <select asp-for="Recurrence" class="form-select ui-select" id="recurrence">
-                                    <option value="Daily">Daily</option>
-                                    <option value="Weekly">Weekly</option>
-                                    <option value="Monthly">Monthly</option>
-                                    <option value="Hourly">Hourly</option>
+                                    <option value="Daily">@L["ReportSchedules.Edit.RecurrenceDaily"]</option>
+                                    <option value="Weekly">@L["ReportSchedules.Edit.RecurrenceWeekly"]</option>
+                                    <option value="Monthly">@L["ReportSchedules.Edit.RecurrenceMonthly"]</option>
+                                    <option value="Hourly">@L["ReportSchedules.Edit.RecurrenceHourly"]</option>
                                 </select>
                             </div>
                             <div class="col-md-4" data-rec="Daily,Weekly,Monthly">
-                                <label class="ui-label" asp-for="HourOfDay">Hour (UTC, 0-23)</label>
+                                <label class="ui-label" asp-for="HourOfDay">@L["ReportSchedules.Edit.HourUtc"]</label>
                                 <input asp-for="HourOfDay" type="number" min="0" max="23" class="ui-input form-control" />
                             </div>
                             <div class="col-md-4" data-rec="Daily,Weekly,Monthly">
-                                <label class="ui-label" asp-for="Minute">Minute</label>
+                                <label class="ui-label" asp-for="Minute">@L["ReportSchedules.Edit.Minute"]</label>
                                 <input asp-for="Minute" type="number" min="0" max="59" class="ui-input form-control" />
                             </div>
 
                             <div class="col-md-4" data-rec="Weekly">
-                                <label class="ui-label" asp-for="DayOfWeek">Day of week</label>
+                                <label class="ui-label" asp-for="DayOfWeek">@L["DiscountRules.Edit.DayOfWeekLabel"]</label>
                                 <select asp-for="DayOfWeek" class="form-select ui-select">
-                                    <option value="0">Sunday</option><option value="1">Monday</option>
-                                    <option value="2">Tuesday</option><option value="3">Wednesday</option>
-                                    <option value="4">Thursday</option><option value="5">Friday</option>
-                                    <option value="6">Saturday</option>
+                                    @for (var d = 0; d < 7; d++)
+                                    {
+                                        <option value="@d">@System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)d)</option>
+                                    }
                                 </select>
                             </div>
                             <div class="col-md-4" data-rec="Monthly">
-                                <label class="ui-label" asp-for="DayOfMonth">Day of month</label>
+                                <label class="ui-label" asp-for="DayOfMonth">@L["ReportSchedules.Edit.DayOfMonth"]</label>
                                 <input asp-for="DayOfMonth" type="number" min="1" max="31" class="ui-input form-control" />
                             </div>
                             <div class="col-md-4" data-rec="Hourly">
-                                <label class="ui-label" asp-for="IntervalHours">Every N hours</label>
+                                <label class="ui-label" asp-for="IntervalHours">@L["ReportSchedules.Edit.EveryNHours"]</label>
                                 <input asp-for="IntervalHours" type="number" min="1" max="24" class="ui-input form-control" />
                             </div>
 
                             <div class="col-md-4">
-                                <label class="ui-label" asp-for="Format">Format</label>
+                                <label class="ui-label" asp-for="Format">@L["ReportsCatalog.Run.Format"]</label>
                                 <select asp-for="Format" class="form-select ui-select">
                                     <option>Pdf</option><option>Xlsx</option>
                                     <option>Csv</option><option>Html</option><option>Json</option>
                                 </select>
                             </div>
                             <div class="col-md-8">
-                                <label class="ui-label" asp-for="Recipients">Recipients (CSV)</label>
+                                <label class="ui-label" asp-for="Recipients">@L["ReportSchedules.Edit.RecipientsCsv"]</label>
                                 <input asp-for="Recipients" class="ui-input form-control" placeholder="admin@school.edu, finance@school.edu" />
                                 <span asp-validation-for="Recipients" class="text-danger small"></span>
                             </div>
 
                             <div class="col-12">
-                                <label class="ui-label" asp-for="ParametersJson">Parameters (JSON)</label>
+                                <label class="ui-label" asp-for="ParametersJson">@L["ReportSchedules.Edit.ParametersJson"]</label>
                                 <textarea asp-for="ParametersJson" class="ui-input form-control ui-mono" rows="4" placeholder='{"From":"@@WEEK_AGO","To":"@@TODAY"}'></textarea>
                                 <div class="ui-help-text">
-                                    Tokens: <code>@@TODAY</code>, <code>@@YESTERDAY</code>, <code>@@WEEK_START</code>,
+                                    @L["NotificationTemplates.Index.TokensLabel"] <code>@@TODAY</code>, <code>@@YESTERDAY</code>, <code>@@WEEK_START</code>,
                                     <code>@@WEEK_AGO</code>, <code>@@MONTH_START</code>, <code>@@THIRTY_DAY_AGO</code>.
                                 </div>
                             </div>
@@ -100,7 +101,7 @@
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" asp-for="IsEnabled" />
-                                    <label class="form-check-label" asp-for="IsEnabled">Enabled</label>
+                                    <label class="form-check-label" asp-for="IsEnabled">@L["Common.Enabled"]</label>
                                 </div>
                             </div>
                         </div>
@@ -110,18 +111,18 @@
 
             <div class="col-lg-5">
                 <div class="ui-card sticky-top" style="top:5rem">
-                    <div class="ui-card-header"><div class="ui-card-title">How it works</div></div>
+                    <div class="ui-card-header"><div class="ui-card-title">@L["ReportSchedules.Edit.HowItWorks"]</div></div>
                     <div class="ui-card-body">
                         <ul class="small ui-stack-sm mb-3" style="padding-left:1.2rem">
-                            <li>The scheduler ticks every minute UTC; schedules past their <em>NextRunAtUtc</em> fire.</li>
-                            <li>Output is sent as an email attachment using <strong>Notifications.Email.*</strong> tenant settings.</li>
-                            <li>Failures stamp <em>LastError</em> on the schedule row — the next tick still tries again.</li>
+                            <li>@L["ReportSchedules.Edit.HowItWorks1"]</li>
+                            <li>@L["ReportSchedules.Edit.HowItWorks2"]</li>
+                            <li>@L["ReportSchedules.Edit.HowItWorks3"]</li>
                         </ul>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                                <i class="bx bx-save me-1"></i> @L["Common.Save"]
                             </button>
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <a asp-action="Index" class="btn btn-outline-secondary">@L["Common.Cancel"]</a>
                         </div>
                     </div>
                 </div>

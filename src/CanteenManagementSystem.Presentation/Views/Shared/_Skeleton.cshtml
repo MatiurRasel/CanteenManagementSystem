@@ -25,12 +25,13 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model SkeletonOptions
+@inject IStringLocalizer<SharedResource> L
 @{ var opts = Model ?? new SkeletonOptions(); }
 @functions {
     string CardClass(SkeletonOptions o) => o.Card ? "skeleton-card" : "";
 }
 
-<div class="canteen-skeleton" aria-busy="true" aria-label="@(opts.Label ?? "Loading…")">
+<div class="canteen-skeleton" aria-busy="true" aria-label="@(opts.Label ?? L["Common.Loading"].Value)">
 @switch (opts.Variant)
 {
     case SkeletonVariant.Kpi:

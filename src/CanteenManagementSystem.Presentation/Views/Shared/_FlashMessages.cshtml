@@ -1,10 +1,11 @@
+@inject IStringLocalizer<SharedResource> L
 @{
     var flashes = new[]
     {
-        new { Variant = "success", Icon = "fa-circle-check",        Msg = TempData["SuccessMessage"] as string },
-        new { Variant = "danger",  Icon = "fa-circle-xmark",        Msg = TempData["ErrorMessage"]   as string },
-        new { Variant = "warning", Icon = "fa-triangle-exclamation", Msg = TempData["WarningMessage"] as string },
-        new { Variant = "info",    Icon = "fa-circle-info",         Msg = TempData["InfoMessage"]    as string },
+        new { Variant = "success", Icon = "bx-check-circle", Msg = TempData["SuccessMessage"] as string },
+        new { Variant = "danger",  Icon = "bx-x-circle",     Msg = TempData["ErrorMessage"]   as string },
+        new { Variant = "warning", Icon = "bx-error",        Msg = TempData["WarningMessage"] as string },
+        new { Variant = "info",    Icon = "bx-info-circle",  Msg = TempData["InfoMessage"]    as string },
     };
 }
 
@@ -13,9 +14,9 @@
     if (!string.IsNullOrWhiteSpace(flash.Msg))
     {
         <div class="alert alert-@flash.Variant alert-dismissible fade show shadow-sm d-flex align-items-start gap-2 mb-3" role="alert">
-            <i class="fa-solid @flash.Icon mt-1"></i>
+            <i class="bx @flash.Icon mt-1"></i>
             <div class="flex-grow-1">@flash.Msg</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@L["Common.Close"]"></button>
         </div>
     }
 }

@@ -4,24 +4,25 @@
     catch it. The real per-status pages live under /Views/Error/{code}.cshtml.
 *@
 @model ErrorViewModel
+@inject IStringLocalizer<SharedResource> L
 @{
     ViewData["Code"]          = "500";
     ViewData["Tone"]          = "danger";
-    ViewData["Icon"]          = "fa-bug";
-    ViewData["Title"]         = "Something broke on our side";
-    ViewData["Description"]   = "An unexpected error happened while we tried to serve your request. The site team has been notified — try again, or come back in a few minutes.";
+    ViewData["Icon"]          = "bx-bug";
+    ViewData["Title"]         = L["Error.500.Title"].Value;
+    ViewData["Description"]   = L["Error.500.Description"].Value;
     ViewData["CtaUrl"]        = "/";
-    ViewData["CtaLabel"]      = "Back to home";
-    ViewData["CtaIcon"]       = "fa-house";
+    ViewData["CtaLabel"]      = L["Error.Shared.BackHome"].Value;
+    ViewData["CtaIcon"]       = "bx-home";
     ViewData["TraceId"]       = Model?.RequestId;
     Layout = null;
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Server error · SmartCanteen</title>
+    <title>@L["Error.Shared.ServerError"] · @L["Account.Common.BrandName"]</title>
     <partial name="_ErrorChrome" />
 </head>
 <body>

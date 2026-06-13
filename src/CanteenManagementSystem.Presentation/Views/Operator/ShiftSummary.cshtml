@@ -3,57 +3,58 @@
 *@
 @using CanteenManagementSystem.Presentation.Models
 @model CanteenManagementSystem.Application.Orders.Dtos.ShiftSummaryDto
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = $"Shift summary · {Model.ShiftDate:dd MMM yyyy}";
+    ViewData["Title"] = $"{L["Operator.ShiftSummary.Title"].Value} · {Model.ShiftDate:dd MMM yyyy}";
     var actions = $@"
         <form method='get' class='d-flex gap-2 align-items-end'>
             <div>
-                <label class='ui-label mb-1'>Date</label>
+                <label class='ui-label mb-1'>{L["Common.Date"].Value}</label>
                 <input type='date' name='date' value='{Model.ShiftDate:yyyy-MM-dd}' class='ui-input form-control form-control-sm' />
             </div>
-            <button type='submit' class='btn btn-primary btn-sm'>Refresh</button>
+            <button type='submit' class='btn btn-primary btn-sm'>{L["Common.Refresh"].Value}</button>
             <a class='btn btn-outline-secondary btn-sm' href='/Operator/ExportOrdersCsv?date={Model.ShiftDate:yyyy-MM-dd}'>
-                <i class='fa-solid fa-file-csv me-1'></i> CSV
+                <i class='bx bx-spreadsheet me-1'></i> {L["Operator.ShiftSummary.Csv"].Value}
             </a>
             <button class='btn btn-outline-primary btn-sm' type='button' onclick='window.print()'>
-                <i class='fa-solid fa-print me-1'></i> Print
+                <i class='bx bx-printer me-1'></i> {L["Common.Print"].Value}
             </button>
         </form>";
     var header = new UiPageHeaderOptions
     {
-        Title    = "Shift summary",
-        Subtitle = $"{Model.ShiftDate:dddd, d MMMM yyyy} · canteen counter",
+        Title    = L["Operator.ShiftSummary.Title"].Value,
+        Subtitle = $"{Model.ShiftDate:dddd, d MMMM yyyy} · {L["Operator.ShiftSummary.CanteenCounter"].Value}",
         Actions  = Html.Raw($"<div class='no-print'>{actions}</div>")
     };
     var avg = Model.OrdersDelivered == 0 ? 0 : Model.GrossRevenue / Model.OrdersDelivered;
     var kpiOrders = new UiKpiOptions
     {
-        Label = "Orders placed",
+        Label = L["Operator.ShiftSummary.OrdersPlaced"].Value,
         Value = Model.OrdersPlaced.ToString(),
-        Hint  = $"{Model.OrdersDelivered} delivered · {Model.OrdersPending} open · {Model.OrdersCancelled} cancelled",
-        Icon  = "fa-cart-shopping"
+        Hint  = L["Operator.ShiftSummary.OrdersHint", Model.OrdersDelivered, Model.OrdersPending, Model.OrdersCancelled].Value,
+        Icon  = "bx bx-cart"
     };
     var kpiRevenue = new UiKpiOptions
     {
-        Label = "Gross revenue",
+        Label = L["Operator.ShiftSummary.GrossRevenue"].Value,
         Value = "৳ " + Model.GrossRevenue.ToString("N0"),
-        Hint  = $"avg ৳ {avg:N0} / order",
-        Icon  = "fa-coins"
+        Hint  = L["Operator.ShiftSummary.AvgPerOrder", avg.ToString("N0")].Value,
+        Icon  = "bx bx-coin-stack"
     };
     var kpiRefunds = new UiKpiOptions
     {
-        Label = "Refunds",
+        Label = L["Operator.ShiftSummary.Refunds"].Value,
         Value = "৳ " + Model.Refunded.ToString("N0"),
-        Hint  = $"net ৳ {Model.NetRevenue:N0}",
-        Icon  = "fa-rotate-left",
+        Hint  = L["Operator.ShiftSummary.NetHint", Model.NetRevenue.ToString("N0")].Value,
+        Icon  = "bx bx-rotate-left",
         Trend = Model.Refunded > 0 ? UiKpiTrend.Down : UiKpiTrend.None
     };
     var kpiCust = new UiKpiOptions
     {
-        Label = "Unique customers",
+        Label = L["Operator.ShiftSummary.UniqueCustomers"].Value,
         Value = Model.UniqueCustomers.ToString(),
         Hint  = $"{(Model.FirstOrderAtUtc?.ToLocalTime().ToString("HH:mm") ?? "—")} – {(Model.LastOrderAtUtc?.ToLocalTime().ToString("HH:mm") ?? "—")}",
-        Icon  = "fa-users"
+        Icon  = "bx bx-group"
     };
 }
 
@@ -76,31 +77,31 @@
     <div class="row g-3">
         <div class="col-lg-6">
             <div class="ui-card h-100">
-                <div class="ui-card-header"><div class="ui-card-title">Top items</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["ReportsAdmin.Index.TopItems"]</div></div>
                 <ul class="list-group list-group-flush">
                     @foreach (var i in Model.TopItems)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background:transparent">
                             <div>
                                 <div class="ui-text-strong small">@i.ItemName</div>
-                                <div class="ui-muted small">@i.QuantitySold sold</div>
+                                <div class="ui-muted small">@L["Operator.ShiftSummary.SoldCount", i.QuantitySold]</div>
                             </div>
                             <span class="ui-badge variant-primary">৳ @i.Revenue.ToString("N0")</span>
                         </li>
                     }
                     @if (Model.TopItems.Count == 0)
                     {
-                        <li class="list-group-item ui-muted text-center" style="background:transparent">No deliveries yet.</li>
+                        <li class="list-group-item ui-muted text-center" style="background:transparent">@L["Operator.ShiftSummary.NoDeliveries"]</li>
                     }
                 </ul>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="ui-card h-100">
-                <div class="ui-card-header"><div class="ui-card-title">Cancelled orders</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["Operator.ShiftSummary.CancelledOrders"]</div></div>
                 <div class="ui-table-wrap">
                     <table class="table table-sm mb-0 ui-table">
-                        <thead><tr><th>Order #</th><th class="text-end">Amount</th><th>At</th></tr></thead>
+                        <thead><tr><th>@L["Me.Orders.OrderNumber"]</th><th class="text-end">@L["Common.Amount"]</th><th>@L["Operator.ShiftSummary.At"]</th></tr></thead>
                         <tbody>
                         @foreach (var c in Model.Cancelled)
                         {
@@ -112,7 +113,7 @@
                         }
                         @if (Model.Cancelled.Count == 0)
                         {
-                            <tr><td colspan="3" class="text-center ui-muted">None.</td></tr>
+                            <tr><td colspan="3" class="text-center ui-muted">@L["Common.None"]</td></tr>
                         }
                         </tbody>
                     </table>
@@ -122,12 +123,12 @@
     </div>
 
     <div class="ui-card mt-3 no-print">
-        <div class="ui-card-header"><div class="ui-card-title">Operator sign-off</div></div>
+        <div class="ui-card-header"><div class="ui-card-title">@L["Operator.ShiftSummary.SignOff"]</div></div>
         <div class="ui-card-body">
-            <p class="ui-muted small mb-3">Sign and file this sheet with the day's cash drop. The system has logged every transaction independently.</p>
+            <p class="ui-muted small mb-3">@L["Operator.ShiftSummary.SignOffHint"]</p>
             <div class="row g-3">
-                <div class="col-md-6"><label class="ui-label">Operator name</label><input type="text" class="ui-input form-control" /></div>
-                <div class="col-md-6"><label class="ui-label">Signature</label><input type="text" class="ui-input form-control" /></div>
+                <div class="col-md-6"><label class="ui-label">@L["Operator.ShiftSummary.OperatorName"]</label><input type="text" class="ui-input form-control" /></div>
+                <div class="col-md-6"><label class="ui-label">@L["Operator.ShiftSummary.Signature"]</label><input type="text" class="ui-input form-control" /></div>
             </div>
         </div>
     </div>

@@ -22,10 +22,10 @@
         Subtitle = selectedDate.ToString("dddd, dd MMMM yyyy", bn)
     };
 
-    var kpiOrders    = new UiKpiOptions { Label = L["StatsTodayOrders"].Value, Value = stats.TodayOrders.ToString("N0", bn),    Icon = "fa-cart-shopping" };
-    var kpiPending   = new UiKpiOptions { Label = L["StatsPending"].Value,     Value = stats.PendingOrders.ToString("N0", bn),  Icon = "fa-hourglass-half", Trend = stats.PendingOrders > 5 ? UiKpiTrend.Down : UiKpiTrend.None };
-    var kpiDelivered = new UiKpiOptions { Label = L["StatsDelivered"].Value,   Value = stats.DeliveredOrders.ToString("N0", bn), Icon = "fa-circle-check", Trend = UiKpiTrend.Up };
-    var kpiRevenue   = new UiKpiOptions { Label = L["StatsRevenue"].Value,     Value = "৳ " + stats.TodayRevenue.ToString("N0", bn), Icon = "fa-coins" };
+    var kpiOrders    = new UiKpiOptions { Label = L["StatsTodayOrders"].Value, Value = stats.TodayOrders.ToString("N0", bn),    Icon = "bx bx-cart" };
+    var kpiPending   = new UiKpiOptions { Label = L["StatsPending"].Value,     Value = stats.PendingOrders.ToString("N0", bn),  Icon = "bx bx-hourglass", Trend = stats.PendingOrders > 5 ? UiKpiTrend.Down : UiKpiTrend.None };
+    var kpiDelivered = new UiKpiOptions { Label = L["StatsDelivered"].Value,   Value = stats.DeliveredOrders.ToString("N0", bn), Icon = "bx bx-check-circle", Trend = UiKpiTrend.Up };
+    var kpiRevenue   = new UiKpiOptions { Label = L["StatsRevenue"].Value,     Value = "৳ " + stats.TodayRevenue.ToString("N0", bn), Icon = "bx bx-coin-stack" };
 }
 
 <div class="container-fluid py-4">
@@ -40,7 +40,7 @@
                    class="ui-input form-control form-control-sm" style="max-width:180px" required />
         </div>
         <button type="submit" class="btn btn-outline-primary btn-sm">
-            <i class="bx bx-filter me-1"></i> Filter
+            <i class="bx bx-filter me-1"></i> @L["Common.Filter"]
         </button>
     </form>
 
@@ -58,15 +58,15 @@
                 <div class="ui-card-header">
                     <div>
                         <div class="ui-card-title">@L["LiveOrders"]</div>
-                        <div class="ui-card-muted-body">Refreshes every 5 seconds.</div>
+                        <div class="ui-card-muted-body">@L["Operator.Dashboard.RefreshHint"]</div>
                     </div>
                     <span class="ui-badge variant-info">
-                        <span class="ui-dot"></span> Live
+                        <span class="ui-dot"></span> @L["Operator.Dashboard.Live"]
                     </span>
                 </div>
                 <div class="ui-card-body">
                     <div id="live-orders" class="ui-stack-sm">
-                        <div class="ui-muted text-center py-4">Loading pending orders…</div>
+                        <div class="ui-muted text-center py-4">@L["Operator.Dashboard.LoadingOrders"]</div>
                     </div>
                 </div>
             </div>
@@ -75,22 +75,22 @@
         @* Quick actions *@
         <div class="col-12 col-xl-4">
             <div class="ui-card" style="height:100%">
-                <div class="ui-card-header"><div class="ui-card-title">Quick links</div></div>
+                <div class="ui-card-header"><div class="ui-card-title">@L["Operator.Dashboard.QuickLinks"]</div></div>
                 <div class="ui-card-body ui-stack-sm">
                     <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Verification" asp-action="Index">
-                        <i class="fa-solid fa-id-card-clip me-2"></i> @L["Verification"]
+                        <i class="bx bx-id-card me-2"></i> @L["Verification"]
                     </a>
                     <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Menu" asp-action="Manage">
-                        <i class="fa-solid fa-utensils me-2"></i> @L["Menu"]
+                        <i class="bx bx-restaurant me-2"></i> @L["Menu"]
                     </a>
                     <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Display" asp-action="Menu">
-                        <i class="fa-solid fa-tv me-2"></i> @L["Display"]
+                        <i class="bx bx-tv me-2"></i> @L["Display"]
                     </a>
                     <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Kitchen" asp-action="Index">
-                        <i class="fa-solid fa-fire-burner me-2"></i> Kitchen display
+                        <i class="bx bxs-flame me-2"></i> @L["Kitchen"]
                     </a>
                     <a class="btn btn-outline-secondary w-100 text-start" asp-controller="Kiosk" asp-action="Index">
-                        <i class="fa-solid fa-tablet-screen-button me-2"></i> Self-service kiosk
+                        <i class="bx bx-tab me-2"></i> @L["SelfServiceKiosk"]
                     </a>
                 </div>
             </div>

@@ -1,0 +1,850 @@
+﻿[
+    {
+        "en":  "SmartCanteen",
+        "k":  "Account.Common.BrandName"
+    },
+    {
+        "en":  "you@example.com",
+        "k":  "Account.Common.EmailPlaceholder"
+    },
+    {
+        "en":  "{0} kcal",
+        "k":  "Menu.ManageItems.Kcal"
+    },
+    {
+        "en":  "{0} kcal",
+        "k":  "PublicMenu.Index.Kcal"
+    },
+    {
+        "en":  "UID",
+        "k":  "CardsAdmin.Index.Uid"
+    },
+    {
+        "en":  "ID",
+        "k":  "CardsAdmin.Print.Id"
+    },
+    {
+        "en":  "IPN URL",
+        "k":  "GatewaysAdmin.Creds.IpnUrl"
+    },
+    {
+        "en":  "URL",
+        "k":  "WebhooksAdmin.Index.Url"
+    },
+    {
+        "en":  "HTTP",
+        "k":  "WebhooksAdmin.Deliveries.Http"
+    },
+    {
+        "en":  "User, Order…",
+        "k":  "AuditAdmin.Index.EntityTypePlaceholder"
+    },
+    {
+        "en":  "IP",
+        "k":  "AuditAdmin.Index.ColIp"
+    },
+    {
+        "en":  "Acme Polytechnic",
+        "k":  "TenantsAdmin.New.ClientNamePlaceholder"
+    },
+    {
+        "en":  "Acme",
+        "k":  "TenantsAdmin.New.ShortNamePlaceholder"
+    },
+    {
+        "en":  "SMS",
+        "k":  "NotificationDeliveries.Channel.Sms"
+    },
+    {
+        "en":  "WhatsApp",
+        "k":  "NotificationDeliveries.Channel.WhatsApp"
+    },
+    {
+        "en":  "deliveries-pagination",
+        "k":  "NotificationDeliveries.Index.PaginationAria"
+    },
+    {
+        "en":  "SMS",
+        "k":  "NotificationTemplates.Channel.Sms"
+    },
+    {
+        "en":  "Real-time",
+        "k":  "Kitchen.Index.RealTime"
+    },
+    {
+        "en":  "connecting…",
+        "k":  "Kitchen.Index.Connecting"
+    },
+    {
+        "en":  "Fullscreen (F11 / F)",
+        "k":  "Kitchen.Index.FullscreenTitle"
+    },
+    {
+        "en":  "Ready for pickup",
+        "k":  "Kitchen.Index.ReadyForPickup"
+    },
+    {
+        "en":  "reconnecting…",
+        "k":  "Kitchen.Index.Reconnecting"
+    },
+    {
+        "en":  "live",
+        "k":  "Kitchen.Index.Live"
+    },
+    {
+        "en":  "offline (refresh)",
+        "k":  "Kitchen.Index.Offline"
+    },
+    {
+        "en":  "Start",
+        "k":  "Kitchen.Index.Start"
+    },
+    {
+        "en":  "Keypad order",
+        "k":  "Verification.KeypadOrder.Title"
+    },
+    {
+        "en":  "Numeric-keypad-driven counter flow. Tap or type — the page advances automatically.",
+        "k":  "Verification.KeypadOrder.Subtitle"
+    },
+    {
+        "en":  "Card scan",
+        "k":  "Verification.KeypadOrder.CardScan"
+    },
+    {
+        "en":  "Identify customer",
+        "k":  "Verification.KeypadOrder.IdentifyCustomer"
+    },
+    {
+        "en":  "Enter the user ID or card number, then press the green button.",
+        "k":  "Verification.KeypadOrder.EnterIdPrompt"
+    },
+    {
+        "en":  "Session",
+        "k":  "Verification.KeypadOrder.Session"
+    },
+    {
+        "en":  "Session ID",
+        "k":  "Verification.KeypadOrder.SessionId"
+    },
+    {
+        "en":  "Last response",
+        "k":  "Verification.KeypadOrder.LastResponse"
+    },
+    {
+        "en":  "(none)",
+        "k":  "Verification.KeypadOrder.NoneYet"
+    },
+    {
+        "en":  "Back to card scan",
+        "k":  "Verification.KeypadOrder.BackToCardScan"
+    },
+    {
+        "en":  "Refreshes every 5 seconds.",
+        "k":  "Operator.Dashboard.RefreshHint"
+    },
+    {
+        "en":  "Live",
+        "k":  "Operator.Dashboard.Live"
+    },
+    {
+        "en":  "Loading pending orders…",
+        "k":  "Operator.Dashboard.LoadingOrders"
+    },
+    {
+        "en":  "Quick links",
+        "k":  "Operator.Dashboard.QuickLinks"
+    },
+    {
+        "en":  "Shift summary",
+        "k":  "Operator.ShiftSummary.Title"
+    },
+    {
+        "en":  "canteen counter",
+        "k":  "Operator.ShiftSummary.CanteenCounter"
+    },
+    {
+        "en":  "CSV",
+        "k":  "Operator.ShiftSummary.Csv"
+    },
+    {
+        "en":  "Orders placed",
+        "k":  "Operator.ShiftSummary.OrdersPlaced"
+    },
+    {
+        "en":  "{0} delivered · {1} open · {2} cancelled",
+        "k":  "Operator.ShiftSummary.OrdersHint"
+    },
+    {
+        "en":  "Gross revenue",
+        "k":  "Operator.ShiftSummary.GrossRevenue"
+    },
+    {
+        "en":  "avg ৳ {0} / order",
+        "k":  "Operator.ShiftSummary.AvgPerOrder"
+    },
+    {
+        "en":  "Refunds",
+        "k":  "Operator.ShiftSummary.Refunds"
+    },
+    {
+        "en":  "net ৳ {0}",
+        "k":  "Operator.ShiftSummary.NetHint"
+    },
+    {
+        "en":  "Unique customers",
+        "k":  "Operator.ShiftSummary.UniqueCustomers"
+    },
+    {
+        "en":  "{0} sold",
+        "k":  "Operator.ShiftSummary.SoldCount"
+    },
+    {
+        "en":  "No deliveries yet.",
+        "k":  "Operator.ShiftSummary.NoDeliveries"
+    },
+    {
+        "en":  "Cancelled orders",
+        "k":  "Operator.ShiftSummary.CancelledOrders"
+    },
+    {
+        "en":  "At",
+        "k":  "Operator.ShiftSummary.At"
+    },
+    {
+        "en":  "Operator sign-off",
+        "k":  "Operator.ShiftSummary.SignOff"
+    },
+    {
+        "en":  "Sign and file this sheet with the daily cash drop. The system has logged every transaction independently.",
+        "k":  "Operator.ShiftSummary.SignOffHint"
+    },
+    {
+        "en":  "Operator name",
+        "k":  "Operator.ShiftSummary.OperatorName"
+    },
+    {
+        "en":  "Signature",
+        "k":  "Operator.ShiftSummary.Signature"
+    },
+    {
+        "en":  "Find receipts",
+        "k":  "ReceiptSearch.Search.Title"
+    },
+    {
+        "en":  "Search by order number, user id, or date range; click through to re-print.",
+        "k":  "ReceiptSearch.Search.Subtitle"
+    },
+    {
+        "en":  "Order # or user id…",
+        "k":  "ReceiptSearch.Search.Placeholder"
+    },
+    {
+        "en":  "No receipts match — try a wider date range.",
+        "k":  "ReceiptSearch.Search.NoMatches"
+    },
+    {
+        "en":  "Re-print",
+        "k":  "ReceiptSearch.Search.Reprint"
+    },
+    {
+        "en":  "{0}% vs yesterday",
+        "k":  "AdminDashboard.Index.VsYesterday"
+    },
+    {
+        "en":  "no data yesterday",
+        "k":  "AdminDashboard.Index.NoDataYesterday"
+    },
+    {
+        "en":  "Snapshot of canteen activity, popular items, and operational health.",
+        "k":  "AdminDashboard.Index.Subtitle"
+    },
+    {
+        "en":  "Manage menu",
+        "k":  "AdminDashboard.Index.ManageMenu"
+    },
+    {
+        "en":  "Revenue today",
+        "k":  "AdminDashboard.Index.RevenueToday"
+    },
+    {
+        "en":  "Orders today",
+        "k":  "AdminDashboard.Index.OrdersToday"
+    },
+    {
+        "en":  "{0} delivered",
+        "k":  "AdminDashboard.Index.DeliveredCount"
+    },
+    {
+        "en":  "Pending now",
+        "k":  "AdminDashboard.Index.PendingNow"
+    },
+    {
+        "en":  "all clear",
+        "k":  "AdminDashboard.Index.AllClear"
+    },
+    {
+        "en":  "needs attention",
+        "k":  "AdminDashboard.Index.NeedsAttention"
+    },
+    {
+        "en":  "Low-stock items",
+        "k":  "AdminDashboard.Index.LowStockItems"
+    },
+    {
+        "en":  "fully stocked",
+        "k":  "AdminDashboard.Index.FullyStocked"
+    },
+    {
+        "en":  "restock today",
+        "k":  "AdminDashboard.Index.RestockToday"
+    },
+    {
+        "en":  "Latest placements across counter, kiosk, and table flows.",
+        "k":  "AdminDashboard.Index.RecentOrdersSubtitle"
+    },
+    {
+        "en":  "Search all",
+        "k":  "AdminDashboard.Index.SearchAll"
+    },
+    {
+        "en":  "No orders yet today.",
+        "k":  "AdminDashboard.Index.NoOrdersToday"
+    },
+    {
+        "en":  "Popular this week",
+        "k":  "AdminDashboard.Index.PopularThisWeek"
+    },
+    {
+        "en":  "No data yet.",
+        "k":  "AdminDashboard.Index.NoDataYet"
+    },
+    {
+        "en":  "Begin stock take",
+        "k":  "AdminDashboard.Index.BeginStockTake"
+    },
+    {
+        "en":  "Combos \u0026 quick buttons",
+        "k":  "AdminDashboard.Index.CombosQuickButtons"
+    },
+    {
+        "en":  "Platform dashboard",
+        "k":  "PlatformDashboard.Index.Title"
+    },
+    {
+        "en":  "Cross-tenant overview · {0} UTC",
+        "k":  "PlatformDashboard.Index.Subtitle"
+    },
+    {
+        "en":  "{0} active · {1} suspended · {2} deleted",
+        "k":  "PlatformDashboard.Index.TenantsHint"
+    },
+    {
+        "en":  "across every tenant",
+        "k":  "PlatformDashboard.Index.AcrossEveryTenant"
+    },
+    {
+        "en":  "sum of delivered + pending orders",
+        "k":  "PlatformDashboard.Index.RevenueHint"
+    },
+    {
+        "en":  "Sync failures (24h)",
+        "k":  "PlatformDashboard.Index.SyncFailures"
+    },
+    {
+        "en":  "all green",
+        "k":  "PlatformDashboard.Index.AllGreen"
+    },
+    {
+        "en":  "directory pull issues",
+        "k":  "PlatformDashboard.Index.DirectoryPullIssues"
+    },
+    {
+        "en":  "Recent tenants",
+        "k":  "PlatformDashboard.Index.RecentTenants"
+    },
+    {
+        "en":  "Newest first · today\u0027s orders + revenue per tenant",
+        "k":  "PlatformDashboard.Index.RecentTenantsSubtitle"
+    },
+    {
+        "en":  "Tenant",
+        "k":  "PlatformDashboard.Index.Tenant"
+    },
+    {
+        "en":  "Deleted",
+        "k":  "PlatformDashboard.Index.Deleted"
+    },
+    {
+        "en":  "Suspended",
+        "k":  "PlatformDashboard.Index.Suspended"
+    },
+    {
+        "en":  "No tenants yet — onboard one at",
+        "k":  "PlatformDashboard.Index.NoTenantsYet"
+    },
+    {
+        "en":  "Top tenants this month",
+        "k":  "PlatformDashboard.Index.TopTenantsMtd"
+    },
+    {
+        "en":  "{0} order(s)",
+        "k":  "PlatformDashboard.Index.OrderCount"
+    },
+    {
+        "en":  "No orders this month.",
+        "k":  "PlatformDashboard.Index.NoOrdersThisMonth"
+    },
+    {
+        "en":  "{0} tenant(s) running low on stock",
+        "k":  "PlatformDashboard.Index.LowStockHeading"
+    },
+    {
+        "en":  "At least one item per tenant has Available ≤ 5 in today\u0027s menu. The per-tenant LowStockAlertService notifies operators automatically.",
+        "k":  "PlatformDashboard.Index.LowStockBody"
+    },
+    {
+        "en":  "Directory sync failures · last 24h",
+        "k":  "PlatformDashboard.Index.SyncFailuresTitle"
+    },
+    {
+        "en":  "Every failed run across every tenant — click into a tenant to investigate.",
+        "k":  "PlatformDashboard.Index.SyncFailuresSubtitle"
+    },
+    {
+        "en":  "Every tenant\u0027s directory sync succeeded in the last 24 hours.",
+        "k":  "PlatformDashboard.Index.AllSyncsOk"
+    },
+    {
+        "en":  "When (UTC)",
+        "k":  "PlatformDashboard.Index.WhenUtc"
+    },
+    {
+        "en":  "Recent failures",
+        "k":  "PlatformDashboard.Index.RecentFailures"
+    },
+    {
+        "en":  "every {0} h",
+        "k":  "ReportSchedules.Index.EveryHours"
+    },
+    {
+        "en":  "daily at {0}",
+        "k":  "ReportSchedules.Index.DailyAt"
+    },
+    {
+        "en":  "{0}s at {1}",
+        "k":  "ReportSchedules.Index.WeeklyAt"
+    },
+    {
+        "en":  "day {0} at {1}",
+        "k":  "ReportSchedules.Index.MonthlyAt"
+    },
+    {
+        "en":  "Run automatically + email the result. @TODAY / @YESTERDAY / @WEEK_AGO tokens supported inside the parameters JSON.",
+        "k":  "ReportSchedules.Index.Subtitle"
+    },
+    {
+        "en":  "New schedule",
+        "k":  "ReportSchedules.Index.NewSchedule"
+    },
+    {
+        "en":  "No schedules yet",
+        "k":  "ReportSchedules.Index.Empty.Title"
+    },
+    {
+        "en":  "Create one to start emailing reports automatically.",
+        "k":  "ReportSchedules.Index.Empty.Description"
+    },
+    {
+        "en":  "Report",
+        "k":  "ReportSchedules.Index.Report"
+    },
+    {
+        "en":  "Recipients",
+        "k":  "ReportSchedules.Index.Recipients"
+    },
+    {
+        "en":  "Last run",
+        "k":  "ReportSchedules.Index.LastRun"
+    },
+    {
+        "en":  "Next run",
+        "k":  "ReportSchedules.Index.NextRun"
+    },
+    {
+        "en":  "Run now",
+        "k":  "ReportSchedules.Index.RunNow"
+    },
+    {
+        "en":  "Pause",
+        "k":  "ReportSchedules.Index.Pause"
+    },
+    {
+        "en":  "Resume",
+        "k":  "ReportSchedules.Index.Resume"
+    },
+    {
+        "en":  "Delete {0}?",
+        "k":  "ReportSchedules.Index.ConfirmDelete"
+    },
+    {
+        "en":  "New scheduled report",
+        "k":  "ReportSchedules.Edit.NewTitle"
+    },
+    {
+        "en":  "Edit schedule",
+        "k":  "ReportSchedules.Edit.EditTitle"
+    },
+    {
+        "en":  "Pick a report, schedule, format, recipients. Optional params JSON supports @-tokens.",
+        "k":  "ReportSchedules.Edit.Subtitle"
+    },
+    {
+        "en":  "All schedules",
+        "k":  "ReportSchedules.Edit.AllSchedules"
+    },
+    {
+        "en":  "Nightly daily-collection",
+        "k":  "ReportSchedules.Edit.DisplayNamePlaceholder"
+    },
+    {
+        "en":  "Recurrence",
+        "k":  "ReportSchedules.Edit.Recurrence"
+    },
+    {
+        "en":  "Daily",
+        "k":  "ReportSchedules.Edit.RecurrenceDaily"
+    },
+    {
+        "en":  "Weekly",
+        "k":  "ReportSchedules.Edit.RecurrenceWeekly"
+    },
+    {
+        "en":  "Monthly",
+        "k":  "ReportSchedules.Edit.RecurrenceMonthly"
+    },
+    {
+        "en":  "Hourly",
+        "k":  "ReportSchedules.Edit.RecurrenceHourly"
+    },
+    {
+        "en":  "Hour (UTC, 0-23)",
+        "k":  "ReportSchedules.Edit.HourUtc"
+    },
+    {
+        "en":  "Minute",
+        "k":  "ReportSchedules.Edit.Minute"
+    },
+    {
+        "en":  "Day of month",
+        "k":  "ReportSchedules.Edit.DayOfMonth"
+    },
+    {
+        "en":  "Every N hours",
+        "k":  "ReportSchedules.Edit.EveryNHours"
+    },
+    {
+        "en":  "Recipients (CSV)",
+        "k":  "ReportSchedules.Edit.RecipientsCsv"
+    },
+    {
+        "en":  "Parameters (JSON)",
+        "k":  "ReportSchedules.Edit.ParametersJson"
+    },
+    {
+        "en":  "How it works",
+        "k":  "ReportSchedules.Edit.HowItWorks"
+    },
+    {
+        "en":  "The scheduler ticks every minute UTC; schedules past their NextRunAtUtc fire.",
+        "k":  "ReportSchedules.Edit.HowItWorks1"
+    },
+    {
+        "en":  "Output is sent as an email attachment using Notifications.Email.* tenant settings.",
+        "k":  "ReportSchedules.Edit.HowItWorks2"
+    },
+    {
+        "en":  "Failures stamp LastError on the schedule row — the next tick still tries again.",
+        "k":  "ReportSchedules.Edit.HowItWorks3"
+    },
+    {
+        "en":  "Resize sidebar — drag, or double-click to reset",
+        "k":  "Shared.Layout.ResizeSidebar"
+    },
+    {
+        "en":  "Pin / collapse sidebar",
+        "k":  "Shared.Brand.PinSidebar"
+    },
+    {
+        "en":  "Self-service tablet view — auto-resets to scan after 30 s of inactivity.",
+        "k":  "Shared.Sidebar.KioskTooltip"
+    },
+    {
+        "en":  "Platform overview",
+        "k":  "Shared.Sidebar.PlatformOverview"
+    },
+    {
+        "en":  "Exports",
+        "k":  "Shared.Sidebar.Exports"
+    },
+    {
+        "en":  "Near-expiry items",
+        "k":  "Shared.Sidebar.NearExpiry"
+    },
+    {
+        "en":  "Delivery log",
+        "k":  "Shared.Sidebar.DeliveryLog"
+    },
+    {
+        "en":  "Discount rules",
+        "k":  "Shared.Sidebar.DiscountRules"
+    },
+    {
+        "en":  "Combo buttons",
+        "k":  "Shared.Sidebar.ComboButtons"
+    },
+    {
+        "en":  "Inventory",
+        "k":  "Shared.Sidebar.Inventory"
+    },
+    {
+        "en":  "Webhooks",
+        "k":  "Shared.Sidebar.Webhooks"
+    },
+    {
+        "en":  "Find receipts",
+        "k":  "Shared.Sidebar.FindReceipts"
+    },
+    {
+        "en":  "Feature flags",
+        "k":  "Shared.Sidebar.FeatureFlags"
+    },
+    {
+        "en":  "Billing",
+        "k":  "Shared.Sidebar.Billing"
+    },
+    {
+        "en":  "Design system",
+        "k":  "Shared.Sidebar.DesignSystem"
+    },
+    {
+        "en":  "Kiosk tablets",
+        "k":  "Shared.Sidebar.KioskTablets"
+    },
+    {
+        "en":  "Branding",
+        "k":  "Shared.Sidebar.Branding"
+    },
+    {
+        "en":  "My account",
+        "k":  "Shared.Sidebar.MyAccount"
+    },
+    {
+        "en":  "Favourites",
+        "k":  "Shared.Sidebar.Favourites"
+    },
+    {
+        "en":  "Impersonating",
+        "k":  "Shared.Topbar.Impersonating.Before"
+    },
+    {
+        "en":  "— every read/write is scoped to this tenant.",
+        "k":  "Shared.Topbar.Impersonating.After"
+    },
+    {
+        "en":  "Stop impersonating",
+        "k":  "Shared.Topbar.StopImpersonating"
+    },
+    {
+        "en":  "Collapse sidebar",
+        "k":  "Shared.Topbar.CollapseSidebar"
+    },
+    {
+        "en":  "Search anything…",
+        "k":  "Shared.Topbar.SearchPlaceholder"
+    },
+    {
+        "en":  "Notifications",
+        "k":  "Shared.Topbar.Notifications"
+    },
+    {
+        "en":  "No new notifications",
+        "k":  "Shared.Topbar.NoNotifications"
+    },
+    {
+        "en":  "Two-factor auth",
+        "k":  "Shared.Topbar.TwoFactorAuth"
+    },
+    {
+        "en":  "Customize theme",
+        "k":  "Shared.Topbar.CustomizeTheme"
+    },
+    {
+        "en":  "Open template customizer",
+        "k":  "Shared.Customizer.Open"
+    },
+    {
+        "en":  "Customize",
+        "k":  "Shared.Customizer.Title"
+    },
+    {
+        "en":  "Personalize this device. Tenant brand wins when you reset.",
+        "k":  "Shared.Customizer.Subtitle"
+    },
+    {
+        "en":  "Preset templates",
+        "k":  "Shared.Customizer.Presets"
+    },
+    {
+        "en":  "Apply {0} preset",
+        "k":  "Shared.Customizer.ApplyPreset"
+    },
+    {
+        "en":  "Corporate",
+        "k":  "Shared.Customizer.Preset.Corporate"
+    },
+    {
+        "en":  "Vibrant",
+        "k":  "Shared.Customizer.Preset.Vibrant"
+    },
+    {
+        "en":  "Monochrome",
+        "k":  "Shared.Customizer.Preset.Monochrome"
+    },
+    {
+        "en":  "Ocean",
+        "k":  "Shared.Customizer.Preset.Ocean"
+    },
+    {
+        "en":  "Sunset",
+        "k":  "Shared.Customizer.Preset.Sunset"
+    },
+    {
+        "en":  "Theme",
+        "k":  "Shared.Customizer.Theme"
+    },
+    {
+        "en":  "Light",
+        "k":  "Shared.Customizer.Light"
+    },
+    {
+        "en":  "Dark",
+        "k":  "Shared.Customizer.Dark"
+    },
+    {
+        "en":  "System",
+        "k":  "Shared.Customizer.System"
+    },
+    {
+        "en":  "Primary color",
+        "k":  "Shared.Customizer.PrimaryColor"
+    },
+    {
+        "en":  "Use {0}",
+        "k":  "Shared.Customizer.UseColor"
+    },
+    {
+        "en":  "Custom color",
+        "k":  "Shared.Customizer.CustomColor"
+    },
+    {
+        "en":  "Pick any color",
+        "k":  "Shared.Customizer.PickColor"
+    },
+    {
+        "en":  "Hex value",
+        "k":  "Shared.Customizer.HexValue"
+    },
+    {
+        "en":  "Hue",
+        "k":  "Shared.Customizer.Hue"
+    },
+    {
+        "en":  "Saturation",
+        "k":  "Shared.Customizer.Saturation"
+    },
+    {
+        "en":  "Lightness",
+        "k":  "Shared.Customizer.Lightness"
+    },
+    {
+        "en":  "Density",
+        "k":  "Shared.Customizer.Density"
+    },
+    {
+        "en":  "Compact",
+        "k":  "Shared.Customizer.Compact"
+    },
+    {
+        "en":  "Comfortable",
+        "k":  "Shared.Customizer.Comfortable"
+    },
+    {
+        "en":  "Spacious",
+        "k":  "Shared.Customizer.Spacious"
+    },
+    {
+        "en":  "Layout direction",
+        "k":  "Shared.Customizer.Direction"
+    },
+    {
+        "en":  "Content width",
+        "k":  "Shared.Customizer.ContentWidth"
+    },
+    {
+        "en":  "Fluid",
+        "k":  "Shared.Customizer.Fluid"
+    },
+    {
+        "en":  "Contained",
+        "k":  "Shared.Customizer.Contained"
+    },
+    {
+        "en":  "Sidebar",
+        "k":  "Shared.Customizer.Sidebar"
+    },
+    {
+        "en":  "Expanded",
+        "k":  "Shared.Customizer.Expanded"
+    },
+    {
+        "en":  "Collapsed",
+        "k":  "Shared.Customizer.Collapsed"
+    },
+    {
+        "en":  "Reset to tenant defaults",
+        "k":  "Shared.Customizer.Reset"
+    },
+    {
+        "en":  "Veg",
+        "k":  "Shared.DietaryChips.Veg"
+    },
+    {
+        "en":  "Halal",
+        "k":  "Shared.DietaryChips.Halal"
+    },
+    {
+        "en":  "Vegetarian",
+        "k":  "Shared.DietaryChips.Vegetarian"
+    },
+    {
+        "en":  "{0} kcal",
+        "k":  "Shared.DietaryChips.Kcal"
+    },
+    {
+        "en":  "{0} kcal per serving",
+        "k":  "Shared.DietaryChips.KcalPerServing"
+    },
+    {
+        "en":  "Contains {0}",
+        "k":  "Shared.DietaryChips.Contains"
+    },
+    {
+        "en":  "Something went wrong",
+        "k":  "Shared.ErrorPage.DefaultTitle"
+    },
+    {
+        "en":  "Trace ID: {0}",
+        "k":  "Shared.ErrorPage.TraceId"
+    }
+]

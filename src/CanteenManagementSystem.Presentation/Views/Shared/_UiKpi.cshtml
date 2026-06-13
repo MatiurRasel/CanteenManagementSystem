@@ -16,21 +16,23 @@
         CanteenManagementSystem.Presentation.Models.UiKpiTrend.Down => "negative",
         _ => ""
     };
+    // Icon accepts Boxicons ("bx-*" / "bxs-*"); legacy "fa-*" still renders via Font Awesome.
+    string IconClass(string icon) => icon.StartsWith("fa-") ? $"fa-solid {icon}" : $"bx {icon}";
 }
 <div class="ui-kpi">
     <div class="ui-row-between">
         <div class="ui-kpi-label">@opts.Label</div>
         @if (!string.IsNullOrWhiteSpace(opts.Icon))
         {
-            <i class="fa-solid @opts.Icon ui-muted"></i>
+            <i class="@IconClass(opts.Icon) ui-muted"></i>
         }
     </div>
     <div class="ui-kpi-value">@opts.Value</div>
     @if (!string.IsNullOrWhiteSpace(opts.Delta))
     {
         <div class="ui-kpi-delta @trendClass">
-            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Up)   { <i class="fa-solid fa-arrow-up"></i> }
-            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Down) { <i class="fa-solid fa-arrow-down"></i> }
+            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Up)   { <i class="bx bx-up-arrow-alt"></i> }
+            @if (opts.Trend == CanteenManagementSystem.Presentation.Models.UiKpiTrend.Down) { <i class="bx bx-down-arrow-alt"></i> }
             <span>@opts.Delta</span>
         </div>
     }

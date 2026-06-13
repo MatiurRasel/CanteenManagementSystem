@@ -25,20 +25,21 @@
 
     The pre-render snippet in _Layout reads these BEFORE first paint.
 *@
+@inject IStringLocalizer<SharedResource> L
 
 <button id="cz-trigger" class="cz-trigger" type="button"
-        aria-label="Open template customizer" aria-controls="cz-panel" aria-expanded="false">
-    <i class="fa-solid fa-gear"></i>
+        aria-label="@L["Shared.Customizer.Open"]" aria-controls="cz-panel" aria-expanded="false">
+    <i class="bx bx-cog"></i>
 </button>
 
 <aside id="cz-panel" class="cz-panel" aria-hidden="true" aria-labelledby="cz-title" role="dialog">
     <header class="cz-head">
         <div>
-            <div id="cz-title" class="cz-h">Customize</div>
-            <div class="cz-sub">Personalize this device. Tenant brand wins when you reset.</div>
+            <div id="cz-title" class="cz-h">@L["Shared.Customizer.Title"]</div>
+            <div class="cz-sub">@L["Shared.Customizer.Subtitle"]</div>
         </div>
-        <button class="cz-close" type="button" aria-label="Close" id="cz-close">
-            <i class="fa-solid fa-xmark"></i>
+        <button class="cz-close" type="button" aria-label="@L["Common.Close"]" id="cz-close">
+            <i class="bx bx-x"></i>
         </button>
     </header>
 
@@ -46,17 +47,17 @@
 
         @* ─── 1. Preset templates ───────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Preset templates</div>
+            <div class="cz-section-h">@L["Shared.Customizer.Presets"]</div>
             <div class="cz-presets">
                 @{
                     var presets = new (string id, string label, string accent, string theme, string density, string sample1, string sample2, string sample3)[]
                     {
-                        ("default",    "SmartCanteen", "#10B981", "system", "comfortable", "#10B981", "#0EA5E9", "#0F172A"),
-                        ("corporate",  "Corporate",    "#1E3A8A", "light",  "comfortable", "#1E3A8A", "#64748B", "#F8FAFC"),
-                        ("vibrant",    "Vibrant",      "#EC4899", "dark",   "comfortable", "#EC4899", "#8B5CF6", "#F59E0B"),
-                        ("monochrome", "Monochrome",   "#0F172A", "light",  "compact",     "#0F172A", "#475569", "#E2E8F0"),
-                        ("ocean",      "Ocean",        "#0EA5E9", "light",  "comfortable", "#0EA5E9", "#06B6D4", "#10B981"),
-                        ("sunset",     "Sunset",       "#F97316", "dark",   "spacious",    "#F97316", "#F59E0B", "#EF4444"),
+                        ("default",    L["Account.Common.BrandName"].Value,            "#10B981", "system", "comfortable", "#10B981", "#0EA5E9", "#0F172A"),
+                        ("corporate",  L["Shared.Customizer.Preset.Corporate"].Value,  "#1E3A8A", "light",  "comfortable", "#1E3A8A", "#64748B", "#F8FAFC"),
+                        ("vibrant",    L["Shared.Customizer.Preset.Vibrant"].Value,    "#EC4899", "dark",   "comfortable", "#EC4899", "#8B5CF6", "#F59E0B"),
+                        ("monochrome", L["Shared.Customizer.Preset.Monochrome"].Value, "#0F172A", "light",  "compact",     "#0F172A", "#475569", "#E2E8F0"),
+                        ("ocean",      L["Shared.Customizer.Preset.Ocean"].Value,      "#0EA5E9", "light",  "comfortable", "#0EA5E9", "#06B6D4", "#10B981"),
+                        ("sunset",     L["Shared.Customizer.Preset.Sunset"].Value,     "#F97316", "dark",   "spacious",    "#F97316", "#F59E0B", "#EF4444"),
                     };
                 }
                 @foreach (var p in presets)
@@ -66,7 +67,7 @@
                             data-accent="@p.accent"
                             data-theme="@p.theme"
                             data-density="@p.density"
-                            aria-label="Apply @p.label preset">
+                            aria-label="@L["Shared.Customizer.ApplyPreset", p.label]">
                         <span class="cz-preset-stripes" aria-hidden="true">
                             <span style="background:@p.sample1"></span>
                             <span style="background:@p.sample2"></span>
@@ -80,76 +81,76 @@
 
         @* ─── 2. Theme ─────────────────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Theme</div>
-            <div class="cz-pillset" role="radiogroup" aria-label="Theme">
-                <button class="cz-pill" data-theme="light"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-sun"></i><span>Light</span></button>
-                <button class="cz-pill" data-theme="dark"   role="radio" aria-checked="false" type="button"><i class="fa-solid fa-moon"></i><span>Dark</span></button>
-                <button class="cz-pill" data-theme="system" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-circle-half-stroke"></i><span>System</span></button>
+            <div class="cz-section-h">@L["Shared.Customizer.Theme"]</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="@L["Shared.Customizer.Theme"]">
+                <button class="cz-pill" data-theme="light"  role="radio" aria-checked="false" type="button"><i class="bx bx-sun"></i><span>@L["Shared.Customizer.Light"]</span></button>
+                <button class="cz-pill" data-theme="dark"   role="radio" aria-checked="false" type="button"><i class="bx bx-moon"></i><span>@L["Shared.Customizer.Dark"]</span></button>
+                <button class="cz-pill" data-theme="system" role="radio" aria-checked="false" type="button"><i class="bx bx-adjust"></i><span>@L["Shared.Customizer.System"]</span></button>
             </div>
         </section>
 
         @* ─── 3. Primary color ─────────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Primary color</div>
-            <div class="cz-swatches" role="radiogroup" aria-label="Primary color">
+            <div class="cz-section-h">@L["Shared.Customizer.PrimaryColor"]</div>
+            <div class="cz-swatches" role="radiogroup" aria-label="@L["Shared.Customizer.PrimaryColor"]">
                 @{ var swatches = new[] { "#10B981", "#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B", "#EF4444", "#0EA5E9", "#14B8A6" }; }
                 @foreach (var c in swatches)
                 {
                     <button class="cz-swatch" data-accent="@c" style="--swatch:@c" type="button"
-                            role="radio" aria-checked="false" aria-label="Use @c">
-                        <i class="fa-solid fa-check"></i>
+                            role="radio" aria-checked="false" aria-label="@L["Shared.Customizer.UseColor", c]">
+                        <i class="bx bx-check"></i>
                     </button>
                 }
             </div>
 
             <details class="cz-custom-color">
-                <summary><i class="fa-solid fa-eye-dropper me-1"></i> Custom color</summary>
+                <summary><i class="bx bxs-eyedropper me-1"></i> @L["Shared.Customizer.CustomColor"]</summary>
                 <div class="cz-color-row">
-                    <input type="color" id="cz-color-input" value="#10B981" aria-label="Pick any color" />
-                    <input type="text"  id="cz-color-hex"   value="#10B981" maxlength="7" class="cz-hex-input" aria-label="Hex value" />
+                    <input type="color" id="cz-color-input" value="#10B981" aria-label="@L["Shared.Customizer.PickColor"]" />
+                    <input type="text"  id="cz-color-hex"   value="#10B981" maxlength="7" class="cz-hex-input" aria-label="@L["Shared.Customizer.HexValue"]" />
                 </div>
                 <div class="cz-hsl">
-                    <label class="cz-slider"><span>Hue</span>        <input type="range" id="cz-hue" min="0" max="360" step="1" value="160" /></label>
-                    <label class="cz-slider"><span>Saturation</span> <input type="range" id="cz-sat" min="0" max="100" step="1" value="65"  /></label>
-                    <label class="cz-slider"><span>Lightness</span>  <input type="range" id="cz-lit" min="0" max="100" step="1" value="45"  /></label>
+                    <label class="cz-slider"><span>@L["Shared.Customizer.Hue"]</span>        <input type="range" id="cz-hue" min="0" max="360" step="1" value="160" /></label>
+                    <label class="cz-slider"><span>@L["Shared.Customizer.Saturation"]</span> <input type="range" id="cz-sat" min="0" max="100" step="1" value="65"  /></label>
+                    <label class="cz-slider"><span>@L["Shared.Customizer.Lightness"]</span>  <input type="range" id="cz-lit" min="0" max="100" step="1" value="45"  /></label>
                 </div>
             </details>
         </section>
 
         @* ─── 4. Density ───────────────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Density</div>
-            <div class="cz-pillset" role="radiogroup" aria-label="Density">
-                <button class="cz-pill" data-density="compact"     role="radio" aria-checked="false" type="button"><i class="fa-solid fa-grip-lines"></i><span>Compact</span></button>
-                <button class="cz-pill" data-density="comfortable" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-grip"></i><span>Comfortable</span></button>
-                <button class="cz-pill" data-density="spacious"    role="radio" aria-checked="false" type="button"><i class="fa-solid fa-up-down-left-right"></i><span>Spacious</span></button>
+            <div class="cz-section-h">@L["Shared.Customizer.Density"]</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="@L["Shared.Customizer.Density"]">
+                <button class="cz-pill" data-density="compact"     role="radio" aria-checked="false" type="button"><i class="bx bx-grid-horizontal"></i><span>@L["Shared.Customizer.Compact"]</span></button>
+                <button class="cz-pill" data-density="comfortable" role="radio" aria-checked="false" type="button"><i class="bx bx-grid-alt"></i><span>@L["Shared.Customizer.Comfortable"]</span></button>
+                <button class="cz-pill" data-density="spacious"    role="radio" aria-checked="false" type="button"><i class="bx bx-move"></i><span>@L["Shared.Customizer.Spacious"]</span></button>
             </div>
         </section>
 
         @* ─── 5. Layout direction ─────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Layout direction</div>
-            <div class="cz-pillset" role="radiogroup" aria-label="Direction">
-                <button class="cz-pill" data-dir="ltr" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrow-right"></i><span>LTR</span></button>
-                <button class="cz-pill" data-dir="rtl" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrow-left"></i><span>RTL</span></button>
+            <div class="cz-section-h">@L["Shared.Customizer.Direction"]</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="@L["Shared.Customizer.Direction"]">
+                <button class="cz-pill" data-dir="ltr" role="radio" aria-checked="false" type="button"><i class="bx bx-right-arrow-alt"></i><span>LTR</span></button>
+                <button class="cz-pill" data-dir="rtl" role="radio" aria-checked="false" type="button"><i class="bx bx-left-arrow-alt"></i><span>RTL</span></button>
             </div>
         </section>
 
         @* ─── 6. Content width ────────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Content width</div>
-            <div class="cz-pillset" role="radiogroup" aria-label="Width">
-                <button class="cz-pill" data-contained="false" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-arrows-left-right-to-line"></i><span>Fluid</span></button>
-                <button class="cz-pill" data-contained="true"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-compress"></i><span>Contained</span></button>
+            <div class="cz-section-h">@L["Shared.Customizer.ContentWidth"]</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="@L["Shared.Customizer.ContentWidth"]">
+                <button class="cz-pill" data-contained="false" role="radio" aria-checked="false" type="button"><i class="bx bx-expand-horizontal"></i><span>@L["Shared.Customizer.Fluid"]</span></button>
+                <button class="cz-pill" data-contained="true"  role="radio" aria-checked="false" type="button"><i class="bx bx-collapse-horizontal"></i><span>@L["Shared.Customizer.Contained"]</span></button>
             </div>
         </section>
 
         @* ─── 7. Sidebar ──────────────────────────────────────────── *@
         <section class="cz-section">
-            <div class="cz-section-h">Sidebar</div>
-            <div class="cz-pillset" role="radiogroup" aria-label="Sidebar">
-                <button class="cz-pill" data-menu="expanded"  role="radio" aria-checked="false" type="button"><i class="fa-solid fa-bars"></i><span>Expanded</span></button>
-                <button class="cz-pill" data-menu="collapsed" role="radio" aria-checked="false" type="button"><i class="fa-solid fa-bars-staggered"></i><span>Collapsed</span></button>
+            <div class="cz-section-h">@L["Shared.Customizer.Sidebar"]</div>
+            <div class="cz-pillset" role="radiogroup" aria-label="@L["Shared.Customizer.Sidebar"]">
+                <button class="cz-pill" data-menu="expanded"  role="radio" aria-checked="false" type="button"><i class="bx bx-menu"></i><span>@L["Shared.Customizer.Expanded"]</span></button>
+                <button class="cz-pill" data-menu="collapsed" role="radio" aria-checked="false" type="button"><i class="bx bx-menu-alt-left"></i><span>@L["Shared.Customizer.Collapsed"]</span></button>
             </div>
         </section>
 
@@ -157,7 +158,7 @@
 
     <footer class="cz-foot">
         <button id="cz-reset" class="cz-reset" type="button">
-            <i class="fa-solid fa-arrow-rotate-left"></i> Reset to tenant defaults
+            <i class="bx bx-reset"></i> @L["Shared.Customizer.Reset"]
         </button>
     </footer>
 </aside>

@@ -24,9 +24,9 @@
     </a>
 
     <a asp-controller="Kiosk" asp-action="Index" class="menu-link @IsActive("Kiosk")"
-       data-bs-toggle="tooltip" title="Self-service tablet view — auto-resets to scan after 30 s of inactivity.">
+       data-bs-toggle="tooltip" title="@L["Shared.Sidebar.KioskTooltip"]">
         <i class="menu-icon bx bx-tab"></i>
-        <span>Self-service kiosk</span>
+        <span>@L["SelfServiceKiosk"]</span>
     </a>
 
     <a asp-controller="Menu" asp-action="Manage" class="menu-link @IsActive("Menu")">
@@ -41,17 +41,17 @@
 
     @if (User?.Identity?.IsAuthenticated == true)
     {
-        <div class="menu-heading mt-3">Administration</div>
+        <div class="menu-heading mt-3">@L["Administration"]</div>
 
         @if (User.IsInRole("SystemAdmin"))
         {
             <a asp-controller="PlatformDashboard" asp-action="Index" class="menu-link @IsActive("PlatformDashboard")">
                 <i class="menu-icon bx bx-globe"></i>
-                <span>Platform overview</span>
+                <span>@L["Shared.Sidebar.PlatformOverview"]</span>
             </a>
             <a asp-controller="TenantsAdmin" asp-action="Index" class="menu-link @IsActive("TenantsAdmin")">
                 <i class="menu-icon bx bx-buildings"></i>
-                <span>Tenants</span>
+                <span>@L["Tenants"]</span>
             </a>
         }
 
@@ -59,23 +59,23 @@
         {
             <a asp-controller="AdminDashboard" asp-action="Index" class="menu-link @IsActive("AdminDashboard")">
                 <i class="menu-icon bx bx-tachometer"></i>
-                <span>Dashboard</span>
+                <span>@L["Dashboard"]</span>
             </a>
             <a asp-controller="ExportsAdmin" asp-action="Index" class="menu-link @IsActive("ExportsAdmin")">
                 <i class="menu-icon bx bx-export"></i>
-                <span>Exports</span>
+                <span>@L["Shared.Sidebar.Exports"]</span>
             </a>
             <a asp-controller="InventoryAdmin" asp-action="NearExpiry" class="menu-link">
                 <i class="menu-icon bx bx-time-five"></i>
-                <span>Near-expiry items</span>
+                <span>@L["Shared.Sidebar.NearExpiry"]</span>
             </a>
             <a asp-controller="DirectoryAdminUi" asp-action="Index" class="menu-link @IsActive("DirectoryAdminUi")">
                 <i class="menu-icon bx bx-book-content"></i>
-                <span>Directory</span>
+                <span>@L["Directory"]</span>
             </a>
             <a asp-controller="UsersAdmin" asp-action="Index" class="menu-link @IsActive("UsersAdmin")">
                 <i class="menu-icon bx bx-group"></i>
-                <span>Users</span>
+                <span>@L["Users"]</span>
             </a>
             <a asp-controller="GatewaysAdmin" asp-action="Index" class="menu-link @IsActive("GatewaysAdmin")">
                 <i class="menu-icon bx bx-credit-card"></i>
@@ -91,43 +91,43 @@
             </a>
             <a asp-controller="NotificationDeliveries" asp-action="Index" class="menu-link @IsActive("NotificationDeliveries")">
                 <i class="menu-icon bx bx-paper-plane"></i>
-                <span>Delivery log</span>
+                <span>@L["Shared.Sidebar.DeliveryLog"]</span>
             </a>
             <a asp-controller="DiscountRules" asp-action="Index" class="menu-link @IsActive("DiscountRules")">
                 <i class="menu-icon bx bx-purchase-tag"></i>
-                <span>Discount rules</span>
+                <span>@L["Shared.Sidebar.DiscountRules"]</span>
             </a>
             <a asp-controller="CombosAdmin" asp-action="Index" class="menu-link @IsActive("CombosAdmin")">
                 <i class="menu-icon bx bx-shape-square"></i>
-                <span>Combo buttons</span>
+                <span>@L["Shared.Sidebar.ComboButtons"]</span>
             </a>
             <a asp-controller="InventoryAdmin" asp-action="Suppliers" class="menu-link @IsActive("InventoryAdmin")">
                 <i class="menu-icon bx bx-package"></i>
-                <span>Inventory</span>
+                <span>@L["Shared.Sidebar.Inventory"]</span>
             </a>
             <a asp-controller="WebhooksAdmin" asp-action="Index" class="menu-link @IsActive("WebhooksAdmin")">
                 <i class="menu-icon bx bx-bolt-circle"></i>
-                <span>Webhooks</span>
+                <span>@L["Shared.Sidebar.Webhooks"]</span>
             </a>
             <a asp-controller="ReceiptSearch" asp-action="Search" class="menu-link @IsActive("ReceiptSearch")">
                 <i class="menu-icon bx bx-search-alt"></i>
-                <span>Find receipts</span>
+                <span>@L["Shared.Sidebar.FindReceipts"]</span>
             </a>
             <a asp-controller="FeatureFlagsAdmin" asp-action="Index" class="menu-link @IsActive("FeatureFlagsAdmin")">
                 <i class="menu-icon bx bx-flag"></i>
-                <span>Feature flags</span>
+                <span>@L["Shared.Sidebar.FeatureFlags"]</span>
             </a>
             <a asp-controller="BillingAdmin" asp-action="Index" class="menu-link @IsActive("BillingAdmin")">
                 <i class="menu-icon bx bx-receipt"></i>
-                <span>Billing</span>
+                <span>@L["Shared.Sidebar.Billing"]</span>
             </a>
             <a asp-controller="ReportSchedules" asp-action="Index" class="menu-link @IsActive("ReportSchedules")">
                 <i class="menu-icon bx bx-calendar-event"></i>
-                <span>Scheduled reports</span>
+                <span>@L["ScheduledReports"]</span>
             </a>
             <a asp-controller="DesignSystem" asp-action="Index" class="menu-link @IsActive("DesignSystem")">
                 <i class="menu-icon bx bx-palette"></i>
-                <span>Design system</span>
+                <span>@L["Shared.Sidebar.DesignSystem"]</span>
             </a>
         }
 
@@ -135,11 +135,11 @@
         {
             <a asp-controller="ReportsAdmin" asp-action="Index" class="menu-link @IsActive("ReportsAdmin")">
                 <i class="menu-icon bx bx-bar-chart-alt-2"></i>
-                <span>Reports</span>
+                <span>@L["Reports"]</span>
             </a>
             <a asp-controller="AuditAdmin" asp-action="Index" class="menu-link @IsActive("AuditAdmin")">
                 <i class="menu-icon bx bx-clipboard"></i>
-                <span>Audit log</span>
+                <span>@L["AuditLog"]</span>
             </a>
         }
 
@@ -147,30 +147,30 @@
         {
             <a asp-controller="Kitchen" asp-action="Index" class="menu-link @IsActive("Kitchen")">
                 <i class="menu-icon bx bx-restaurant"></i>
-                <span>Kitchen Display</span>
+                <span>@L["Kitchen"]</span>
             </a>
             <a asp-controller="CardsAdmin" asp-action="Index" class="menu-link @IsActive("CardsAdmin")">
                 <i class="menu-icon bx bx-id-card"></i>
-                <span>NFC cards</span>
+                <span>@L["Cards"]</span>
             </a>
             <a asp-controller="KiosksAdmin" asp-action="Index" class="menu-link @IsActive("KiosksAdmin")">
                 <i class="menu-icon bx bx-tab"></i>
-                <span>Kiosk tablets</span>
+                <span>@L["Shared.Sidebar.KioskTablets"]</span>
             </a>
             <a asp-controller="BrandingAdmin" asp-action="Index" class="menu-link @IsActive("BrandingAdmin")">
                 <i class="menu-icon bx bx-palette"></i>
-                <span>Branding</span>
+                <span>@L["Shared.Sidebar.Branding"]</span>
             </a>
         }
 
-        <div class="menu-heading mt-3">My account</div>
+        <div class="menu-heading mt-3">@L["Shared.Sidebar.MyAccount"]</div>
         <a asp-controller="Me" asp-action="Orders" class="menu-link @IsActive("Me")">
             <i class="menu-icon bx bx-receipt"></i>
             <span>@L["MyOrders"]</span>
         </a>
         <a asp-controller="Favorites" asp-action="Index" class="menu-link @IsActive("Favorites")">
             <i class="menu-icon bx bx-heart"></i>
-            <span>Favourites</span>
+            <span>@L["Shared.Sidebar.Favourites"]</span>
         </a>
         <a asp-controller="Parent" asp-action="Index" class="menu-link @IsActive("Parent")">
             <i class="menu-icon bx bx-user-pin"></i>
@@ -182,7 +182,7 @@
         </a>
         <a asp-controller="WhatsNew" asp-action="Index" class="menu-link @IsActive("WhatsNew")">
             <i class="menu-icon bx bx-bell"></i>
-            <span>What's new</span>
+            <span>@L["WhatsNew.Index.Title"]</span>
         </a>
     }
 

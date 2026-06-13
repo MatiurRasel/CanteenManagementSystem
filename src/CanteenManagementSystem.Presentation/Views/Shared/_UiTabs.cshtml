@@ -11,14 +11,18 @@
         }" />
 *@
 @model CanteenManagementSystem.Presentation.Models.UiTabsOptions
-@{ var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiTabsOptions(); }
+@{
+    var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiTabsOptions();
+    // Icon accepts Boxicons ("bx-*" / "bxs-*"); legacy "fa-*" still renders via Font Awesome.
+    string IconClass(string icon) => icon.StartsWith("fa-") ? $"fa-solid {icon}" : $"bx {icon}";
+}
 
 <nav class="ui-tabs" role="tablist" aria-label="@opts.AriaLabel">
     @foreach (var tab in opts.Tabs)
     {
         <a href="@tab.Url" class="ui-tab @(tab.IsActive ? "active" : "")"
            role="tab" aria-selected="@(tab.IsActive.ToString().ToLowerInvariant())">
-            @if (!string.IsNullOrWhiteSpace(tab.Icon)) { <i class="fa-solid @tab.Icon me-1"></i> }
+            @if (!string.IsNullOrWhiteSpace(tab.Icon)) { <i class="@IconClass(tab.Icon) me-1"></i> }
             @tab.Label
             @if (tab.BadgeCount > 0)
             {

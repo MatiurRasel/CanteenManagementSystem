@@ -3,8 +3,10 @@
 
     USAGE
         <partial name="_UiButton" model="@new UiButtonOptions {
-            Text = "Save changes", Variant = UiButtonVariant.Primary, Icon = "fa-floppy-disk", Type = "submit"
+            Text = "Save changes", Variant = UiButtonVariant.Primary, Icon = "bx-save", Type = "submit"
         }" />
+
+    Icon accepts Boxicons ("bx-*" / "bxs-*"); legacy "fa-*" still renders via Font Awesome.
         <partial name="_UiButton" model="@new UiButtonOptions {
             Text = "View report",  Variant = UiButtonVariant.OutlinePrimary, Href = "/admin/reports/X"
         }" />
@@ -29,18 +31,19 @@
         CanteenManagementSystem.Presentation.Models.UiButtonSize.Large => "btn-lg",
         _ => ""
     };
+    string IconClass(string icon) => icon.StartsWith("fa-") ? $"fa-solid {icon}" : $"bx {icon}";
 }
 @if (!string.IsNullOrWhiteSpace(opts.Href))
 {
     <a href="@opts.Href" class="@variantClass @sizeClass" @(opts.Disabled ? "aria-disabled=true tabindex=-1" : "")>
-        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon me-1"></i> }
+        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="@IconClass(opts.Icon) me-1"></i> }
         @opts.Text
     </a>
 }
 else
 {
     <button type="@opts.Type" class="@variantClass @sizeClass" @(opts.Disabled ? "disabled" : "")>
-        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon me-1"></i> }
+        @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="@IconClass(opts.Icon) me-1"></i> }
         @opts.Text
     </button>
 }

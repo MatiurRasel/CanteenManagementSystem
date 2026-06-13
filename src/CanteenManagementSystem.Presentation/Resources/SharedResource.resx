@@ -3532,4 +3532,589 @@
   <data name="ReportsAdmin.Index.Spend" xml:space="preserve">
     <value>Spend</value>
   </data>
+  <data name="Kitchen.Index.RealTime" xml:space="preserve">
+    <value>Real-time</value>
+  </data>
+  <data name="Kitchen.Index.Connecting" xml:space="preserve">
+    <value>connecting…</value>
+  </data>
+  <data name="Kitchen.Index.FullscreenTitle" xml:space="preserve">
+    <value>Fullscreen (F11 / F)</value>
+  </data>
+  <data name="Kitchen.Index.ReadyForPickup" xml:space="preserve">
+    <value>Ready for pickup</value>
+  </data>
+  <data name="Kitchen.Index.Reconnecting" xml:space="preserve">
+    <value>reconnecting…</value>
+  </data>
+  <data name="Kitchen.Index.Live" xml:space="preserve">
+    <value>live</value>
+  </data>
+  <data name="Kitchen.Index.Offline" xml:space="preserve">
+    <value>offline (refresh)</value>
+  </data>
+  <data name="Kitchen.Index.Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Verification.KeypadOrder.Title" xml:space="preserve">
+    <value>Keypad order</value>
+  </data>
+  <data name="Verification.KeypadOrder.Subtitle" xml:space="preserve">
+    <value>Numeric-keypad-driven counter flow. Tap or type — the page advances automatically.</value>
+  </data>
+  <data name="Verification.KeypadOrder.CardScan" xml:space="preserve">
+    <value>Card scan</value>
+  </data>
+  <data name="Verification.KeypadOrder.IdentifyCustomer" xml:space="preserve">
+    <value>Identify customer</value>
+  </data>
+  <data name="Verification.KeypadOrder.EnterIdPrompt" xml:space="preserve">
+    <value>Enter the user ID or card number, then press the green button.</value>
+  </data>
+  <data name="Verification.KeypadOrder.Session" xml:space="preserve">
+    <value>Session</value>
+  </data>
+  <data name="Verification.KeypadOrder.SessionId" xml:space="preserve">
+    <value>Session ID</value>
+  </data>
+  <data name="Verification.KeypadOrder.LastResponse" xml:space="preserve">
+    <value>Last response</value>
+  </data>
+  <data name="Verification.KeypadOrder.NoneYet" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="Verification.KeypadOrder.BackToCardScan" xml:space="preserve">
+    <value>Back to card scan</value>
+  </data>
+  <data name="Operator.Dashboard.RefreshHint" xml:space="preserve">
+    <value>Refreshes every 5 seconds.</value>
+  </data>
+  <data name="Operator.Dashboard.Live" xml:space="preserve">
+    <value>Live</value>
+  </data>
+  <data name="Operator.Dashboard.LoadingOrders" xml:space="preserve">
+    <value>Loading pending orders…</value>
+  </data>
+  <data name="Operator.Dashboard.QuickLinks" xml:space="preserve">
+    <value>Quick links</value>
+  </data>
+  <data name="Operator.ShiftSummary.Title" xml:space="preserve">
+    <value>Shift summary</value>
+  </data>
+  <data name="Operator.ShiftSummary.CanteenCounter" xml:space="preserve">
+    <value>canteen counter</value>
+  </data>
+  <data name="Operator.ShiftSummary.Csv" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="Operator.ShiftSummary.OrdersPlaced" xml:space="preserve">
+    <value>Orders placed</value>
+  </data>
+  <data name="Operator.ShiftSummary.OrdersHint" xml:space="preserve">
+    <value>{0} delivered · {1} open · {2} cancelled</value>
+  </data>
+  <data name="Operator.ShiftSummary.GrossRevenue" xml:space="preserve">
+    <value>Gross revenue</value>
+  </data>
+  <data name="Operator.ShiftSummary.AvgPerOrder" xml:space="preserve">
+    <value>avg ৳ {0} / order</value>
+  </data>
+  <data name="Operator.ShiftSummary.Refunds" xml:space="preserve">
+    <value>Refunds</value>
+  </data>
+  <data name="Operator.ShiftSummary.NetHint" xml:space="preserve">
+    <value>net ৳ {0}</value>
+  </data>
+  <data name="Operator.ShiftSummary.UniqueCustomers" xml:space="preserve">
+    <value>Unique customers</value>
+  </data>
+  <data name="Operator.ShiftSummary.SoldCount" xml:space="preserve">
+    <value>{0} sold</value>
+  </data>
+  <data name="Operator.ShiftSummary.NoDeliveries" xml:space="preserve">
+    <value>No deliveries yet.</value>
+  </data>
+  <data name="Operator.ShiftSummary.CancelledOrders" xml:space="preserve">
+    <value>Cancelled orders</value>
+  </data>
+  <data name="Operator.ShiftSummary.At" xml:space="preserve">
+    <value>At</value>
+  </data>
+  <data name="Operator.ShiftSummary.SignOff" xml:space="preserve">
+    <value>Operator sign-off</value>
+  </data>
+  <data name="Operator.ShiftSummary.SignOffHint" xml:space="preserve">
+    <value>Sign and file this sheet with the daily cash drop. The system has logged every transaction independently.</value>
+  </data>
+  <data name="Operator.ShiftSummary.OperatorName" xml:space="preserve">
+    <value>Operator name</value>
+  </data>
+  <data name="Operator.ShiftSummary.Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="ReceiptSearch.Search.Title" xml:space="preserve">
+    <value>Find receipts</value>
+  </data>
+  <data name="ReceiptSearch.Search.Subtitle" xml:space="preserve">
+    <value>Search by order number, user id, or date range; click through to re-print.</value>
+  </data>
+  <data name="ReceiptSearch.Search.Placeholder" xml:space="preserve">
+    <value>Order # or user id…</value>
+  </data>
+  <data name="ReceiptSearch.Search.NoMatches" xml:space="preserve">
+    <value>No receipts match — try a wider date range.</value>
+  </data>
+  <data name="ReceiptSearch.Search.Reprint" xml:space="preserve">
+    <value>Re-print</value>
+  </data>
+  <data name="AdminDashboard.Index.VsYesterday" xml:space="preserve">
+    <value>{0}% vs yesterday</value>
+  </data>
+  <data name="AdminDashboard.Index.NoDataYesterday" xml:space="preserve">
+    <value>no data yesterday</value>
+  </data>
+  <data name="AdminDashboard.Index.Subtitle" xml:space="preserve">
+    <value>Snapshot of canteen activity, popular items, and operational health.</value>
+  </data>
+  <data name="AdminDashboard.Index.ManageMenu" xml:space="preserve">
+    <value>Manage menu</value>
+  </data>
+  <data name="AdminDashboard.Index.RevenueToday" xml:space="preserve">
+    <value>Revenue today</value>
+  </data>
+  <data name="AdminDashboard.Index.OrdersToday" xml:space="preserve">
+    <value>Orders today</value>
+  </data>
+  <data name="AdminDashboard.Index.DeliveredCount" xml:space="preserve">
+    <value>{0} delivered</value>
+  </data>
+  <data name="AdminDashboard.Index.PendingNow" xml:space="preserve">
+    <value>Pending now</value>
+  </data>
+  <data name="AdminDashboard.Index.AllClear" xml:space="preserve">
+    <value>all clear</value>
+  </data>
+  <data name="AdminDashboard.Index.NeedsAttention" xml:space="preserve">
+    <value>needs attention</value>
+  </data>
+  <data name="AdminDashboard.Index.LowStockItems" xml:space="preserve">
+    <value>Low-stock items</value>
+  </data>
+  <data name="AdminDashboard.Index.FullyStocked" xml:space="preserve">
+    <value>fully stocked</value>
+  </data>
+  <data name="AdminDashboard.Index.RestockToday" xml:space="preserve">
+    <value>restock today</value>
+  </data>
+  <data name="AdminDashboard.Index.RecentOrdersSubtitle" xml:space="preserve">
+    <value>Latest placements across counter, kiosk, and table flows.</value>
+  </data>
+  <data name="AdminDashboard.Index.SearchAll" xml:space="preserve">
+    <value>Search all</value>
+  </data>
+  <data name="AdminDashboard.Index.NoOrdersToday" xml:space="preserve">
+    <value>No orders yet today.</value>
+  </data>
+  <data name="AdminDashboard.Index.PopularThisWeek" xml:space="preserve">
+    <value>Popular this week</value>
+  </data>
+  <data name="AdminDashboard.Index.NoDataYet" xml:space="preserve">
+    <value>No data yet.</value>
+  </data>
+  <data name="AdminDashboard.Index.BeginStockTake" xml:space="preserve">
+    <value>Begin stock take</value>
+  </data>
+  <data name="AdminDashboard.Index.CombosQuickButtons" xml:space="preserve">
+    <value>Combos &amp; quick buttons</value>
+  </data>
+  <data name="PlatformDashboard.Index.Title" xml:space="preserve">
+    <value>Platform dashboard</value>
+  </data>
+  <data name="PlatformDashboard.Index.Subtitle" xml:space="preserve">
+    <value>Cross-tenant overview · {0} UTC</value>
+  </data>
+  <data name="PlatformDashboard.Index.TenantsHint" xml:space="preserve">
+    <value>{0} active · {1} suspended · {2} deleted</value>
+  </data>
+  <data name="PlatformDashboard.Index.AcrossEveryTenant" xml:space="preserve">
+    <value>across every tenant</value>
+  </data>
+  <data name="PlatformDashboard.Index.RevenueHint" xml:space="preserve">
+    <value>sum of delivered + pending orders</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailures" xml:space="preserve">
+    <value>Sync failures (24h)</value>
+  </data>
+  <data name="PlatformDashboard.Index.AllGreen" xml:space="preserve">
+    <value>all green</value>
+  </data>
+  <data name="PlatformDashboard.Index.DirectoryPullIssues" xml:space="preserve">
+    <value>directory pull issues</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentTenants" xml:space="preserve">
+    <value>Recent tenants</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentTenantsSubtitle" xml:space="preserve">
+    <value>Newest first · today's orders + revenue per tenant</value>
+  </data>
+  <data name="PlatformDashboard.Index.Tenant" xml:space="preserve">
+    <value>Tenant</value>
+  </data>
+  <data name="PlatformDashboard.Index.Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="PlatformDashboard.Index.Suspended" xml:space="preserve">
+    <value>Suspended</value>
+  </data>
+  <data name="PlatformDashboard.Index.NoTenantsYet" xml:space="preserve">
+    <value>No tenants yet — onboard one at</value>
+  </data>
+  <data name="PlatformDashboard.Index.TopTenantsMtd" xml:space="preserve">
+    <value>Top tenants this month</value>
+  </data>
+  <data name="PlatformDashboard.Index.OrderCount" xml:space="preserve">
+    <value>{0} order(s)</value>
+  </data>
+  <data name="PlatformDashboard.Index.NoOrdersThisMonth" xml:space="preserve">
+    <value>No orders this month.</value>
+  </data>
+  <data name="PlatformDashboard.Index.LowStockHeading" xml:space="preserve">
+    <value>{0} tenant(s) running low on stock</value>
+  </data>
+  <data name="PlatformDashboard.Index.LowStockBody" xml:space="preserve">
+    <value>At least one item per tenant has Available ≤ 5 in today's menu. The per-tenant LowStockAlertService notifies operators automatically.</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailuresTitle" xml:space="preserve">
+    <value>Directory sync failures · last 24h</value>
+  </data>
+  <data name="PlatformDashboard.Index.SyncFailuresSubtitle" xml:space="preserve">
+    <value>Every failed run across every tenant — click into a tenant to investigate.</value>
+  </data>
+  <data name="PlatformDashboard.Index.AllSyncsOk" xml:space="preserve">
+    <value>Every tenant's directory sync succeeded in the last 24 hours.</value>
+  </data>
+  <data name="PlatformDashboard.Index.WhenUtc" xml:space="preserve">
+    <value>When (UTC)</value>
+  </data>
+  <data name="PlatformDashboard.Index.RecentFailures" xml:space="preserve">
+    <value>Recent failures</value>
+  </data>
+  <data name="ReportSchedules.Index.EveryHours" xml:space="preserve">
+    <value>every {0} h</value>
+  </data>
+  <data name="ReportSchedules.Index.DailyAt" xml:space="preserve">
+    <value>daily at {0}</value>
+  </data>
+  <data name="ReportSchedules.Index.WeeklyAt" xml:space="preserve">
+    <value>{0}s at {1}</value>
+  </data>
+  <data name="ReportSchedules.Index.MonthlyAt" xml:space="preserve">
+    <value>day {0} at {1}</value>
+  </data>
+  <data name="ReportSchedules.Index.Subtitle" xml:space="preserve">
+    <value>Run automatically + email the result. @TODAY / @YESTERDAY / @WEEK_AGO tokens supported inside the parameters JSON.</value>
+  </data>
+  <data name="ReportSchedules.Index.NewSchedule" xml:space="preserve">
+    <value>New schedule</value>
+  </data>
+  <data name="ReportSchedules.Index.Empty.Title" xml:space="preserve">
+    <value>No schedules yet</value>
+  </data>
+  <data name="ReportSchedules.Index.Empty.Description" xml:space="preserve">
+    <value>Create one to start emailing reports automatically.</value>
+  </data>
+  <data name="ReportSchedules.Index.Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ReportSchedules.Index.Recipients" xml:space="preserve">
+    <value>Recipients</value>
+  </data>
+  <data name="ReportSchedules.Index.LastRun" xml:space="preserve">
+    <value>Last run</value>
+  </data>
+  <data name="ReportSchedules.Index.NextRun" xml:space="preserve">
+    <value>Next run</value>
+  </data>
+  <data name="ReportSchedules.Index.RunNow" xml:space="preserve">
+    <value>Run now</value>
+  </data>
+  <data name="ReportSchedules.Index.Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="ReportSchedules.Index.Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="ReportSchedules.Index.ConfirmDelete" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="ReportSchedules.Edit.NewTitle" xml:space="preserve">
+    <value>New scheduled report</value>
+  </data>
+  <data name="ReportSchedules.Edit.EditTitle" xml:space="preserve">
+    <value>Edit schedule</value>
+  </data>
+  <data name="ReportSchedules.Edit.Subtitle" xml:space="preserve">
+    <value>Pick a report, schedule, format, recipients. Optional params JSON supports @-tokens.</value>
+  </data>
+  <data name="ReportSchedules.Edit.AllSchedules" xml:space="preserve">
+    <value>All schedules</value>
+  </data>
+  <data name="ReportSchedules.Edit.DisplayNamePlaceholder" xml:space="preserve">
+    <value>Nightly daily-collection</value>
+  </data>
+  <data name="ReportSchedules.Edit.Recurrence" xml:space="preserve">
+    <value>Recurrence</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceDaily" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceWeekly" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceMonthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecurrenceHourly" xml:space="preserve">
+    <value>Hourly</value>
+  </data>
+  <data name="ReportSchedules.Edit.HourUtc" xml:space="preserve">
+    <value>Hour (UTC, 0-23)</value>
+  </data>
+  <data name="ReportSchedules.Edit.Minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="ReportSchedules.Edit.DayOfMonth" xml:space="preserve">
+    <value>Day of month</value>
+  </data>
+  <data name="ReportSchedules.Edit.EveryNHours" xml:space="preserve">
+    <value>Every N hours</value>
+  </data>
+  <data name="ReportSchedules.Edit.RecipientsCsv" xml:space="preserve">
+    <value>Recipients (CSV)</value>
+  </data>
+  <data name="ReportSchedules.Edit.ParametersJson" xml:space="preserve">
+    <value>Parameters (JSON)</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks1" xml:space="preserve">
+    <value>The scheduler ticks every minute UTC; schedules past their NextRunAtUtc fire.</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks2" xml:space="preserve">
+    <value>Output is sent as an email attachment using Notifications.Email.* tenant settings.</value>
+  </data>
+  <data name="ReportSchedules.Edit.HowItWorks3" xml:space="preserve">
+    <value>Failures stamp LastError on the schedule row — the next tick still tries again.</value>
+  </data>
+  <data name="Shared.Layout.ResizeSidebar" xml:space="preserve">
+    <value>Resize sidebar — drag, or double-click to reset</value>
+  </data>
+  <data name="Shared.Brand.PinSidebar" xml:space="preserve">
+    <value>Pin / collapse sidebar</value>
+  </data>
+  <data name="Shared.Sidebar.KioskTooltip" xml:space="preserve">
+    <value>Self-service tablet view — auto-resets to scan after 30 s of inactivity.</value>
+  </data>
+  <data name="Shared.Sidebar.PlatformOverview" xml:space="preserve">
+    <value>Platform overview</value>
+  </data>
+  <data name="Shared.Sidebar.Exports" xml:space="preserve">
+    <value>Exports</value>
+  </data>
+  <data name="Shared.Sidebar.NearExpiry" xml:space="preserve">
+    <value>Near-expiry items</value>
+  </data>
+  <data name="Shared.Sidebar.DeliveryLog" xml:space="preserve">
+    <value>Delivery log</value>
+  </data>
+  <data name="Shared.Sidebar.DiscountRules" xml:space="preserve">
+    <value>Discount rules</value>
+  </data>
+  <data name="Shared.Sidebar.ComboButtons" xml:space="preserve">
+    <value>Combo buttons</value>
+  </data>
+  <data name="Shared.Sidebar.Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Shared.Sidebar.Webhooks" xml:space="preserve">
+    <value>Webhooks</value>
+  </data>
+  <data name="Shared.Sidebar.FindReceipts" xml:space="preserve">
+    <value>Find receipts</value>
+  </data>
+  <data name="Shared.Sidebar.FeatureFlags" xml:space="preserve">
+    <value>Feature flags</value>
+  </data>
+  <data name="Shared.Sidebar.Billing" xml:space="preserve">
+    <value>Billing</value>
+  </data>
+  <data name="Shared.Sidebar.DesignSystem" xml:space="preserve">
+    <value>Design system</value>
+  </data>
+  <data name="Shared.Sidebar.KioskTablets" xml:space="preserve">
+    <value>Kiosk tablets</value>
+  </data>
+  <data name="Shared.Sidebar.Branding" xml:space="preserve">
+    <value>Branding</value>
+  </data>
+  <data name="Shared.Sidebar.MyAccount" xml:space="preserve">
+    <value>My account</value>
+  </data>
+  <data name="Shared.Sidebar.Favourites" xml:space="preserve">
+    <value>Favourites</value>
+  </data>
+  <data name="Shared.Topbar.Impersonating.Before" xml:space="preserve">
+    <value>Impersonating</value>
+  </data>
+  <data name="Shared.Topbar.Impersonating.After" xml:space="preserve">
+    <value>— every read/write is scoped to this tenant.</value>
+  </data>
+  <data name="Shared.Topbar.StopImpersonating" xml:space="preserve">
+    <value>Stop impersonating</value>
+  </data>
+  <data name="Shared.Topbar.CollapseSidebar" xml:space="preserve">
+    <value>Collapse sidebar</value>
+  </data>
+  <data name="Shared.Topbar.SearchPlaceholder" xml:space="preserve">
+    <value>Search anything…</value>
+  </data>
+  <data name="Shared.Topbar.Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Shared.Topbar.NoNotifications" xml:space="preserve">
+    <value>No new notifications</value>
+  </data>
+  <data name="Shared.Topbar.TwoFactorAuth" xml:space="preserve">
+    <value>Two-factor auth</value>
+  </data>
+  <data name="Shared.Topbar.CustomizeTheme" xml:space="preserve">
+    <value>Customize theme</value>
+  </data>
+  <data name="Shared.Customizer.Open" xml:space="preserve">
+    <value>Open template customizer</value>
+  </data>
+  <data name="Shared.Customizer.Title" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="Shared.Customizer.Subtitle" xml:space="preserve">
+    <value>Personalize this device. Tenant brand wins when you reset.</value>
+  </data>
+  <data name="Shared.Customizer.Presets" xml:space="preserve">
+    <value>Preset templates</value>
+  </data>
+  <data name="Shared.Customizer.ApplyPreset" xml:space="preserve">
+    <value>Apply {0} preset</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Corporate" xml:space="preserve">
+    <value>Corporate</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Vibrant" xml:space="preserve">
+    <value>Vibrant</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Monochrome" xml:space="preserve">
+    <value>Monochrome</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Ocean" xml:space="preserve">
+    <value>Ocean</value>
+  </data>
+  <data name="Shared.Customizer.Preset.Sunset" xml:space="preserve">
+    <value>Sunset</value>
+  </data>
+  <data name="Shared.Customizer.Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Shared.Customizer.Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Shared.Customizer.Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Shared.Customizer.System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Shared.Customizer.PrimaryColor" xml:space="preserve">
+    <value>Primary color</value>
+  </data>
+  <data name="Shared.Customizer.UseColor" xml:space="preserve">
+    <value>Use {0}</value>
+  </data>
+  <data name="Shared.Customizer.CustomColor" xml:space="preserve">
+    <value>Custom color</value>
+  </data>
+  <data name="Shared.Customizer.PickColor" xml:space="preserve">
+    <value>Pick any color</value>
+  </data>
+  <data name="Shared.Customizer.HexValue" xml:space="preserve">
+    <value>Hex value</value>
+  </data>
+  <data name="Shared.Customizer.Hue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="Shared.Customizer.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="Shared.Customizer.Lightness" xml:space="preserve">
+    <value>Lightness</value>
+  </data>
+  <data name="Shared.Customizer.Density" xml:space="preserve">
+    <value>Density</value>
+  </data>
+  <data name="Shared.Customizer.Compact" xml:space="preserve">
+    <value>Compact</value>
+  </data>
+  <data name="Shared.Customizer.Comfortable" xml:space="preserve">
+    <value>Comfortable</value>
+  </data>
+  <data name="Shared.Customizer.Spacious" xml:space="preserve">
+    <value>Spacious</value>
+  </data>
+  <data name="Shared.Customizer.Direction" xml:space="preserve">
+    <value>Layout direction</value>
+  </data>
+  <data name="Shared.Customizer.ContentWidth" xml:space="preserve">
+    <value>Content width</value>
+  </data>
+  <data name="Shared.Customizer.Fluid" xml:space="preserve">
+    <value>Fluid</value>
+  </data>
+  <data name="Shared.Customizer.Contained" xml:space="preserve">
+    <value>Contained</value>
+  </data>
+  <data name="Shared.Customizer.Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="Shared.Customizer.Expanded" xml:space="preserve">
+    <value>Expanded</value>
+  </data>
+  <data name="Shared.Customizer.Collapsed" xml:space="preserve">
+    <value>Collapsed</value>
+  </data>
+  <data name="Shared.Customizer.Reset" xml:space="preserve">
+    <value>Reset to tenant defaults</value>
+  </data>
+  <data name="Shared.DietaryChips.Veg" xml:space="preserve">
+    <value>Veg</value>
+  </data>
+  <data name="Shared.DietaryChips.Halal" xml:space="preserve">
+    <value>Halal</value>
+  </data>
+  <data name="Shared.DietaryChips.Vegetarian" xml:space="preserve">
+    <value>Vegetarian</value>
+  </data>
+  <data name="Shared.DietaryChips.Kcal" xml:space="preserve">
+    <value>{0} kcal</value>
+  </data>
+  <data name="Shared.DietaryChips.KcalPerServing" xml:space="preserve">
+    <value>{0} kcal per serving</value>
+  </data>
+  <data name="Shared.DietaryChips.Contains" xml:space="preserve">
+    <value>Contains {0}</value>
+  </data>
+  <data name="Shared.ErrorPage.DefaultTitle" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="Shared.ErrorPage.TraceId" xml:space="preserve">
+    <value>Trace ID: {0}</value>
+  </data>
 </root>

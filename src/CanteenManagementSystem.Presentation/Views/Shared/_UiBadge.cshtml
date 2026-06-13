@@ -9,9 +9,11 @@
 @{
     var opts = Model ?? new CanteenManagementSystem.Presentation.Models.UiBadgeOptions();
     var variantClass = "variant-" + opts.Variant.ToString().ToLowerInvariant();
+    // Icon accepts Boxicons ("bx-*" / "bxs-*"); legacy "fa-*" still renders via Font Awesome.
+    string IconClass(string icon) => icon.StartsWith("fa-") ? $"fa-solid {icon}" : $"bx {icon}";
 }
 <span class="ui-badge @variantClass">
     @if (opts.WithDot) { <span class="ui-dot"></span> }
-    @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="fa-solid @opts.Icon"></i> }
+    @if (!string.IsNullOrWhiteSpace(opts.Icon)) { <i class="@IconClass(opts.Icon)"></i> }
     @opts.Text
 </span>

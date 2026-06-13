@@ -1,6 +1,7 @@
 @using CanteenManagementSystem.Application.Orders.Dtos
 @using CanteenManagementSystem.Domain.Enums
 @model OperatorOrderViewModel
+@inject IStringLocalizer<SharedResource> L
 
 <div class="ks-kds-card" data-order-id="@Model.OrderID" data-placed="@Model.OrderDateTime.ToString("o")">
     <div class="ks-kds-head">
@@ -23,15 +24,15 @@
     <div class="ks-kds-actions">
         @if (Model.Status == CanteenOrderStatus.Pending || Model.Status == CanteenOrderStatus.Placed || Model.Status == CanteenOrderStatus.Confirmed)
         {
-            <button class="btn btn-sm btn-primary" data-status="30"><i class="bx bx-flame me-1"></i> Start</button>
+            <button class="btn btn-sm btn-primary" data-status="30"><i class="bx bxs-flame me-1"></i> @L["Kitchen.Index.Start"]</button>
         }
         @if (Model.Status != CanteenOrderStatus.Ready && Model.Status != CanteenOrderStatus.Delivered)
         {
-            <button class="btn btn-sm btn-success" data-status="40"><i class="bx bx-bell me-1"></i> Ready</button>
+            <button class="btn btn-sm btn-success" data-status="40"><i class="bx bx-bell me-1"></i> @L["CustomerDisplay.Show.Ready"]</button>
         }
         else
         {
-            <button class="btn btn-sm btn-outline-light" data-status="1"><i class="bx bx-check me-1"></i> Delivered</button>
+            <button class="btn btn-sm btn-outline-light" data-status="1"><i class="bx bx-check me-1"></i> @L["CustomerDisplay.Show.Delivered"]</button>
         }
     </div>
 </div>
