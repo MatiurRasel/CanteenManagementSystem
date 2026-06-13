@@ -159,6 +159,9 @@
 <body class="app-shell"
       data-tenant-accent="@branding.AccentColor"
       data-tenant-app-name="@branding.AppName">
+    @* Keyboard/screen-reader skip link — first focusable element, jumps past
+       the sidebar + topbar straight to the page body. *@
+    <a href="#main-content" class="skip-to-content">@L["Shared.Layout.SkipToContent"]</a>
     @* Top-of-page progress bar — NProgress-style. Driven by /js/page-progress.js. *@
     <div id="page-progress" class="page-progress" aria-hidden="true"><div class="page-progress-bar"></div></div>
     <div class="layout-wrapper">
@@ -187,7 +190,7 @@
             <div class="layout-page">
                 <partial name="_SneatTopbar" />
 
-                <main class="content-wrapper">
+                <main id="main-content" class="content-wrapper" tabindex="-1">
                     <div class="container-fluid px-3 px-md-4 px-lg-5">
                         <div class="fade-in">
                             @RenderBody()

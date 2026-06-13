@@ -217,6 +217,31 @@ main > .container {
     main > .container { animation: none !important; }
 }
 
+/* ───── Skip-to-content link — visible only on keyboard focus ─────────── */
+.skip-to-content {
+    position: fixed;
+    top: 8px; left: 8px;
+    z-index: 2000;
+    transform: translateY(-150%);
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 10px 16px;
+    border-radius: var(--rad);
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: var(--sh-pop);
+    transition: transform var(--tt);
+}
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--accent-fg);
+    outline-offset: 2px;
+    color: var(--accent-fg);
+    text-decoration: none;
+}
+#main-content:focus { outline: none; }
+
 /* ───── High-contrast mode: drop soft washes, keep hard borders ───────── */
 [data-contrast="high"] .ui-kpi::after { display: none; }
 [data-contrast="high"] .ui-badge,

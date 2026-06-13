@@ -4117,4 +4117,7 @@
   <data name="Shared.ErrorPage.TraceId" xml:space="preserve">
     <value>ট্রেস ID: {0}</value>
   </data>
+  <data name="Shared.Layout.SkipToContent" xml:space="preserve">
+    <value>মূল কন্টেন্টে যান</value>
+  </data>
 </root>
