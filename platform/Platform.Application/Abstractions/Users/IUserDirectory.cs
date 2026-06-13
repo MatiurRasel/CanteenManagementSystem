@@ -1,9 +1,11 @@
 
 namespace Platform.Application.Abstractions.Users;
 
+/// <summary>
 /// Single seam for resolving user profile / photo / academic info across
-/// student & employee sources. Replaces the duplicated lookup paths previously
+/// student and employee sources. Replaces the duplicated lookup paths previously
 /// scattered across VerificationQueryService and OperatorQueryService.
+/// </summary>
 public interface IUserDirectory
 {
     Task<UserProfileSnapshot?> FindByIdentifierAsync(string identifier, CancellationToken cancellationToken = default);

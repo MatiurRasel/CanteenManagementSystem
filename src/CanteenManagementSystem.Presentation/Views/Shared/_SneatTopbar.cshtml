@@ -25,7 +25,7 @@
     var roles = User?.FindAll(System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToArray() ?? Array.Empty<string>();
 }
 
-@if (!string.IsNullOrEmpty(impTenant) && User.IsInRole("SystemAdmin"))
+@if (!string.IsNullOrEmpty(impTenant) && (User?.IsInRole("SystemAdmin") ?? false))
 {
     <div class="topbar-impersonation">
         <div class="small">

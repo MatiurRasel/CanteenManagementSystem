@@ -29,7 +29,7 @@ public sealed class TotpService
 
     /// <summary>
     /// Build the canonical otpauth URI an authenticator app reads:
-    ///   otpauth://totp/{issuer}:{accountName}?secret={secret}&issuer={issuer}&digits=6&period=30
+    ///   otpauth://totp/{issuer}:{accountName}?secret={secret}&amp;issuer={issuer}&amp;digits=6&amp;period=30
     /// </summary>
     public string BuildOtpAuthUri(string secret, string issuer, string accountName)
     {

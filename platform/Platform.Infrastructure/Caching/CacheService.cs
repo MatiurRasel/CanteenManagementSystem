@@ -49,7 +49,7 @@ public sealed class CacheService : ICacheService
         _l1 = l1; _l2 = l2; _tenant = tenant; _logger = logger;
     }
 
-    public async Task<T> GetOrSetAsync<T>(string key, Func<CancellationToken, Task<T>> factory, TimeSpan? ttl = null, string[]? tags = null, CancellationToken cancellationToken = default) where T : class
+    public async Task<T> GetOrSetAsync<T>(string key, Func<CancellationToken, Task<T>> factory, TimeSpan? ttl = null, string[]? tags = null, CancellationToken cancellationToken = default) where T : class?
     {
         var physicalKey = TenantKey(key);
 
@@ -122,8 +122,13 @@ public sealed class CacheService : ICacheService
     }
 
     // -------------------- internals ------------------------------------------
-    private async Task StoreAsync<T>(string physicalKey, T value, TimeSpan? ttl, string[]? tags, CancellationToken cancellationToken) where T : class
+    private async Task StoreAsync<T>(string physicalKey, T value, TimeSpan? ttl, string[]? tags, CancellationToken cancellationToken) where T : class?
     {
+        // Don't persist null payloads — a not-found result is re-resolved on the
+        // next call rather than caching a "null" string (GetOrSetAsync already
+        // skips null deserializations, so this just avoids the wasted write).
+        if (value is null) return;
+
         var effectiveTtl = ttl ?? CacheTtl.Short;
         var payload = JsonSerializer.Serialize(value, JsonOptions);
 

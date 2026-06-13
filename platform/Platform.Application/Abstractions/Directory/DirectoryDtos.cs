@@ -15,16 +15,19 @@
 
 namespace Platform.Application.Abstractions.Directory;
 
-/// One delta batch from a directory source — students + employees + watermark.
+/// <summary>One delta batch from a directory source — students + employees + watermark.</summary>
+/// <param name="Students">Student rows added or changed since the last watermark.</param>
+/// <param name="Employees">Employee rows added or changed since the last watermark.</param>
+/// <param name="HighWatermarkUtc">Cursor for the next incremental pull — the newest change timestamp in this batch.</param>
+/// <param name="IsFullSnapshot">
+/// When true, the writer treats this as the COMPLETE current set of users —
+/// rows missing from the delta get soft-disabled. When false (incremental),
+/// only adds/updates apply; missing rows are left alone.
+/// </param>
 public sealed record DirectoryDelta(
     IReadOnlyList<DirectoryStudent> Students,
     IReadOnlyList<DirectoryEmployee> Employees,
     DateTime HighWatermarkUtc,
-    /// <summary>
-    /// When true, the writer treats this as the COMPLETE current set of users —
-    /// rows missing from the delta get soft-disabled. When false (incremental),
-    /// only adds/updates apply; missing rows are left alone.
-    /// </summary>
     bool IsFullSnapshot);
 
 public sealed record DirectoryStudent(

@@ -38,6 +38,12 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
     <!-- SignalR horizontal-scale backplane: keeps hub events consistent across replicas. -->
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="10.0.7" />
+    <!-- Direct pin to override the vulnerable MessagePack 2.5.187 pulled in
+         transitively by the SignalR Redis backplane. 2.5.301 is the first
+         patched 2.x release for advisory GHSA-hv8m-jj95-wg3x (vulnerable
+         range < 2.5.301) and stays on the 2.x API line SignalR 10 expects.
+         Remove once the SignalR package ships a transitive bump past 2.5.301. -->
+    <PackageReference Include="MessagePack" Version="2.5.301" />
   </ItemGroup>
 
 </Project>

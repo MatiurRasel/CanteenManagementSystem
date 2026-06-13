@@ -29,7 +29,7 @@ public class PaymentTransaction : IAggregateRoot, ITenantOwned
     [Required, StringLength(15)]
     public string UserId { get; set; } = string.Empty;
 
-    [Required] public string UserType { get; set; }
+    [Required] public string UserType { get; set; } = string.Empty;
 
     [Required, Column(TypeName = "decimal(10,2)")]
     public decimal Amount { get; set; }

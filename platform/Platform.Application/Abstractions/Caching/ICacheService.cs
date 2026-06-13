@@ -26,13 +26,15 @@ namespace Platform.Application.Abstractions.Caching;
 
 public interface ICacheService
 {
-    /// <summary>Get a value or compute+store it. Tenant-scoped automatically.</summary>
+    /// <summary>Get a value or compute+store it. Tenant-scoped automatically.
+    /// T allows nullable reference types so factories that legitimately resolve
+    /// to null (e.g. a not-found lookup) satisfy the constraint.</summary>
     Task<T> GetOrSetAsync<T>(
         string key,
         Func<CancellationToken, Task<T>> factory,
         TimeSpan? ttl = null,
         string[]? tags = null,
-        CancellationToken cancellationToken = default) where T : class;
+        CancellationToken cancellationToken = default) where T : class?;
 
     /// <summary>Try-read without populating.</summary>
     Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class;

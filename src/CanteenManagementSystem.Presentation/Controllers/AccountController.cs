@@ -37,7 +37,15 @@ using Platform.Presentation.Auth;
 
 namespace CanteenManagementSystem.Presentation.Controllers;
 
-[AllowAnonymous]
+// NOTE: deliberately NOT [AllowAnonymous] at the class level. There is no global
+// fallback authorization policy (see PlatformAuthExtensions), so actions default
+// to anonymous unless they carry [Authorize] — which keeps the login / forgot-
+// password / magic-link flows open while letting the [Authorize(Policy =
+// "AuthenticatedAny")] on the MFA-management + ChangePassword actions actually
+// take effect. A class-level [AllowAnonymous] silently overrode those (ASP0026),
+// exposing DisableMfa / RegenerateRecoveryCodes / ChangePassword to anonymous
+// callers. The MustChangePassword middleware allows "/Account/" through by path,
+// so it is unaffected by this attribute.
 [Route("Account")]
 public sealed class AccountController : Controller
 {

@@ -10,7 +10,7 @@
     string resetForm = @"
         <form action='/admin/branding/Reset' method='post' class='d-inline'
               onsubmit=""return confirm('" + L["BrandingAdmin.Index.ConfirmReset"].Value + @"');"">
-            <input type='hidden' name='__RequestVerificationToken' value='" + Html.AntiForgeryToken().ToString().Replace("'", "&#39;") + @"' />
+            <input type='hidden' name='__RequestVerificationToken' value='" + (Html.AntiForgeryToken().ToString() ?? string.Empty).Replace("'", "&#39;") + @"' />
             <button type='submit' class='btn btn-outline-secondary btn-sm'>
                 <i class='bx bx-rotate-left me-1'></i> " + L["BrandingAdmin.Index.ResetToDefault"].Value + @"
             </button>

@@ -103,7 +103,7 @@
                             </div>
                             @if (c.ActiveCardStatus == CardStatus.Active)
                             {
-                                <form method="post" asp-action="FreezeCard" data-cl-confirm="@L["Parent.Index.FreezeConfirm", c.ActiveCardUid]" data-cl-confirm-variant="warning">
+                                <form method="post" asp-action="FreezeCard" data-cl-confirm="@L["Parent.Index.FreezeConfirm", c.ActiveCardUid ?? string.Empty]" data-cl-confirm-variant="warning">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="cardId" value="@c.ActiveCardId" />
                                     <button class="btn btn-sm btn-outline-secondary" type="submit">
