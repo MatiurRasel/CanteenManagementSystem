@@ -62,6 +62,9 @@
     <link rel="stylesheet" href="~/css/kds-bump.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/kiosk-surfaces.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/badges-normalize.css" asp-append-version="true" />
+    @* ui-polish.css MUST load last so its depth/micro-interaction layer wins
+       the cascade over shadcn.css + the Sneat chrome. *@
+    <link rel="stylesheet" href="~/css/ui-polish.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/receipt-print.css" media="print" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 

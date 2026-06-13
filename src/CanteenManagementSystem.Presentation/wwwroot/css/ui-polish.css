@@ -1,0 +1,223 @@
+/* =============================================================================
+   ui-polish.css — premium polish layer (loaded LAST)
+   -----------------------------------------------------------------------------
+   Pure additive refinements on top of shadcn.css: depth, micro-interactions,
+   hierarchy. No new tokens, no markup contracts — everything keys off the
+   existing --tokens so per-tenant accent + dark mode + high-contrast all flow
+   through automatically. Reuses --sh-*, --accent*, --rad*, --tt* from shadcn.css.
+
+   Safe to remove wholesale to revert to the flat baseline. Cascades to every
+   view because they all compose from .ui-card / .btn / .ui-kpi / .ui-table /
+   _UiPageHeader / the Sneat shell.
+============================================================================= */
+
+/* ───── Cards: hairline depth + interactive lift ──────────────────────── */
+.ui-card,
+.card {
+    box-shadow: var(--sh-1);
+    transition: box-shadow var(--tt), border-color var(--tt), transform var(--tt);
+}
+/* Opt-in lift for clickable cards (report tiles, combos, landing tiles). */
+.ui-card-interactive,
+a.ui-card,
+.ui-card.is-clickable {
+    cursor: pointer;
+}
+.ui-card-interactive:hover,
+a.ui-card:hover,
+.ui-card.is-clickable:hover {
+    box-shadow: var(--sh-3);
+    border-color: var(--border-medium);
+    transform: translateY(-2px);
+}
+.ui-card-interactive:active,
+a.ui-card:active,
+.ui-card.is-clickable:active {
+    transform: translateY(0);
+    box-shadow: var(--sh-1);
+}
+
+/* ───── Buttons: elevation + crisp press feedback ─────────────────────── */
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-warning,
+.btn-info {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .10);
+}
+.btn-primary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-warning:hover,
+.btn-info:hover {
+    box-shadow: 0 4px 12px var(--accent-ring);
+    transform: translateY(-1px);
+}
+.btn:active,
+.btn-primary:active,
+.btn-success:active,
+.btn-danger:active,
+.btn-warning:active {
+    transform: translateY(1px) scale(.985);
+    box-shadow: 0 1px 1px rgba(15, 23, 42, .12);
+}
+/* Status buttons borrow their own colour for the hover glow, not the accent. */
+.btn-success:hover { box-shadow: 0 4px 12px var(--success-soft); }
+.btn-danger:hover  { box-shadow: 0 4px 12px var(--danger-soft); }
+.btn-warning:hover { box-shadow: 0 4px 12px var(--warning-soft); }
+
+/* ───── KPI tiles: accent icon plate + lift ───────────────────────────── */
+.ui-kpi {
+    position: relative;
+    overflow: hidden;
+}
+/* Hairline accent wash bleeding in from the right — subtle brand presence. */
+.ui-kpi::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto auto;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at top right, var(--accent-soft), transparent 70%);
+    opacity: .6;
+    pointer-events: none;
+}
+.ui-kpi:hover { transform: translateY(-2px); box-shadow: var(--sh-2); }
+.ui-kpi-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px; height: 38px;
+    border-radius: var(--rad);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 18px;
+    flex: none;
+}
+.ui-kpi-icon.positive { background: var(--success-soft); color: var(--success-fg); }
+.ui-kpi-icon.negative { background: var(--danger-soft);  color: var(--danger-fg); }
+.ui-kpi-icon .bx { vertical-align: middle; font-size: 1em; }
+.ui-kpi-value { position: relative; z-index: 1; }
+.ui-kpi-delta.positive { font-weight: 600; }
+.ui-kpi-delta.negative { font-weight: 600; }
+
+/* ───── Page header: accent leading bar on the title ──────────────────── */
+.ui-page-header .ui-page-title {
+    position: relative;
+    padding-left: 14px;
+}
+.ui-page-header .ui-page-title::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 4px; height: 1.1em;
+    border-radius: var(--rad-pill);
+    background: var(--accent);
+}
+
+/* ───── Tables: smooth row hover + subtle zebra on hoverless tables ───── */
+.table > tbody > tr,
+.ui-table > tbody > tr {
+    transition: background var(--tt-fast);
+}
+.table-hover > tbody > tr:hover > * {
+    background: var(--accent-soft);
+}
+/* First/last cell get the row radius when the table sits in a rounded wrap. */
+.ui-table-wrap .table > tbody > tr:last-child { border-bottom: 0; }
+
+/* ───── Section labels: tiny accent tick ──────────────────────────────── */
+.ui-section-label {
+    display: flex; align-items: center; gap: 8px;
+}
+.ui-section-label::before {
+    content: "";
+    width: 14px; height: 2px; border-radius: 2px;
+    background: var(--accent);
+    flex: none;
+}
+
+/* ───── Empty state: softer plate + accent icon ───────────────────────── */
+.canteen-empty .empty-icon {
+    background: var(--accent-soft) !important;
+    color: var(--accent) !important;
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent-soft) 40%, transparent);
+}
+
+/* ───── Sidebar active item: accent leading rail ──────────────────────── */
+.app-shell-sidebar a.active,
+.layout-menu a.active,
+.menu-link.active {
+    position: relative;
+}
+.app-shell-sidebar a.active::before,
+.layout-menu a.active::before,
+.menu-link.active::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 3px; height: 60%;
+    border-radius: 0 var(--rad-pill) var(--rad-pill) 0;
+    background: var(--accent);
+}
+
+/* ───── Badges: faint ring for definition on busy surfaces ────────────── */
+.ui-badge, .badge {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* ───── Modals + dropdowns: entrance motion ───────────────────────────── */
+.modal.fade .modal-dialog {
+    transform: translateY(8px) scale(.98);
+    transition: transform var(--tt);
+}
+.modal.show .modal-dialog { transform: none; }
+.dropdown-menu.show {
+    animation: ui-fade-in var(--tt-fast) both;
+}
+
+/* ───── Main content entrance — one subtle settle on navigation ───────── */
+.app-shell-main > .container-fluid,
+.app-shell-main > .container,
+main > .container-fluid,
+main > .container {
+    animation: ui-fade-in var(--tt) both;
+}
+
+/* ───── Themed scrollbars (webkit) ────────────────────────────────────── */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: var(--rad-pill);
+    border: 3px solid var(--surface-page);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* ───── Honour reduced-motion: kill the lifts + entrances ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .ui-card, .card, .btn, .ui-kpi,
+    .ui-card-interactive:hover, .ui-kpi:hover,
+    .btn-primary:hover, .btn-success:hover, .btn-danger:hover, .btn-warning:hover, .btn-info:hover {
+        transform: none !important;
+        transition: none !important;
+    }
+    .modal.fade .modal-dialog,
+    .dropdown-menu.show,
+    .app-shell-main > .container-fluid,
+    .app-shell-main > .container,
+    main > .container-fluid,
+    main > .container { animation: none !important; }
+}
+
+/* ───── High-contrast mode: drop soft washes, keep hard borders ───────── */
+[data-contrast="high"] .ui-kpi::after { display: none; }
+[data-contrast="high"] .ui-badge,
+[data-contrast="high"] .badge { box-shadow: inset 0 0 0 1px currentColor; }

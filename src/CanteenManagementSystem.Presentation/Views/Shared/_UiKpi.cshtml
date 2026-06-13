@@ -24,7 +24,7 @@
         <div class="ui-kpi-label">@opts.Label</div>
         @if (!string.IsNullOrWhiteSpace(opts.Icon))
         {
-            <i class="@IconClass(opts.Icon) ui-muted"></i>
+            <span class="ui-kpi-icon @trendClass"><i class="@IconClass(opts.Icon)"></i></span>
         }
     </div>
     <div class="ui-kpi-value">@opts.Value</div>
