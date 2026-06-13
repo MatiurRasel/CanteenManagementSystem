@@ -179,12 +179,25 @@ a.ui-card:active,
     animation: ui-fade-in var(--tt-fast) both;
 }
 
-/* ───── Main content entrance — one subtle settle on navigation ───────── */
-.app-shell-main > .container-fluid,
-.app-shell-main > .container,
-main > .container-fluid,
-main > .container {
-    animation: ui-fade-in var(--tt) both;
+/* Content entrance is owned by .fade-in (app-shell.css) which wraps
+   RenderBody — do NOT add a second transform-based animation on an ancestor
+   of the page modals here, or it re-creates the stacking-context trap that
+   freezes the UI behind the modal backdrop. */
+
+/* ───── Modal stacking safety net ─────────────────────────────────────────
+   Any transform/filter/animation on an ancestor of a position:fixed modal
+   traps it below the body-level .modal-backdrop (the whole UI freezes). The
+   .fade-in keyframe now ends at `transform: none`, but this :has() guard makes
+   it bulletproof against the brief entrance window AND any future transform
+   added to the body wrapper: while a modal/offcanvas is open, strip transforms
+   from the wrappers so the modal escapes to the viewport, above the backdrop. */
+body:has(.modal.show) .fade-in,
+body:has(.modal.show) main > .container-fluid,
+body:has(.offcanvas.show) .fade-in,
+body:has(.offcanvas.show) main > .container-fluid {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
 }
 
 /* ───── Themed scrollbars (webkit) ────────────────────────────────────── */
@@ -210,11 +223,7 @@ main > .container {
         transition: none !important;
     }
     .modal.fade .modal-dialog,
-    .dropdown-menu.show,
-    .app-shell-main > .container-fluid,
-    .app-shell-main > .container,
-    main > .container-fluid,
-    main > .container { animation: none !important; }
+    .dropdown-menu.show { animation: none !important; transition: none !important; }
 }
 
 /* ───── Skip-to-content link — visible only on keyboard focus ─────────── */
