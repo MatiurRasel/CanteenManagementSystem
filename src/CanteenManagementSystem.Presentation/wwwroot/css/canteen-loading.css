@@ -30,23 +30,26 @@
 ============================================================================= */
 
 :root {
-    --cl-skeleton-base:      #eef0f3;
-    --cl-skeleton-shine:     #f7f8fa;
+    /* base = the resting block colour, shine = the moving highlight band.
+       Keep a clear ≥18-unit luminance gap between them or the sweep is
+       invisible and the skeleton reads as a flat (static) grey block. */
+    --cl-skeleton-base:      #dfe3e9;
+    --cl-skeleton-shine:     #f4f7fb;
     --cl-skeleton-radius:    0.4rem;
     --cl-skeleton-height:    0.85rem;
     --cl-skeleton-gap:       0.5rem;
     --cl-skeleton-card-bg:   var(--bs-card-bg, #fff);
     --cl-skeleton-card-bd:   var(--bs-border-color, #e9ecef);
     --cl-skeleton-card-pad:  1rem;
-    --cl-shimmer-duration:   1.2s;
+    --cl-shimmer-duration:   1.4s;
     --cl-spinner-color:      var(--app-accent, currentColor);
     --cl-overlay-bg:         rgba(255, 255, 255, 0.72);
     --cl-overlay-blur:       2px;
 }
 
 [data-bs-theme="dark"] {
-    --cl-skeleton-base:    #2e2e3a;
-    --cl-skeleton-shine:   #3a3a48;
+    --cl-skeleton-base:    #262631;
+    --cl-skeleton-shine:   #3c3c4d;
     --cl-overlay-bg:       rgba(20, 22, 28, 0.72);
 }
 
@@ -54,11 +57,13 @@
 .cl-skeleton-block,
 .canteen-skeleton .skeleton-block {
     display: block;
+    /* Tighter shine band (40-50-60) so the highlight reads as a distinct
+       moving sweep instead of a soft wide wash. */
     background: linear-gradient(
         90deg,
-        var(--cl-skeleton-base) 0%,
+        var(--cl-skeleton-base) 30%,
         var(--cl-skeleton-shine) 50%,
-        var(--cl-skeleton-base) 100%);
+        var(--cl-skeleton-base) 70%);
     background-size: 200% 100%;
     border-radius: var(--cl-skeleton-radius);
     height: var(--cl-skeleton-height);

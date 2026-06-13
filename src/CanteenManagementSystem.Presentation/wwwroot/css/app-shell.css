@@ -110,7 +110,10 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
   position: fixed; inset: 0 auto 0 0;
   width: var(--sidebar-w);
   background: var(--app-sidebar-bg);
-  color: var(--app-menu-text);
+  /* Default sidebar text is theme-aware — shadcn.css standardises the sidebar
+     surface to var(--surface-card), so the legacy light-grey --app-menu-text
+     (built for a dark sidebar) would be near-invisible on the light theme. */
+  color: var(--text-body);
   display: flex; flex-direction: column;
   overflow-y: auto; overflow-x: hidden;
   z-index: 1040;
@@ -162,11 +165,14 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   min-height: var(--topbar-h);                  /* matches topbar height for a clean tile */
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  /* Theme-aware: the sidebar surface is var(--surface-card) (white in light,
+     zinc-900 in dark), so brand chrome must use semantic text/border tokens —
+     NOT hard-coded white, which is invisible on the light-theme white sidebar. */
+  border-bottom: 1px solid var(--border-soft);
 }
 .app-brand-link {
   display: flex; align-items: center; gap: var(--space-2);
-  color: var(--text-inverse); text-decoration: none;
+  color: var(--text-strong); text-decoration: none;
   flex: 1 1 auto;                                /* grow to fill available width */
   min-width: 0;                                  /* allow children to truncate */
   overflow: hidden;
@@ -186,7 +192,7 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
   overflow: hidden;
 }
 .app-brand-text {
-  font-weight: 700; color: var(--text-inverse);
+  font-weight: 700; color: var(--text-strong);
   font-size: clamp(.84rem, 1vw + .55rem, .98rem); /* shrinks gracefully on narrow sidebars */
   display: block;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -194,7 +200,7 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
 }
 .app-brand small {
   display: block;
-  color: rgba(255,255,255,.55);
+  color: var(--text-muted);
   font-size: .68rem; letter-spacing: .04em;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
@@ -206,7 +212,7 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
   padding: var(--space-3) var(--space-3) var(--space-2);
   font-size: .68rem; letter-spacing: .12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.4);
+  color: var(--text-muted);                     /* theme-aware: sidebar is --surface-card */
   font-weight: 600;
 }
 .menu-link {
@@ -240,8 +246,8 @@ a:hover { color: var(--app-accent); filter: brightness(0.85); }
 }
 .menu-footer {
   padding: var(--space-3) var(--space-4) var(--space-5);
-  border-top: 1px solid rgba(255,255,255,.06);
-  color: rgba(255,255,255,.55);
+  border-top: 1px solid var(--border-soft);     /* theme-aware sidebar chrome */
+  color: var(--text-muted);
   font-size: .75rem;
 }
 
